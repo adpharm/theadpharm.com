@@ -1,0 +1,49 @@
+---
+import Href from "../components/Href";
+import { twMerge } from "tailwind-merge";
+
+interface Props {
+  fullTopBorder?: boolean;
+  fullBottomBorder?: boolean;
+  topBorder?: boolean;
+  bottomBorder?: boolean;
+  hideRight?: boolean;
+  outerClassName?: string;
+  className?: string;
+}
+
+const { fullTopBorder, fullBottomBorder, topBorder, bottomBorder, hideRight, outerClassName, className } = Astro.props;
+---
+
+<div
+  class={twMerge(
+    `mx-auto w-full max-w-[150rem] flex items-start justify-start`,
+    fullTopBorder ? "border-t border-zinc-800" : "",
+    fullBottomBorder ? "border-b border-zinc-800" : "",
+    outerClassName
+  )}
+>
+  <!-- 
+
+    We use flexbox here so we can have specific control over borders.
+
+   -->
+  <div class="flex-shrink-0 w-4 md:w-12 lg:w-20 xl:w-40"></div>
+  <div class="flex-1 border-l border-zinc-800">
+    <div
+      class={twMerge(
+        ` px-4`,
+        topBorder ? "border-t border-zinc-800" : "",
+        bottomBorder ? "border-b border-zinc-800" : "",
+        className
+      )}
+    >
+      <slot />
+    </div>
+  </div>
+  {
+    hideRight ? null : (
+      <div class={`flex-shrink-0 w-4 md:w-12 lg:w-20 xl:w-40 ${topBorder ? "border-t border-zinc-800" : ""}`} />
+    )
+  }
+</div>
