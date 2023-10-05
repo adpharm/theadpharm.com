@@ -1,19 +1,40 @@
 ---
+import { Transition } from "@headlessui/react";
+
 import Layout from "../layouts/Layout.astro";
-import HeaderTab from "../components/HeaderTab";
 import Href from "../components/Href";
 import Grid from "../layouts/Grid.astro";
 import Section from "../layouts/Section.astro";
 import Icon from "../components/Icon";
+import { twMerge } from "tailwind-merge";
 
 const sections = [
   { id: "about", title: "#about" },
   { id: "services", title: "#services" },
+  { id: "work", title: "#work" },
   { id: "contact", title: "#contact" },
 ];
+
+const _clients = [
+  { id: "jnj", name: "Johnson & Johnson", img: "/j_and_j_dark.webp" },
+  { id: "sun", name: "Sun Pharma", img: "/sun_pharma_white.webp", classOverride: "brightness-50" },
+  { id: "abbvie", name: "AbbVie", img: "/abbvie_blue.webp" },
+  { id: "mirum", name: "Mirum Pharma", img: "/mirum_dark.webp" },
+  { id: "advanz", name: "Advanz Pharma", img: "/advanz_pharma_dark2.webp", classOverride: "brightness-50" },
+  { id: "sobi", name: "Sobi", img: "/sobi_dark.webp", classOverride: "brightness-50" },
+  { id: "mt", name: "MT Pharma", img: "/mt_pharma_dark.webp" },
+
+  // {id: "", name: "Bristol Myers Squibb", href: "https://www.bms.com/ca/en-ca/home.html"},
+  // {id: "", name: "Gilead", href: "https://www.gilead.com/"},
+  // {id: "", name: "Janssen", href: "https://www.janssen.com/canada/"},
+  // {id: "", name: "Novartis", href: "https://www.novartis.ca/"},
+  // {id: "", name: "Sanofi", href: "https://www.sanofi.ca/"},
+];
+
+const clients = _clients.concat(_clients);
 ---
 
-<Layout title="The Adpharm">
+<Layout title="The Adpharm: Big agency experience, small agency excellence">
   <main>
     <!-- 
 
@@ -26,11 +47,11 @@ const sections = [
       Hashes
      -->
     <Section>
-      <ul class="pt-24 sm:pt-32 space-y-4">
+      <ul class="pt-20 sm:pt-32 space-y-2 text-right lg:text-left">
         {
           sections.map((item) => (
             <li>
-              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`}>
+              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`} className="text-sm">
                 {item.title}
               </Href>
             </li>
@@ -47,31 +68,30 @@ const sections = [
 
       About
       -->
-    <Section className="pt-16 sm:pt-24 md:pt-48 lg:pt-[30vh] pb-48 lg:pb-60">
+    <Section className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-[25vh] pb-48">
       <Grid id="about">
         <div slot="left"></div>
         <div slot="right">
-          <Href href="#about" className="text-orange-600 hover:text-orange-500">#about</Href>
+          <Href href="#about" className="text-orange-600 hover:text-orange-500 text-sm">#about</Href>
 
-          <h1 class="pt-4 text-3xl font-light">
-            From the beginning, we’ve been committed to helping our clients achieve their goals. We’ve been doing it for
-            over 15 years, and we continue to do it today.
+          <h1 class="pt-4 text-3xl font-light animate-fade-in-up">
+            Fiercely independent, our unique agency model is structured to ensure our most senior people are involved in
+            our clients’ business every day.
           </h1>
 
-          <div class="pt-12 grid grid-cols-2 gap-8 text-zinc-400">
+          <div class="pt-12 grid grid-cols-2 gap-8 text-zinc-400 animate-fade-in-2">
             <div>
               <p>
                 <!-- intro line -->
-                 We’re a full-service agency that specializes in healthcare marketing. We work with clients across the
-                country to create campaigns that are engaging, effective, and memorable.
+                 Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch,
+                nurture and optimize the potential of their brands.
               </p>
             </div>
 
             <div>
               <p>
-                <!-- another intro line to go along with the previous -->
-                 For 15 years, we've been delivering work that delights, inspires, and drives results. We're proud of
-                what we've accomplished, and we're excited to see what the future holds.
+                Continuing our commitment, we strive to deliver innovative solutions and strategic insights that propel
+                healthcare brands to new heights.
               </p>
             </div>
           </div>
@@ -87,14 +107,50 @@ const sections = [
 
 
 
+      Clients
+     -->
+
+    <!-- the height here just has to be greater or equal to the squares -->
+    <div class="mx-auto w-full max-w-[150rem] relative overflow-hidden border-t border-b border-zinc-800">
+      <div
+        class="flex justify-start items-start h-full w-[400%] animate-slide-400 md:w-[300%] md:animate-slide-300 xl:w-[200%] xl:animate-slide-200 hover:pause"
+      >
+        {
+          clients.map((c) => (
+            <div class="flex-1 aspect-square border-r border-zinc-800 group">
+              <div class="h-full w-full flex items-center justify-center px-4 sm:px-12">
+                <img
+                  src={c.img}
+                  alt={c.name}
+                  title={c.name}
+                  class={twMerge(
+                    "max-h-[60px] sm:max-h-[100px] max-w-[150px] w-full object-contain transition duration-500 brightness-75 grayscale group-hover:grayscale-0 group-hover:brightness-100",
+                    c.classOverride ?? ""
+                  )}
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- 
+
+
+
+
+
+
+
 
       Services
      -->
 
-    <Section>
+    <Section className="pt-24">
       <Grid id="services" className="py-4">
         <div slot="right">
-          <Href href="#services" className="text-orange-600 hover:text-orange-500">#services</Href>
+          <Href href="#services" className="text-orange-600 hover:text-orange-500 text-sm">#services</Href>
         </div>
       </Grid>
     </Section>
@@ -103,35 +159,52 @@ const sections = [
       [
         {
           id: "fsad",
-          icon: <Icon as="div" name="omnichannel" className="h-8 w-8 text-yellow-500 animate-rev" />,
-          title: "Omnichannel",
-          description:
-            "We’re a full-service agency that specializes in healthcare marketing. We work with clients across the country to create campaigns that are engaging, effective, and memorable.",
+          icon: <Icon as="div" name="omnichannel" className="h-8 w-8 text-yellow-600 animate-rev" />,
+          title: "Omnichannel Marketing",
+          description: `
+            Seamlessly integrating diverse communication channels, we orchestrate a unified brand experience across digital 
+            and traditional platforms. From digital campaigns to events and print materials, our approach ensures 
+            consistent messaging and brand cohesion.
+          `,
         },
         {
           id: "q324",
-          title: "Digital",
-          icon: (
-            <div class="flex items-end">
-              <Icon as="div" name="chevronRight" className="h-7 w-7 text-purple-600" />
-              <div class="-ml-2 w-3.5 h-0.5 rounded-full bg-purple-600 animate-pulse" />
-            </div>
-          ),
-          description:
-            "We’re a full-service agency that specializes in healthcare marketing. We work with clients across the country to create campaigns that are engaging, effective, and memorable.",
+          title: "Brand Strategy",
+          icon: <Icon as="div" name="pawn" className="h-8 w-8 text-orange-700 animate-pawn" />,
+          description: `
+            We analyze market dynamics, competition, and audience insights to position your brand uniquely, ensuring 
+            lasting connections with healthcare professionals and patients.
+          `,
         },
         {
-          id: "q34f",
-          title: "Design",
-          description:
-            "We’re a full-service agency that specializes in healthcare marketing. We work with clients across the country to create campaigns that are engaging, effective, and memorable.",
+          id: "asdf34q",
+          title: "Digital-First",
+          icon: (
+            <div class="flex items-end">
+              <Icon as="div" name="chevronRight" className="h-7 w-7 text-violet-700" />
+              <div class="-ml-2 w-3.5 h-0.5 rounded-full bg-violet-700 animate-pulse" />
+            </div>
+          ),
+          description: `
+            From sleek user interfaces to robust backend systems, we're committed to crafting digital solutions that redefine industry standards.
+            Tried & true processeses help us deliver websites, apps, and digital campaigns that are accessible, highly available, and secure.
+          `,
+        },
+        {
+          id: "q2134f",
+          title: "Sustainable Practices",
+          icon: <Icon as="div" name="plant" className="h-8 w-8 text-green-700 animate-wiggle" />,
+          description: `
+            We prioritize sustainability by implementing green practices in every aspect of our campaigns. From eco-conscious design 
+            to carbon-neutral events, we're committed to reducing our environmental footprint.
+          `,
         },
       ].map((s, i) => (
         <Section fullTopBorder={i === 0} topBorder={i !== 0}>
           <Grid id={s.id} className="pt-12 pb-20 space-y-6 lg:space-y-0">
-            <div slot="left" class="flex items-start justify-start lg:pl-24">
-              <div class="w-16">{s.icon}</div>
-              <h2 class="text-2xl">{s.title}</h2>
+            <div slot="left" class="flex items-start justify-start lg:pl-8">
+              <div class="w-12 sm:w-16">{s.icon}</div>
+              <h2 class="text-xl">{s.title}</h2>
             </div>
             <div slot="right">
               <div class="max-w-xl text-lg text-zinc-400">
@@ -152,41 +225,13 @@ const sections = [
 
 
 
-      Contact
+      Work
      -->
-    <Section className="pt-32 lg:pt-56 pb-4">
-      <Grid id="contact">
+    <Section className="pt-12 pb-24" fullTopBorder>
+      <Grid id="work">
         <div slot="right">
-          <Href href="#contact" className="text-orange-600 hover:text-orange-500">#contact</Href>
-        </div>
-      </Grid>
-    </Section>
-
-    <Section className="pt-12 pb-20" fullTopBorder>
-      <Grid id="sfd23">
-        <div slot="right">
-          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
-            <div class="text-lg">
-              <h3 class="text-2xl pb-4">The Adpharm Inc.</h3>
-              <p class="text-lg">133 Thomas Street</p>
-              <p class="text-zinc-400">Oakville, Ontario</p>
-              <p class="text-zinc-400">L6J 3A9</p>
-              <br />
-              <div>
-                <Href href="https://theadpharm.com" className="text-lg">theadpharm.com</Href>
-              </div>
-              <div>
-                <Href href="https://theadpharm.com" className="text-lg">LinkedIn</Href>
-              </div>
-            </div>
-
-            <div class="text-lg">
-              <h3 class="text-2xl pb-4">Contact</h3>
-              <p class="text-lg">Amy Moriarty</p>
-              <p class="text-zinc-400">SVP, Managing Director</p>
-              <p class="text-zinc-400">amy@theadpharm.com</p>
-            </div>
-          </div>
+          <Href href="#work" className="text-orange-600 hover:text-orange-500 text-sm">#work</Href>
+          <h4 class="text-lg text-zinc-400">Coming soon.</h4>
         </div>
       </Grid>
     </Section>
@@ -198,10 +243,100 @@ const sections = [
 
 
 
+
+
+      Contact
+     -->
+    <Section className="pt-32 lg:pt-56 pb-4">
+      <Grid id="contact">
+        <div slot="right">
+          <Href href="#contact" className="text-orange-600 hover:text-orange-500 text-sm">#contact</Href>
+        </div>
+      </Grid>
+    </Section>
+
+    <Section className="pt-12 pb-24" fullTopBorder>
+      <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+        <div slot="left" class="pl-0 lg:pl-10">
+          <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+          <p class="text-lg">133 Thomas Street</p>
+          <p class="text-zinc-400">Oakville, Ontario</p>
+          <p class="text-zinc-400">L6J 3A9</p>
+          <p class="pt-0 lg:pt-4">
+            <Href href="https://www.linkedin.com/company/the-adpharm/" className="text-sm">LinkedIn</Href>
+          </p>
+        </div>
+
+        <div slot="right">
+          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">Contact</p>
+              <p class="text-lg">Amy Moriarty</p>
+              <p class="text-zinc-400">SVP, Managing Director</p>
+              <p class="text-zinc-400">amy@theadpharm.com</p>
+            </div>
+
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">Teams</p>
+
+              <ul class="space-y-1.5">
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
+                  <Href href="/" className="text-sm text-white hover:text-orange-600">The Adpharm (Agency)</Href>
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
+                  <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
+                  <Href
+                    href="https://www.synapsemedcom.ca/"
+                    className="text-sm text-white hover:text-[#1292a9]"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Synapse Medcom
+                  </Href>
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
+                  <Href href="/ad" className="text-sm text-white hover:text-orange-600">AD (Adpharm Digital)</Href>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Grid>
+    </Section>
+
+    <!-- <Section className="py-12">
+      <Grid id="2334tsd">
+        
+      </Grid>
+    </Section> -->
+
+    <!-- 
+
+
+
+
+
+
       Blocks
      -->
 
-    <Section topBorder bottomBorder hideRight className="border-r border-zinc-800">
+    <Section topBorder className="py-4">
+      <div class="grid grid-cols-1 sm:grid-cols-5">
+        <div class="col-span-2 flex items-center justify-center sm:justify-start">
+          <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p>
+        </div>
+        <div class="col-span-3 flex items-center justify-center sm:justify-end">
+          <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p>
+        </div>
+      </div>
+    </Section>
+
+    <!-- <Section topBorder bottomBorder hideRight className="border-r border-zinc-800">
       <div class="grid grid-cols-2 lg:grid-cols-3 lg:divide-x divide-zinc-800">
         {
           [
@@ -219,8 +354,17 @@ const sections = [
             },
             { id: "fsda34", title: "Adpharm Digital", desc: "Digital capabilities", href: "/ad" },
           ].map((item) => (
-            <a href={item.href} class="transition-colors bg-black hover:bg-zinc-900">
-              <div class="aspect-square">
+            <a href={item.href} class="transition-colors bg-black hover:bg-zinc-900 text-center py-6">
+              <span class="">{item.title}</span>
+            </a>
+          ))
+        }
+      </div>
+    </Section> -->
+
+    <!-- 
+
+<div class="aspect-square">
                 <div class="h-full w-full flex flex-col">
                   <div class="flex-1 flex items-center justify-center">
                     <h4 class="text-center text-2xl">{item.title}</h4>
@@ -230,15 +374,6 @@ const sections = [
                   </div>
                 </div>
               </div>
-            </a>
-          ))
-        }
-      </div>
-    </Section>
-
-    <!-- 
-
-
 
 
      -->

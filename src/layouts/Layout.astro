@@ -8,17 +8,39 @@ interface Props {
 }
 
 const { title } = Astro.props;
+
+const desc = `
+  The Adpharm is a full-service healthcare marketing communications agency located in downtown Oakville. 
+  Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch, 
+  nurture and optimize the potential of their brands.
+`;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#090909" />
     <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.request.url} />
+    <meta property="og:image" content="/ogimage.jpg" />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="720" />
+
     <title>{title}</title>
+    <meta name="description" content={desc} />
   </head>
   <body>
     <!-- 
@@ -31,11 +53,16 @@ const { title } = Astro.props;
       Header
      -->
     <Section>
-      <header class="pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-center">
-        <div class="flex items-center justify-center bg-zinc-900 rounded-full w-full max-w-[30rem] p-1 space-x-0.5">
+      <header class="px-5 sm:px-0 pt-4 sm:pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-center">
+        <div class="flex items-center justify-center bg-zinc-900 rounded-full w-full max-w-[32rem] p-1 space-x-0.5">
           <HeaderTab title="The Adpharm" href="/" active={Astro.url.pathname === "/"} />
           <HeaderTab title="Synapse Medcom" href="https://www.synapsemedcom.ca/" />
-          <HeaderTab title="Adpharm Digital" href="/ad" active={Astro.url.pathname === "/ad"} />
+          <HeaderTab
+            title="Adpharm Digital"
+            href="/ad"
+            active={Astro.url.pathname === "/ad"}
+            className="hidden sm:inline-block"
+          />
         </div>
       </header>
     </Section>
@@ -53,12 +80,13 @@ const { title } = Astro.props;
 </html>
 
 <style is:global>
+  @tailwind utilities;
+
   html {
     font-family: "Switzer-Variable", "ui-sans-serif", system-ui, sans-serif;
     font-weight: 300;
-    background: #000;
-    color: white;
-    /* background-size: 224px; */
+    background: #090909;
+    color: #fafafa;
   }
   code {
     font-family:
@@ -70,5 +98,24 @@ const { title } = Astro.props;
       Bitstream Vera Sans Mono,
       Courier New,
       monospace;
+  }
+
+  @layer utilities {
+    .pause {
+      animation-play-state: paused !important;
+    }
+
+    .animation-delay-50 {
+      animation-delay: 50ms;
+    }
+    .animation-delay-100 {
+      animation-delay: 100ms;
+    }
+    .animation-delay-500 {
+      animation-delay: 500ms;
+    }
+    .animation-delay-1000 {
+      animation-delay: 1s;
+    }
   }
 </style>

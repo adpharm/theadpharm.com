@@ -4,22 +4,27 @@ import Icon from "./Icon";
 export default function Href({
   href,
   className,
+  disabled,
+  hideOutLinkIcon,
   children,
   ...props
 }: {
   href: string;
   className?: string;
+  disabled?: boolean;
+  hideOutLinkIcon?: boolean;
   children: React.ReactNode;
   [key: string]: any;
 }) {
   const isHashLink = href.startsWith("#");
+  const isExternalLink = href.startsWith("http");
 
   let iconSize = "h-5 w-5";
   // match text size
   if (className?.includes("text-xs")) {
     iconSize = "h-4 w-4";
   } else if (className?.includes("text-sm")) {
-    iconSize = "h-5 w-5";
+    iconSize = "h-4 w-4";
   } else if (className?.includes("text-md")) {
     iconSize = "h-5 w-5";
   } else if (className?.includes("text-lg")) {
@@ -31,12 +36,18 @@ export default function Href({
   return (
     <a
       href={href}
-      className={twMerge("relative transition-colors group text-sm text-zinc-400 hover:text-zinc-100", className)}
+      className={twMerge(
+        "relative transition-colors group text-base text-zinc-400 hover:text-zinc-100",
+        disabled ? "pointer-events-none" : "",
+        className
+      )}
+      target={isExternalLink ? "_blank" : undefined}
+      rel={isExternalLink ? "noopener noreferrer" : undefined}
       {...props}
     >
       <span className="inline-flex items-center">
         <span>{children}</span>
-        {!isHashLink && <Icon name="arrowUpRight" className={iconSize} />}
+        {isExternalLink && !hideOutLinkIcon && <Icon name="arrowUpRight" className={iconSize} />}
       </span>
 
       {/* custom underline */}
