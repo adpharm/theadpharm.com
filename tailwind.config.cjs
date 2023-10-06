@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        black: "#090909",
+        black: "#000",
       },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
@@ -17,6 +17,7 @@ module.exports = {
         "fade-in": "fade-in 1s ease-in-out",
         "fade-in-2": "fade-in 2s ease-in-out",
         "fade-in-up": "fade-in-up 1s ease-in-out",
+        bounce2: "bounce2 2s cubic-bezier(.55,.06,.68,.19) infinite",
       },
       keyframes: {
         "slide-200": {
@@ -46,6 +47,11 @@ module.exports = {
         "fade-in-up": {
           "0%": { opacity: 0, transform: "translateY(20px)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        bounce2: {
+          "0%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-20px)" },
+          "100%": { transform: "translateY(0)" },
         },
       },
     },

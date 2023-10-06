@@ -3,6 +3,8 @@ import HeaderTab from "../components/HeaderTab";
 import "../styles/switzer.css";
 import Section from "./Section.astro";
 
+const isProd = import.meta.env.PROD;
+
 interface Props {
   title: string;
 }
@@ -19,6 +21,19 @@ const desc = `
 <!doctype html>
 <html lang="en">
   <head>
+    {isProd && (
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBXM187H9N"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-EBXM187H9N");
+      </script>
+    )}
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
 
@@ -54,7 +69,9 @@ const desc = `
      -->
     <Section>
       <header class="px-5 sm:px-0 pt-4 sm:pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-center">
-        <div class="flex items-center justify-center bg-zinc-900 rounded-full w-full max-w-[32rem] p-1 space-x-0.5">
+        <div
+          class="flex items-center justify-center bg-zinc-800 sm:bg-zinc-900 rounded-full w-full max-w-[32rem] p-1 space-x-0.5"
+        >
           <HeaderTab title="The Adpharm" href="/" active={Astro.url.pathname === "/"} />
           <HeaderTab title="Synapse Medcom" href="https://www.synapsemedcom.ca/" />
           <HeaderTab
@@ -85,7 +102,7 @@ const desc = `
   html {
     font-family: "Switzer-Variable", "ui-sans-serif", system-ui, sans-serif;
     font-weight: 300;
-    background: #090909;
+    background: #000;
     color: #fafafa;
   }
   code {

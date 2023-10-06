@@ -7,6 +7,7 @@ import Grid from "../layouts/Grid.astro";
 import Section from "../layouts/Section.astro";
 import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
+import TextSwitcher from "../components/TextSwitcher";
 
 const sections = [
   { id: "about", title: "#about" },
@@ -35,7 +36,27 @@ const clients = _clients.concat(_clients);
 ---
 
 <Layout title="The Adpharm: Big agency experience, small agency excellence">
-  <main>
+  <main class="relative">
+    <div class="absolute h-screen w-full top-0 left-0 z-0">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute top-0 left-0 w-full h-full object-cover object-left-top"
+        poster="/adpharm-bg.webp"
+      >
+        <!-- <source src="/adpharm-bg-bright.mp4" type="video/mp4" /> -->
+        <source src="/adpharm-bg.mp4" type="video/mp4" />
+        <!-- <source src="/video.webm" type="video/webm" /> -->
+      </video>
+
+      <!-- bg overlays -->
+      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
+      <div class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10">
+      </div>
+    </div>
+
     <!-- 
 
 
@@ -68,7 +89,7 @@ const clients = _clients.concat(_clients);
 
       About
       -->
-    <Section className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-[25vh] pb-48">
+    <Section className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48">
       <Grid id="about">
         <div slot="left"></div>
         <div slot="right">
@@ -94,6 +115,14 @@ const clients = _clients.concat(_clients);
                 healthcare brands to new heights.
               </p>
             </div>
+          </div>
+
+          <div class="pt-12">
+            <Icon
+              as="div"
+              name="arrowDownLong"
+              className="-ml-1.5 sm:-ml-3 lg:-ml-5 h-12 w-12 transition-colors text-white/20 hover:text-zinc-400 animate-fade-in-2"
+            />
           </div>
         </div>
       </Grid>
@@ -273,7 +302,17 @@ const clients = _clients.concat(_clients);
               <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">Contact</p>
               <p class="text-lg">Amy Moriarty</p>
               <p class="text-zinc-400">SVP, Managing Director</p>
-              <p class="text-zinc-400">amy@theadpharm.com</p>
+              <div class="flex items-center justify-start">
+                <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+                <TextSwitcher
+                  client:load
+                  textToCopy="amy@theadpharm.com"
+                  beforeText="(copy)"
+                  beforeClassName="hover:underline cursor-pointer"
+                  afterText="(copied ✔)"
+                  afterClassName="text-green-600"
+                />
+              </div>
             </div>
 
             <div>
@@ -328,10 +367,11 @@ const clients = _clients.concat(_clients);
     <Section topBorder className="py-4">
       <div class="grid grid-cols-1 sm:grid-cols-5">
         <div class="col-span-2 flex items-center justify-center sm:justify-start">
-          <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p>
+          <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
         </div>
         <div class="col-span-3 flex items-center justify-center sm:justify-end">
-          <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p>
+          <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+          <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p>
         </div>
       </div>
     </Section>
