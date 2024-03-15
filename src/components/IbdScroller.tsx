@@ -16,27 +16,41 @@ export function IBDScroller() {
   // callback called when a section is in view
 
   function sendContentViewedEvent(id: string) {
+    const isFb = window.location.pathname.includes("/fb");
+    const isLinkedIn = window.location.pathname.includes("/li");
+
     if (import.meta.env.DEV) return;
 
-    // @ts-expect-error fb pixel
-    fbq("track", "ViewContent", {
-      content_name: id,
-    });
+    if (isFb) {
+      // @ts-expect-error fb pixel
+      fbq("track", "ViewContent", {
+        content_name: id,
+      });
+    }
 
-    if (id === "why") {
-      // @ts-expect-error lintrk
-      window.lintrk("track", { conversion_id: 16212242 });
+    if (isLinkedIn) {
+      if (id === "why") {
+        // @ts-expect-error lintrk
+        window.lintrk("track", { conversion_id: 16212242 });
+      }
     }
   }
 
   function sendContactEvent() {
+    const isFb = window.location.pathname.includes("/fb");
+    const isLinkedIn = window.location.pathname.includes("/li");
+
     if (import.meta.env.DEV) return;
 
-    // @ts-expect-error fb pixel
-    fbq("track", "Contact");
+    if (isFb) {
+      // @ts-expect-error fb pixel
+      fbq("track", "Contact");
+    }
 
-    // @ts-expect-error lintrk
-    window.lintrk("track", { conversion_id: 16212250 });
+    if (isLinkedIn) {
+      // @ts-expect-error lintrk
+      window.lintrk("track", { conversion_id: 16212250 });
+    }
   }
 
   const setInView = (inView: any, entry: any) => {
@@ -158,7 +172,7 @@ export function IBDScroller() {
                 {({ ref, inView }) => {
                   return (
                     <div
-                      // ref={ref}
+                      ref={ref}
                       id={item.key}
                       className={twMerge(
                         "max-w-4xl min-h-[60vh] leading-normal scroll-m-[10vh]",
@@ -206,6 +220,7 @@ function ScrollButton(props: { isFirst?: boolean; nextId: string }) {
   return (
     <div>
       <button
+        id={`click-to-go-to-id-${nextId}`}
         type="button"
         className="border border-gray-500 px-3 py-1.5 rounded-lg text-lg inline-flex items-center bg-black/0 hover:bg-black/50 hover:text-gray-400 transition-colors"
         onClick={handleCtaClick}
