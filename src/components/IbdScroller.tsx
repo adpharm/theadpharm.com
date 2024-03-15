@@ -64,7 +64,7 @@ export function IBDScroller() {
   return (
     <main className="pt-28 relative w-full">
       <div className="fixed z-10 left-0 top-0 w-full h-64 sm:h-[30vh] bg-gradient-to-b from-black via-black to-transparent" />
-      <div className="fixed z-10 left-0 bottom-0 w-full h-32 sm:h-[30vh] bg-gradient-to-t from-black via-black to-transparent" />
+      <div className="fixed z-10 left-0 bottom-0 w-full h-24 sm:h-[30vh] bg-gradient-to-t from-black via-black to-transparent" />
       <div>
         {/* <h1 className="text-5xl text-center">We'd be great together</h1> */}
 
@@ -79,7 +79,7 @@ export function IBDScroller() {
             <h3 className="shrink-0 w-56 text-3xl text-orange-500">{scrollTitle}</h3>
           </div> */}
 
-          <div className="flex-1 px-4 sm:px-8 inline-block text-3xl sm:text-5xl border-l-0 border-gray-800">
+          <div className="flex-1 px-4 sm:px-8 inline-block text-2xl sm:text-5xl border-l-0 border-gray-800">
             <div className="h-[20vh] sm:h-80"></div>
             {[
               {
@@ -87,8 +87,8 @@ export function IBDScroller() {
                 scrollTitle: "",
                 title: (
                   <>
-                    We'd be great together.
-                    <p className="text-gray-500 text-lg">Want to know why?</p>
+                    <span className="text-4xl sm:text-5xl">We'd be great together.</span>
+                    <p className="mt-4 sm:mt-0 text-gray-500 text-lg">Want to know why?</p>
                     <ScrollButton isFirst nextId="why" />
                   </>
                 ),
@@ -99,20 +99,23 @@ export function IBDScroller() {
                 title: (
                   <>
                     You have transformed IBD, and in doing so, you’ve transformed lives.
-                    <ScrollButton nextId="why2" />
-                  </>
-                ),
-              },
-              {
-                key: "why2", // don't change this key
-                scrollTitle: "",
-                title: (
-                  <>
+                    <br />
+                    <br />
                     We want to be part of the solution.
                     <ScrollButton nextId="who" />
                   </>
                 ),
               },
+              // {
+              //   key: "why2", // don't change this key
+              //   scrollTitle: "",
+              //   title: (
+              //     <>
+              //       We want to be part of the solution.
+              //       <ScrollButton nextId="who" />
+              //     </>
+              //   ),
+              // },
               {
                 key: "who",
                 scrollTitle: "Who",
@@ -165,7 +168,7 @@ export function IBDScroller() {
                   </>
                 ),
                 threshold: 0.3,
-                className: "min-h-[40vh]",
+                className: "min-h-[40vh] scroll-m-[15vh]",
               },
             ].map((item, i) => (
               <InView onChange={setInView} threshold={item.threshold || 0.8} key={item.key} triggerOnce>
@@ -175,7 +178,7 @@ export function IBDScroller() {
                       ref={ref}
                       id={item.key}
                       className={twMerge(
-                        "max-w-4xl min-h-[60vh] leading-normal scroll-m-[10vh]",
+                        "max-w-4xl pb-40 min-h-[60vh] leading-normal scroll-m-[5vh] sm:scroll-m-[10vh]",
                         item.className ? item.className : ""
                       )}
                       data-title={item.scrollTitle}
@@ -218,7 +221,7 @@ function ScrollButton(props: { isFirst?: boolean; nextId: string }) {
   }
 
   return (
-    <div>
+    <div className="mt-4 text-sm sm:text-inherit">
       <button
         id={`click-to-go-to-id-${nextId}`}
         type="button"
