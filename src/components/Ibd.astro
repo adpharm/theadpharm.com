@@ -1,0 +1,12 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { IBDScroller } from "@/components/IBDScroller.tsx";
+---
+
+<Layout title="IBD & The Adpharm">
+  <Fragment slot="meta">
+    <meta name="robots" content="noindex" />
+  </Fragment>
+
+  <IBDScroller client:load />
+</Layout>

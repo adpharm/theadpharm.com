@@ -4,9 +4,9 @@ module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
-      colors: {
-        black: "#000",
-      },
+      // colors: {
+      //   black: "#000",
+      // },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
         "slide-200": "slide-200 50s linear 4 alternate",
