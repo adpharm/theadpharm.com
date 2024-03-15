@@ -8,5 +8,25 @@ import { IBDScroller } from "@/components/IBDScroller.tsx";
     <meta name="robots" content="noindex" />
   </Fragment>
 
+  <div class="absolute h-screen w-full top-0 left-0 z-0">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute top-0 left-0 w-full h-full object-cover object-left-top"
+      poster="/adpharm-bg.webp"
+    >
+      <!-- <source src="/adpharm-bg-bright.mp4" type="video/mp4" /> -->
+      <source src="/adpharm-bg.mp4" type="video/mp4" />
+      <!-- <source src="/video.webm" type="video/webm" /> -->
+    </video>
+
+    <!-- bg overlays -->
+    <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
+    <div class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10">
+    </div>
+  </div>
+
   <IBDScroller client:load />
 </Layout>

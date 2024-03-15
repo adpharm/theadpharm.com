@@ -9,6 +9,7 @@ export default function TextSwitcher({
   beforeClassName,
   afterClassName,
   seconds = 3,
+  onClickCallback,
 }: {
   textToCopy: string;
   beforeText: string;
@@ -17,6 +18,7 @@ export default function TextSwitcher({
   beforeClassName?: string;
   afterClassName?: string;
   seconds?: number;
+  onClickCallback?: () => void;
 }) {
   // const [timeoutFn, setTimeoutFn] = useState(null as any);
   const [switched, setSwitched] = useState(false);
@@ -58,6 +60,11 @@ export default function TextSwitcher({
 
         // set switched to true
         setSwitched(true);
+
+        // if there is an onClickCallback, call it
+        if (onClickCallback) {
+          onClickCallback();
+        }
       }}
       className={twMerge(className, switched ? afterClassName : beforeClassName)}
     >
