@@ -1,0 +1,71 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+  "name": "Ubuntu",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  // "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "build": {
+    // Path is relative to the devcontainer.json file.
+    "dockerfile": "Dockerfile"
+  },
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  "features": {
+    // "ghcr.io/devcontainers-extra/features/go-task": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "v22.11.0",
+      "nvmVersion": "latest"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true,
+      "azureDnsAutoDetection": true,
+      "installDockerBuildx": true,
+      "installDockerComposeSwitch": true,
+      "version": "latest",
+      "dockerDashComposeVersion": "latest"
+    },
+    // "ghcr.io/devcontainers-extra/features/age:1": {
+    //   "version": "v1.2.0"
+    // },
+    // "ghcr.io/devcontainers-extra/features/sops:1": {},
+    // "ghcr.io/swift-server-community/swift-devcontainer-features/sqlite:1": {},
+    // "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/eitsupi/devcontainer-features/go-task:1": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/terraform:1": {}
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "bash -i ./.devcontainer/scripts/postCreate.sh",
+  "postCreateCommand": "echo 'eval \"$(task --completion bash)\"' >> ~/.profile",
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "yoavbls.pretty-ts-errors",
+        "eamodio.gitlens",
+        "bradlc.vscode-tailwindcss",
+        // "IronGeek.vscode-env",
+        // "foxundermoon.shell-format",
+        "ms-azuretools.vscode-docker",
+        "astro-build.astro-vscode",
+        "mikestead.dotenv"
+      ]
+    }
+  },
+
+  "mounts": [
+    // mount the .aws folder to the container
+    "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached",
+    // mount ssh keys to the container
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+  ]
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}

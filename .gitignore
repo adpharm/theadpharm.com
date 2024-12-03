@@ -16,9 +16,22 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+*.env
 
 # macOS-specific files
 .DS_Store
 
 # vscode
 .vscode/
+
+# Terraform
+.terraform/
+**/.terraform/*
+
+keys.txt
+*.pem
+.DS_Store
+/.DS_Store
+*.log
+*.log.*
+.vercel

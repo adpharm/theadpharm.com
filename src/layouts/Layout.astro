@@ -11,7 +11,7 @@ interface Props {
   title: string;
 }
 
-declare const window: Window & { dataLayer: Record<string, unknown>[]; };
+declare const window: Window & { dataLayer: Record<string, unknown>[] };
 
 const { title } = Astro.props;
 
@@ -26,21 +26,20 @@ const desc = `
 <html lang="en">
   <head>
     {isProd && (
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBXM187H9N"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
-
-        gtag("config", "G-EBXM187H9N");
+      // <!-- Google Tag Manager -->
+      <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://gmeter.adpharm.digital/prxy/enc__www.g00gl3t4gm4n4g3r.c0m__enc/enc__/gtm.j5__enc?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-KFCZ8V83');
       </script>
     )}
 
-    {/* Meta Pixel Code */}
+
     {isProd && (
-      <script>
+      // Meta Pixel Code
+      <script is:inline>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -56,15 +55,16 @@ const desc = `
       src="https://www.facebook.com/tr?id=981424656758665&ev=PageView&noscript=1"
       /></noscript>
     )}
-    {/* Meta Pixel Code */}
 
-    {/* LinkedIn Insights Tag */}
+
     {isProd && (
-      <script type="text/javascript">
+      // LinkedIn Insights Tag
+      <script type="text/javascript" is:inline>
       _linkedin_partner_id = "5934508";
       window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
       window._linkedin_data_partner_ids.push(_linkedin_partner_id);
-      </script><script type="text/javascript">
+      </script>
+      <script type="text/javascript" is:inline>
       (function(l) {
       if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
       window.lintrk.q=[]}
@@ -78,21 +78,16 @@ const desc = `
       <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=5934508&fmt=gif" />
       </noscript>
     )}
-    {/* End: LinkedIn Insights Tag */}
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
 
-    
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#2b5797">
-
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#2b5797" />
 
     <meta name="theme-color" content="#090909" />
 
@@ -110,6 +105,20 @@ const desc = `
     <slot name="meta" />
   </head>
   <body>
+    {
+      isProd && (
+        // <!-- Google Tag Manager (noscript) -->
+        <noscript>
+          <iframe
+            src="https://gmeter.adpharm.digital/prxy/enc__www.g00gl3t4gm4n4g3r.c0m__enc/ns.html?id=GTM-KFCZ8V83"
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+          />
+        </noscript>
+        // <!-- End Google Tag Manager (noscript) -->
+      )
+    }
     <!-- 
 
 
@@ -120,7 +129,9 @@ const desc = `
       Header
      -->
     <Section>
-      <header class="px-5 sm:px-0 pt-4 sm:pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-between">
+      <header
+        class="px-5 sm:px-0 pt-4 sm:pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-between"
+      >
         <div>
           <!-- <a href="/">
             <Image
@@ -133,8 +144,15 @@ const desc = `
         <div
           class="flex items-center justify-center bg-zinc-800 sm:bg-zinc-900 rounded-full w-full max-w-[32rem] p-1 space-x-0.5"
         >
-          <HeaderTab title="The Adpharm" href="/" active={Astro.url.pathname === "/"} />
-          <HeaderTab title="Synapse Medcom" href="https://www.synapsemedcom.ca/" />
+          <HeaderTab
+            title="The Adpharm"
+            href="/"
+            active={Astro.url.pathname === "/"}
+          />
+          <HeaderTab
+            title="Synapse Medcom"
+            href="https://www.synapsemedcom.ca/"
+          />
           <HeaderTab
             title="Adpharm Digital"
             href="/digital"

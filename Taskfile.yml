@@ -1,0 +1,61 @@
+version: "3"
+
+# https://taskfile.dev/usage/#output-syntax
+output: prefixed
+
+vars:
+  AWS_PROFILE: "pharmer"
+
+tasks:
+  login:
+    requires:
+      vars:
+        - AWS_PROFILE
+    vars:
+      AWS_PROFILE: "{{.AWS_PROFILE}}"
+    cmds:
+      - aws sso login --profile {{.AWS_PROFILE}}
+
+  check-aws-identity:
+    requires:
+      vars:
+        - AWS_PROFILE
+    vars:
+      AWS_PROFILE: "{{.AWS_PROFILE}}"
+    cmds:
+      - |
+        if ! aws sts get-caller-identity --profile {{.AWS_PROFILE}}; then
+          echo ""
+          echo "Your '{{.AWS_PROFILE}}' AWS profile is not logged in. Run 'task login' to log in."
+          exit 1
+        fi
+    silent: true
+
+  ########################################################################################################################
+  #
+  #                                        Terraform commands
+  #
+  ########################################################################################################################
+
+  # `terraform init`
+  tfinit:
+    dir: terraform
+    cmds:
+      - terraform init
+
+  # `terragrunt plan`
+  tfplan:
+    dir: terraform
+    deps:
+      - check-aws-identity
+    cmds:
+      - terragrunt plan
+
+  # `terragrunt apply`
+  tfapply:
+    interactive: true
+    dir: terraform
+    deps:
+      - check-aws-identity
+    cmds:
+      - terragrunt apply
