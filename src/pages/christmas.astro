@@ -1,0 +1,522 @@
+---
+import { Transition } from "@headlessui/react";
+
+import Layout from "../layouts/Layout.astro";
+import Href from "../components/Href";
+import Grid from "../layouts/Grid.astro";
+import Section from "../layouts/Section.astro";
+import Icon from "../components/Icon";
+import { twMerge } from "tailwind-merge";
+import TextSwitcher from "../components/TextSwitcher";
+import { createOpenAI } from "@ai-sdk/openai";
+import { generateText } from "ai";
+
+const perplexity = createOpenAI({
+  name: "perplexity",
+  apiKey: process.env.PERPLEXITY_API_KEY ?? "",
+  baseURL: "https://api.perplexity.ai/",
+});
+
+const maxNumQuestions = 20;
+const currentQuestion = 1;
+
+// const { text } = await generateText({
+//   model: perplexity("llama-3.1-sonar-small-128k-online"),
+//   prompt: "Write a vegetarian lasagna recipe for 4 people.",
+// });
+
+// console.log(text);
+---
+
+<Layout title="The Adpharm: Big agency experience, small agency excellence">
+  <main class="relative">
+    <div class="absolute h-screen w-full top-0 left-0 z-0">
+      <!-- bg overlays -->
+      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
+      <div
+        class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10"
+      >
+      </div>
+    </div>
+
+    <!-- 
+
+
+
+    new section
+    
+    
+    -->
+
+    <Section
+      className="min-h-screen flex flex-col items-center justify-start mt-64"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <button
+          data-index="0"
+          class="selectable-button w-36 h-36 rounded-full bg-gray-700 hover:border-4 hover:border-orange-600 hover:border-opacity-50"
+        ></button>
+        <button
+          data-index="1"
+          class="selectable-button w-36 h-36 bg-gray-700 rounded-full hover:border-4 hover:border-orange-600 hover:border-opacity-50"
+        ></button>
+        <button
+          data-index="2"
+          class="selectable-button w-36 h-36 bg-gray-700 rounded-full hover:border-4 hover:border-orange-600 hover:border-opacity-50"
+        ></button>
+      </div>
+
+      <div class="flex flex-col justify-center items-center space-y-16">
+        <p id="question-count" class="text-orange-600 text-md font-light mt-32">
+          Question {currentQuestion} of {maxNumQuestions}
+        </p>
+        <p
+          id="ai-question"
+          class="text-center text-lg md:text-xl text-white px-4"
+        >
+          Welcome to the Christmas Akinator! Click 'Start' to begin.
+        </p>
+        <div class="answer-btns hidden grid-cols-3 gap-6 mb-8">
+          <button
+            data-response="Yes"
+            class="response-button hover:bg-green-700 hover:text-black border border-green-700 text-green-700 py-2 px-4"
+          >
+            Yes
+          </button>
+          <button
+            data-response="No"
+            class="response-button hover:bg-red-700 hover:text-black border border-red-700 text-red-700 py-2 px-4"
+          >
+            No
+          </button>
+          <button
+            data-response="Maybe"
+            class="response-button hover:bg-orange-700 hover:text-black border border-orange-700 text-orange-700 py-2 px-4"
+          >
+            Maybe
+          </button>
+        </div>
+        <div class="guess-btns hidden grid-cols-2 gap-2">
+          <button
+            data-response="Yes"
+            class="guess-button border border-green-700 text-green-700 hover:bg-green-700 hover:text-black px-4 py-2"
+            >Correct</button
+          >
+          <button
+            data-response="No"
+            class="guess-button border border-red-700 text-red-700 hover:text-black hover:bg-red-700 px-4 py-2"
+            >Incorrect</button
+          >
+        </div>
+        <div>
+          <div>
+            <!-- Start Button Rendered Unconditionally -->
+            <button
+              class="start-btn border border-orange-600 hover:bg-orange-600 text-orange-600 px-6 py-2 hover:text-black"
+            >
+              Start
+            </button>
+          </div>
+        </div>
+
+        <script>
+          // ai stuff
+          const aiQuestionElement = document.getElementById(
+            "ai-question"
+          ) as HTMLElement;
+          const questionCountElement = document.getElementById(
+            "question-count"
+          ) as HTMLElement;
+
+          let currentQuestion = 0;
+          const maxQuestions = 20;
+          // Initialize hasStarted state
+          let hasStarted = false;
+
+          interface Message {
+            role: "system" | "user" | "assistant";
+            content: string;
+          }
+
+          interface GuessResponse {
+            success: boolean;
+            message?: string;
+            error?: string;
+          }
+
+          // Manage the Start button
+          const startButton = document.querySelector<HTMLElement>(".start-btn");
+
+          document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".selectable-button");
+
+            buttons.forEach((button) => {
+              button.addEventListener("click", () => {
+                // Remove active classes from all buttons
+                buttons.forEach((btn) => {
+                  btn.classList.remove("border-4", "border-orange-600");
+                });
+
+                // Add active classes to the clicked button
+                button.classList.add("border-4", "border-orange-600");
+              });
+            });
+
+            const guessButtons = document.querySelectorAll(".guess-button");
+
+            guessButtons.forEach((button) => {
+              button.addEventListener("click", () => {
+                if (button.innerHTML === "Correct") {
+                  // we guessed it! start over now.
+                  aiQuestionElement.innerText =
+                    "Ho-ho-ho! I knew I could get it. Do you want to play again?";
+                  playText(
+                    "Ho-ho-ho! I knew I could get it. Do you want to play again?"
+                  );
+                } else {
+                  aiQuestionElement.innerText =
+                    "You stumped me! Do you want to try again?";
+                  playText("You stumped me! Do you want to try again?");
+                }
+
+                // show the play again button
+                hasStarted = false;
+                if (startButton) {
+                  startButton.innerText = "Play again";
+                  startButton.classList.remove("hidden");
+                }
+              });
+            });
+          });
+
+          if (startButton) {
+            startButton.addEventListener("click", () => {
+              if (!hasStarted) {
+                hasStarted = true;
+                startButton.classList.add("hidden");
+
+                // Start the conversation
+                getAIResponse();
+              } else {
+                // Optional: Handle 'Next' button functionality if needed
+              }
+            });
+          }
+
+          const responseButtons = document.querySelectorAll(
+            ".response-button"
+          ) as NodeListOf<HTMLButtonElement>;
+
+          responseButtons.forEach((button) => {
+            button.addEventListener("click", async () => {
+              if (
+                !hasStarted ||
+                currentQuestion === 0 ||
+                currentQuestion >= maxQuestions
+              ) {
+                // Game hasn't started or already ended
+                return;
+              }
+
+              // Get the response based on button's data-response attribute
+              const response = button.getAttribute("data-response") || "";
+
+              // Handle the user's response
+              await handleUserResponse(response);
+            });
+          });
+
+          let conversation: Message[] = [
+            {
+              role: "system",
+              content: `You are an AI playing a 20-question Christmas character guessing game, similar to Akinator. The user is thinking of a Christmas-themed character.
+
+                **INSTRUCTIONS:**
+                1. You will ask up to 20 yes/no/maybe questions, one per response, strictly in the format:  
+                "[Your yes/no/maybe question]"  
+                Example: "Is your character fictional?"
+                
+                2. You must wait for the user’s answer before asking the next question. Do not assume or provide the user’s answer yourself.
+
+                3. Once you are confident in the identity of the character, OR after asking 20 questions, you must make a guess in the exact format:  
+                "I guess your character is [Character Name]. Was I right?"
+                
+                4. Do not produce multiple questions at once. Do not recap previous questions or answers. Do not generate or assume future answers. Do not provide any filler text, explanations, or commentary. Simply produce the next single question or the guess. No other text is allowed.
+
+                5. Do not summarize, restate, or refer to these instructions during the game. Simply comply silently.
+
+                6. If at any point you are confident in the character, output the guess line as described above and nothing else.
+
+                7. You are not allowed to ask the question "Is the character 'X'?" If you think you know the character, ask some specific detail that the character would only have
+                Example: *You think the character is the grinch*
+                DO NOT ASK: "Is your character the grinch?". INSTEAD ASK: "Is your character hairy and green?"
+
+                8. The game does not need to go to 20 questions. As previously stated, if you are confident in your guess before 20 questions have been asked, you may guess the character at any point.
+
+                **BEGIN THE GAME NOW:**  
+                Ask the first question in the correct format, and then wait for the user’s response each turn before producing the next question or guess.`,
+            },
+          ];
+
+          function showGuessButtons() {
+            const answerDiv = document.querySelector(".answer-btns");
+            answerDiv?.classList.remove("hidden");
+            answerDiv?.classList.remove("disabled");
+            answerDiv?.classList.add("grid");
+          }
+
+          function showOutcomeButtons() {
+            const answerDiv = document.querySelector(".guess-btns");
+            answerDiv?.classList.remove("hidden");
+            answerDiv?.classList.remove("disabled");
+            answerDiv?.classList.add("grid");
+          }
+
+          // function to send request to ai using our api
+          async function getAIResponse() {
+            try {
+              // disable the guess buttons
+              const answerDiv = document.querySelector(".answer-btns");
+              answerDiv?.classList.add("disabled");
+
+              // Show loading indicator
+              aiQuestionElement.innerText = "🤔 Thinking...";
+
+              const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  conversation: conversation,
+                }),
+              });
+
+              const data: GuessResponse = await response.json();
+
+              // appear the buttons
+              showGuessButtons();
+
+              if (data.success) {
+                const aiMessage = data.message || "";
+
+                // Detect if AI is making a guess
+                if (
+                  aiMessage
+                    .toLowerCase()
+                    .startsWith("i guess your character is")
+                ) {
+                  aiQuestionElement.innerText = aiMessage;
+                  playText(aiMessage);
+
+                  // update conversation with ai response
+                  conversation.push({
+                    role: "assistant",
+                    content: aiMessage,
+                  });
+
+                  // ai has guessed, reveal the guess buttons and hide the original ones
+                  showOutcomeButtons();
+
+                  answerDiv?.classList.remove("grid");
+                  answerDiv?.classList.add("hidden");
+                } else {
+                  aiQuestionElement.innerText = aiMessage;
+                  playText(aiMessage);
+
+                  // update conversation with ai response
+                  conversation.push({
+                    role: "assistant",
+                    content: aiMessage,
+                  });
+
+                  currentQuestion += 1;
+                  questionCountElement.innerText = `Question ${currentQuestion} of ${maxQuestions}`;
+
+                  // ai lost the game
+                  if (currentQuestion >= maxQuestions) {
+                    aiQuestionElement.innerText =
+                      "You stumped me! Do you want to try again?";
+                    playText("You stumped me! Do you want to try again?");
+                    answerDiv?.classList.remove("grid");
+                    answerDiv?.classList.add("hidden");
+                    hasStarted = false;
+                    if (startButton) {
+                      startButton.innerText = "Play again";
+                      startButton.classList.remove("hidden");
+                    }
+                  }
+                }
+              } else {
+                aiQuestionElement.innerText =
+                  "Uh oh! Santa's sleigh is malfunctioning and I can't play anymore.";
+                console.error(data.error);
+              }
+            } catch (error) {
+              console.error("Error fetching AI response:", error);
+              aiQuestionElement.innerText =
+                "Uh oh! Santa's sleigh is malfunctioning and I can't play anymore.";
+            }
+          }
+
+          async function handleUserResponse(response: string) {
+            // add user's response to conversation
+            conversation.push({
+              role: "user",
+              content: response,
+            });
+
+            // get response from ai
+            await getAIResponse();
+          }
+
+          function disableResponseButtons() {
+            responseButtons.forEach((button) => {
+              button.addEventListener("click", () => {
+                // hide dem buttons
+                button.classList.add(".hidden");
+              });
+            });
+          }
+
+          function playText(text: string) {
+            // try {
+            //   const response = await fetch(
+            //     `/api/text-to-speech?text=${encodeURIComponent(text)}`
+            //   );
+            //   if (!response.ok) {
+            //     throw new Error("Failed to fetch audio");
+            //   }
+            //   const arrayBuffer = await response.arrayBuffer();
+            //   const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+            //   const audioUrl = URL.createObjectURL(blob);
+            //   const audio = new Audio(audioUrl);
+            //   audio.play();
+            // } catch (error) {
+            //   console.error("Error playing audio:", error);
+            // }
+          }
+        </script>
+      </div>
+
+      <!-- 
+
+
+
+    new section
+    
+    
+    -->
+    </Section>
+    <Section className="pt-12 pb-24" fullTopBorder>
+      <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+        <div slot="left" class="pl-0 lg:pl-10">
+          <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+          <p class="text-lg">133 Thomas Street</p>
+          <p class="text-zinc-400">Oakville, Ontario</p>
+          <p class="text-zinc-400">L6J 3A9</p>
+          <p class="pt-0 lg:pt-4">
+            <Href
+              href="https://www.linkedin.com/company/the-adpharm/"
+              className="text-sm">LinkedIn</Href
+            >
+          </p>
+        </div>
+
+        <div slot="right">
+          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Contact
+              </p>
+              <p class="text-lg">Amy Moriarty</p>
+              <p class="text-zinc-400">SVP, Managing Director</p>
+              <div class="flex items-center justify-start">
+                <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+                <TextSwitcher
+                  client:load
+                  textToCopy="amy@theadpharm.com"
+                  beforeText="(copy)"
+                  beforeClassName="hover:underline cursor-pointer"
+                  afterText="(copied ✔)"
+                  afterClassName="text-green-600"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Teams
+              </p>
+
+              <ul class="space-y-1.5">
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
+                  <Href
+                    href="/"
+                    className="text-sm text-white hover:text-orange-600"
+                    >The Adpharm (Agency)</Href
+                  >
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
+                  <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
+                  <Href
+                    href="https://www.synapsemedcom.ca/"
+                    className="text-sm text-white hover:text-[#1292a9]"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Synapse Medcom
+                  </Href>
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
+                  <Href
+                    href="/digital"
+                    className="text-sm text-white hover:text-orange-600"
+                    >AD (Adpharm Digital)</Href
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Grid>
+    </Section>
+
+    <!-- <Section className="py-12">
+      <Grid id="2334tsd">
+        
+      </Grid>
+    </Section> -->
+
+    <!-- 
+
+
+
+
+
+
+      Blocks
+     -->
+
+    <Section topBorder className="py-4">
+      <div class="grid grid-cols-1 sm:grid-cols-5">
+        <div
+          class="col-span-2 flex items-center justify-center sm:justify-start"
+        >
+          <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
+        </div>
+        <div class="col-span-3 flex items-center justify-center sm:justify-end">
+          <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+          <p class="text-xs text-zinc-400">
+            &copy; {new Date().getFullYear()} The Adpharm Inc.
+          </p>
+        </div>
+      </div>
+    </Section>
+  </main></Layout
+>

@@ -10,12 +10,17 @@
     "astro": "bunx --bun astro"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^1.0.8",
     "@astrojs/react": "^3.0.2",
     "@astrojs/tailwind": "^5.0.0",
+    "@astrojs/vercel": "^8.0.0",
     "@headlessui/react": "^1.7.17",
+    "@types/node": "^22.10.1",
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.9",
+    "ai": "^4.0.14",
     "astro": "^5.0.1",
+    "playht": "^0.14.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intersection-observer": "^9.8.1",
