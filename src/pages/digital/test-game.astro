@@ -2,9 +2,34 @@
 import Href from "../../components/Href";
 import Layout from "../../layouts/Layout.astro";
 import Section from "../../layouts/Section.astro";
+
+const API_BASE_URL = "https://api.sws.speechify.com";
+
+const API_KEY = "ad_4QevXkZ_4aTwe4exysPdREoZoInjepqbnIMWjfqU=";
+
+async function getVoices() {
+  const res = await fetch(`${API_BASE_URL}/v1/voices`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  return await res.json();
+}
+
+async function main() {
+  const voices = await getVoices();
+
+  console.log(voices);
+
+  const displayNames = voices.map((voice: any) => voice.displayName);
+  console.log("Here are the names of the voices: ", displayNames);
+}
+
+main();
 ---
 
-<Layout title="AD | Adpharm Digital">
+<Layout title="AD | Christmas Game">
   <main>
     <Section className="pt-20 min-h-screen">
       <div class="flex items-center justify-center h-48">
@@ -25,12 +50,6 @@ import Section from "../../layouts/Section.astro";
             >
           </p>
         </div>
-      </div>
-      <div class="flex items-center justify-center h-48">
-        <p>
-          Find the new christmas Game here: <Href href="digital/test-game-copy"
-          >Christmas Game</Href>
-        </p>
       </div>
     </Section>
   </main>
