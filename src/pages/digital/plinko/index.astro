@@ -34,7 +34,6 @@
   <body>
     <script>
       // export the necessary modules
-      // import { addIssueToContext } from "astro:schema";
       import Matter, {
         Engine,
         Render,
@@ -94,7 +93,7 @@
         const fillStyle = `hsl(${randomBetween(0, 360)}, 90%, 60%)`;
 
         return Bodies.circle(x, y, r, {
-          restitution: 0.8,
+          restitution: 0.8, //Restitution is the amount of bounce/elasticness that an object has when it collides with another object.
           render: {
             fillStyle,
           },
@@ -162,9 +161,6 @@
 
       // plinko
       // an array of plinkos; the idea is to populate with the world immediately with a set number of plinkos
-      // const plinkos = Array(initialPlinkos)
-      //   .fill()
-      //   .map(() => makePlinko());
       const plinkos = Array.from({ length: initialPlinkos }, () =>
         makePlinko()
       );
@@ -174,21 +170,7 @@
       // use the padding to reduce the horizontal space allocated to the pegs
       const columnSize = (width - padding * 2) / columns;
       const rowSize = (height - margin) / rows;
-      // const grid = Array(rows)
-      //   .fill()
-      //   .map((rowItem, row) => {
-      //     // have the number of columns alternate with a shorter row every other row
-      //     // the idea is to then offset the shorter row to recreate the plinko's own structure
-      //     const cols = row % 2 === 0 ? columns : columns - 1;
-      //     const dx = cols !== columns ? columnSize / 2 : 0;
-      //     return Array(cols)
-      //       .fill()
-      //       .map((columnItem, column) => {
-      //         const x = padding + columnSize * column + columnSize / 2 + dx;
-      //         const y = rowSize * row + rowSize / 2;
-      //         return makePeg(x, y);
-      //       });
-      //   });
+      
       const grid = Array.from({ length: rows }, (_, row) => {
         const cols = row % 2 === 0 ? columns : columns - 1;
         const dx = cols !== columns ? columnSize / 2 : 0;
@@ -205,12 +187,6 @@
       // buckets
       // arrays of buckets in which the plinkos would eventually fall
       // as many buckets as the number of columns, to make use of the left and right wall for the outer edges
-      // const buckets = Array(columns)
-      //   .fill()
-      //   .map((columnItem, column) => {
-      //     const x = columnSize * column + columnSize;
-      //     return makeBucket(x);
-      //   });
       const buckets = Array.from({ length: columns }, (_, column) => {
         const x = columnSize * column + columnSize;
         return makeBucket(x);
@@ -228,18 +204,16 @@
         const plinko = makePlinko();
         console.log("Plinko has been added", plinko);
         World.add(world, plinko);
-        Engine.update(engine);
+        // Engine.update(engine);
       }
-
-      // document.querySelector("body")?.addEventListener("click", addPlinko);
-
+      
+      // WE are only getting a new plinko on click of the button.
       document
         .getElementById("generatePlinko")
         ?.addEventListener("click", addPlinko);
 
       // following a collision event retrieve the label of the two bodies
       // if one is a plinko, consider its color and apply it to the other body
-
       function handleCollision(event) {
         const { pairs } = event;
 
@@ -264,7 +238,7 @@
       Events.on(engine, "collisionStart", handleCollision);
 
       // run the engine
-      Runner.run(runner, engine);
+      Runner.run(runner, engine); //We have eto create and run the runner so that the engine start playing the annimation.
       // run the renderer
       Render.run(render);
     </script>
