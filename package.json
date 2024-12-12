@@ -17,6 +17,7 @@
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.9",
     "astro": "^5.0.1",
+    "framer-motion": "^11.14.1",
     "matter-js": "^0.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
