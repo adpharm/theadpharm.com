@@ -1,0 +1,58 @@
+---
+/* src/components/Snowfall.astro */
+---
+
+<div
+  class="fixed top-0 left-0 w-full h-screen pointer-events-none z-40 overflow-hidden animate-fall animate-sway"
+>
+  <!-- Snowflakes will be dynamically added here -->
+</div>
+
+<script type="module">
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createSnowflake() {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("absolute", "top-0", "left-0", "pointer-events-none");
+
+    const snowflake = document.createElement("div");
+    snowflake.classList.add(
+      "text-white",
+      "opacity-80",
+      "pointer-events-none",
+      "select-none",
+      "-translate-y-40"
+    );
+    snowflake.textContent = "❄️";
+
+    const size = random(8, 16);
+    const duration = random(10, 40);
+    const swayDuration = random(3, 5);
+    const delay = random(0, 20);
+    const left = random(0, 100);
+
+    wrapper.style.left = `${left}%`;
+    wrapper.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+    snowflake.style.fontSize = `${size}px`;
+    snowflake.style.animation = `sway ${swayDuration}s ease-in-out ${delay}s infinite`;
+
+    wrapper.appendChild(snowflake);
+    return wrapper;
+  }
+
+  function generateSnowflakes(count) {
+    const container = document.querySelector(
+      ".fixed.top-0.left-0.pointer-events-none"
+    );
+    for (let i = 0; i < count; i++) {
+      const snowflake = createSnowflake();
+      container.appendChild(snowflake);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    generateSnowflakes(120);
+  });
+</script>

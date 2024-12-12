@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateText } from "ai";
+import Snowfall from "../components/Snowfall.astro";
 
 const perplexity = createOpenAI({
   name: "perplexity",
@@ -29,16 +30,15 @@ const currentQuestion = 1;
 ---
 
 <Layout title="The Adpharm: Big agency experience, small agency excellence">
-  <main class="relative">
+  <main class="relative z-0">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <!-- bg overlays -->
       <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
       <div
-        class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10"
+        class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10 pointer-events-none"
       >
       </div>
     </div>
-
     <!-- 
 
 
@@ -51,185 +51,224 @@ const currentQuestion = 1;
     <Section
       className="min-h-screen flex flex-col items-center justify-start mt-64"
     >
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <button
-          data-index="0"
-          class="selectable-button w-36 h-36 rounded-full bg-gray-700 hover:border-4 hover:border-orange-600 hover:border-opacity-50"
-        ></button>
-        <button
-          data-index="1"
-          class="selectable-button w-36 h-36 bg-gray-700 rounded-full hover:border-4 hover:border-orange-600 hover:border-opacity-50"
-        ></button>
-        <button
-          data-index="2"
-          class="selectable-button w-36 h-36 bg-gray-700 rounded-full hover:border-4 hover:border-orange-600 hover:border-opacity-50"
-        ></button>
+      <h1 class="font-christmas text-6xl text-red-500">Merry Christmas from</h1>
+      <div
+        class="flex flex-row items-center justify-center space-x-24 mt-20 mb-8"
+      >
+        <img src="/adpharm-logo4x.png" alt="the adpharm" class="w-60" />
+        <img src="/logo_synapse.png" alt="synapse medcom" class="w-60" />
       </div>
-
-      <div class="flex flex-col justify-center items-center space-y-16">
-        <p id="question-count" class="text-orange-600 text-md font-light mt-32">
-          Question {currentQuestion} of {maxNumQuestions}
-        </p>
-        <p
-          id="ai-question"
-          class="text-center text-lg md:text-xl text-white px-4"
-        >
-          Welcome to the Christmas Akinator! Click 'Start' to begin.
-        </p>
-        <div class="answer-btns hidden grid-cols-3 gap-6 mb-8">
-          <button
-            data-response="Yes"
-            class="response-button hover:bg-green-700 hover:text-black border border-green-700 text-green-700 py-2 px-4"
-          >
-            Yes
-          </button>
-          <button
-            data-response="No"
-            class="response-button hover:bg-red-700 hover:text-black border border-red-700 text-red-700 py-2 px-4"
-          >
-            No
-          </button>
-          <button
-            data-response="Maybe"
-            class="response-button hover:bg-orange-700 hover:text-black border border-orange-700 text-orange-700 py-2 px-4"
-          >
-            Maybe
-          </button>
-        </div>
-        <div class="guess-btns hidden grid-cols-2 gap-2">
-          <button
-            data-response="Yes"
-            class="guess-button border border-green-700 text-green-700 hover:bg-green-700 hover:text-black px-4 py-2"
-            >Correct</button
-          >
-          <button
-            data-response="No"
-            class="guess-button border border-red-700 text-red-700 hover:text-black hover:bg-red-700 px-4 py-2"
-            >Incorrect</button
-          >
-        </div>
-        <div>
-          <div>
-            <!-- Start Button Rendered Unconditionally -->
-            <button
-              class="start-btn border border-orange-600 hover:bg-orange-600 text-orange-600 px-6 py-2 hover:text-black"
+      <div class="w-full max-w-3xl rounded-full p-10 m-4">
+        <div class="text-lg text-center space-y-4 mb-20">
+          <p>
+            Welcome to <span class="font-bold text-red-500"
+              >Adpharm’s 21 Questions</span
             >
-              Start
-            </button>
+          </p>
+          <p>
+            This is a festive guessing game where you’ll think of a
+            Christmas-themed character, and we'll try to guess who it is.
+          </p>
+          <p>Start by picking who you want to play with.</p>
+          <p>
+            Enjoy the holiday fun, and let’s see if Brian, Amy, or Jai can
+            outsmart you!
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-20">
+          <div class="flex flex-col justify-center items-center">
+            <div
+              data-index="0"
+              class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
+            >
+              <img
+                src="/wreath.png"
+                alt="Wreath"
+                class="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+              />
+              <div
+                class="h-40
+                w-40
+                rounded-full
+                relative
+                z-10
+                overflow-hidden
+                flex flex-row items-center justify-center"
+              >
+                <img src="/brian.png" alt="brian honda" />
+              </div>
+            </div>
+            <p class="font-christmas text-4xl mt-2 text-red-500">Brian</p>
+          </div>
+          <div class="flex flex-col justify-center items-center">
+            <div
+              data-index="1"
+              class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
+            >
+              <img
+                src="/wreath.png"
+                alt="Wreath"
+                class="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+              />
+              <div
+                class="h-40
+                w-40
+                rounded-full
+                relative
+                z-10
+                overflow-hidden
+                flex flex-row items-center justify-center"
+              >
+                <img src="/amy.png" alt="amy moriarty" />
+              </div>
+            </div>
+            <p class="font-christmas text-4xl mt-2 text-red-500">Amy</p>
+          </div>
+          <div class="flex flex-col justify-center items-center">
+            <div
+              data-index="2"
+              class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
+            >
+              <img
+                src="/wreath.png"
+                alt="Wreath"
+                class="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+              />
+              <div
+                class="h-40
+                w-40
+                rounded-full
+                relative
+                z-10
+                overflow-hidden
+                flex flex-row items-center justify-center"
+              >
+                <img src="/jai.png" alt="jai sharma" class="-translate-y-6" />
+              </div>
+            </div>
+            <p class="font-christmas text-4xl mt-2 text-red-500">Jai</p>
           </div>
         </div>
 
-        <script>
-          // ai stuff
-          const aiQuestionElement = document.getElementById(
-            "ai-question"
-          ) as HTMLElement;
-          const questionCountElement = document.getElementById(
-            "question-count"
-          ) as HTMLElement;
+        <div
+          class="flex flex-col justify-center items-center space-y-16 w-full"
+        >
+          <div>
+            <!-- Start Button Rendered Unconditionally -->
+            <button
+              class="start-btn relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-3xl mt-36"
+            >
+              <!-- Hat Image -->
+              <img
+                src="/santahat-btn.webp"
+                alt="Hat"
+                class="absolute
+                    -top-[15px]
+                    -left-[17px]
+                    h-[44px]
+                    drop-shadow-[0_2px_1px_rgba(0,0,0,0.25)]"
+              />
+              Start game
+            </button>
+          </div>
+          <p
+            id="question-count"
+            class="hidden text-white text-md font-light mt-32"
+          >
+            Question {currentQuestion} of {maxNumQuestions}
+          </p>
+          <p
+            id="ai-question"
+            class="text-center text-lg md:text-xl text-white px-4 transition ease-in-out"
+          >
+          </p>
+          <div
+            class="hidden flex-row items-center justify-center space-x-2"
+            id="thinking-loader"
+          >
+            <!-- Spinner with a snowflake -->
+            <p class="text-white text-lg animate-pulse transition ease-in-out">
+              Thinking...
+            </p>
+            <Icon
+              as="div"
+              name="snowflake"
+              className="h-8 w-8 text-blue-300 animate-rev"
+            />
+          </div>
+          <div class="answer-btns hidden grid-cols-4 gap-6 mb-8">
+            <button
+              data-response="Yes"
+              class="response-button bg-green-500 rounded-xl px-4 py-2 text-xl font-christmas hover:scale-105"
+            >
+              Yes
+            </button>
+            <button
+              data-response="No"
+              class="response-button bg-red-500 rounded-xl px-4 py-2 text-xl font-christmas hover:scale-105"
+            >
+              No
+            </button>
+            <button
+              data-response="Sort of"
+              class="response-button bg-white text-black rounded-xl px-4 py-2 text-xl font-christmas hover:scale-105"
+            >
+              Sort Of
+            </button>
+            <button
+              data-response="Not sure"
+              class="response-button bg-white text-black rounded-xl px-4 py-2 text-xl font-christmas hover:scale-105"
+            >
+              Not sure
+            </button>
+          </div>
+          <div class="guess-btns hidden grid-cols-2 gap-6">
+            <button
+              data-response="Yes"
+              class="guess-button bg-green-500 rounded-xl px-6 py-4 text-2xl font-christmas hover:scale-105"
+              >Correct</button
+            >
+            <button
+              data-response="No"
+              class="guess-button bg-red-500 rounded-xl px-6 py-4 text-2xl font-christmas hover:scale-105"
+              >Incorrect</button
+            >
+          </div>
 
-          let currentQuestion = 0;
-          const maxQuestions = 20;
-          // Initialize hasStarted state
-          let hasStarted = false;
+          <script>
+            // ai stuff
+            const aiQuestionElement = document.getElementById(
+              "ai-question"
+            ) as HTMLElement;
+            const questionCountElement = document.getElementById(
+              "question-count"
+            ) as HTMLElement;
+            const thinkingLoader = document.getElementById(
+              "thinking-loader"
+            ) as HTMLElement;
 
-          interface Message {
-            role: "system" | "user" | "assistant";
-            content: string;
-          }
+            let playAgainFlag = false;
 
-          interface GuessResponse {
-            success: boolean;
-            message?: string;
-            error?: string;
-          }
+            let currentQuestion = 0;
+            const maxQuestions = 20;
+            // Initialize hasStarted state
+            let hasStarted = false;
 
-          // Manage the Start button
-          const startButton = document.querySelector<HTMLElement>(".start-btn");
+            interface Message {
+              role: "system" | "user" | "assistant";
+              content: string;
+            }
 
-          document.addEventListener("DOMContentLoaded", () => {
-            const buttons = document.querySelectorAll(".selectable-button");
+            interface GuessResponse {
+              success: boolean;
+              message?: string;
+              error?: string;
+            }
 
-            buttons.forEach((button) => {
-              button.addEventListener("click", () => {
-                // Remove active classes from all buttons
-                buttons.forEach((btn) => {
-                  btn.classList.remove("border-4", "border-orange-600");
-                });
-
-                // Add active classes to the clicked button
-                button.classList.add("border-4", "border-orange-600");
-              });
-            });
-
-            const guessButtons = document.querySelectorAll(".guess-button");
-
-            guessButtons.forEach((button) => {
-              button.addEventListener("click", () => {
-                if (button.innerHTML === "Correct") {
-                  // we guessed it! start over now.
-                  aiQuestionElement.innerText =
-                    "Ho-ho-ho! I knew I could get it. Do you want to play again?";
-                  playText(
-                    "Ho-ho-ho! I knew I could get it. Do you want to play again?"
-                  );
-                } else {
-                  aiQuestionElement.innerText =
-                    "You stumped me! Do you want to try again?";
-                  playText("You stumped me! Do you want to try again?");
-                }
-
-                // show the play again button
-                hasStarted = false;
-                if (startButton) {
-                  startButton.innerText = "Play again";
-                  startButton.classList.remove("hidden");
-                }
-              });
-            });
-          });
-
-          if (startButton) {
-            startButton.addEventListener("click", () => {
-              if (!hasStarted) {
-                hasStarted = true;
-                startButton.classList.add("hidden");
-
-                // Start the conversation
-                getAIResponse();
-              } else {
-                // Optional: Handle 'Next' button functionality if needed
-              }
-            });
-          }
-
-          const responseButtons = document.querySelectorAll(
-            ".response-button"
-          ) as NodeListOf<HTMLButtonElement>;
-
-          responseButtons.forEach((button) => {
-            button.addEventListener("click", async () => {
-              if (
-                !hasStarted ||
-                currentQuestion === 0 ||
-                currentQuestion >= maxQuestions
-              ) {
-                // Game hasn't started or already ended
-                return;
-              }
-
-              // Get the response based on button's data-response attribute
-              const response = button.getAttribute("data-response") || "";
-
-              // Handle the user's response
-              await handleUserResponse(response);
-            });
-          });
-
-          let conversation: Message[] = [
-            {
-              role: "system",
-              content: `You are an AI playing a 20-question Christmas character guessing game, similar to Akinator. The user is thinking of a Christmas-themed character.
+            const prompt: Message[] = [
+              {
+                role: "system",
+                content: `You are an AI playing a 20-question Christmas character guessing game, similar to Akinator. The user is thinking of a Christmas-themed character.
 
                 **INSTRUCTIONS:**
                 1. You will ask up to 20 yes/no/maybe questions, one per response, strictly in the format:  
@@ -247,156 +286,287 @@ const currentQuestion = 1;
 
                 6. If at any point you are confident in the character, output the guess line as described above and nothing else.
 
-                7. You are not allowed to ask the question "Is the character 'X'?" If you think you know the character, ask some specific detail that the character would only have
+                7. NEVER ask the question "Is the character 'X'?" You are not allowed to ask if it is a specific character. The only time you may mention the character is if you state it in the form "I guess your character is [Character name]. Was I right?"
                 Example: *You think the character is the grinch*
                 DO NOT ASK: "Is your character the grinch?". INSTEAD ASK: "Is your character hairy and green?"
 
                 8. The game does not need to go to 20 questions. As previously stated, if you are confident in your guess before 20 questions have been asked, you may guess the character at any point.
 
+                9. Understand that you have 20 questions to make a guess. Do not guess a character unless you are sure that it is them. If you have suspicions that it may be a character, ask a specific question before making your guess. Understand that this is a game, and if you guess wrong, you lose! So you want to be correct the first time. 
+                For example: *You think the character is Jack Frost*
+                ASK: Is your character extremely cold? (this way you have more reason to believe that the character is Jack Frost)
+                
+                10. DO NOT ask "Is your character fictional?". Because this is christmas-related characters, assume EVERY character is fictional.
+
                 **BEGIN THE GAME NOW:**  
                 Ask the first question in the correct format, and then wait for the user’s response each turn before producing the next question or guess.`,
-            },
-          ];
+              },
+            ];
 
-          function showGuessButtons() {
-            const answerDiv = document.querySelector(".answer-btns");
-            answerDiv?.classList.remove("hidden");
-            answerDiv?.classList.remove("disabled");
-            answerDiv?.classList.add("grid");
-          }
+            let conversation = prompt;
 
-          function showOutcomeButtons() {
-            const answerDiv = document.querySelector(".guess-btns");
-            answerDiv?.classList.remove("hidden");
-            answerDiv?.classList.remove("disabled");
-            answerDiv?.classList.add("grid");
-          }
+            // Manage the Start button
+            const startButton =
+              document.querySelector<HTMLElement>(".start-btn");
 
-          // function to send request to ai using our api
-          async function getAIResponse() {
-            try {
-              // disable the guess buttons
-              const answerDiv = document.querySelector(".answer-btns");
-              answerDiv?.classList.add("disabled");
+            document.addEventListener("DOMContentLoaded", () => {
+              const buttons = document.querySelectorAll(".selectable-button");
 
-              // Show loading indicator
-              aiQuestionElement.innerText = "🤔 Thinking...";
-
-              const response = await fetch("/api/chat", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  conversation: conversation,
-                }),
+              buttons.forEach((button) => {
+                button.addEventListener("click", () => {
+                  buttons.forEach((btn) => {
+                    btn.classList.remove("scale-110");
+                  });
+                  // Add active classes to the clicked button
+                  button.classList.add("scale-110");
+                });
               });
 
-              const data: GuessResponse = await response.json();
+              const guessButtons = document.querySelectorAll(".guess-button");
 
-              // appear the buttons
-              showGuessButtons();
+              guessButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                  if (button.innerHTML === "Correct") {
+                    // we guessed it! start over now.
+                    handleAIResponse(
+                      "Ho-ho-ho! I knew I could get it. Do you want to play again?"
+                    );
+                  } else {
+                    handleAIResponse(
+                      "You stumped me! Do you want to try again?"
+                    );
+                  }
+                  hideOutcomeButtons();
+                  // show the play again button
+                  hasStarted = false;
+                  if (startButton) {
+                    startButton.innerText = "Play again";
+                    startButton.classList.remove("hidden");
+                  }
+                });
+              });
+            });
 
-              if (data.success) {
-                const aiMessage = data.message || "";
+            if (startButton) {
+              startButton.addEventListener("click", () => {
+                if (!hasStarted) {
+                  questionCountElement.classList.remove("hidden");
+                  hasStarted = true;
+                  startButton.classList.add("hidden");
 
-                // Detect if AI is making a guess
-                if (
-                  aiMessage
-                    .toLowerCase()
-                    .startsWith("i guess your character is")
-                ) {
-                  aiQuestionElement.innerText = aiMessage;
-                  playText(aiMessage);
+                  conversation = prompt;
+                  currentQuestion = 0;
 
-                  // update conversation with ai response
-                  conversation.push({
-                    role: "assistant",
-                    content: aiMessage,
-                  });
+                  if (startButton.innerText == "Play again") {
+                    playAgainFlag = true;
+                  }
 
-                  // ai has guessed, reveal the guess buttons and hide the original ones
-                  showOutcomeButtons();
-
-                  answerDiv?.classList.remove("grid");
-                  answerDiv?.classList.add("hidden");
+                  // Start the conversation
+                  getAIResponse();
                 } else {
-                  aiQuestionElement.innerText = aiMessage;
-                  playText(aiMessage);
+                  // Optional: Handle 'Next' button functionality if needed
+                }
+              });
+            }
 
-                  // update conversation with ai response
+            const responseButtons = document.querySelectorAll(
+              ".response-button"
+            ) as NodeListOf<HTMLButtonElement>;
+
+            responseButtons.forEach((button) => {
+              button.addEventListener("click", async () => {
+                if (
+                  !hasStarted ||
+                  currentQuestion === 0 ||
+                  currentQuestion >= maxQuestions
+                ) {
+                  // Game hasn't started or already ended
+                  return;
+                }
+
+                // Get the response based on button's data-response attribute
+                const response = button.getAttribute("data-response") || "";
+
+                // Handle the user's response
+                await handleUserResponse(response);
+              });
+            });
+
+            function showGuessButtons() {
+              const answerDiv = document.querySelector(".answer-btns");
+              answerDiv?.classList.remove("hidden");
+              answerDiv?.classList.remove("disabled");
+              answerDiv?.classList.add("grid");
+            }
+
+            function showOutcomeButtons() {
+              const answerDiv = document.querySelector(".guess-btns");
+              answerDiv?.classList.remove("hidden");
+              answerDiv?.classList.remove("disabled");
+              answerDiv?.classList.add("grid");
+            }
+
+            function hideOutcomeButtons() {
+              const answerDiv = document.querySelector(".guess-btns");
+              answerDiv?.classList.add("hidden");
+              answerDiv?.classList.remove("grid");
+            }
+
+            // function to send request to ai using our api
+            async function getAIResponse() {
+              try {
+                // disable the guess buttons
+                const answerDiv = document.querySelector(".answer-btns");
+                answerDiv?.classList.add("disabled");
+
+                // Show loading indicator
+                aiQuestionElement.classList.add("hidden");
+                thinkingLoader.classList.remove("hidden");
+                thinkingLoader.classList.add("flex");
+
+                if (playAgainFlag) {
                   conversation.push({
-                    role: "assistant",
-                    content: aiMessage,
+                    role: "system",
+                    content: "User wants to play again. Please start over.",
                   });
+                  playAgainFlag = false;
+                }
 
-                  currentQuestion += 1;
-                  questionCountElement.innerText = `Question ${currentQuestion} of ${maxQuestions}`;
+                const response = await fetch("/api/chat", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    conversation: conversation,
+                  }),
+                });
 
-                  // ai lost the game
-                  if (currentQuestion >= maxQuestions) {
-                    aiQuestionElement.innerText =
-                      "You stumped me! Do you want to try again?";
-                    playText("You stumped me! Do you want to try again?");
+                const data: GuessResponse = await response.json();
+
+                // appear the buttons
+                showGuessButtons();
+
+                if (data.success) {
+                  const aiMessage = data.message || "";
+
+                  // Detect if AI is making a guess
+                  if (
+                    aiMessage
+                      .toLowerCase()
+                      .startsWith("i guess your character is")
+                  ) {
+                    handleAIResponse(aiMessage);
+
+                    // update conversation with ai response
+                    conversation.push({
+                      role: "assistant",
+                      content: aiMessage,
+                    });
+
+                    // ai has guessed, reveal the guess buttons and hide the original ones
+                    showOutcomeButtons();
+
                     answerDiv?.classList.remove("grid");
                     answerDiv?.classList.add("hidden");
-                    hasStarted = false;
-                    if (startButton) {
-                      startButton.innerText = "Play again";
-                      startButton.classList.remove("hidden");
+                  } else {
+                    handleAIResponse(aiMessage);
+
+                    // update conversation with ai response
+                    conversation.push({
+                      role: "assistant",
+                      content: aiMessage,
+                    });
+
+                    currentQuestion += 1;
+                    questionCountElement.innerText = `Question ${currentQuestion} of ${maxQuestions}`;
+
+                    // ai lost the game
+                    if (currentQuestion >= maxQuestions) {
+                      handleAIResponse(
+                        "You stumped me! Do you want to try again?"
+                      );
+                      answerDiv?.classList.remove("grid");
+                      answerDiv?.classList.add("hidden");
+                      hasStarted = false;
+                      if (startButton) {
+                        startButton.innerText = "Play again";
+                        startButton.classList.remove("hidden");
+                      }
                     }
                   }
+                } else {
+                  aiQuestionElement.innerText =
+                    "Uh oh! Santa's sleigh is malfunctioning and I can't play anymore.";
+                  console.error(data.error);
                 }
-              } else {
+              } catch (error) {
+                console.error("Error fetching AI response:", error);
                 aiQuestionElement.innerText =
                   "Uh oh! Santa's sleigh is malfunctioning and I can't play anymore.";
-                console.error(data.error);
               }
-            } catch (error) {
-              console.error("Error fetching AI response:", error);
-              aiQuestionElement.innerText =
-                "Uh oh! Santa's sleigh is malfunctioning and I can't play anymore.";
             }
-          }
 
-          async function handleUserResponse(response: string) {
-            // add user's response to conversation
-            conversation.push({
-              role: "user",
-              content: response,
-            });
-
-            // get response from ai
-            await getAIResponse();
-          }
-
-          function disableResponseButtons() {
-            responseButtons.forEach((button) => {
-              button.addEventListener("click", () => {
-                // hide dem buttons
-                button.classList.add(".hidden");
+            async function handleUserResponse(response: string) {
+              // add user's response to conversation
+              conversation.push({
+                role: "user",
+                content: response,
               });
-            });
-          }
 
-          function playText(text: string) {
-            // try {
-            //   const response = await fetch(
-            //     `/api/text-to-speech?text=${encodeURIComponent(text)}`
-            //   );
-            //   if (!response.ok) {
-            //     throw new Error("Failed to fetch audio");
-            //   }
-            //   const arrayBuffer = await response.arrayBuffer();
-            //   const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-            //   const audioUrl = URL.createObjectURL(blob);
-            //   const audio = new Audio(audioUrl);
-            //   audio.play();
-            // } catch (error) {
-            //   console.error("Error playing audio:", error);
-            // }
-          }
-        </script>
+              // get response from ai
+              await getAIResponse();
+            }
+
+            function disableResponseButtons() {
+              responseButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                  // hide dem buttons
+                  button.classList.add(".hidden");
+                });
+              });
+            }
+
+            async function playText(text: string) {
+              try {
+                const response = await fetch(
+                  `/api/text-to-speech?text=${encodeURIComponent(text)}`
+                );
+                if (!response.ok) {
+                  throw new Error("Failed to fetch audio");
+                }
+                const arrayBuffer = await response.arrayBuffer();
+                const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+                const audioUrl = URL.createObjectURL(blob);
+                const audio = new Audio(audioUrl);
+                audio.play();
+              } catch (error) {
+                console.error("Error playing audio:", error);
+              }
+            }
+
+            async function handleAIResponse(aiMessage: string) {
+              try {
+                // Start playing the audio
+                await playText(aiMessage);
+
+                // After audio starts playing, hide the loader and show the message
+                thinkingLoader.classList.remove("flex");
+                thinkingLoader.classList.add("hidden");
+                aiQuestionElement.innerText = aiMessage;
+                aiQuestionElement.classList.remove("hidden");
+                aiQuestionElement.classList.add("flex");
+              } catch (error) {
+                // Handle errors (e.g., show an error message)
+                thinkingLoader.classList.remove("flex");
+                thinkingLoader.classList.add("hidden");
+                aiQuestionElement.innerText = "Oops! Something went wrong.";
+                aiQuestionElement.classList.remove("hidden");
+                aiQuestionElement.classList.add("flex");
+              }
+            }
+          </script>
+        </div>
       </div>
 
       <!-- 
@@ -502,7 +672,7 @@ const currentQuestion = 1;
 
       Blocks
      -->
-
+    <Snowfall />
     <Section topBorder className="py-4">
       <div class="grid grid-cols-1 sm:grid-cols-5">
         <div
@@ -518,5 +688,5 @@ const currentQuestion = 1;
         </div>
       </div>
     </Section>
-  </main></Layout
->
+  </main>
+</Layout>

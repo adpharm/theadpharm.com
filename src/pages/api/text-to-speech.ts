@@ -4,11 +4,13 @@ import type { APIRoute } from "astro";
 const userid = process.env.PLAYHT_USER_ID || "";
 const secretkey = process.env.PLAYHT_SECRET_KEY || "";
 
+// s3://voice-cloning-zero-shot/156a7b12-8e75-4f12-870d-d5436df5ec3a/original/manifest.json"
+
 PlayHT.init({
   userId: userid,
   apiKey: secretkey,
   defaultVoiceId:
-    "s3://voice-cloning-zero-shot/156a7b12-8e75-4f12-870d-d5436df5ec3a/original/manifest.json",
+    "s3://voice-cloning-zero-shot/9fc626dc-f6df-4f47-a112-39461e8066aa/oliviaadvertisingsaad/manifest.json",
 });
 
 export const GET: APIRoute = async ({ request }): Promise<Response> => {

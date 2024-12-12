@@ -35,7 +35,7 @@ export const POST: APIRoute = async ({ request }): Promise<Response> => {
 
     // generate ai response with sdk
     const { text } = await generateText({
-      model: openai("gpt-4o-mini"),
+      model: openai("gpt-4o"),
       prompt: prompt,
       temperature: 0.2,
     });
