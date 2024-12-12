@@ -54,7 +54,8 @@
         // "foxundermoon.shell-format",
         "ms-azuretools.vscode-docker",
         "astro-build.astro-vscode",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "oven.bun-vscode"
       ]
     }
   },
