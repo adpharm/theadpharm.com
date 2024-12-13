@@ -21,9 +21,12 @@
   </head>
 
   <body>
+    <!-- <button id="play">Play</button> -->
     <script>
+      const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
+      // collisionSound.play();
       // export the necessary modules
-      import {
+      import Matter, {
         Mouse,
         MouseConstraint,
         Engine,
@@ -59,6 +62,7 @@
       });
 
       const mouse = Mouse.create(mainDiv); //Creating the mouse in the world (i.e. Canvas)
+      console.log("This is the mouse position: ", mouse.position);
       const { world } = engine;
 
       // global variables used throughout the canvas
@@ -97,20 +101,44 @@
         });
       };
 
+      // From Docs: Mouse constraints are used for allowing user interaction, providing the ability to move bodies via the mouse or touch.
       const mouseConstraint = MouseConstraint.create(engine, {
         mouse,
       });
 
-      Events.on(mouseConstraint, "mousedown", (event) => {
-        const { mouse } = event.source;
+      // Fake ball at the top to follow the mouse
+      let movingPlinkoBall: Matter.Body;
+      // mouseConstraint Mousemove event
+      Matter.Events.on(mouseConstraint, "mousemove", (event) => {
+        if (movingPlinkoBall) {
+          Matter.Body.setPosition(movingPlinkoBall, {
+            x: mouse.position.x,
+            y: 20,
+          });
+        } else {
+          movingPlinkoBall = makePlinko(mouse.position.x, 20);
+          movingPlinkoBall.render.fillStyle = "#808080";
+
+          movingPlinkoBall.isStatic = true;
+          Composite.add(world, movingPlinkoBall);
+        }
+      });
+
+      // mouseConstraint mouseUp event
+      Matter.Events.on(mouseConstraint, "mouseup", (event) => {
+        console.log("Mouse is moving", mouse.position);
 
         if (currentPlinkosCount >= maxPlinkosCount) {
-          console.log("Maximum number reached");
+          window.alert(
+            "Maximum number of plinkos reached, please refresh to play again!"
+          );
           return;
         }
 
-        const mouseXLocation = mouse.position.x;
-        const plinkoBall = makePlinko(mouseXLocation, -50);
+        movingPlinkoBall.isStatic = true;
+        movingPlinkoBall.render.fillStyle = "#808080";
+
+        const plinkoBall = makePlinko(mouse.position.x, 40);
         Composite.add(world, plinkoBall);
 
         currentPlinkosCount++;
@@ -221,10 +249,10 @@
 
       // following a collision event retrieve the label of the two bodies
       // if one is a plinko, consider its color and apply it to the other body
-      function handleCollision(event) {
+      function handleCollision(event: { pairs: any }) {
         const { pairs } = event;
 
-        pairs.forEach((pair) => {
+        pairs.forEach((pair: { bodyA: any; bodyB: any }) => {
           const { bodyA, bodyB } = pair;
           const { label: labelA } = bodyA;
           const { label: labelB } = bodyB;
@@ -234,10 +262,12 @@
             if (labelA === "plinko") {
               const { fillStyle } = bodyA.render;
               bodyB.render.fillStyle = fillStyle;
+              collisionSound.play();
             }
             if (labelB === "plinko") {
               const { fillStyle } = bodyB.render;
               bodyA.render.fillStyle = fillStyle;
+              collisionSound.play();
             }
           }
         });
