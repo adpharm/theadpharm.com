@@ -65,15 +65,34 @@ import Layout from "@/layouts/Layout.astro";
   const maxPlinkosCount = 50;
 
   // function fabricating a plinko, as a circle included atop the canvas
-  const makePlinko = (x: number, y: number) => {
+  const makePlinko = (
+    x: number,
+    y: number,
+    size: number,
+    customImage: string
+  ) => {
     // utility function returning a random integer between two values for color selection
     const randomBetweenForColor = (min: number, max: number) =>
       Math.floor(Math.random() * (max - min)) + min;
     // Plinko Ball Color
     const fillStyle = `hsl(${randomBetweenForColor(0, 360)}, 90%, 60%)`;
 
-    const r = 10; //ball size
+    const r = size; //ball size
 
+    if (customImage === "hand") {
+      return Bodies.rectangle(x, y, size * 2, size * 2, {
+        restitution: 0.8,
+        render: {
+          sprite: {
+            texture: "../../src/images/hand.png",
+            xScale: 1.0,
+            yScale: 1.0,
+          },
+        },
+        // add a label to later identify the hand in the collision event
+        label: "hand",
+      });
+    }
     return Bodies.circle(x, y, r, {
       restitution: 0.8, //Restitution is the amount of bounce/elasticness that an object has when it collides with another object.
       render: {
@@ -99,8 +118,7 @@ import Layout from "@/layouts/Layout.astro";
         y: 20,
       });
     } else {
-      movingPlinkoBall = makePlinko(mouse.position.x, 20);
-      movingPlinkoBall.render.fillStyle = "#808080";
+      movingPlinkoBall = makePlinko(mouse.position.x, 20, 20, "hand");
 
       movingPlinkoBall.isStatic = true;
       Composite.add(world, movingPlinkoBall);
@@ -121,7 +139,7 @@ import Layout from "@/layouts/Layout.astro";
     movingPlinkoBall.isStatic = true;
     movingPlinkoBall.render.fillStyle = "#808080";
 
-    const plinkoBall = makePlinko(mouse.position.x, 40);
+    const plinkoBall = makePlinko(mouse.position.x, 40, 10, "ball");
     Composite.add(world, plinkoBall);
 
     currentPlinkosCount++;
