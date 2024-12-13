@@ -89,7 +89,6 @@ import Layout from "@/layouts/Layout.astro";
             yScale: 1.0,
           },
         },
-        // add a label to later identify the hand in the collision event
         label: "hand",
       });
     }
@@ -204,18 +203,39 @@ import Layout from "@/layouts/Layout.astro";
   let contourRightTriangles = [];
 
   for (let i = 120; i < height - bottomMargin; i += 50) {
+    // const leftTriangle = Bodies.polygon(-38, i, 3, 60, {
+    //   isStatic: true,
+    //   angle: Math.PI,
+    //   render: {
+    //     fillStyle: "white",
+    //   },
+    // });
     const leftTriangle = Bodies.polygon(-38, i, 3, 60, {
       isStatic: true,
       angle: Math.PI,
       render: {
-        fillStyle: "white",
+        sprite: {
+          texture: "../../src/images/icy.png",
+          xScale: 0.36, //This is changing the pyramid's altitude (tip tip to floor)
+          yScale: 0.9, //This is making the base wider (so they can touch)
+        },
       },
     });
+    // const rigttTriangle = Bodies.polygon(width + width / 10, i, 3, 60, {
+    //   isStatic: true,
+    //   angle: Math.PI,
+    //   render: {
+    //     fillStyle: "white",
+    //   },
     const rigttTriangle = Bodies.polygon(width + width / 10, i, 3, 60, {
       isStatic: true,
-      angle: Math.PI * 180,
+      angle: 2*Math.PI,
       render: {
-        fillStyle: "white",
+        sprite: {
+          texture: "../../src/images/icy.png",
+          xScale: 0.19, //This is changing the pyramid's altitude (tip tip to floor)
+          yScale: 0.5, //This is making the base wider (so they can touch)
+        },
       },
     });
 
