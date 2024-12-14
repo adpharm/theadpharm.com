@@ -4,6 +4,8 @@ import react from "@astrojs/react";
 
 import vercel from "@astrojs/vercel";
 
+import auth from "auth-astro";
+
 // https://astro.build/config
 export default defineConfig({
   server: {
@@ -12,6 +14,7 @@ export default defineConfig({
     port: 3000,
   },
 
-  integrations: [tailwind(), react()],
+  output: "server",
+  integrations: [tailwind(), react(), auth()],
   adapter: vercel(),
 });

@@ -167,6 +167,13 @@ const desc = `
           active={Astro.url.pathname === "/digital/test-game"}
           className="hidden sm:inline-block"
         /> -->
+
+          <button
+            id="sign-up-button"
+            class="bg-zinc-900 text-white px-3 py-1 rounded-full text-sm"
+          >
+            Sign Up
+          </button>
         </div>
         <div>
       </div>
@@ -225,3 +232,47 @@ const desc = `
     }
   }
 </style>
+
+<script>
+  import { actions } from "astro:actions";
+
+  const signUpButton = document.querySelector("#sign-up-button");
+  signUpButton?.addEventListener("click", async () => {
+    const { data, error } = await actions.signUp({
+      email: "bennene2@gmail.com",
+      password: "password",
+    })
+
+    if (error) {
+      console.error("error");
+      console.error(error);
+    } else {
+      console.log("data");
+      console.log(data);
+    }
+
+    // const response = await fetch('http://localhost:8000/api/users/set-csrf-token', {
+    //   method: 'GET',
+    //   credentials: 'include'
+    // });
+    // const data = await response.json();
+    // const csrftoken = data.csrftoken;
+
+    // const res = await fetch("http://localhost:8000/api/users/signup", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "X-CSRFToken": csrftoken,
+    //   },
+    //   body: JSON.stringify({
+    //     email: "bennene2@gmail.com",
+    //     password: "password",
+    //   }),
+    //   credentials: "include",
+    // });
+
+    // const resData = await res.json();
+    // console.log(resData);
+
+  });
+</script>
