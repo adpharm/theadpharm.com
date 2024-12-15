@@ -1,0 +1,261 @@
+---
+import { Image } from "astro:assets";
+import HeaderTab from "../components/HeaderTab";
+import ADLogo from "@/images/adpharm-digital-logomark.png";
+import "@/styles/global.css";
+import "@/styles/switzer.css";
+import Section from "./Section.astro";
+
+const isProd = import.meta.env.PROD;
+
+interface Props {
+  title: string;
+}
+
+declare const window: Window & { dataLayer: Record<string, unknown>[] };
+
+const { title } = Astro.props;
+
+const desc = `
+  The Adpharm is a full-service healthcare marketing communications agency located in downtown Oakville. 
+  Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch, 
+  nurture and optimize the potential of their brands.
+`;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    {isProd && (
+      // <!-- Google Tag Manager -->
+      <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://gmeter.adpharm.digital/prxy/enc__www.g00gl3t4gm4n4g3r.c0m__enc/enc__/gtm.j5__enc?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','customDataLayer','GTM-KFCZ8V83');
+      </script>
+    )}
+
+
+    {isProd && (
+      // Meta Pixel Code
+      <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '981424656758665');
+      fbq('track', 'PageView');
+      </script>
+      <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=981424656758665&ev=PageView&noscript=1"
+      /></noscript>
+    )}
+
+
+    {isProd && (
+      // LinkedIn Insights Tag
+      <script type="text/javascript" is:inline>
+      _linkedin_partner_id = "5934508";
+      window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+      window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+      </script>
+      <script type="text/javascript" is:inline>
+      (function(l) {
+      if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+      window.lintrk.q=[]}
+      var s = document.getElementsByTagName("script")[0];
+      var b = document.createElement("script");
+      b.type = "text/javascript";b.async = true;
+      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+      s.parentNode.insertBefore(b, s);})(window.lintrk);
+      </script>
+      <noscript>
+      <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=5934508&fmt=gif" />
+      </noscript>
+    )}
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#2b5797" />
+
+    <meta name="theme-color" content="#090909" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.request.url} />
+    <meta property="og:image" content="/ogimage.jpg" />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="720" />
+
+    <title>{title}</title>
+    <meta name="description" content={desc} />
+
+    <slot name="meta" />
+
+    <!-- <script src="matter.js"></script> -->
+  </head>
+  <body>
+    {
+      isProd && (
+        // <!-- Google Tag Manager (noscript) -->
+        <noscript>
+          <iframe
+            src="https://gmeter.adpharm.digital/prxy/enc__www.g00gl3t4gm4n4g3r.c0m__enc/ns.html?id=GTM-KFCZ8V83"
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+          />
+        </noscript>
+        // <!-- End Google Tag Manager (noscript) -->
+      )
+    }
+    <!-- 
+
+
+
+
+
+
+      Header
+     -->
+    <Section>
+      <header
+        class="px-5 sm:px-0 pt-4 sm:pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-between"
+      >
+        <div>
+          <!-- <a href="/">
+            <Image
+              src={ADLogo}
+              alt="The Adpharm"
+              class="w-10"
+            />
+          </a> -->
+        </div>
+        <div
+          class="flex items-center justify-center bg-zinc-800 sm:bg-zinc-900 rounded-full w-full max-w-[32rem] p-1 space-x-0.5"
+        >
+          <HeaderTab
+            title="The Adpharm"
+            href="/"
+            active={Astro.url.pathname === "/"}
+          />
+          <HeaderTab
+            title="Synapse Medcom"
+            href="https://www.synapsemedcom.ca/"
+          />
+          <HeaderTab
+            title="Adpharm Digital"
+            href="/digital"
+            active={Astro.url.pathname === "/digital"}
+            className="hidden sm:inline-block"
+          />
+          <!-- <HeaderTab
+          title="Adpharm Digital Christmas Game"
+          href="/digital/test-game"
+          active={Astro.url.pathname === "/digital/test-game"}
+          className="hidden sm:inline-block"
+        /> -->
+
+          
+        </div>
+        <div>
+      </div>
+      </header>
+    </Section>
+
+    <!-- 
+
+
+
+
+
+      Content
+     -->
+      <div class="pt-40">
+        <button
+        id="sign-up-button"
+        class="bg-zinc-900 text-white px-3 py-1 rounded-full text-sm"
+      >
+        Sign Up
+      </button>
+
+      <button
+        id="sign-in-button"
+        class="bg-zinc-900 text-white px-3 py-1 rounded-full text-sm"
+        >
+        Sign In
+      </button>
+
+      <button id="sign-out-button" class="bg-zinc-900 text-white px-3 py-1 rounded-full text-sm">
+        Sign Out
+      </button>
+
+
+      <h1>Hi {Astro.locals.user?.username}!</h1>
+      </div>
+    <slot />
+  </body>
+</html>
+
+<script>
+  import { actions } from "astro:actions";
+
+  const signUpButton = document.querySelector("#sign-up-button");
+  signUpButton?.addEventListener("click", async () => {
+    const { data, error } = await actions.signUp({
+      email: "bennene2@gmail.com",
+      username: "bennene2",
+      password: "plko0PLKO)",
+    })
+
+    if (error) {
+      console.error("error");
+      console.error(error);
+    } else {
+      console.log("data");
+      console.log(data);
+    }
+  });
+
+  const signInButton = document.querySelector("#sign-in-button");
+  signInButton?.addEventListener("click", async () => {
+    const { data, error } = await actions.signIn({
+      email: "bennene2@gmail.com",
+      password: "plko0PLKO)",
+    })
+
+    if (error) {
+      console.error("error");
+      console.error(error);
+    } else {
+      console.log("data");
+      console.log(data);
+    }
+  });
+
+  const signOutButton = document.querySelector("#sign-out-button");
+  signOutButton?.addEventListener("click", async () => {
+    const { data, error } = await actions.signOutAction();
+
+    if (error) {
+      console.error("error");
+      console.error(error);
+    } else {
+      console.log("data");
+      console.log(data);
+    }
+  });
+</script>

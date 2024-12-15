@@ -1,0 +1,54 @@
+---
+import { db } from "@/db";
+import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
+import { requireNum } from "@/lib/server/parse_int";
+import { eq } from "drizzle-orm";
+
+const { gameId: gameId_ } = Astro.params;
+
+if (!gameId_) throw new Error("No game ID provided");
+
+const gameId = requireNum(gameId_);
+
+// Get the game from the database
+// const plinkoGame = await db
+//   .select()
+//   .from(tablePlinkoGames)
+//   .where(eq(tablePlinkoGames.id, gameId))
+
+// Select the game and all of it's rounds
+// const plinkoGames = await db
+//   .select()
+//   .from(tablePlinkoGames)
+//   .where(eq(tablePlinkoGames.id, gameId));
+
+// const plinkoRounds = await db
+//   .select()
+//   .from(tablePlinkoGameRounds)
+//   .where(eq(tablePlinkoGameRounds.game_id, gameId));
+
+const plinkoGameWithRounds = await db
+  .select({
+    game: tablePlinkoGames, // This will include all columns from the plinkoGames table
+    round: tablePlinkoGameRounds, // This includes all columns from the plinkoGameRounds table
+  })
+  .from(tablePlinkoGames)
+  .leftJoin(
+    tablePlinkoGameRounds,
+    eq(tablePlinkoGames.id, tablePlinkoGameRounds.game_id)
+  )
+  .where(eq(tablePlinkoGames.id, gameId));
+
+if (plinkoGameWithRounds.length === 0) {
+  throw new Error("Game not found");
+}
+
+const game = {
+  ...plinkoGameWithRounds[0].game,
+  rounds: plinkoGameWithRounds.map((row) => row.round).filter(Boolean), // All associated rounds
+};
+
+console.log("game", game);
+---
+
+Hello

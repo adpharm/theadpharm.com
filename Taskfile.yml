@@ -51,110 +51,30 @@ tasks:
   # --------------------------------------------------------------------------------------------------------------------
   # Start commands
   # --------------------------------------------------------------------------------------------------------------------
-  app_start:
-    aliases:
-      - start
+  start:
     deps:
-      - app_start_astro
-      - app_start_django
-
-  app_start_astro:
-    aliases:
-      - start-astro
-    dir: app
-    cmds:
       - bun start
-
-  app_start_django:
-    aliases:
-      - start-django
-    dir: django-admin
-    cmds:
-      - pipenv run python manage.py runserver
 
   # --------------------------------------------------------------------------------------------------------------------
   # Install commands
   # --------------------------------------------------------------------------------------------------------------------
-  app_install:
-    summary: |
-      Usage: 
-        - task app_install
-        - task app_install <packages>
-        - task install
-    aliases:
-      - install
-    deps:
-      - app_astro_install
-      - app_django_install
-
-  app_astro_install:
-    summary: |
-      Usage: 
-        - task app_astro_install
-        - task app_astro_install <packages>
-        - task astro-install
-    aliases:
-      - astro-install
+  install:
     vars:
       packages: "{{.CLI_ARGS}}"
-    dir: app
     cmds:
       - bun install {{.packages | default ""}}
-
-  app_django_install:
-    summary: |
-      Usage: 
-        - task app_django_install
-        - task app_django_install <packages>
-        - task django-install
-    aliases:
-      - django-install
-    vars:
-      packages: "{{.CLI_ARGS}}"
-    dir: django-admin
-    cmds:
-      - pipenv install {{.packages | default ""}}
 
   # --------------------------------------------------------------------------------------------------------------------
   # Migration commands
   # --------------------------------------------------------------------------------------------------------------------
-  app_migrate:
+  drizzle-push:
     interactive: true
-    summary: |
-      Usage: 
-        - task app_migrate
-        - task migrate
-    aliases:
-      - migrate
     cmds:
-      - task: app_migrate_django
-      - task: app_migrate_astro
-
-  app_migrate_django:
-    interactive: true
-    dir: django-admin
-    vars:
-      appname: "{{.CLI_ARGS}}"
-    cmds:
-      - pipenv run python manage.py makemigrations {{.appname | default ""}}
-      - pipenv run python manage.py migrate {{.appname | default ""}}
-
-  app_migrate_astro:
-    interactive: true
-    dir: app
-    cmds:
-      - bun bin/custom_drizzle_introspect.ts --yes
+      - bunx drizzle-kit push
 
   # --------------------------------------------------------------------------------------------------------------------
   # Other commands
   # --------------------------------------------------------------------------------------------------------------------
-  app_manage_py_cmd:
-    interactive: true
-    dir: django-admin
-    vars:
-      command: "{{.CLI_ARGS}}"
-    cmds:
-      - pipenv run python manage.py {{.command}}
 
   ########################################################################################################################
   #

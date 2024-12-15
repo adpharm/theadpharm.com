@@ -3,6 +3,7 @@
 # we can hide the drizzle dir because we generate it dynamically
 drizzle/
 drizzle
+drizzle-django
 
 # google credentials
 google_credentials.json
