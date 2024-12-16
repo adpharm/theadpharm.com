@@ -38,49 +38,71 @@ export const updatePlinkoRoundScoreAndUpsertNextRound = defineAction({
 
       const updatedRoundData = updatedRound[0];
 
-      const insertData: typeof tablePlinkoGameRounds.$inferInsert = {
-        key: getNextRoundKey(updatedRoundData.key),
-        pocket_middle_value: updatedRoundData.pocket_middle_value,
-        pocket_middle_left_1_value: updatedRoundData.pocket_middle_left_1_value,
-        pocket_middle_right_1_value:
-          updatedRoundData.pocket_middle_right_1_value,
-        pocket_middle_left_2_value: updatedRoundData.pocket_middle_left_2_value,
-        pocket_middle_right_2_value:
-          updatedRoundData.pocket_middle_right_2_value,
-        pocket_middle_left_3_value: updatedRoundData.pocket_middle_left_3_value,
-        pocket_middle_right_3_value:
-          updatedRoundData.pocket_middle_right_3_value,
-        game_id: updatedRoundData.game_id,
-      };
+      // get the next round key
+      const nextRoundKey = getNextRoundKey(updatedRoundData.key);
+      let nextRoundData: typeof tablePlinkoGameRounds.$inferSelect | null =
+        null;
 
-      // create/update a round, copying the board configuration from the previous round
-      const nextRound = await trx
-        .insert(tablePlinkoGameRounds)
-        .values(insertData)
-        .onConflictDoUpdate({
-          target: [tablePlinkoGameRounds.game_id, tablePlinkoGameRounds.key],
-          set: insertData,
-        })
-        .returning();
+      // if the next round key is null, we're done
+      if (nextRoundKey === null) {
+        nextRoundData = null;
+      } else {
+        // create/update a round, copying the board configuration from the previous round
+        const nextRoundInsertData: typeof tablePlinkoGameRounds.$inferInsert = {
+          key: nextRoundKey,
+          pocket_middle_value: updatedRoundData.pocket_middle_value,
+          pocket_middle_left_1_value:
+            updatedRoundData.pocket_middle_left_1_value,
+          pocket_middle_right_1_value:
+            updatedRoundData.pocket_middle_right_1_value,
+          pocket_middle_left_2_value:
+            updatedRoundData.pocket_middle_left_2_value,
+          pocket_middle_right_2_value:
+            updatedRoundData.pocket_middle_right_2_value,
+          pocket_middle_left_3_value:
+            updatedRoundData.pocket_middle_left_3_value,
+          pocket_middle_right_3_value:
+            updatedRoundData.pocket_middle_right_3_value,
+          game_id: updatedRoundData.game_id,
+        };
 
-      if (nextRound.length === 0) {
-        throw new ActionError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to create plinko round",
-        });
+        const nextRound = await trx
+          .insert(tablePlinkoGameRounds)
+          .values(nextRoundInsertData)
+          .onConflictDoUpdate({
+            target: [tablePlinkoGameRounds.game_id, tablePlinkoGameRounds.key],
+            set: nextRoundInsertData,
+          })
+          .returning();
+
+        if (nextRound.length === 0) {
+          throw new ActionError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to create plinko round",
+          });
+        }
+
+        nextRoundData = nextRound[0];
       }
 
-      const nextRoundData = nextRound[0];
-
       // update the game with:
-      //   - the new round key
+      //   - the new round key (if there is one)
       //   - updated score
+      const updateData: Partial<typeof tablePlinkoGames.$inferInsert> = {
+        // @ts-expect-error - we know this is valid
+        score: sql`${tablePlinkoGames.score} + ${inputData.roundScore}`,
+      };
+
+      // if there is no next round, the game is over
+      if (nextRoundData === null) {
+        updateData.game_over = true;
+      } else {
+        updateData.current_round_key = nextRoundData.key;
+      }
+
       const game = await trx
         .update(tablePlinkoGames)
-        .set({
-          current_round_key: nextRoundData.key,
-          score: sql`${tablePlinkoGames.score} + ${inputData.roundScore}`,
-        })
+        .set(updateData)
         .where(eq(tablePlinkoGames.id, updatedRoundData.game_id))
         .returning();
 
@@ -106,8 +128,24 @@ export const updatePlinkoRoundScoreAndUpsertNextRound = defineAction({
 
 function getNextRoundKey(
   currentRoundKey: (typeof tablePlinkoGames.current_round_key.enumValues)[number],
-): (typeof tablePlinkoGames.current_round_key.enumValues)[number] {
-  const currentRoundKeyNumber = currentRoundKey.split("rnd")[1];
-  const nextRoundKeyNumber = parseInt(currentRoundKeyNumber) + 1;
-  return `rnd${nextRoundKeyNumber}` as any;
+): (typeof tablePlinkoGames.current_round_key.enumValues)[number] | null {
+  return currentRoundKey === "rnd1"
+    ? "rnd2"
+    : currentRoundKey === "rnd2"
+      ? "rnd3"
+      : currentRoundKey === "rnd3"
+        ? "rnd4"
+        : currentRoundKey === "rnd4"
+          ? "rnd5"
+          : currentRoundKey === "rnd5"
+            ? "rnd6"
+            : currentRoundKey === "rnd6"
+              ? "rnd7"
+              : currentRoundKey === "rnd7"
+                ? "rnd8"
+                : currentRoundKey === "rnd8"
+                  ? "rnd9"
+                  : currentRoundKey === "rnd9"
+                    ? "rnd10"
+                    : null;
 }

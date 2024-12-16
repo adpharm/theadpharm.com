@@ -11,10 +11,15 @@ import {
 import { useStore } from "@nanostores/react";
 import { Button } from "../ui/button";
 import {
-  $currentRoundState,
-  $gameState,
+  // $currentRoundState,
+  // $gameState,
+  // $nextRoundRemoteData,
+  // resetCurrentRoundToNext,
   $nextRoundRemoteData,
-  resetCurrentRoundToNext,
+  $currentRoundRemoteData,
+  $gameRemoteData,
+  $roundResult,
+  $gameState,
 } from "@/lib/stores";
 
 /**
@@ -22,13 +27,15 @@ import {
  * @returns
  */
 export function PlinkoRoundWaitingToStartDialog() {
-  const currentRoundState = useStore($currentRoundState);
-  const openDialog = currentRoundState.state === "waiting_to_start";
+  const currentRoundData = useStore($currentRoundRemoteData);
+  const gameState = useStore($gameState);
+  const openDialog = gameState === "waiting_to_start";
 
   // change the round to in progress
   function startRound() {
     // $currentRoundState.set("in_progress");
-    $currentRoundState.setKey("state", "in_progress");
+    // $currentRoundState.setKey("state", "in_progress");
+    $gameState.set("round_in_progress");
   }
 
   return (
@@ -37,7 +44,7 @@ export function PlinkoRoundWaitingToStartDialog() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Round {currentRoundState.remoteData?.key} is about to start!
+            Round {currentRoundData?.key} is about to start!
           </DialogTitle>
           <DialogDescription>Get ready to drop your balls</DialogDescription>
         </DialogHeader>
@@ -56,14 +63,27 @@ export function PlinkoRoundWaitingToStartDialog() {
  * Post-round dialog
  */
 export function PlinkoRoundEndedDialog() {
-  const currentRoundState = useStore($currentRoundState);
-  const nextRoundRemoteData = useStore($nextRoundRemoteData);
-  const openDialog = currentRoundState.state === "ended";
+  const currentRoundData = useStore($currentRoundRemoteData);
+  const nextRoundData = useStore($nextRoundRemoteData);
+  const gameState = useStore($gameState);
+  const openDialog = gameState === "round_ended";
 
   // change the round state to waiting to start
   function nextRound() {
     // reset the current round to the next round
-    resetCurrentRoundToNext(nextRoundRemoteData);
+    // resetCurrentRoundToNext(nextRoundRemoteData);
+    $roundResult.set(null);
+    $gameState.set("waiting_to_start");
+
+    // const nextRound = $nextRoundRemoteData.get();
+
+    // if there is a next round, set the current round to the next round
+    if (nextRoundData) {
+      $currentRoundRemoteData.set(nextRoundData);
+      $nextRoundRemoteData.set(null);
+    } else {
+      // otherwise, the game is over.
+    }
 
     // reload the page
     // location.reload();
@@ -74,11 +94,9 @@ export function PlinkoRoundEndedDialog() {
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Round {currentRoundState.remoteData?.key} has ended!
-          </DialogTitle>
+          <DialogTitle>Round {currentRoundData?.key} has ended!</DialogTitle>
           <DialogDescription>
-            Your score is {currentRoundState.score}
+            Your score is {currentRoundData?.score}
           </DialogDescription>
         </DialogHeader>
 

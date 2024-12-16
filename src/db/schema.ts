@@ -56,7 +56,9 @@ export const tableSessions = pgTable(
   {
     // id: serial().primaryKey(),
     id: text().primaryKey(),
-    user_id: integer().references(() => tableUsers.id),
+    user_id: integer()
+      .notNull()
+      .references(() => tableUsers.id),
     expires_at: timestamp({ withTimezone: true }).notNull(),
     // two_factor_verified: boolean().notNull().default(false),
   },
@@ -104,9 +106,12 @@ export const tablePlinkoGames = pgTable(
   {
     ...timestamps,
     id: serial().primaryKey(),
-    user_id: integer().references(() => tableUsers.id),
+    user_id: integer()
+      .notNull()
+      .references(() => tableUsers.id),
     current_round_key: text({ enum: roundKeys }).notNull().default("rnd1"),
     score: integer().notNull().default(0),
+    game_over: boolean().notNull().default(false),
   },
   (table) => [
     // Ensure that the user_uuid is unique

@@ -13,7 +13,7 @@ export const newPlinko = defineAction({
   // accept: "form",
   input: z.object({}),
   handler: async (inputData, context) => {
-    requireAuth(context);
+    const user = requireAuth(context);
 
     const res = await db.transaction(async (trx) => {
       // create a new plinko game
@@ -21,6 +21,7 @@ export const newPlinko = defineAction({
         .insert(tablePlinkoGames)
         .values({
           current_round_key: "rnd1",
+          user_id: user.id,
         })
         .returning();
 
