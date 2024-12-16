@@ -4,6 +4,7 @@ import { signUpAction, signUpAndSignInAnonUser } from "./auth/signup";
 import { signInAction } from "./auth/signin";
 import { signOutAction } from "./auth/signout";
 import { newPlinko } from "./plinko/new_plinko";
+import { updatePlinkoRoundScoreAndUpsertNextRound } from "./plinko/update_plink_round_score_and_upsert_next_round";
 
 export const server = {
   // auth
@@ -14,6 +15,7 @@ export const server = {
 
   // plinko
   newPlinko,
+  updatePlinkoRoundScoreAndUpsertNextRound,
 
   // signUp: defineAction({
   //   input: z.object({

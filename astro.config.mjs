@@ -4,6 +4,8 @@ import react from "@astrojs/react";
 
 import vercel from "@astrojs/vercel";
 
+import inoxToolsRequestNanostores from "@inox-tools/request-nanostores";
+
 // import auth from "auth-astro";
 
 // https://astro.build/config
@@ -20,9 +22,9 @@ export default defineConfig({
     tailwind({
       // To prevent serving the Tailwind base styles twice
       applyBaseStyles: false,
-    }),
+    }), // auth(),
     react(),
-    // auth(),
+    inoxToolsRequestNanostores(),
   ],
 
   adapter: vercel(),

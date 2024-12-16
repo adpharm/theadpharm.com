@@ -1,16 +1,12 @@
 import { db } from "@/db";
 import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
 import { requireAuth } from "@/lib/server/auth_utils";
-import {
-  deleteSessionTokenCookie,
-  invalidateSession,
-} from "@/lib/server/session";
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
 /**
  *
- * For registering a new user
+ * For creating a new plinko game
  *
  */
 export const newPlinko = defineAction({

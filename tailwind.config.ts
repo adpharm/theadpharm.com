@@ -4,6 +4,9 @@ export default {
   darkMode: "class", // or 'media' or 'class'
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
+    fontFamily: {
+      sans: ["Switzer-Variable", "Inter", "sans-serif"],
+    },
     extend: {
       // colors: {
       //   black: "#000",

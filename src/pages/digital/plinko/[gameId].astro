@@ -3,6 +3,16 @@ import { db } from "@/db";
 import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
 import { requireNum } from "@/lib/server/parse_int";
 import { eq } from "drizzle-orm";
+import { actions } from "astro:actions";
+import Auth from "@/layouts/Auth.astro";
+import Layout from "@/layouts/Layout.astro";
+// import { $currentRound, $roundScore } from "@/lib/stores";
+import {
+  $currentRoundLocalSettings,
+  $currentRoundDatabaseSettings,
+} from "@/lib/stores";
+import { allTasks } from "nanostores";
+import PlinkoGame from "@/layouts/PlinkoGame.astro";
 
 const { gameId: gameId_ } = Astro.params;
 
@@ -49,6 +59,780 @@ const game = {
 };
 
 console.log("game", game);
+
+// $roundKey.set(game.current_round_key);
+
+// $roundKey.listen(() => {});
+// await allTasks();
+
+// console.log("current round in store:", $roundKey.get());
+
+const currentRoundKey = game.current_round_key;
+const currentRound = game.rounds.find(
+  (round) => round?.key === currentRoundKey
+);
+
+if (!currentRound) {
+  throw new Error("No current round found");
+}
+
+$currentRoundDatabaseSettings.set(currentRound);
 ---
 
-Hello
+<p>
+  Current round key: <span>{$currentRoundDatabaseSettings.get().key}</span>
+</p>
+<p>
+  Round score:&nbsp;<span id="game.round.score"></span>
+</p>
+<p>
+  Total score: <span id="game.score">{game.score}</span>
+</p>
+
+<!-- Hello Current round key: {$roundKey.get()} --><!-- 
+1. do signup/session/new game together so that there isn't a weird state where the user is signed up but doesn't have a game
+      meh idk if this is the best idea
+
+2. get game going with round settings
+3. get round submissions working
+4. ...
+-->
+<script>
+  const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
+  // collisionSound.play();
+  // export the necessary modules
+  import {
+    Mouse,
+    MouseConstraint,
+    Engine,
+    Render,
+    World,
+    Body,
+    Bodies,
+    Events,
+    Runner,
+    Composite,
+    type ICollisionCallback,
+  } from "matter-js";
+  // import {
+  //   $numBalls,
+  //   $roundScore,
+  //   $currentRound,
+  //   $currentRoundState,
+  // } from "@/lib/stores";
+  import type { tablePlinkoGameRounds } from "@/db/schema";
+  import { actions } from "astro:actions";
+  import {
+    $currentRoundDatabaseSettings,
+    $currentRoundLocalSettings,
+  } from "@/lib/stores";
+
+  const roundScoreCounter = document.getElementById("game.round.score");
+
+  let currentRoundLocalSettings = $currentRoundLocalSettings.get();
+  const _currentRoundLocalSettingsListener =
+    $currentRoundLocalSettings.subscribe((val, prev) => {
+      console.log("round local settings: ", val);
+      currentRoundLocalSettings = val;
+
+      if (roundScoreCounter) {
+        roundScoreCounter.textContent = val.score.toString();
+      }
+    });
+
+  let currentRoundDatabaseSettings = $currentRoundDatabaseSettings.get();
+  const _currentRoundKeyListener = $currentRoundDatabaseSettings.subscribe(
+    (val, prev) => {
+      console.log("round db settings: ", val);
+      currentRoundDatabaseSettings = val;
+    }
+  );
+
+  // set up the engine and environment
+  const engine = Engine.create();
+  const runner = Runner.create();
+
+  const matterCanvas: HTMLCanvasElement | null =
+    document.querySelector(".matterCanvas");
+
+  if (!matterCanvas) {
+    throw new Error("matterCanvas not found");
+  }
+
+  // set up the renderer
+  const render = Render.create({
+    canvas: matterCanvas,
+    engine,
+    // set a background slightly lighter than the body's own background
+    options: {
+      wireframes: false,
+      background: "hsl(225, 60%, 20%)",
+      width: 400,
+      height: 600,
+    },
+  });
+
+  const mouse = Mouse.create(matterCanvas); //Creating the mouse in the world (i.e. Canvas)
+  console.log("This is the mouse position: ", mouse.position);
+  const { world } = engine;
+
+  // global variables used throughout the canvas
+  const width = 400; //800
+  const height = 600;
+  // // number of columns and rows for the grid of pegs
+  // const columns = 7; //10
+  // const rows = 11; //20
+  // // margin to allocate buckets underneath the grid
+  // // const bottomMargin = 150;
+  // const topMargin = 50;
+
+  // // padding to include make space for two rectangles at either side of the canvas
+  // // const padding = width / columns / 2;
+  // const padding = 0;
+
+  // function fabricating a plinko, as a circle included atop the canvas
+  const makePlinko = ({
+    x,
+    y,
+    size,
+    customImage,
+  }: {
+    x: number;
+    y: number;
+    size: number;
+    customImage: string;
+  }) => {
+    // utility function returning a random integer between two values for color selection
+    const randomBetweenForColor = (min: number, max: number) =>
+      Math.floor(Math.random() * (max - min)) + min;
+    // Plinko Ball Color
+    const fillStyle = `hsl(${randomBetweenForColor(0, 360)}, 90%, 60%)`;
+
+    const r = size; //ball size
+
+    if (customImage === "hand") {
+      return Bodies.rectangle(x, y, size * 2, size * 2, {
+        restitution: 0.8,
+        render: {
+          sprite: {
+            texture: "../../src/images/hand.png",
+            xScale: 1.0,
+            yScale: 1.0,
+          },
+        },
+        label: "hand",
+      });
+    }
+    return Bodies.circle(x, y, r, {
+      restitution: 0.8, //Restitution is the amount of bounce/elasticness that an object has when it collides with another object.
+      render: {
+        fillStyle,
+      },
+      // add a label to later identify the circle in the collision event
+      label: "plinko",
+    });
+  };
+
+  // From Docs: Mouse constraints are used for allowing user interaction, providing the ability to move bodies via the mouse or touch.
+  const mouseConstraint = MouseConstraint.create(engine, {
+    mouse,
+  });
+
+  const ballSize = 10;
+
+  // Fake ball at the top to follow the mouse
+  let movingPlinkoBall: Matter.Body;
+  // mouseConstraint Mousemove event
+  Events.on(mouseConstraint, "mousemove", (event) => {
+    if (movingPlinkoBall) {
+      Body.setPosition(movingPlinkoBall, {
+        x: mouse.position.x,
+        y: 20,
+      });
+    } else {
+      // movingPlinkoBall = makePlinko(mouse.position.x, 20, 20, "hand");
+      movingPlinkoBall = makePlinko({
+        x: mouse.position.x,
+        y: 20,
+        size: ballSize,
+        customImage: "hand",
+      });
+
+      movingPlinkoBall.isStatic = true;
+      Composite.add(world, movingPlinkoBall);
+    }
+  });
+
+  let currentAlivePlinkos = 0;
+
+  // mouseConstraint mouseUp event
+  Events.on(mouseConstraint, "mouseup", (event) => {
+    if (currentRoundLocalSettings.numBallsRemaining <= 0) {
+      console.log("No more balls remaining");
+      return;
+    }
+
+    movingPlinkoBall.isStatic = true;
+    movingPlinkoBall.render.fillStyle = "#808080";
+
+    // const plinkoBall = makePlinko(mouse.position.x, 40, 10, "ball");
+    const plinkoBall = makePlinko({
+      x: mouse.position.x,
+      y: 40,
+      size: ballSize,
+      customImage: "ball",
+    });
+    Composite.add(world, plinkoBall);
+
+    currentAlivePlinkos++;
+    // $numBalls.set(numBallsRemaining - 1);
+    $currentRoundLocalSettings.setKey(
+      "numBallsRemaining",
+      currentRoundLocalSettings.numBallsRemaining - 1
+      // numBallsRemaining - 1
+    );
+  });
+
+  const pockets: Body[] = [];
+  const pocketDividers: Body[] = [];
+  const pocketsSettings = {
+    pocket_middle_left_3: {
+      value: currentRoundDatabaseSettings.pocket_middle_left_3_value,
+      powerUps: currentRoundDatabaseSettings.pocket_middle_left_3_power_ups,
+    },
+    pocket_middle_left_2: {
+      value: currentRoundDatabaseSettings.pocket_middle_left_2_value,
+      powerUps: currentRoundDatabaseSettings.pocket_middle_left_2_power_ups,
+    },
+    pocket_middle_left_1: {
+      value: currentRoundDatabaseSettings.pocket_middle_left_1_value,
+      powerUps: currentRoundDatabaseSettings.pocket_middle_left_1_power_ups,
+    },
+    pocket_middle: {
+      value: currentRoundDatabaseSettings.pocket_middle_value,
+      powerUps: currentRoundDatabaseSettings.pocket_middle_power_ups,
+    },
+    pocket_middle_right_1: {
+      value: currentRoundDatabaseSettings.pocket_middle_right_1_value,
+      powerUps: currentRoundDatabaseSettings.pocket_middle_right_1_power_ups,
+    },
+    pocket_middle_right_2: {
+      value: currentRoundDatabaseSettings.pocket_middle_right_2_value,
+      powerUps: currentRoundDatabaseSettings.pocket_middle_right_2_power_ups,
+    },
+    pocket_middle_right_3: {
+      value: currentRoundDatabaseSettings.pocket_middle_right_3_value,
+      powerUps: currentRoundDatabaseSettings.pocket_middle_right_3_power_ups,
+    },
+  } as const;
+  const pocketKeys = Object.keys(
+    pocketsSettings
+  ) as (keyof typeof pocketsSettings)[];
+  // const pocketKeys = [
+  //   // "pocket_middle_left_4",
+  //   "pocket_middle_left_3",
+  //   "pocket_middle_left_2",
+  //   "pocket_middle_left_1",
+  //   "pocket_middle",
+  //   "pocket_middle_right_1",
+  //   "pocket_middle_right_2",
+  //   "pocket_middle_right_3",
+  //   // "pocket_middle_right_4",
+  // ] as const;
+
+  const pocketWidth = width / pocketKeys.length;
+  const pocketHeight = 50;
+  const pocketDividerHeight = 50;
+
+  pocketKeys.forEach((pocketKey, index) => {
+    // make pockets
+    const pocket_ = {
+      x: pocketWidth * index + pocketWidth / 2,
+      y: height - pocketHeight / 2,
+      width: pocketWidth,
+      height: pocketHeight,
+    };
+    const pocket = Bodies.rectangle(
+      pocket_.x,
+      pocket_.y,
+      pocket_.width,
+      pocket_.height,
+      {
+        isStatic: true,
+        label: pocketKey,
+        render: {
+          fillStyle: "white",
+        },
+      }
+    );
+
+    pockets.push(pocket);
+
+    // make pocket dividers
+    if (index > 0) {
+      const pocketDivider_ = {
+        x: pocket_.x - pocketWidth / 2,
+        y: pocket_.y - pocket_.height + 5,
+        width: 5,
+        height: pocketDividerHeight,
+      };
+      const pocketDivider = Bodies.rectangle(
+        pocketDivider_.x,
+        pocketDivider_.y,
+        pocketDivider_.width,
+        pocketDivider_.height,
+        {
+          isStatic: true,
+          render: {
+            fillStyle: "white",
+          },
+        }
+      );
+
+      pocketDividers.push(pocketDivider);
+    }
+  });
+
+  // function fabricating a bucket, as a white taller-than-wider rectangle positioned at the bottom of the canvas
+  // const makeBucket = (x: number) => {
+  //   const w = 5;
+  //   const h = 80;
+  //   const y = height - h / 2;
+
+  //   return Bodies.rectangle(x, y, w, h, {
+  //     isStatic: true,
+  //     // label:
+  //     render: {
+  //       fillStyle: "white",
+  //     },
+  //   });
+  // };
+
+  // PLINKO's elements
+  // to prevent the plinkos from bouncing off the canvas's scope, include rectangle elements at the bottom and sides of the element
+  // const contourSize = 50;
+  // const contourBottom = Bodies.rectangle(
+  //   width / 2,
+  //   height + contourSize / 2,
+  //   width,
+  //   contourSize,
+  //   {
+  //     isStatic: true,
+  //   }
+  // );
+
+  // use the padding to create the left and right walls as white tall and thin rectangles
+  // the idea is to have them pick up the color of the plinkos coming into contact with the shape
+  // const contourLeft = Bodies.rectangle(0, 0, padding / 2, height * 2, {
+  //   isStatic: true,
+  //   render: {
+  //     fillStyle: "white",
+  //   },
+  // });
+  // const contourRight = Bodies.rectangle(width, 0, padding / 2, height * 2, {
+  //   isStatic: true,
+  //   render: {
+  //     fillStyle: "white",
+  //   },
+  // });
+
+  const pegGrid = {
+    pegSize: 10,
+    numRows: 13, // this number should be odd
+    paddingTop: 50,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: pocketHeight + pocketDividerHeight + 20,
+  } as const;
+
+  let contourLeftTriangles = [];
+  let contourRightTriangles = [];
+
+  for (
+    let i = pegGrid.paddingTop;
+    i < height - pegGrid.paddingBottom;
+    i += 50
+  ) {
+    const leftTriangle_ = {
+      x: -30,
+      y: i,
+      sides: 3,
+      radius: 60,
+    } as const;
+    const leftTriangle = Bodies.polygon(
+      leftTriangle_.x,
+      leftTriangle_.y,
+      leftTriangle_.sides,
+      leftTriangle_.radius,
+      {
+        isStatic: true,
+        angle: Math.PI,
+        render: {
+          sprite: {
+            texture: "../../src/images/icy.png",
+            xScale: 0.36, //This is changing the pyramid's altitude (tip tip to floor)
+            yScale: 0.9, //This is making the base wider (so they can touch)
+          },
+        },
+      }
+    );
+
+    const rightTriangle_ = {
+      x: width + 30,
+      // x: width + width / 10,
+      y: i,
+      sides: 3,
+      radius: 60,
+    } as const;
+    const rigttTriangle = Bodies.polygon(
+      rightTriangle_.x,
+      rightTriangle_.y,
+      rightTriangle_.sides,
+      rightTriangle_.radius,
+      {
+        isStatic: true,
+        angle: 2 * Math.PI,
+        render: {
+          // fillStyle: "white",
+          sprite: {
+            texture: "../../src/images/icy.png",
+            xScale: 0.19, //This is changing the pyramid's altitude (tip tip to floor)
+            yScale: 0.5, //This is making the base wider (so they can touch)
+          },
+        },
+      }
+    );
+
+    contourLeftTriangles.push(leftTriangle);
+    contourRightTriangles.push(rigttTriangle);
+  }
+
+  // const floor = Bodies.rectangle(width / 2, height + 48, width, 100, {
+  //   isStatic: true,
+  //   label: "floor",
+  //   render: {
+  //     fillStyle: "white",
+  //   },
+  // });
+
+  const leftWall_ = {
+    x: -1,
+    y: height / 2,
+    width: 1,
+    height: height,
+  } as const;
+  const leftWall = Bodies.rectangle(
+    leftWall_.x,
+    leftWall_.y,
+    leftWall_.width,
+    leftWall_.height,
+    {
+      isStatic: true,
+      label: "leftWall",
+      render: {
+        fillStyle: "white",
+      },
+    }
+  );
+
+  const rightWall_ = {
+    x: width + 1,
+    y: height / 2,
+    width: 1,
+    height: height,
+  } as const;
+  const rightWall = Bodies.rectangle(
+    rightWall_.x,
+    rightWall_.y,
+    rightWall_.width,
+    rightWall_.height,
+    {
+      isStatic: true,
+      label: "rightWall",
+      render: {
+        fillStyle: "white",
+      },
+    }
+  );
+
+  World.add(world, [
+    // floor,
+    leftWall,
+    rightWall,
+  ]);
+
+  World.add(world, [...contourLeftTriangles, ...contourRightTriangles]);
+
+  // const contourLeftTriangles = Bodies.polygon(10, 123, 3, 20, {
+  //   isStatic: true,
+  //   angle: Math.PI / 3,
+  //   render: {
+  //     fillStyle: "white",
+  //   },
+  // });
+
+  // const contours = [contourLeftTriangles, contourRightTriangles];
+
+  // plinko
+  // an array of plinkos; the idea is to populate with the world immediately with a set number of plinkos
+  // const plinkos = Array.from({ length: initialPlinkos }, () =>
+  //   makePlinko()
+  // );
+
+  // function fabricating a peg, as a white circle with a static position
+  // accepting as input the coordinates of the circle's center
+  const makePeg = (x: number, y: number) => {
+    const r = pegGrid.pegSize / 2;
+
+    return Bodies.circle(x, y, r, {
+      isStatic: true,
+      render: { fillStyle: "white" },
+      // add a label to later identify the circle in the collision event
+      label: "peg",
+    });
+  };
+
+  // pegs
+  // array of columns and rows; the idea is to have pegs ranging the width and height of the canvas
+  // use the padding to reduce the horizontal space allocated to the pegs
+  // const columnSize =
+  //   (width - pegGrid.paddingLeft - pegGrid.paddingRight) / pegGrid.numColumns;
+  // const columnSize = pocketWidth;
+  const numPegsInRow = pocketKeys.length - 1;
+
+  const rowSize =
+    (height - pegGrid.paddingTop - pegGrid.paddingBottom) / pegGrid.numRows;
+
+  const grid = Array.from({ length: pegGrid.numRows }, (_, rowIdx) => {
+    // if the row is odd the number of pegs to create is one less than the number of pegs in the row
+    const pegsToCreate = rowIdx % 2 === 0 ? numPegsInRow : numPegsInRow - 1;
+    // we have to shift the pegs to the right by half the column size
+    const xOffset = pegsToCreate !== numPegsInRow ? pocketWidth / 2 : 0;
+
+    return Array.from({ length: pegsToCreate }, (_, pegIdx) => {
+      const x = pocketWidth + pocketWidth * pegIdx + xOffset;
+      const y = rowSize * rowIdx + rowSize / 2 + pegGrid.paddingTop;
+      return makePeg(x, y);
+    });
+
+    // if the row is even, the number of columns is 1 plus the number of pegs in the row
+    // // const cols = row % 2 === 0 ? numPegsInRow + 1 : numPegsInRow;
+    // // if the row is even, the pegs are shifted to the right by half the column size
+    // const dx = cols !== pegGrid.numColumns ? columnSize / 2 : 0;
+    // // create the pegs for the row
+    // return Array.from({ length: cols }, (_, columnIdx) => {
+    //   // calculate the x and y position of the peg
+    //   // const x = padding + columnSize * column + columnSize / 2 + dx;
+    //   // const x = pegGrid.paddingLeft + columnSize * column + columnSize / 2 + dx;
+    //   const x =
+    //     pegGrid.paddingLeft +
+    //     columnSize * columnIdx +
+    //     // columnSize / 2 +
+    //     dx;
+    //   // pegGrid.pegSize / 2;
+    //   // const y = rowSize * row + rowSize / 2 + topMargin;
+    //   const y = rowSize * row + rowSize / 2 + pegGrid.paddingTop;
+    //   // create the peg
+    //   return makePeg(x, y);
+    // });
+  });
+
+  // since grid refers to a 2d array, flatten the items to a one-dimensional array
+  const pegs = grid.reduce((acc, curr) => [...acc, ...curr], []);
+
+  // Now we create the world for the game by adding the objects into the world.
+  World.add(world, [
+    ...contourLeftTriangles,
+    ...pegs,
+    ...pockets,
+    ...pocketDividers,
+  ]); //ceating the world without plinkos. They come out when I click on the button
+
+  // function adding a single plinko, used following a mouse press and at an interval
+  // function addPlinko() {
+  //   const plinko = makePlinko(width / 2, height / 2);
+  //   console.log("Plinko has been added", plinko);
+  //   World.add(world, plinko);
+  //   // Engine.update(engine);
+  // }
+
+  const handleCollision: ICollisionCallback = (event) => {
+    const { pairs } = event;
+    // for (const pair of pairs) {
+    //   if (pair.bodyA.label === "plinko")
+    // }
+
+    pairs.forEach((pair) => {
+      // get the x position of the plinko and floor collision
+      const { bodyA, bodyB } = pair;
+      const { label: labelA } = bodyA;
+      const { label: labelB } = bodyB;
+
+      // we only care about plinko collisions
+      if (labelA !== "plinko" && labelB !== "plinko") {
+        return;
+      }
+
+      let plinko: Matter.Body;
+      let other: Matter.Body;
+
+      if (labelA === "plinko") {
+        plinko = bodyA;
+        other = bodyB;
+      } else {
+        plinko = bodyB;
+        other = bodyA;
+      }
+
+      // if the plinko is colliding with a pocket
+      if (isPocketsKey(other.label)) {
+        // get the pocket in which the plinko has fallen
+        // const pocket = pockets.find((pocket) => pocket.label === other.label);
+        // console.log("Plinko has fallen into pocket", pocket);
+        const pocketSettings = pocketsSettings[other.label];
+
+        // update the score
+        // $roundScore.set($roundScore.get() + pocketSettings.value);
+        $currentRoundLocalSettings.setKey(
+          "score",
+          currentRoundLocalSettings.score + pocketSettings.value
+        );
+
+        // remove the plinko from the world
+        World.remove(world, plinko);
+        currentAlivePlinkos--;
+
+        return;
+      }
+
+      // following a collision event retrieve the label of the two bodies
+      // if one is a plinko, consider its color and apply it to the other body
+      // const { bodyA, bodyB } = pair;
+      // const { label: labelA } = bodyA;
+      // const { label: labelB } = bodyB;
+
+      // ! change the color only if one of the two body is a plinko
+      // if (labelA !== labelB) {
+      //   if (labelA === "plinko") {
+      //     const { fillStyle } = bodyA.render;
+      //     bodyB.render.fillStyle = fillStyle;
+      //     collisionSound.play();
+      //   }
+      //   if (labelB === "plinko") {
+      //     const { fillStyle } = bodyB.render;
+      //     bodyA.render.fillStyle = fillStyle;
+      //     collisionSound.play();
+      //   }
+      // }
+    });
+  };
+  Events.on(engine, "collisionStart", handleCollision);
+
+  function isPocketsKey(key: string): key is keyof typeof pocketsSettings {
+    return key in pocketsSettings;
+  }
+
+  // poll if the round is over (no more balls in the world)
+  const pollRoundEnd = setInterval(() => {
+    if (
+      currentRoundLocalSettings.numBallsRemaining <= 0 &&
+      currentAlivePlinkos <= 0
+    ) {
+      clearInterval(pollRoundEnd);
+      onRoundEnd();
+    } else {
+      console.log("Polling round end");
+    }
+  }, 2000);
+
+  /**
+   * function to handle the end of the round
+   */
+  async function onRoundEnd() {
+    console.log("Round ended");
+
+    // if (!currentRound) {
+    //   throw new Error("No current round found");
+    // }
+
+    // update the round score in the database
+    const { data, error } =
+      await actions.updatePlinkoRoundScoreAndUpsertNextRound({
+        roundId: currentRoundDatabaseSettings.id,
+        roundScore: currentRoundLocalSettings.score,
+      });
+
+    if (error) {
+      console.error("Error updating round score", error);
+      return;
+    }
+
+    console.log("Round score updated", data);
+
+    // trigger the dialog
+    // $currentRoundState.set("ended");
+    $currentRoundLocalSettings.setKey("state", "ended");
+  }
+
+  // run the engine
+  Runner.run(runner, engine); //We have eto create and run the runner so that the engine start playing the annimation.
+  // run the renderer
+  Render.run(render);
+</script>
+
+<Layout title="Let's play Christmas Plinko! by The Adpharm">
+  <Auth>
+    <PlinkoGame>
+      <main class="flex flex-col min-h-screen">
+        <div class="max-w-xl mx-auto pt-32">
+          <h1>Plinko!</h1>
+
+          <!-- <Button type="button" id="plinko.new"> New game </Button> -->
+
+          <div>
+            <canvas class="matterCanvas"></canvas>
+          </div>
+
+          <div class="grid grid-cols-7 text-center">
+            <div>
+              {currentRound.pocket_middle_left_3_value}
+            </div>
+            <div>
+              {currentRound.pocket_middle_left_2_value}
+            </div>
+            <div>
+              {currentRound.pocket_middle_left_1_value}
+            </div>
+            <div>
+              {currentRound.pocket_middle_value}
+            </div>
+            <div>
+              {currentRound.pocket_middle_right_1_value}
+            </div>
+            <div>
+              {currentRound.pocket_middle_right_2_value}
+            </div>
+            <div>
+              {currentRound.pocket_middle_right_3_value}
+            </div>
+          </div>
+        </div>
+      </main>
+    </PlinkoGame>
+  </Auth>
+</Layout>
+
+<script>
+  import { actions } from "astro:actions";
+
+  const newGameButton = document.getElementById("plinko.new");
+  newGameButton?.addEventListener("click", async () => {
+    const { data, error } = await actions.newPlinko({});
+    if (error) {
+      console.error("Error creating new game", error);
+      return;
+    }
+
+    console.log("New game created", data);
+  });
+</script>
