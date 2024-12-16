@@ -8,8 +8,9 @@ import Auth from "@/layouts/Auth.astro";
 import Layout from "@/layouts/Layout.astro";
 // import { $currentRound, $roundScore } from "@/lib/stores";
 import {
-  $currentRoundLocalSettings,
-  $currentRoundDatabaseSettings,
+  $gameState,
+  $currentRoundState,
+  $nextRoundRemoteData,
 } from "@/lib/stores";
 import { allTasks } from "nanostores";
 import PlinkoGame from "@/layouts/PlinkoGame.astro";
@@ -53,40 +54,31 @@ if (plinkoGameWithRounds.length === 0) {
   throw new Error("Game not found");
 }
 
-const game = {
-  ...plinkoGameWithRounds[0].game,
-  rounds: plinkoGameWithRounds.map((row) => row.round).filter(Boolean), // All associated rounds
-};
-
-console.log("game", game);
-
-// $roundKey.set(game.current_round_key);
-
-// $roundKey.listen(() => {});
-// await allTasks();
-
-// console.log("current round in store:", $roundKey.get());
+const game = plinkoGameWithRounds[0].game;
+const gameRounds = plinkoGameWithRounds.map((row) => row.round).filter(Boolean);
 
 const currentRoundKey = game.current_round_key;
-const currentRound = game.rounds.find(
-  (round) => round?.key === currentRoundKey
-);
+const currentRound = gameRounds.find((round) => round?.key === currentRoundKey);
 
 if (!currentRound) {
   throw new Error("No current round found");
 }
 
-$currentRoundDatabaseSettings.set(currentRound);
+console.log("Current round: ", currentRound.key);
+
+$currentRoundState.setKey("remoteData", currentRound);
+$gameState.setKey("remoteData", game);
+$gameState.setKey("score", game.score);
 ---
 
 <p>
-  Current round key: <span>{$currentRoundDatabaseSettings.get().key}</span>
+  Current round key: <span>{$currentRoundState.get().remoteData?.key}</span>
 </p>
 <p>
   Round score:&nbsp;<span id="game.round.score"></span>
 </p>
 <p>
-  Total score: <span id="game.score">{game.score}</span>
+  Total score: <span id="game.score">{$gameState.get().score}</span>
 </p>
 
 <!-- Hello Current round key: {$roundKey.get()} --><!-- 
@@ -123,28 +115,27 @@ $currentRoundDatabaseSettings.set(currentRound);
   import type { tablePlinkoGameRounds } from "@/db/schema";
   import { actions } from "astro:actions";
   import {
-    $currentRoundDatabaseSettings,
-    $currentRoundLocalSettings,
+    $currentRoundState,
+    $gameState,
+    $nextRoundRemoteData,
   } from "@/lib/stores";
 
   const roundScoreCounter = document.getElementById("game.round.score");
 
-  let currentRoundLocalSettings = $currentRoundLocalSettings.get();
-  const _currentRoundLocalSettingsListener =
-    $currentRoundLocalSettings.subscribe((val, prev) => {
-      console.log("round local settings: ", val);
-      currentRoundLocalSettings = val;
+  let currentRoundState = $currentRoundState.get();
+
+  if (!currentRoundState.remoteData) {
+    throw new Error("No current round found");
+  }
+
+  const _currentRoundStateListener = $currentRoundState.subscribe(
+    (val, prev) => {
+      console.log("round settings: ", val);
+      currentRoundState = val;
 
       if (roundScoreCounter) {
         roundScoreCounter.textContent = val.score.toString();
       }
-    });
-
-  let currentRoundDatabaseSettings = $currentRoundDatabaseSettings.get();
-  const _currentRoundKeyListener = $currentRoundDatabaseSettings.subscribe(
-    (val, prev) => {
-      console.log("round db settings: ", val);
-      currentRoundDatabaseSettings = val;
     }
   );
 
@@ -267,7 +258,7 @@ $currentRoundDatabaseSettings.set(currentRound);
 
   // mouseConstraint mouseUp event
   Events.on(mouseConstraint, "mouseup", (event) => {
-    if (currentRoundLocalSettings.numBallsRemaining <= 0) {
+    if (currentRoundState.num_balls_remaining <= 0) {
       console.log("No more balls remaining");
       return;
     }
@@ -285,11 +276,9 @@ $currentRoundDatabaseSettings.set(currentRound);
     Composite.add(world, plinkoBall);
 
     currentAlivePlinkos++;
-    // $numBalls.set(numBallsRemaining - 1);
-    $currentRoundLocalSettings.setKey(
-      "numBallsRemaining",
-      currentRoundLocalSettings.numBallsRemaining - 1
-      // numBallsRemaining - 1
+    $currentRoundState.setKey(
+      "num_balls_remaining",
+      currentRoundState.num_balls_remaining - 1
     );
   });
 
@@ -297,32 +286,32 @@ $currentRoundDatabaseSettings.set(currentRound);
   const pocketDividers: Body[] = [];
   const pocketsSettings = {
     pocket_middle_left_3: {
-      value: currentRoundDatabaseSettings.pocket_middle_left_3_value,
-      powerUps: currentRoundDatabaseSettings.pocket_middle_left_3_power_ups,
+      value: currentRoundState.remoteData.pocket_middle_left_3_value,
+      powerUps: currentRoundState.remoteData.pocket_middle_left_3_power_ups,
     },
     pocket_middle_left_2: {
-      value: currentRoundDatabaseSettings.pocket_middle_left_2_value,
-      powerUps: currentRoundDatabaseSettings.pocket_middle_left_2_power_ups,
+      value: currentRoundState.remoteData.pocket_middle_left_2_value,
+      powerUps: currentRoundState.remoteData.pocket_middle_left_2_power_ups,
     },
     pocket_middle_left_1: {
-      value: currentRoundDatabaseSettings.pocket_middle_left_1_value,
-      powerUps: currentRoundDatabaseSettings.pocket_middle_left_1_power_ups,
+      value: currentRoundState.remoteData.pocket_middle_left_1_value,
+      powerUps: currentRoundState.remoteData.pocket_middle_left_1_power_ups,
     },
     pocket_middle: {
-      value: currentRoundDatabaseSettings.pocket_middle_value,
-      powerUps: currentRoundDatabaseSettings.pocket_middle_power_ups,
+      value: currentRoundState.remoteData.pocket_middle_value,
+      powerUps: currentRoundState.remoteData.pocket_middle_power_ups,
     },
     pocket_middle_right_1: {
-      value: currentRoundDatabaseSettings.pocket_middle_right_1_value,
-      powerUps: currentRoundDatabaseSettings.pocket_middle_right_1_power_ups,
+      value: currentRoundState.remoteData.pocket_middle_right_1_value,
+      powerUps: currentRoundState.remoteData.pocket_middle_right_1_power_ups,
     },
     pocket_middle_right_2: {
-      value: currentRoundDatabaseSettings.pocket_middle_right_2_value,
-      powerUps: currentRoundDatabaseSettings.pocket_middle_right_2_power_ups,
+      value: currentRoundState.remoteData.pocket_middle_right_2_value,
+      powerUps: currentRoundState.remoteData.pocket_middle_right_2_power_ups,
     },
     pocket_middle_right_3: {
-      value: currentRoundDatabaseSettings.pocket_middle_right_3_value,
-      powerUps: currentRoundDatabaseSettings.pocket_middle_right_3_power_ups,
+      value: currentRoundState.remoteData.pocket_middle_right_3_value,
+      powerUps: currentRoundState.remoteData.pocket_middle_right_3_power_ups,
     },
   } as const;
   const pocketKeys = Object.keys(
@@ -693,9 +682,9 @@ $currentRoundDatabaseSettings.set(currentRound);
 
         // update the score
         // $roundScore.set($roundScore.get() + pocketSettings.value);
-        $currentRoundLocalSettings.setKey(
+        $currentRoundState.setKey(
           "score",
-          currentRoundLocalSettings.score + pocketSettings.value
+          $currentRoundState.get().score + pocketSettings.value
         );
 
         // remove the plinko from the world
@@ -732,18 +721,49 @@ $currentRoundDatabaseSettings.set(currentRound);
     return key in pocketsSettings;
   }
 
-  // poll if the round is over (no more balls in the world)
-  const pollRoundEnd = setInterval(() => {
-    if (
-      currentRoundLocalSettings.numBallsRemaining <= 0 &&
-      currentAlivePlinkos <= 0
-    ) {
-      clearInterval(pollRoundEnd);
-      onRoundEnd();
+  let intervalId: NodeJS.Timeout;
+
+  const intervalManager = (flag: boolean, cb: () => void, interval: number) => {
+    if (flag) {
+      intervalId = setInterval(cb, interval);
     } else {
-      console.log("Polling round end");
+      clearInterval(intervalId);
     }
-  }, 2000);
+  };
+
+  // 
+  // 
+  // TODO: figure out settimeout bs
+  // 
+  // 
+
+  // poll if the round is over (no more balls in the world)
+  // const pollRoundEnd = setInterval(() => {
+  //   if (
+  //     currentRoundState.num_balls_remaining <= 0 &&
+  //     currentAlivePlinkos <= 0
+  //   ) {
+  //     // clearInterval(pollRoundEnd);
+  //     onRoundEnd();
+  //   } else {
+  //     console.log("Polling round end");
+  //   }
+  // }, 2000);
+  // const pollRoundEnd = intervalManager(
+  //   !roundEnded,
+  //   () => {
+  //     if (
+  //       currentRoundState.num_balls_remaining <= 0 &&
+  //       currentAlivePlinkos <= 0
+  //     ) {
+  //       // clearInterval(pollRoundEnd);
+  //       onRoundEnd();
+  //     } else {
+  //       console.log("Polling round end");
+  //     }
+  //   },
+  //   2000
+  // );
 
   /**
    * function to handle the end of the round
@@ -751,27 +771,33 @@ $currentRoundDatabaseSettings.set(currentRound);
   async function onRoundEnd() {
     console.log("Round ended");
 
-    // if (!currentRound) {
-    //   throw new Error("No current round found");
-    // }
+    if (!currentRoundState.remoteData) {
+      throw new Error("No current round found");
+    }
 
     // update the round score in the database
     const { data, error } =
       await actions.updatePlinkoRoundScoreAndUpsertNextRound({
-        roundId: currentRoundDatabaseSettings.id,
-        roundScore: currentRoundLocalSettings.score,
+        roundId: currentRoundState.remoteData.id,
+        roundScore: currentRoundState.score,
       });
 
     if (error) {
+      // TODO: handle error
       console.error("Error updating round score", error);
       return;
     }
 
-    console.log("Round score updated", data);
+    const { updatedRound, nextRound, updatedGame } = data;
+
+    // updating stores
+    $currentRoundState.setKey("remoteData", updatedRound);
+    $nextRoundRemoteData.set(nextRound);
+    $gameState.setKey("remoteData", updatedGame);
 
     // trigger the dialog
     // $currentRoundState.set("ended");
-    $currentRoundLocalSettings.setKey("state", "ended");
+    $currentRoundState.setKey("state", "ended");
   }
 
   // run the engine
