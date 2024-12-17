@@ -52,7 +52,7 @@ export const signUpAction = defineAction({
     if (!usernameAvailable) {
       throw new ActionError({
         code: "BAD_REQUEST",
-        message: "Username is already taken",
+        message: "Username is already taken. Please choose another one.",
       });
     }
 
@@ -161,6 +161,15 @@ export const signUpAndSignInAnonUser = defineAction({
 
     const randomSix = Math.floor(100000 + Math.random() * 900000);
     const username = _username ?? `guest_${randomSix}`;
+
+    const usernameAvailable = await isUsernameAvailable(username);
+
+    if (!usernameAvailable) {
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "Username is already taken. Please choose another one.",
+      });
+    }
 
     const users = await db
       .insert(tableUsers)

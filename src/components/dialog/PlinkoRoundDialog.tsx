@@ -47,7 +47,7 @@ export function PlinkoRoundWaitingToStartDialog() {
   return (
     <Dialog open={openDialog}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
-      <DialogContent>
+      <DialogContent dismissable={false}>
         <DialogHeader>
           <DialogTitle>
             Round {parsePlinkoRoundNum(currentRoundData.key)} is about to start!
@@ -97,7 +97,7 @@ export function PlinkoRoundEndedDialog() {
   return (
     <Dialog open={openDialog}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
-      <DialogContent>
+      <DialogContent dismissable={false}>
         <DialogHeader>
           <DialogTitle>Round {currentRoundData?.key} has ended!</DialogTitle>
           <DialogDescription>
@@ -126,7 +126,7 @@ export function PlinkoGameOverDialog() {
 
   return (
     <Dialog open={openDialog}>
-      <DialogContent>
+      <DialogContent dismissable={false}>
         <GameOverScoreboard />
         {/* <DialogHeader>
           <DialogTitle>
