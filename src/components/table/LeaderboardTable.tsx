@@ -7,10 +7,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { tableUsers } from "@/db/schema";
 import { $leaderboard } from "@/lib/stores";
+import { ClientOnly } from "@/lib/utils.react-hydration";
 import { useStore } from "@nanostores/react";
 
-export function LeaderboardTable() {
+export function LeaderboardTable({
+  user,
+}: {
+  user: typeof tableUsers.$inferSelect | null;
+}) {
   const leaderboardData = useStore($leaderboard);
 
   return (
@@ -29,7 +35,8 @@ export function LeaderboardTable() {
             <TableRow key={`game-${rowData.game.id}`}>
               <TableCell>{idx + 1}</TableCell>
               <TableCell className="font-medium">
-                {rowData.user.username}
+                {rowData.user.username}{" "}
+                {rowData.user.id === user?.id ? "(you)" : ""}
               </TableCell>
               <TableCell className="text-right">{rowData.game.score}</TableCell>
             </TableRow>

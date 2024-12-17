@@ -21,6 +21,8 @@ import {
   $roundResult,
   $gameState,
 } from "@/lib/stores";
+import { GameOverScoreboard } from "../card/PlinkoScoreboard";
+import { parsePlinkoRoundNum } from "@/lib/parsePlinkoRoundNum";
 
 /**
  *  Pre-round dialog
@@ -38,13 +40,17 @@ export function PlinkoRoundWaitingToStartDialog() {
     $gameState.set("round_in_progress");
   }
 
+  if (!currentRoundData) {
+    return null;
+  }
+
   return (
     <Dialog open={openDialog}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Round {currentRoundData?.key} is about to start!
+            Round {parsePlinkoRoundNum(currentRoundData.key)} is about to start!
           </DialogTitle>
           <DialogDescription>Get ready to drop your balls</DialogDescription>
         </DialogHeader>
@@ -70,23 +76,22 @@ export function PlinkoRoundEndedDialog() {
 
   // change the round state to waiting to start
   function nextRound() {
-    // reset the current round to the next round
-    // resetCurrentRoundToNext(nextRoundRemoteData);
+    // reset the round result
     $roundResult.set(null);
-    $gameState.set("waiting_to_start");
+    // set the current round to the next round
+    $currentRoundRemoteData.set(nextRoundData);
+    // reset the next round
+    $nextRoundRemoteData.set(null);
 
-    // const nextRound = $nextRoundRemoteData.get();
-
-    // if there is a next round, set the current round to the next round
+    // if there is a next round...
     if (nextRoundData) {
-      $currentRoundRemoteData.set(nextRoundData);
-      $nextRoundRemoteData.set(null);
+      // set the game state
+      $gameState.set("waiting_to_start");
     } else {
       // otherwise, the game is over.
+      // We shouldn't actually ever get here, but just in case...
+      $gameState.set("game_over");
     }
-
-    // reload the page
-    // location.reload();
   }
 
   return (
@@ -105,6 +110,38 @@ export function PlinkoRoundEndedDialog() {
             Next Round
           </Button>
         </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/**
+ * Game over dialog
+ */
+export function PlinkoGameOverDialog() {
+  // const currentRoundData = useStore($currentRoundRemoteData);
+  // const nextRoundData = useStore($nextRoundRemoteData);
+  const gameState = useStore($gameState);
+  const openDialog = gameState === "game_over";
+
+  return (
+    <Dialog open={openDialog}>
+      <DialogContent>
+        <GameOverScoreboard />
+        {/* <DialogHeader>
+          <DialogTitle>
+            Game over
+          </DialogTitle>
+          <DialogDescription>
+            Your score is {currentRoundData?.score}
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter>
+          <Button type="button" onClick={nextRound}>
+            Next Round
+          </Button>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

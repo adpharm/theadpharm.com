@@ -1,4 +1,5 @@
-import type { Config } from "tailwindcss";
+import { type Config } from "tailwindcss";
+import { zinc } from "tailwindcss/colors";
 
 export default {
   darkMode: "class", // or 'media' or 'class'
@@ -8,9 +9,9 @@ export default {
       sans: ["Switzer-Variable", "Inter", "sans-serif"],
     },
     extend: {
-      // colors: {
-      //   black: "#000",
-      // },
+      colors: {
+        gray: zinc,
+      },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
         "slide-200": "slide-200 50s linear 4 alternate",

@@ -8,7 +8,6 @@ import {
 import { requireNum } from "@/lib/server/parse_int";
 import { desc, eq, gt, inArray } from "drizzle-orm";
 import { actions } from "astro:actions";
-import Auth from "@/layouts/Auth.astro";
 import Layout from "@/layouts/Layout.astro";
 import {
   $currentRoundRemoteData,
@@ -16,13 +15,31 @@ import {
   $leaderboard,
 } from "@/lib/stores";
 import { allTasks } from "nanostores";
-import PlinkoGame from "@/layouts/PlinkoGame.astro";
 import { Button } from "@/components/ui/button";
 import {
   GameOverScoreboard,
   PlinkoScoreboard,
 } from "@/components/card/PlinkoScoreboard";
 import { LeaderboardTable } from "@/components/table/LeaderboardTable";
+import {
+  PlinkoGameOverDialog,
+  PlinkoRoundEndedDialog,
+  PlinkoRoundWaitingToStartDialog,
+} from "@/components/dialog/PlinkoRoundDialog";
+import { requireAuth } from "@/lib/server/auth_utils";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { PlinkoRoundProgressBar } from "@/components/progress/PlinkoRoundProgressBar";
+import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
+import { AuthDialog } from "@/components/dialog/AuthDialog";
+
+const user = requireAuth(Astro);
 
 const { gameId: gameId_ } = Astro.params;
 
@@ -30,19 +47,9 @@ if (!gameId_) throw new Error("No game ID provided");
 
 const gameId = requireNum(gameId_);
 
-// TODO: consider batching https://orm.drizzle.team/docs/batch-api
+await listTopGamesWithUsers();
 
-// Get the top 10 games by score
-const topGamesWithUsers = await db
-  .select({
-    game: tablePlinkoGames,
-    user: tableUsers,
-  })
-  .from(tablePlinkoGames)
-  .where(gt(tablePlinkoGames.score, 0))
-  .innerJoin(tableUsers, eq(tablePlinkoGames.user_id, tableUsers.id))
-  .orderBy(desc(tablePlinkoGames.score))
-  .limit(10);
+// TODO: consider batching https://orm.drizzle.team/docs/batch-api
 
 //
 
@@ -65,10 +72,6 @@ if (plinkoGameWithRounds.length === 0) {
 
 const game = plinkoGameWithRounds[0].game;
 
-// if (game.game_over) {
-//   throw new Error("Game is over");
-// }
-
 const gameRounds = plinkoGameWithRounds.map((row) => row.round).filter(Boolean);
 
 const currentRoundKey = game.current_round_key;
@@ -81,7 +84,6 @@ if (!currentRound) {
 // set stores
 $currentRoundRemoteData.set(currentRound);
 $gameRemoteData.set(game);
-$leaderboard.set(topGamesWithUsers);
 ---
 
 <script>
@@ -604,8 +606,14 @@ $leaderboard.set(topGamesWithUsers);
     $nextRoundRemoteData.set(nextRound);
     $gameRemoteData.set(updatedGame);
 
-    // trigger the dialog
-    $gameState.set("round_ended");
+    // proceed
+    // if there is a next round, set this game state to "round_ended"
+    if (nextRound) {
+      $gameState.set("round_ended");
+    } else {
+      // if there is no next round, set the game state to "game_over"
+      $gameState.set("game_over");
+    }
   });
 
   // initialize the round
@@ -766,43 +774,66 @@ $leaderboard.set(topGamesWithUsers);
 </script>
 
 <Layout title="Let's play Christmas Plinko! by The Adpharm">
-  <Auth>
-    <main class="flex flex-col min-h-screen">
-      <div class="max-w-xl mx-auto p-4">
-        {
-          !game.game_over ? (
-            <PlinkoGame>
-              <PlinkoScoreboard client:load />
-              <div>
-                <canvas
-                  class="matterCanvas touch-auto bg-blue-950"
-                  width={400}
-                  height={600}
-                />
-              </div>
-              <div class="grid grid-cols-7 text-center">
-                <div>{currentRound.pocket_middle_left_3_value}</div>
-                <div>{currentRound.pocket_middle_left_2_value}</div>
-                <div>{currentRound.pocket_middle_left_1_value}</div>
-                <div>{currentRound.pocket_middle_value}</div>
-                <div>{currentRound.pocket_middle_right_1_value}</div>
-                <div>{currentRound.pocket_middle_right_2_value}</div>
-                <div>{currentRound.pocket_middle_right_3_value}</div>
-              </div>
-            </PlinkoGame>
-          ) : (
+  <main class="flex flex-col min-h-screen">
+    <div class="max-w-4xl mx-auto p-4 w-full">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/digital/plinko">Games</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>This game</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
+    <div class="max-w-4xl mx-auto p-4 w-full">
+      <PlinkoRoundProgressBar client:load />
+    </div>
+    <div class="flex-1 max-w-xl mx-auto p-4">
+      {
+        game.game_over ? (
+          <div>
+            <GameOverScoreboard client:load />
+          </div>
+        ) : (
+          <>
+            <PlinkoScoreboard client:load />
             <div>
-              <GameOverScoreboard client:load />
+              <canvas
+                class="matterCanvas bg-blue-950"
+                width={400}
+                height={600}
+              />
             </div>
-          )
-        }
-      </div>
+            <div class="grid grid-cols-7 text-center">
+              <div>{currentRound.pocket_middle_left_3_value}</div>
+              <div>{currentRound.pocket_middle_left_2_value}</div>
+              <div>{currentRound.pocket_middle_left_1_value}</div>
+              <div>{currentRound.pocket_middle_value}</div>
+              <div>{currentRound.pocket_middle_right_1_value}</div>
+              <div>{currentRound.pocket_middle_right_2_value}</div>
+              <div>{currentRound.pocket_middle_right_3_value}</div>
+            </div>
+          </>
+        )
+      }
+    </div>
 
-      <div class="max-w-4xl mx-auto p-4 w-full">
-        <div>
-          <LeaderboardTable client:load />
-        </div>
+    <div class="max-w-4xl mx-auto p-4 w-full">
+      <div>
+        <LeaderboardTable client:only="react" user={user} />
       </div>
-    </main>
-  </Auth>
+    </div>
+  </main>
 </Layout>
+
+<!-- dialogs -->
+<PlinkoRoundEndedDialog client:load />
+<PlinkoRoundWaitingToStartDialog client:load />
+<PlinkoGameOverDialog client:load />
+<AuthDialog
+  client:load
+  open={Astro.locals.user === null || Astro.locals.session === null}
+/>

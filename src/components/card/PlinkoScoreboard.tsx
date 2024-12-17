@@ -15,6 +15,8 @@ import {
 } from "@/lib/stores";
 import { Button } from "../ui/button";
 import { actions } from "astro:actions";
+import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
+import { useState } from "react";
 
 export function PlinkoScoreboard() {
   const currentRoundScore = useStore($roundScore);
@@ -44,22 +46,8 @@ export function PlinkoScoreboard() {
 
 export function GameOverScoreboard() {
   const gameRemoteData = useStore($gameRemoteData);
-
   const gameScore = gameRemoteData?.score || 0;
-
-  async function playAgain() {
-    const { data, error } = await actions.newPlinko({});
-    if (error) {
-      console.error("Error creating new game", error);
-      return;
-    }
-
-    console.log("New game created", data);
-
-    // redirect to the new game
-    // Astro.redirect(`/digital/plinko/${data.game.id}`);
-    window.location.href = `/digital/plinko/${data.game.id}`;
-  }
+  const [isCreatingGame, setIsCreatingGame] = useState(false);
 
   return (
     <Card className="text-center">
@@ -73,9 +61,20 @@ export function GameOverScoreboard() {
         <p>{gameScore}</p>
       </CardContent>
 
-      <CardFooter>
-        <Button type="button" onClick={playAgain} className="w-full">
-          Play again
+      <CardFooter className="grid gap-2">
+        <Button type="button" asChild variant={"secondary"}>
+          <a href="/digital/plinko">Your games</a>
+        </Button>
+
+        <Button
+          type="button"
+          onClick={() => {
+            setIsCreatingGame(true);
+            newPlinkoGame();
+          }}
+          className="w-full"
+        >
+          {isCreatingGame ? "Creating game..." : "Play again"}
         </Button>
       </CardFooter>
     </Card>

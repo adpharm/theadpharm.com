@@ -11,7 +11,7 @@ import { z } from "astro:schema";
  *
  */
 export const signOutAction = defineAction({
-  input: undefined,
+  input: z.object({}),
   handler: async (inputData, context) => {
     if (context.locals.session === null) {
       throw new ActionError({
