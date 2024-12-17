@@ -4,6 +4,8 @@ import HeaderTab from "../components/HeaderTab";
 import ADLogo from "@/images/adpharm-digital-logomark.png";
 import "../styles/switzer.css";
 import Section from "./Section.astro";
+import { MainNavigation } from "../components/NavigationMenu";
+
 
 const isProd = import.meta.env.PROD;
 
@@ -20,6 +22,38 @@ const desc = `
   Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch, 
   nurture and optimize the potential of their brands.
 `;
+
+interface NavigationItem {
+  label: string;
+  href?: string;
+  children?: NavigationItem[];
+}
+
+const navItems = [
+  {
+    label: "Our Brands",
+    children: [
+      { label: "The Adpharm", href: "/" },
+      { label: "Adpharm Digital", href: "/digital" },
+      { label: "Synapse Medcom", href: "https://www.synapsemedcom.ca"}
+    ],
+  },
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Services",
+    children: [
+      { label: "Service 1", href: "/service1" },
+      { label: "Service 2", href: "/service2" },
+    ],
+  },
+  {
+    label: "Contact",
+    href: "/contact",
+  },
+];
 ---
 
 <!doctype html>
@@ -130,7 +164,7 @@ const desc = `
      -->
     <Section>
       <header
-        class="px-5 sm:px-0 pt-4 sm:pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-between"
+        class="px-5 sm:px-0 pt-2 sm:pt-4 pb-4 z-40 fixed top-0 left-0 w-full flex items-center justify-between bg-black"
       >
         <div>
           <!-- <a href="/">
@@ -142,9 +176,9 @@ const desc = `
           </a> -->
         </div>
         <div
-          class="flex items-center justify-center bg-zinc-800 sm:bg-zinc-900 rounded-full w-full max-w-[32rem] p-1 space-x-0.5"
+          class="flex items-center justify-between w-full p-1 space-x-0.5 mx-10"
         >
-          <HeaderTab
+          <!-- <HeaderTab
             title="The Adpharm"
             href="/"
             active={Astro.url.pathname === "/"}
@@ -158,7 +192,9 @@ const desc = `
             href="/digital"
             active={Astro.url.pathname === "/digital"}
             className="hidden sm:inline-block"
-          />
+          /> -->
+          <img src="/src/images/adpharm-logo@4x.png" alt="the adpharm" class="w-36"/>
+          <MainNavigation items={navItems} client:idle />
         </div>
         <div></div>
       </header>
@@ -177,6 +213,8 @@ const desc = `
 </html>
 
 <style is:global>
+  @tailwind base;
+  @tailwind components; 
   @tailwind utilities;
 
   html {

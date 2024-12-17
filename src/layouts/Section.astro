@@ -12,7 +12,15 @@ interface Props {
   className?: string;
 }
 
-const { fullTopBorder, fullBottomBorder, topBorder, bottomBorder, hideRight, outerClassName, className } = Astro.props;
+const {
+  fullTopBorder,
+  fullBottomBorder,
+  topBorder,
+  bottomBorder,
+  hideRight,
+  outerClassName,
+  className,
+} = Astro.props;
 ---
 
 <div
@@ -29,7 +37,7 @@ const { fullTopBorder, fullBottomBorder, topBorder, bottomBorder, hideRight, out
 
    -->
   <div class="flex-shrink-0 w-4 md:w-12 lg:w-20 xl:w-40"></div>
-  <div class="flex-1 border-l border-zinc-800">
+  <div class="flex-1 border-zinc-800">
     <div
       class={twMerge(
         ` px-4`,
@@ -43,7 +51,9 @@ const { fullTopBorder, fullBottomBorder, topBorder, bottomBorder, hideRight, out
   </div>
   {
     hideRight ? null : (
-      <div class={`flex-shrink-0 w-4 md:w-12 lg:w-20 xl:w-40 ${topBorder ? "border-t border-zinc-800" : ""}`} />
+      <div
+        class={`flex-shrink-0 w-4 md:w-12 lg:w-20 xl:w-40 ${topBorder ? "border-t border-zinc-800" : ""}`}
+      />
     )
   }
 </div>
