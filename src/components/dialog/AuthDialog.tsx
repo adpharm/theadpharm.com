@@ -75,7 +75,7 @@ export function AuthDialog({ open }: { open: boolean }) {
   return (
     <Dialog open={open}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
-      <DialogContent>
+      <DialogContent dismissable={false}>
         <DialogHeader>
           <DialogTitle>Welcome to The Adpharm's Xmas Plinko!</DialogTitle>
           <DialogDescription>
@@ -128,13 +128,9 @@ export function AuthDialog({ open }: { open: boolean }) {
                   </FormControl>
 
                   {/* <FormDescription>This field is optional.</FormDescription> */}
-                  <Button
-                    type="button"
-                    onClick={randomUsername}
-                    variant={"link"}
-                  >
+                  <button type="button" onClick={randomUsername}>
                     Randomize
-                  </Button>
+                  </button>
 
                   <FormMessage />
                 </FormItem>
