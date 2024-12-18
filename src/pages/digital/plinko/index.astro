@@ -377,23 +377,16 @@ import Layout from "@/layouts/Layout.astro";
     });
   };
 
-  // Add this function to get the current bucket standings
+  // Bucket Scores
   const getBucketStandings = () => {
     return Array.from(bucketScores.values())
       .sort((a, b) => b.count - a.count)
       .map((bucket) => `Bucket ${bucket.position}: ${bucket.count} balls`);
   };
 
-  // Optional: Add a display for the bucket counts
-  const updateBucketDisplay = () => {
-    const bucketCountsDiv = document.getElementById("bucketCounts");
-    if (bucketCountsDiv) {
-      bucketCountsDiv.innerHTML = getBucketStandings().join("<br>");
-    }
-  };
   Events.on(engine, "collisionStart", handleCollision);
 
-  // run the engine
+
   Runner.run(runner, engine); //We have eto create and run the runner so that the engine start playing the annimation.
   // run the renderer
   Render.run(render);
@@ -407,8 +400,6 @@ import Layout from "@/layouts/Layout.astro";
 
       <div class="matterContainer h-full w-full">
         <canvas class="matterCanvas" id="dotLottie-canvas"></canvas>
-        <div id="animation container" style="width: 50px;"></div>
-        <!-- <canvas class="waveCanvas absolute top-0 left-0"></canvas> -->
       </div>
     </div>
   </main>
