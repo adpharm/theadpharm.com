@@ -1,11 +1,4 @@
 import { z } from "astro:schema";
-import {
-  emailSchema,
-  firstNameSchema,
-  lastNameSchema,
-  passwordSchema,
-  usernameSchema,
-} from "../zod.schema";
 import { ActionError, type ActionAPIContext } from "astro:actions";
 import {
   checkIpHashRateLimit,
@@ -24,22 +17,7 @@ import {
   setSessionTokenCookie,
 } from "./session";
 import { BasicRateLimit } from "./actions.rateLimit";
-
-export const createFullUserSchema = z.object({
-  email: emailSchema,
-  username: usernameSchema,
-  password: passwordSchema,
-  firstName: firstNameSchema,
-  lastName: lastNameSchema,
-});
-
-export const createGuestUserSchema = z.object({
-  email: emailSchema.optional(),
-  username: usernameSchema,
-  password: passwordSchema.optional(),
-  firstName: firstNameSchema.optional(),
-  lastName: lastNameSchema.optional(),
-});
+import { createGuestUserSchema, signInUserSchema } from "../zod.schema";
 
 /**
  *
@@ -152,10 +130,6 @@ export async function startUserSession(
  * Sign in a user
  *
  */
-export const signInUserSchema = z.object({
-  username: usernameSchema,
-  password: passwordSchema,
-});
 
 export async function signInUser(
   inputData: z.infer<typeof signInUserSchema>,

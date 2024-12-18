@@ -22,7 +22,7 @@ import { log, logDebug, logError } from "@/lib/utils.logger";
 import { $guestCode } from "@/lib/stores";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
 import { RefreshCcw } from "lucide-react";
-import { createGuestUserSchema } from "@/lib/server/actions.user";
+import { createGuestUserSchema } from "@/lib/zod.schema";
 
 export function RegisterGuestUserForm() {
   const router = useStore($router);
