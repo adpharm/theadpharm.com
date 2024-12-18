@@ -9,13 +9,17 @@ export interface LeadershipCardProps {
 
 export function LeadershipCard({ imgSrc, name, title }: LeadershipCardProps) {
   return (
-    <div className="flex flex-col justify-start items-center">
-      <div className="h-40 w-40 rounded-full overflow-hidden border-2 border-orange-600 mb-2 flex items-center justify-center">
-        <img src={imgSrc} alt={name} className="object-fill" />
+    <div className="flex flex-col justify-start items-center group">
+      <div className="h-48 w-48 rounded-full overflow-hidden mb-2 flex items-center justify-center">
+        <img
+          src={imgSrc}
+          alt={name}
+          className="object-fill filter transition duration-300 ease-in-out group-hover:grayscale"
+        />
       </div>
-      <h3 className="text-lg text-orange-600 font-semibold">{name}</h3>
+      <h3 className="text-xl text-orange-600 font-semibold">{name}</h3>
       <p
-        className="text-gray-600 text-center"
+        className="text-sm text-gray-300 text-center"
         dangerouslySetInnerHTML={{ __html: title }}
       ></p>
     </div>

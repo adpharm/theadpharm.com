@@ -37,6 +37,8 @@ const leadership = [
     title: `Vice President,<br />Digital & Innovation`,
   },
 ];
+
+let leaderCount = 0;
 ---
 
 <Layout title="The Adpharm: Big agency experience, small agency excellence">
@@ -61,9 +63,20 @@ const leadership = [
         class="relative flex flex-col items-center justify-center w-full mt-40"
       >
         <div class="flex flex-col items-center justify-center max-w-6xl w-full">
-          <h1 class="text-4xl font-thin w-full text-left mb-16 ml-16">
-            About us
-          </h1>
+          <h1 class="text-4xl font-thin w-full text-left">About us</h1>
+
+          <div class="bg-zinc-800 h-[1px] w-full my-6"></div>
+
+          <div class="w-full mb-6 space-y-1">
+            <h2 class="text-2xl font-semibold text-orange-600">
+              Leadership Team
+            </h2>
+            <p class="font-light tracking-wide">
+              Our leadership team has decades of Canadian healthcare experience
+              - from multinational agencies to pharmaceutical companies.
+            </p>
+          </div>
+
           <div class="grid grid-cols-5 gap-12">
             {
               leadership.map((member) => (
@@ -76,17 +89,7 @@ const leadership = [
             }
           </div>
 
-          <div class="w-full ml-16 mt-6 space-y-1">
-            <h2 class="text-2xl font-semibold text-orange-600">
-              Leadership Team
-            </h2>
-            <p class="font-light tracking-wide">
-              Our leadership team has decades of Canadian healthcare experience
-              - from multinational agencies to pharmaceutical companies.
-            </p>
-          </div>
-
-          <div class="w-full ml-16 mt-16 space-y-1">
+          <div class="w-full mt-16 space-y-1">
             <h2 class="text-2xl font-semibold text-orange-600">
               Why we're here
             </h2>
