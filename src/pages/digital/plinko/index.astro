@@ -2,6 +2,16 @@
 import Layout from "@/layouts/Layout.astro";
 ---
 
+<!-- <style>
+  .matterCanvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../../images/canvas-background.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+</style> -->
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.14/lottie.min.js"
 ></script>
@@ -13,6 +23,7 @@ import Layout from "@/layouts/Layout.astro";
 ></script>
 <script>
   const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
+  import { DotLottie } from "https://esm.sh/@lottiefiles/dotlottie-web";
 
   import celebrationAnimation from "../../../animations/celebration.json";
 
@@ -43,27 +54,33 @@ import Layout from "@/layouts/Layout.astro";
     throw new Error("matterCanvas not found");
   }
 
-  // const lottieContainer = document.querySelector(".lottie-container");
-  // const lottiePlayer = document.querySelector("lottie-player") as any;
+  const lottieContainer = document.querySelector(".lottie-container");
+  const lottiePlayer = document.querySelector("lottie-player") as any;
 
   // // Set the animation data
-  const playCelebrationAnimation = (x: number, y: number) => {
-    console.log("Playing celebration animation at:", x, y);
+  if (lottiePlayer) {
+    lottiePlayer.load(celebrationAnimation);
+  }
 
-    const animationContainer = document.getElementById("animation-container");
+  const animation = new DotLottie({
+    canvas: document.querySelector("#dotLottie-canvas"),
+    renderer: "svg",
+    loop: false,
+    autoplay: false,
+    path: "../../src/animations/celebration.json",
+  });
 
-    const animation = lottie.loadAnimation({
-      container: animationContainer as HTMLElement,
-      renderer: "svg",
-      loop: true, // Play once -- Set to false??
-      autoplay: false,
-      path: "../../src/animations/celebration.json",
-    });
+  const playCelebrationAnimation = () => {
+    console.log("Playing the animation");
+    console.log("Animation container: ", animation.container);
+    console.log("Animation player: ", animation);
 
-    if (animationContainer) {
-      animationContainer.style.transform = `translate(${x - 50}px, ${y - 50}px)`; //Correct coords?
-      animationContainer.style.display = "block";
-      animation.goToAndPlay(0);
+    if (animation) {
+      animation.play();
+
+      setTimeout(() => {
+        animation.stop();
+      }, 2000);
     }
   };
 
@@ -94,9 +111,6 @@ import Layout from "@/layouts/Layout.astro";
   const topMargin = 50;
   // padding to include make space for two rectangles at either side of the canvas
   const padding = width / columns / 2;
-
-  // Bucket height
-  const bucketHeight = 80;
 
   //Setting limit on the number of Plinkos to play with.
   let currentPlinkosCount = 0;
@@ -228,7 +242,7 @@ import Layout from "@/layouts/Layout.astro";
   // function fabricating a bucket, as a white taller-than-wider rectangle positioned at the bottom of the canvas
   const makeBucket = (x: number) => {
     const w = 5;
-    const h = bucketHeight;
+    const h = 80;
     const y = height - h / 2;
 
     return Bodies.rectangle(x, y, w, h, {
@@ -338,12 +352,11 @@ import Layout from "@/layouts/Layout.astro";
             console.log(
               `Ball landed in bucket ${bucketScore.position}! Count: ${bucketScore.count}`
             );
-            playCelebrationAnimation(bodyA.position.x, bodyA.position.y);
           }
         }
         const { fillStyle } = bodyA.render;
         bodyB.render.fillStyle = fillStyle;
-        collisionSound.play();
+        // collisionSound.play();
       }
 
       if (labelB === "plinko") {
@@ -354,23 +367,30 @@ import Layout from "@/layouts/Layout.astro";
             console.log(
               `Ball landed in bucket ${bucketScore.position}! Count: ${bucketScore.count}`
             );
-            playCelebrationAnimation(bodyA.position.x, bodyA.position.y);
+            playCelebrationAnimation();
           }
         }
         const { fillStyle } = bodyB.render;
         bodyA.render.fillStyle = fillStyle;
-        collisionSound.play();
+        // collisionSound.play();
       }
     });
   };
 
-  //Buccket scoring
+  // Add this function to get the current bucket standings
   const getBucketStandings = () => {
     return Array.from(bucketScores.values())
       .sort((a, b) => b.count - a.count)
       .map((bucket) => `Bucket ${bucket.position}: ${bucket.count} balls`);
   };
 
+  // Optional: Add a display for the bucket counts
+  const updateBucketDisplay = () => {
+    const bucketCountsDiv = document.getElementById("bucketCounts");
+    if (bucketCountsDiv) {
+      bucketCountsDiv.innerHTML = getBucketStandings().join("<br>");
+    }
+  };
   Events.on(engine, "collisionStart", handleCollision);
 
   // run the engine
@@ -386,16 +406,10 @@ import Layout from "@/layouts/Layout.astro";
       <div id="plinkoCounterDiv"></div>
 
       <div class="matterContainer h-full w-full">
-        <canvas class="matterCanvas"></canvas>
+        <canvas class="matterCanvas" id="dotLottie-canvas"></canvas>
         <div id="animation container" style="width: 50px;"></div>
         <!-- <canvas class="waveCanvas absolute top-0 left-0"></canvas> -->
       </div>
     </div>
   </main>
 </Layout>
-
-<!-- Thinking new way through -->
-<!-- 
-1. Record the bucket score based on the ball reaching y value of the height of the canvas MINUS bucket height. -- 600px - 80px = 520px
-    - Once the ball crosses that y coordinate, then record the X value and get this X value.
-    - The way to know which bucket it landed in -- check which X value the ball is in based on how many buckets we have - In this case 9. Divide the full width by 9 and minous out the 5px width of each bucket side? -->
