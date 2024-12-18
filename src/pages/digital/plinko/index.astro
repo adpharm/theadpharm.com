@@ -112,9 +112,12 @@ import Layout from "@/layouts/Layout.astro";
   // padding to include make space for two rectangles at either side of the canvas
   const padding = width / columns / 2;
 
+  // Bucket height Global
+  const bucketHeight = 80;
+
   //Setting limit on the number of Plinkos to play with.
   let currentPlinkosCount = 0;
-  const maxPlinkosCount = 20;
+  const maxPlinkosCount = 50;
 
   const plinkoCounter = document.getElementById("plinkoCounterDiv");
 
@@ -242,7 +245,7 @@ import Layout from "@/layouts/Layout.astro";
   // function fabricating a bucket, as a white taller-than-wider rectangle positioned at the bottom of the canvas
   const makeBucket = (x: number) => {
     const w = 5;
-    const h = 80;
+    const h = bucketHeight;
     const y = height - h / 2;
 
     return Bodies.rectangle(x, y, w, h, {
@@ -286,12 +289,6 @@ import Layout from "@/layouts/Layout.astro";
   }
 
   World.add(world, [...contourLeftTriangles, ...contourRightTriangles]);
-
-  // plinko
-  // an array of plinkos; the idea is to populate with the world immediately with a set number of plinkos
-  // const plinkos = Array.from({ length: initialPlinkos }, () =>
-  //   makePlinko()
-  // );
 
   // pegs
   // array of columns and rows; the idea is to have pegs ranging the width and height of the canvas
@@ -377,18 +374,18 @@ import Layout from "@/layouts/Layout.astro";
     });
   };
 
-  // Bucket Scores
-  const getBucketStandings = () => {
-    return Array.from(bucketScores.values())
-      .sort((a, b) => b.count - a.count)
-      .map((bucket) => `Bucket ${bucket.position}: ${bucket.count} balls`);
-  };
+  // Tarking the Bucket score
+  // const getBucketStandings = () => {
+  //   return Array.from(bucketScores.values())
+  //     .sort((a, b) => b.count - a.count)
+  //     .map((bucket) => `Bucket ${bucket.position}: ${bucket.count} balls`);
+  // };
 
   Events.on(engine, "collisionStart", handleCollision);
 
 
   Runner.run(runner, engine); //We have eto create and run the runner so that the engine start playing the annimation.
-  // run the renderer
+
   Render.run(render);
 </script>
 
