@@ -54,6 +54,15 @@ export const $roundResult = atom<{
   roundId: number;
 } | null>(null);
 
+export type PlinkoBallData = {
+  powerUps: (typeof tablePlinkoGameRounds.$inferSelect)["plinko_ball_10_power_ups"];
+};
+
+export const $remainingPlinkoBallsThisRound = shared(
+  "remainingPlinkoBalls",
+  atom<PlinkoBallData[]>([]),
+);
+
 export const $roundScore = atom(0);
 
 export const $gameState = atom<

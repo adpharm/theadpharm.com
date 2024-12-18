@@ -1,4 +1,6 @@
+import { createSelectSchema } from "drizzle-zod";
 import { z } from "astro:schema";
+import { tablePlinkoGameRounds } from "@/db/schema";
 
 /*************************************************************************************
  *
@@ -50,7 +52,38 @@ export const signInUserSchema = z.object({
  *
  *
  ************************************************************************************/
-export const upgradePlinkoGameSchema = z.object({
-  addNBalls: z.number(),
-  makeLastBallGolden: z.boolean(),
-});
+export const upgradePlinkoGameKeys = ["add1Ball", "makeRandomBallGolden"] as const;
+
+export const upgradePlinkoGameSchema = z
+  .object({
+    // the current round data
+    roundData: createSelectSchema(tablePlinkoGameRounds),
+
+    // the upgrade key
+    upgradeKey: z.enum(upgradePlinkoGameKeys, {
+      message: "Please select an upgrade",
+    }),
+
+    // the upgrade values
+    add1Ball: z.boolean().optional(),
+    makeRandomBallGolden: z.boolean().optional(),
+    // makeLastBallGolden: z.boolean().optional(),
+    // satisfies: make sure each upgrade has at least one value
+  } satisfies Record<
+    "roundData" | "upgradeKey" | (typeof upgradePlinkoGameKeys)[number],
+    any
+  >)
+  // minimally, one upgrade must be defined
+  .refine(
+    (data) => {
+      for (const key of upgradePlinkoGameKeys) {
+        if (data.upgradeKey === key && data[key] !== undefined) {
+          return true;
+        }
+      }
+    },
+    {
+      path: ["upgradeKey"],
+      message: "The upgrade is broken. Please choose another one for now.",
+    },
+  );

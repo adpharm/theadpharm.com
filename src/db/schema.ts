@@ -146,6 +146,21 @@ export const tablePlinkoGameRounds = pgTable(
     key: text({ enum: roundKeys }).notNull(),
     // the score for this round
     score: integer().notNull().default(0),
+    // did upgrade the board for this round
+    upgraded: boolean().notNull().default(false),
+
+    // ballsInPlay
+    // activeBallIndices: integer()
+    //   .array()
+    //   .notNull()
+    //   // default first 5 balls
+    //   .default(sql`ARRAY[1, 2, 3, 4, 5]`),
+
+    // // golden plinko balls
+    // goldenBallsIndices: integer()
+    //   .array()
+    //   .notNull()
+    //   .default(sql`ARRAY[]::int[]`),
 
     // ball details
     plinko_ball_1_on: boolean().notNull().default(true),

@@ -11,17 +11,22 @@ import {
   $currentRoundRemoteData,
   $gameRemoteData,
   $gameState,
+  $remainingPlinkoBallsThisRound,
   $roundScore,
 } from "@/lib/stores";
 import { Button } from "../ui/button";
 import { actions } from "astro:actions";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
 import { useState } from "react";
+import { ClientOnly } from "@/lib/utils.react-hydration";
+import { logDebug } from "@/lib/utils.logger";
+import { cn } from "@/lib/utils";
 
 export function PlinkoScoreboard() {
   const currentRoundScore = useStore($roundScore);
   const currentRoundData = useStore($currentRoundRemoteData);
   const gameRemoteData = useStore($gameRemoteData);
+  const plinkoBallsRemaining = useStore($remainingPlinkoBallsThisRound);
 
   const roundScore = currentRoundScore;
   const gameScore = gameRemoteData?.score || 0;
@@ -30,7 +35,7 @@ export function PlinkoScoreboard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Round {roundNum}</CardTitle>
+        <CardTitle>Round {roundNum}/10</CardTitle>
         {/* <CardDescription></CardDescription> */}
       </CardHeader>
 
@@ -39,7 +44,26 @@ export function PlinkoScoreboard() {
         <p>Game score: {gameScore}</p>
       </CardContent>
 
-      <CardFooter></CardFooter>
+      <CardFooter className="block">
+        <ClientOnly>
+          {() => (
+            <div className="grid grid-cols-10 gap-2">
+              {plinkoBallsRemaining.map((ball, idx) => {
+                return (
+                  <div
+                    // TODO: bad key
+                    key={`ball-${idx}`}
+                    className={cn(
+                      "aspect-square bg-red-500 rounded-full",
+                      ball.powerUps.includes("golden") ? "bg-yellow-500" : "",
+                    )}
+                  ></div>
+                );
+              })}
+            </div>
+          )}
+        </ClientOnly>
+      </CardFooter>
     </Card>
   );
 }
