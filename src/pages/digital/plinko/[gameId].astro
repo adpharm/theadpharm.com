@@ -26,7 +26,6 @@ import {
   PlinkoRoundEndedDialog,
   PlinkoRoundWaitingToStartDialog,
 } from "@/components/dialog/PlinkoRoundDialog";
-import { requireAuth } from "@/lib/server/auth_utils";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -37,9 +36,16 @@ import {
 } from "@/components/ui/breadcrumb";
 import { PlinkoRoundProgressBar } from "@/components/progress/PlinkoRoundProgressBar";
 import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
-import { AuthDialog } from "@/components/dialog/AuthDialog";
+import { getUser } from "@/lib/server/auth.utils";
+import { getPagePath } from "@nanostores/router";
+import { $router } from "@/lib/stores/router";
+import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
 
-const user = requireAuth(Astro);
+const user = getUser(Astro);
+
+if (!user) {
+  return Astro.redirect(getPagePath($router, "login"));
+}
 
 const { gameId: gameId_ } = Astro.params;
 
@@ -590,11 +596,10 @@ $gameRemoteData.set(game);
     }
 
     // if the round result is set, save to the database
-    const { data, error } =
-      await actions.updatePlinkoRoundScoreAndUpsertNextRound({
-        roundId: val.roundId,
-        roundScore: val.score,
-      });
+    const { data, error } = await actions.plinko.updateScoreAndCreateNextRound({
+      roundId: val.roundId,
+      roundScore: val.score,
+    });
 
     if (error) {
       throw new Error("Error updating round score");
@@ -833,7 +838,7 @@ $gameRemoteData.set(game);
 <PlinkoRoundEndedDialog client:load />
 <PlinkoRoundWaitingToStartDialog client:load />
 <PlinkoGameOverDialog client:load />
-<AuthDialog
+<RegisterGuestUserDialog
   client:load
   open={Astro.locals.user === null || Astro.locals.session === null}
 />

@@ -36,9 +36,11 @@ export const tableUsers = pgTable(
   "user",
   {
     id: serial().primaryKey(),
-    email: text().notNull(),
+    email: text(),
     username: text().notNull(),
     password_hash: text().notNull(),
+    first_name: text(),
+    last_name: text(),
     ...timestamps,
   },
   (table) => [

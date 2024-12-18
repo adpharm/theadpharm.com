@@ -1,9 +1,11 @@
 import { hash, verify } from "@node-rs/argon2";
 import { sha1 } from "@oslojs/crypto/sha1";
 import { encodeHexLowerCase } from "@oslojs/encoding";
-
 import { ActionError, type ActionAPIContext } from "astro:actions";
-import { BasicRateLimit, TokenBucketRateLimit } from "../lib/server/actions.rateLimit";
+import {
+  BasicRateLimit,
+  TokenBucketRateLimit,
+} from "@/lib/server/actions.rateLimit";
 
 const ipPasswordHashRateLimit = new TokenBucketRateLimit(5, 30);
 // const userUpdatePasswordRateLimit = new BasicRateLimit<number>(5, 60 * 10);
