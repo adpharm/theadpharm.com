@@ -1,14 +1,20 @@
 import { db } from "@/db";
 import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
 import { requireUserForAction } from "@/lib/server/auth.utils";
+import { logDebug } from "@/lib/utils.logger";
+import { upgradePlinkoGameSchema } from "@/lib/zod.schema";
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export const plinko = {
-  /**
+  /*****************************************************************************************************************************
+   *
+   *
    * For creating a new plinko game
-   */
+   *
+   *
+   ****************************************************************************************************************************/
   newGame: defineAction({
     input: undefined,
     handler: async (inputData, context) => {
@@ -64,9 +70,13 @@ export const plinko = {
     },
   }),
 
-  /**
-   * For updating a plinko game
-   */
+  /***************************************************************************************************************************
+   *
+   *
+   * For ending a plinko game round
+   *
+   *
+   ***************************************************************************************************************************/
   updateScoreAndCreateNextRound: defineAction({
     // accept: "form",
     input: z.object({
@@ -185,6 +195,18 @@ export const plinko = {
 
       return res;
     },
+  }),
+
+  /***************************************************************************************************************************
+   *
+   *
+   * For upgrading
+   *
+   *
+   ***************************************************************************************************************************/
+  updateBoardWithUpgrade: defineAction({
+    input: upgradePlinkoGameSchema,
+    handler: async (inputData, context) => {},
   }),
 };
 

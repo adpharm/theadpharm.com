@@ -33,10 +33,15 @@ export function PlinkoRoundWaitingToStartDialog() {
   const gameState = useStore($gameState);
   const openDialog = gameState === "waiting_to_start";
 
+  // upgrade the board
+  // async function upgradeBoardAndStartRound({}: {
+  //   upgrade
+  // }) {
+
+  // }
+
   // change the round to in progress
   function startRound() {
-    // $currentRoundState.set("in_progress");
-    // $currentRoundState.setKey("state", "in_progress");
     $gameState.set("round_in_progress");
   }
 

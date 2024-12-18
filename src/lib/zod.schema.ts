@@ -1,5 +1,12 @@
 import { z } from "astro:schema";
 
+/*************************************************************************************
+ *
+ *
+ * User
+ *
+ *
+ ************************************************************************************/
 export const usernameSchema = z
   .string()
   .min(2, {
@@ -34,4 +41,16 @@ export const createGuestUserSchema = z.object({
 export const signInUserSchema = z.object({
   username: usernameSchema,
   password: passwordSchema,
+});
+
+/***********************************************************************************
+ *
+ *
+ * Plinko
+ *
+ *
+ ************************************************************************************/
+export const upgradePlinkoGameSchema = z.object({
+  addNBalls: z.number(),
+  makeLastBallGolden: z.boolean(),
 });

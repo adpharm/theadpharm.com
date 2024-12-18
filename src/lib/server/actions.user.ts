@@ -130,13 +130,6 @@ export async function startUserSession(
  * Sign in a user
  *
  */
-<<<<<<< HEAD
-export const signInUserSchema = z.object({
-  username: usernameSchema,
-  password: passwordSchema,
-});
-=======
->>>>>>> ben/drizzle_only_2
 
 export async function signInUser(
   inputData: z.infer<typeof signInUserSchema>,

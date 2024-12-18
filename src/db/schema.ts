@@ -121,6 +121,13 @@ export const tablePlinkoGames = pgTable(
   ],
 );
 
+const plinkoBallPowerUps = (name: string) =>
+  text(name, { enum: ["golden"] })
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::text[]`);
+
+// pocket power ups
 const pocketPowerUps = (name: string) =>
   text(name, { enum: ["double"] })
     .array()
@@ -140,6 +147,29 @@ export const tablePlinkoGameRounds = pgTable(
     // the score for this round
     score: integer().notNull().default(0),
 
+    // ball details
+    plinko_ball_1_on: boolean().notNull().default(true),
+    plinko_ball_1_power_ups: plinkoBallPowerUps("plinko_ball_1_power_ups"),
+    plinko_ball_2_on: boolean().notNull().default(true),
+    plinko_ball_2_power_ups: plinkoBallPowerUps("plinko_ball_2_power_ups"),
+    plinko_ball_3_on: boolean().notNull().default(true),
+    plinko_ball_3_power_ups: plinkoBallPowerUps("plinko_ball_3_power_ups"),
+    plinko_ball_4_on: boolean().notNull().default(true),
+    plinko_ball_4_power_ups: plinkoBallPowerUps("plinko_ball_4_power_ups"),
+    plinko_ball_5_on: boolean().notNull().default(true),
+    plinko_ball_5_power_ups: plinkoBallPowerUps("plinko_ball_5_power_ups"),
+    plinko_ball_6_on: boolean().notNull().default(false), // ball 6 and on are locked by default
+    plinko_ball_6_power_ups: plinkoBallPowerUps("plinko_ball_6_power_ups"),
+    plinko_ball_7_on: boolean().notNull().default(false),
+    plinko_ball_7_power_ups: plinkoBallPowerUps("plinko_ball_7_power_ups"),
+    plinko_ball_8_on: boolean().notNull().default(false),
+    plinko_ball_8_power_ups: plinkoBallPowerUps("plinko_ball_8_power_ups"),
+    plinko_ball_9_on: boolean().notNull().default(false),
+    plinko_ball_9_power_ups: plinkoBallPowerUps("plinko_ball_9_power_ups"),
+    plinko_ball_10_on: boolean().notNull().default(false),
+    plinko_ball_10_power_ups: plinkoBallPowerUps("plinko_ball_10_power_ups"),
+
+    // pocket details
     pocket_middle_value: integer().notNull(),
     pocket_middle_power_ups: pocketPowerUps("pocket_middle_power_ups"),
     pocket_middle_left_1_value: integer().notNull(),

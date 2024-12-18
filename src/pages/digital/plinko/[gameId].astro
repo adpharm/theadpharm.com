@@ -96,6 +96,7 @@ $gameRemoteData.set(game);
   const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
   import Matter from "matter-js";
   import { actions } from "astro:actions";
+  import { tablePlinkoGameRounds } from "@/db/schema";
   import {
     $currentRoundRemoteData,
     $gameRemoteData,
@@ -104,10 +105,9 @@ $gameRemoteData.set(game);
     $gameState,
     $roundScore,
   } from "@/lib/stores";
-
-  // set up the engine and environment
-  const engine = Matter.Engine.create();
-  const runner = Matter.Runner.create();
+  import { toast } from "sonner";
+  import { logDebug, logError } from "@/lib/utils.logger";
+  import { DotLottie, DotLottieWorker } from "@lottiefiles/dotlottie-web";
 
   const matterCanvas: HTMLCanvasElement | null =
     document.querySelector(".matterCanvas");
@@ -122,10 +122,14 @@ $gameRemoteData.set(game);
   }
 
   // simulate page scrolling when cursor is over the canvas
-  matterCanvas.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    window.scrollBy(0, e.deltaY);
-  });
+  matterCanvas.addEventListener(
+    "wheel",
+    (e) => {
+      // e.preventDefault(); // can't use with passive: true
+      window.scrollBy(0, e.deltaY);
+    },
+    { passive: true }
+  );
 
   const globalSettings = {
     width: matterCanvas.width,
@@ -139,26 +143,109 @@ $gameRemoteData.set(game);
       "pocket_middle_right_2",
       "pocket_middle_right_3",
     ],
+    plinkoBallKeys: [
+      "plinko_ball_1",
+      "plinko_ball_2",
+      "plinko_ball_3",
+      "plinko_ball_4",
+      "plinko_ball_5",
+      "plinko_ball_6",
+      "plinko_ball_7",
+      "plinko_ball_8",
+      "plinko_ball_9",
+      "plinko_ball_10",
+    ],
     // pocketWidth: width / 7, // this number should be the the length of pocketKeys
     pocketHeight: 50,
     pocketDividerHeight: 50,
     ballSize: 10,
   } as const;
 
+  const pocketLottieCanvases: (HTMLCanvasElement | null)[] = Array.from(
+    document.querySelectorAll(
+      ".pocket-lottie-canvas"
+    ) as NodeListOf<HTMLCanvasElement>
+  );
+
+  if (pocketLottieCanvases.some((canvas) => !canvas)) {
+    throw new Error("DotLottie canvas not found");
+  }
+
+  // const pocketLottieAnimations = pocketLottieCanvases.map((canvas) => {
+  //   const dotLottie = new DotLottie({
+  //     canvas: canvas!,
+  //     src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+  //   });
+
+  //   return dotLottie;
+  // });
+  const pocketLottieAnimations: Record<
+    (typeof globalSettings.pocketKeys)[number],
+    DotLottieWorker
+    // DotLottie
+  > = {
+    pocket_middle_left_3: new DotLottieWorker({
+      canvas: pocketLottieCanvases[0]!,
+      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+    }),
+    pocket_middle_left_2: new DotLottieWorker({
+      canvas: pocketLottieCanvases[1]!,
+      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+    }),
+    pocket_middle_left_1: new DotLottieWorker({
+      canvas: pocketLottieCanvases[2]!,
+      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+    }),
+    pocket_middle: new DotLottieWorker({
+      canvas: pocketLottieCanvases[3]!,
+      src: "https://lottie.host/0cbdb3ef-2fa5-4d1d-9e4e-f66c879e010d/D0bRr9d93F.lottie",
+    }),
+    pocket_middle_right_1: new DotLottieWorker({
+      canvas: pocketLottieCanvases[4]!,
+      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+    }),
+    pocket_middle_right_2: new DotLottieWorker({
+      canvas: pocketLottieCanvases[5]!,
+      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+    }),
+    pocket_middle_right_3: new DotLottieWorker({
+      canvas: pocketLottieCanvases[6]!,
+      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+    }),
+  };
+
+  // const dotLottie = new DotLottie({
+  //   canvas: dotLottieCanvas,
+  //   // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie", // or .json file
+  //   src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
+  // });
+
+  // set up the engine and environment
+  const engine = Matter.Engine.create();
+  const runner = Matter.Runner.create();
+
   // the current round id
   let currentRoundId: number;
   let roundComposite: Matter.Composite;
 
-  type PocketSettings = Record<
+  let pocketsToCreate: Record<
     (typeof globalSettings.pocketKeys)[number],
-    { value: number; powerUps: string[] }
-  >;
-
-  let pocketSettings: PocketSettings | null;
+    {
+      value: typeof tablePlinkoGameRounds.$inferSelect.pocket_middle_value;
+      powerUps: typeof tablePlinkoGameRounds.$inferSelect.pocket_middle_power_ups;
+    }
+  > | null;
+  let plinkoBallsToCreate: Record<
+    (typeof globalSettings.plinkoBallKeys)[number],
+    {
+      on: typeof tablePlinkoGameRounds.$inferSelect.plinko_ball_10_on;
+      powerUps: typeof tablePlinkoGameRounds.$inferSelect.plinko_ball_10_power_ups;
+    }
+  > | null;
   let activePlinkoBall: Matter.Body | null;
   let activePlinkoBallIdx: number;
-  let plinkoBallsForRound: Matter.Body[];
-  let numBallsLeftToDrop: number;
+  let createdPlinkoBalls: Matter.Body[];
+  let numBallsLeftToDrop: number = 0;
   let currentAlivePlinkos: number;
 
   // set up the renderer
@@ -194,8 +281,12 @@ $gameRemoteData.set(game);
     y: number;
     size: number;
     // customImage: string;
-    options?: Matter.IBodyDefinition;
+    options: Matter.IBodyDefinition;
   }) => {
+    if (!options.label) {
+      throw new Error("You should provide a label for the plinko");
+    }
+
     // utility function returning a random integer between two values for color selection
     const randomBetweenForColor = (min: number, max: number) =>
       Math.floor(Math.random() * (max - min)) + min;
@@ -210,7 +301,6 @@ $gameRemoteData.set(game);
       render: options.render || {
         fillStyle,
       },
-      label: "plinko",
     });
   };
 
@@ -442,7 +532,8 @@ $gameRemoteData.set(game);
     // set the pockets
     const pockets: Matter.Body[] = [];
     const pocketDividers: Matter.Body[] = [];
-    pocketSettings = {
+    //
+    pocketsToCreate = {
       pocket_middle_left_3: {
         value: roundData.pocket_middle_left_3_value,
         powerUps: roundData.pocket_middle_left_3_power_ups,
@@ -536,28 +627,82 @@ $gameRemoteData.set(game);
      * Plinko balls
      *******************************************************************************************/
 
-    plinkoBallsForRound = [];
+    createdPlinkoBalls = [];
+
+    // set up the plinko balls
+    plinkoBallsToCreate = {
+      plinko_ball_1: {
+        on: roundData.plinko_ball_1_on,
+        powerUps: roundData.plinko_ball_1_power_ups,
+      },
+      plinko_ball_2: {
+        on: roundData.plinko_ball_2_on,
+        powerUps: roundData.plinko_ball_2_power_ups,
+      },
+      plinko_ball_3: {
+        on: roundData.plinko_ball_3_on,
+        powerUps: roundData.plinko_ball_3_power_ups,
+      },
+      plinko_ball_4: {
+        on: roundData.plinko_ball_4_on,
+        powerUps: roundData.plinko_ball_4_power_ups,
+      },
+      plinko_ball_5: {
+        on: roundData.plinko_ball_5_on,
+        powerUps: roundData.plinko_ball_5_power_ups,
+      },
+      plinko_ball_6: {
+        on: roundData.plinko_ball_6_on,
+        powerUps: roundData.plinko_ball_6_power_ups,
+      },
+      plinko_ball_7: {
+        on: roundData.plinko_ball_7_on,
+        powerUps: roundData.plinko_ball_7_power_ups,
+      },
+      plinko_ball_8: {
+        on: roundData.plinko_ball_8_on,
+        powerUps: roundData.plinko_ball_8_power_ups,
+      },
+      plinko_ball_9: {
+        on: roundData.plinko_ball_9_on,
+        powerUps: roundData.plinko_ball_9_power_ups,
+      },
+      plinko_ball_10: {
+        on: roundData.plinko_ball_10_on,
+        powerUps: roundData.plinko_ball_10_power_ups,
+      },
+    };
 
     // create the plinko balls
-    for (let i = 0; i < 5; i++) {
-      const plinkoBall = makePlinko({
-        x: -20,
-        y: 20,
-        size: settings.ballSize,
-        options: {
-          restitution: 0.9,
-          // balls should not collide with each other
-          collisionFilter: {
-            group: -1,
+    Object.entries(plinkoBallsToCreate).forEach(
+      ([plinkoBallKey, plinkoBallData]) => {
+        // if the plinko ball is not on, skip
+        if (plinkoBallData.on === false) {
+          return;
+        }
+
+        // otherwise, create the plinko ball and add it to the plinko balls for the round
+        const plinkoBall = makePlinko({
+          x: -20,
+          y: 20,
+          size: settings.ballSize,
+          options: {
+            restitution: 0.9,
+            // balls should not collide with each other
+            collisionFilter: {
+              group: -1,
+            },
+            label: plinkoBallKey,
           },
-        },
-      });
-      plinkoBall.isStatic = true;
-      plinkoBallsForRound.push(plinkoBall);
-    }
+        });
+        plinkoBall.isStatic = true;
+        createdPlinkoBalls.push(plinkoBall);
+        numBallsLeftToDrop++;
+      }
+    );
 
     activePlinkoBallIdx = 0;
-    activePlinkoBall = plinkoBallsForRound[activePlinkoBallIdx] || null;
+    activePlinkoBall = createdPlinkoBalls[activePlinkoBallIdx] || null;
 
     // add the first ball to the world
     if (activePlinkoBall) {
@@ -584,10 +729,12 @@ $gameRemoteData.set(game);
   $roundResult.subscribe(async (val) => {
     // reset the local stuff when the round result is set to null
     if (val === null) {
-      pocketSettings = null;
+      pocketsToCreate = null;
+      plinkoBallsToCreate = null;
+      createdPlinkoBalls = [];
       currentAlivePlinkos = 0;
-      numBallsLeftToDrop = 5;
-      plinkoBallsForRound = [];
+      // numBallsLeftToDrop = 5;
+      numBallsLeftToDrop = 0; // this number should already be 0
       activePlinkoBallIdx = 0;
       activePlinkoBall = null;
       $roundScore.set(0);
@@ -602,7 +749,13 @@ $gameRemoteData.set(game);
     });
 
     if (error) {
-      throw new Error("Error updating round score");
+      logError(error);
+
+      toast.error(`Sorry, an error occured: ${error.message}`, {
+        duration: 8000,
+      });
+
+      throw new Error();
     }
 
     const { updatedRound, nextRound, updatedGame } = data;
@@ -648,45 +801,72 @@ $gameRemoteData.set(game);
       const { label: labelB } = bodyB;
 
       // we only care about plinko collisions
-      if (labelA !== "plinko" && labelB !== "plinko") {
+      if (
+        globalSettings.plinkoBallKeys.includes(labelA as any) === false &&
+        globalSettings.plinkoBallKeys.includes(labelB as any) === false
+      ) {
         return;
       }
 
-      let plinko: Matter.Body;
-      let other: Matter.Body;
-
-      if (labelA === "plinko") {
-        plinko = bodyA;
-        other = bodyB;
+      // figure out which body is the plinko
+      let plinkoBody: Matter.Body;
+      let otherBody: Matter.Body;
+      if (globalSettings.plinkoBallKeys.includes(labelA as any)) {
+        // bodyA is the plinko
+        plinkoBody = bodyA;
+        otherBody = bodyB;
       } else {
-        plinko = bodyB;
-        other = bodyA;
+        // bodyB is the plinko
+        plinkoBody = bodyB;
+        otherBody = bodyA;
       }
 
       // if the plinko is colliding with a pocket
-      if (other.label in (pocketSettings || {})) {
+      if (otherBody.label in (pocketsToCreate || {})) {
         // get the pocket in which the plinko has fallen
         // const pocket = pockets.find((pocket) => pocket.label === other.label);
         // console.log("Plinko has fallen into pocket", pocket);
-        const pocket_ =
-          pocketSettings?.[other.label as keyof typeof pocketSettings];
+        const pocketKey =
+          otherBody.label as (typeof globalSettings.pocketKeys)[number];
+        const pocket_ = pocketsToCreate?.[pocketKey];
 
         if (!pocket_) {
+          toast.error("Something went wrong: No pocket found");
           throw new Error("No pocket found");
         }
 
-        // console.log("Add score: ", pocketSettings.value);
+        // play the lottie animation
+        // position the lottie canvas
+        // dotLottieCanvas.style.left = `${plinkoBody.position.x}px`;
+        // dotLottieCanvas.style.top = `${plinkoBody.position.y}px`;
+
+        // play the lottie animation
+        const animation = pocketLottieAnimations[pocketKey];
+        animation.play();
+        // dotLottie.play();
+
+        // hide the animation after it finishes
+        animation.addEventListener("complete", function onComplete() {
+          // Hide or remove the animation after it finishes
+          // dotLottieCanvas.style.opacity = "0";
+          (animation.canvas as HTMLCanvasElement).style.opacity = "0";
+          animation.removeEventListener("complete", onComplete);
+        });
+
+        // show the animation
+        (animation.canvas as HTMLCanvasElement).style.opacity = "1";
+
         internalScore += pocket_.value;
         // roundScore += pocket_.value;
         $roundScore.set($roundScore.get() + pocket_.value);
 
         // remove the plinko from the world
         // World.remove(world, plinko);
-        Matter.Composite.remove(roundComposite, plinko);
+        Matter.Composite.remove(roundComposite, plinkoBody);
         currentAlivePlinkos--;
 
-        if (currentAlivePlinkos <= 0) {
-          console.log("Round ended");
+        if (currentAlivePlinkos <= 0 && numBallsLeftToDrop <= 0) {
+          logDebug("Round end");
           // onRoundEnd();
           $roundResult.set({
             score: $roundScore.get(),
@@ -757,7 +937,7 @@ $gameRemoteData.set(game);
     if (activePlinkoBall) {
       Matter.Body.setStatic(activePlinkoBall, false);
       activePlinkoBallIdx++;
-      activePlinkoBall = plinkoBallsForRound[activePlinkoBallIdx];
+      activePlinkoBall = createdPlinkoBalls[activePlinkoBallIdx];
       // add the next ball to the world
       if (activePlinkoBall) {
         Matter.Body.setPosition(activePlinkoBall, {
@@ -805,13 +985,25 @@ $gameRemoteData.set(game);
         ) : (
           <>
             <PlinkoScoreboard client:load />
-            <div>
+            <div class="relative">
               <canvas
-                class="matterCanvas bg-blue-950"
+                class="matterCanvas relative bg-blue-950"
                 width={400}
                 height={600}
               />
             </div>
+
+            <div class="-mt-12 relative flex">
+              {/* lottie canvases */}
+              {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                <canvas
+                  class="pocket-lottie-canvas opacity-0"
+                  width={400 / 7}
+                  height={50}
+                />
+              ))}
+            </div>
+
             <div class="grid grid-cols-7 text-center">
               <div>{currentRound.pocket_middle_left_3_value}</div>
               <div>{currentRound.pocket_middle_left_2_value}</div>
