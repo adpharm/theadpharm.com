@@ -8,10 +8,9 @@ import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { $userGamesTable } from "@/lib/stores";
 import { LeaderboardTable } from "@/components/table/LeaderboardTable";
-import { requireAuth } from "@/lib/server/auth_utils";
 import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
-import { AuthDialog } from "@/components/dialog/AuthDialog";
 import { UserDropdownMenu } from "@/components/dropdown/UserDropdownMenu";
+import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
 
 await listTopGamesWithUsers();
 
@@ -47,7 +46,7 @@ $userGamesTable.set(plinkoGameWithRounds);
   </main>
 </Layout>
 
-<AuthDialog
+<RegisterGuestUserDialog
   client:load
   open={Astro.locals.user === null || Astro.locals.session === null}
 />

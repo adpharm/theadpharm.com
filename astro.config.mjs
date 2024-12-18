@@ -28,4 +28,16 @@ export default defineConfig({
   ],
 
   adapter: vercel(),
+
+  // vite: {
+  //   optimizeDeps: {
+  //     // exclude: ["oslo"],
+  //     // exclude: ["@node-rs/argon2", "@node-rs/bcrypt"],
+  //     exclude: ["@node-rs/argon2"],
+  //   },
+  //   ssr: {
+  //     // noExternal: ["oslo"],
+  //     noExternal: ["@node-rs/argon2"],
+  //   },
+  // },
 });

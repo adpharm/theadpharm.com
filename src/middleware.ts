@@ -4,7 +4,7 @@ import {
   setSessionTokenCookie,
   validateSessionToken,
 } from "@/lib/server/session";
-import { TokenBucketRateLimit } from "@/lib/server/rate_limit";
+import { TokenBucketRateLimit } from "@/lib/server/actions.rateLimit";
 
 const ratelimit = new TokenBucketRateLimit<string>(100, 1);
 
