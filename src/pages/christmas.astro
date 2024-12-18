@@ -20,149 +20,94 @@ const perplexity = createOpenAI({
 
 const maxNumQuestions = 20;
 const currentQuestion = 1;
-
-// const { text } = await generateText({
-//   model: perplexity("llama-3.1-sonar-small-128k-online"),
-//   prompt: "Write a vegetarian lasagna recipe for 4 people.",
-// });
-
-// console.log(text);
 ---
 
 <Layout title="The Adpharm: Big agency experience, small agency excellence">
   <main class="relative z-0">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
-      <!-- bg overlays -->
-      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
       <div
         class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10 pointer-events-none"
       >
       </div>
     </div>
-    <!-- 
-
-
-
-    new section
-    
-    
-    -->
 
     <Section
-      className="min-h-screen flex flex-col items-center justify-start mt-64"
+      className="min-h-screen flex flex-col items-center justify-start mt-20"
     >
-      <h1 class="font-christmas text-6xl text-red-500">Merry Christmas from</h1>
-      <div
-        class="flex flex-row items-center justify-center space-x-24 mt-20 mb-8"
-      >
-        <a href="/" target="_blank"
-          ><img src="/adpharm-logo4x.png" alt="the adpharm" class="w-60" /></a
+      <div class="relative rounded-3xl border-8 border-red-500 p-4 m-10">
+        <div
+          class="absolute inset-0 bg-cover bg-center backdrop-blur-lg"
+          style="background-image: url('blurry-xmas-bg.png'); filter: blur(8px);"
         >
-        <a href="https://www.synapsemedcom.ca" target="_blank"
-          ><img src="/logo_synapse.png" alt="synapse medcom" class="w-60" /></a
-        >
-      </div>
-      <div class="w-full max-w-3xl rounded-full p-10 m-4">
-        <div class="text-lg text-center space-y-4 mb-20">
-          <p>
-            Welcome to <span class="font-bold text-red-500"
-              >Adpharm’s 21 Questions</span
-            >
-          </p>
-          <p>
-            This is a festive guessing game where you’ll think of a
-            Christmas-themed character, and we'll try to guess who it is.
-          </p>
-          <p>Start by picking who you want to play with.</p>
-          <p>
-            Enjoy the holiday fun, and let’s see if Brian, Amy, or Jai can
-            outsmart you!
-          </p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-20">
-          <div class="flex flex-col justify-center items-center">
-            <div
-              data-index="0"
-              class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
-            >
-              <img
-                src="/wreath.png"
-                alt="Wreath"
-                class="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
-              />
-              <div
-                class="h-40
-                w-40
-                rounded-full
-                relative
-                z-10
-                overflow-hidden
-                flex flex-row items-center justify-center"
+        <div class="absolute inset-0 bg-black bg-opacity-60 rounded-3xl"></div>
+        <div class="relative w-full max-w-3xl p-10 m-4">
+          <div class="text-lg text-center space-y-6 mb-20">
+            <p class="text-4xl font-christmas">
+              Welcome to <span class="font-bold text-red-500 ml-4"
+                >Adpharm's Guess the Character</span
               >
-                <img src="/brian.png" alt="brian honda" />
-              </div>
+            </p>
+            <div class="grid grid-cols-1 gap-4">
+              <p>
+                This is a festive guessing game where you'll think of a
+                Christmas-themed character, and we'll try to guess who it is.
+              </p>
+              <p>Start by picking who you want to play with.</p>
+              <p>
+                Enjoy the holiday fun, and let's see if Santa, Kevin
+                McCallister, or the Grinch can outsmart you!
+              </p>
             </div>
-            <p class="font-christmas text-4xl mt-2 text-red-500">Brian</p>
           </div>
-          <div class="flex flex-col justify-center items-center">
-            <div
-              data-index="1"
-              class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
-            >
-              <img
-                src="/wreath.png"
-                alt="Wreath"
-                class="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
-              />
+          <div class="flex flex-row justify-center items-center">
+            <!-- Santa -->
+            <div class="flex flex-col justify-center items-center">
               <div
-                class="h-40
-                w-40
-                rounded-full
-                relative
-                z-10
-                overflow-hidden
-                flex flex-row items-center justify-center"
+                data-index="0"
+                data-voice-id="s3://voice-cloning-zero-shot/e5b701f9-5b39-4d4a-a0dc-254956f607c0/original/manifest.json"
+                class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
               >
-                <img src="/amy.png" alt="amy moriarty" />
+                <img src="/Santa.webp" alt="Santa" />
+                <p class="font-christmas text-3xl text-red-500 -translate-x-2">
+                  Santa
+                </p>
               </div>
             </div>
-            <p class="font-christmas text-4xl mt-2 text-red-500">Amy</p>
-          </div>
-          <div class="flex flex-col justify-center items-center">
-            <div
-              data-index="2"
-              class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
-            >
-              <img
-                src="/wreath.png"
-                alt="Wreath"
-                class="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
-              />
+
+            <!-- Kevin McCallister -->
+            <div class="flex flex-col justify-center items-center">
               <div
-                class="h-40
-                w-40
-                rounded-full
-                relative
-                z-10
-                overflow-hidden
-                flex flex-row items-center justify-center"
+                data-index="0"
+                data-voice-id="s3://voice-cloning-zero-shot/0dd43d3f-95d8-4801-bb29-7b34e17b3326/original/manifest.json"
+                class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
               >
-                <img src="/jai.png" alt="jai sharma" class="-translate-y-6" />
+                <img src="/kevin.webp" alt="Kevin McCallister" />
+                <p class="font-christmas text-3xl text-red-500">
+                  Kevin McCallister
+                </p>
               </div>
             </div>
-            <p class="font-christmas text-4xl mt-2 text-red-500">Jai</p>
+
+            <!-- Grinch -->
+            <div class="flex flex-col justify-center items-center">
+              <div
+                data-index="0"
+                data-voice-id="s3://voice-cloning-zero-shot/f77dcd72-d997-47de-8505-9828b8bf59c6/original/manifest.json"
+                class="relative w-56 h-56 flex flex-col justify-center items-center selectable-button cursor-pointer hover:scale-110 transition ease-in-out"
+              >
+                <img src="/grinch.webp" alt="The Grinch" />
+                <p class="font-christmas text-3xl text-red-500">The Grinch</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div
-          class="flex flex-col justify-center items-center space-y-16 w-full"
-        >
+        <div class="relative flex flex-col justify-center items-center w-full">
           <div>
-            <!-- Start Button Rendered Unconditionally -->
             <button
-              class="start-btn relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-3xl mt-36"
+              class="start-btn relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-3xl my-12"
             >
-              <!-- Hat Image -->
               <img
                 src="/santahat-btn.webp"
                 alt="Hat"
@@ -177,20 +122,19 @@ const currentQuestion = 1;
           </div>
           <p
             id="question-count"
-            class="hidden text-white text-md font-light mt-32"
+            class="hidden text-white text-md font-light mb-6"
           >
             Question {currentQuestion} of {maxNumQuestions}
           </p>
           <p
             id="ai-question"
-            class="text-center text-lg md:text-xl text-white px-4 transition ease-in-out"
+            class="text-center text-lg md:text-xl text-white px-4 transition ease-in-out mb-6"
           >
           </p>
           <div
-            class="hidden flex-row items-center justify-center space-x-2"
+            class="hidden flex-row items-center justify-center space-x-2 mb-6"
             id="thinking-loader"
           >
-            <!-- Spinner with a snowflake -->
             <p class="text-white text-lg animate-pulse transition ease-in-out">
               Thinking...
             </p>
@@ -240,7 +184,9 @@ const currentQuestion = 1;
           </div>
 
           <script>
-            // ai stuff
+            let selectedVoiceId =
+              "s3://voice-cloning-zero-shot/e5b701f9-5b39-4d4a-a0dc-254956f607c0/original/manifest.json"; // default: Santa
+
             const aiQuestionElement = document.getElementById(
               "ai-question"
             ) as HTMLElement;
@@ -255,7 +201,6 @@ const currentQuestion = 1;
 
             let currentQuestion = 0;
             const maxQuestions = 20;
-            // Initialize hasStarted state
             let hasStarted = false;
 
             interface Message {
@@ -309,7 +254,6 @@ const currentQuestion = 1;
 
             let conversation = prompt;
 
-            // Manage the Start button
             const startButton =
               document.querySelector<HTMLElement>(".start-btn");
 
@@ -321,17 +265,18 @@ const currentQuestion = 1;
                   buttons.forEach((btn) => {
                     btn.classList.remove("scale-110");
                   });
-                  // Add active classes to the clicked button
                   button.classList.add("scale-110");
+                  const voiceId = button.getAttribute("data-voice-id");
+                  if (voiceId) {
+                    selectedVoiceId = voiceId;
+                  }
                 });
               });
 
               const guessButtons = document.querySelectorAll(".guess-button");
-
               guessButtons.forEach((button) => {
                 button.addEventListener("click", () => {
                   if (button.innerHTML === "Correct") {
-                    // we guessed it! start over now.
                     handleAIResponse(
                       "Ho-ho-ho! I knew I could get it. Do you want to play again?"
                     );
@@ -341,7 +286,6 @@ const currentQuestion = 1;
                     );
                   }
                   hideOutcomeButtons();
-                  // show the play again button
                   hasStarted = false;
                   if (startButton) {
                     startButton.innerText = "Play again";
@@ -365,10 +309,7 @@ const currentQuestion = 1;
                     playAgainFlag = true;
                   }
 
-                  // Start the conversation
                   getAIResponse();
-                } else {
-                  // Optional: Handle 'Next' button functionality if needed
                 }
               });
             }
@@ -384,14 +325,10 @@ const currentQuestion = 1;
                   currentQuestion === 0 ||
                   currentQuestion >= maxQuestions
                 ) {
-                  // Game hasn't started or already ended
                   return;
                 }
 
-                // Get the response based on button's data-response attribute
                 const response = button.getAttribute("data-response") || "";
-
-                // Handle the user's response
                 await handleUserResponse(response);
               });
             });
@@ -416,14 +353,11 @@ const currentQuestion = 1;
               answerDiv?.classList.remove("grid");
             }
 
-            // function to send request to ai using our api
             async function getAIResponse() {
               try {
-                // disable the guess buttons
                 const answerDiv = document.querySelector(".answer-btns");
                 answerDiv?.classList.add("disabled");
 
-                // Show loading indicator
                 aiQuestionElement.classList.add("hidden");
                 thinkingLoader.classList.remove("hidden");
                 thinkingLoader.classList.add("flex");
@@ -448,35 +382,27 @@ const currentQuestion = 1;
 
                 const data: GuessResponse = await response.json();
 
-                // appear the buttons
                 showGuessButtons();
 
                 if (data.success) {
                   const aiMessage = data.message || "";
-
-                  // Detect if AI is making a guess
                   if (
                     aiMessage
                       .toLowerCase()
                       .startsWith("i guess your character is")
                   ) {
                     handleAIResponse(aiMessage);
-
-                    // update conversation with ai response
                     conversation.push({
                       role: "assistant",
                       content: aiMessage,
                     });
 
-                    // ai has guessed, reveal the guess buttons and hide the original ones
                     showOutcomeButtons();
 
                     answerDiv?.classList.remove("grid");
                     answerDiv?.classList.add("hidden");
                   } else {
                     handleAIResponse(aiMessage);
-
-                    // update conversation with ai response
                     conversation.push({
                       role: "assistant",
                       content: aiMessage,
@@ -485,7 +411,6 @@ const currentQuestion = 1;
                     currentQuestion += 1;
                     questionCountElement.innerText = `Question ${currentQuestion} of ${maxQuestions}`;
 
-                    // ai lost the game
                     if (currentQuestion >= maxQuestions) {
                       handleAIResponse(
                         "You stumped me! Do you want to try again?"
@@ -512,29 +437,17 @@ const currentQuestion = 1;
             }
 
             async function handleUserResponse(response: string) {
-              // add user's response to conversation
               conversation.push({
                 role: "user",
                 content: response,
               });
-
-              // get response from ai
               await getAIResponse();
-            }
-
-            function disableResponseButtons() {
-              responseButtons.forEach((button) => {
-                button.addEventListener("click", () => {
-                  // hide dem buttons
-                  button.classList.add(".hidden");
-                });
-              });
             }
 
             async function playText(text: string) {
               try {
                 const response = await fetch(
-                  `/api/text-to-speech?text=${encodeURIComponent(text)}`
+                  `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`
                 );
                 if (!response.ok) {
                   throw new Error("Failed to fetch audio");
@@ -551,17 +464,13 @@ const currentQuestion = 1;
 
             async function handleAIResponse(aiMessage: string) {
               try {
-                // Start playing the audio
                 await playText(aiMessage);
-
-                // After audio starts playing, hide the loader and show the message
                 thinkingLoader.classList.remove("flex");
                 thinkingLoader.classList.add("hidden");
                 aiQuestionElement.innerText = aiMessage;
                 aiQuestionElement.classList.remove("hidden");
                 aiQuestionElement.classList.add("flex");
               } catch (error) {
-                // Handle errors (e.g., show an error message)
                 thinkingLoader.classList.remove("flex");
                 thinkingLoader.classList.add("hidden");
                 aiQuestionElement.innerText = "Oops! Something went wrong.";
@@ -572,125 +481,92 @@ const currentQuestion = 1;
           </script>
         </div>
       </div>
-
-      <!-- 
-
-
-
-    new section
-    
-    
-    -->
-    </Section>
-    <Section className="pt-12 pb-24" fullTopBorder>
-      <Grid id="sfd23" className="space-y-12 lg:space-y-0">
-        <div slot="left" class="pl-0 lg:pl-10">
-          <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
-          <p class="text-lg">133 Thomas Street</p>
-          <p class="text-zinc-400">Oakville, Ontario</p>
-          <p class="text-zinc-400">L6J 3A9</p>
-          <p class="pt-0 lg:pt-4">
-            <Href
-              href="https://www.linkedin.com/company/the-adpharm/"
-              className="text-sm">LinkedIn</Href
-            >
-          </p>
-        </div>
-
-        <div slot="right">
-          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
-            <div>
-              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
-                Contact
-              </p>
-              <p class="text-lg">Amy Moriarty</p>
-              <p class="text-zinc-400">SVP, Managing Director</p>
-              <div class="flex items-center justify-start">
-                <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
-                <TextSwitcher
-                  client:load
-                  textToCopy="amy@theadpharm.com"
-                  beforeText="(copy)"
-                  beforeClassName="hover:underline cursor-pointer"
-                  afterText="(copied ✔)"
-                  afterClassName="text-green-600"
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
-                Teams
-              </p>
-
-              <ul class="space-y-1.5">
-                <li class="flex items-center space-x-2">
-                  <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
-                  <Href
-                    href="/"
-                    className="text-sm text-white hover:text-orange-600"
-                    >The Adpharm (Agency)</Href
-                  >
-                </li>
-
-                <li class="flex items-center space-x-2">
-                  <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
-                  <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
-                  <Href
-                    href="https://www.synapsemedcom.ca/"
-                    className="text-sm text-white hover:text-[#1292a9]"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Synapse Medcom
-                  </Href>
-                </li>
-
-                <li class="flex items-center space-x-2">
-                  <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
-                  <Href
-                    href="/digital"
-                    className="text-sm text-white hover:text-orange-600"
-                    >AD (Adpharm Digital)</Href
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </Grid>
-    </Section>
-
-    <!-- <Section className="py-12">
-      <Grid id="2334tsd">
-        
-      </Grid>
-    </Section> -->
-
-    <!-- 
-
-
-
-
-
-
-      Blocks
-     -->
-    <Snowfall />
-    <Section topBorder className="py-4">
-      <div class="grid grid-cols-1 sm:grid-cols-5">
-        <div
-          class="col-span-2 flex items-center justify-center sm:justify-start"
-        >
-          <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
-        </div>
-        <div class="col-span-3 flex items-center justify-center sm:justify-end">
-          <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
-          <p class="text-xs text-zinc-400">
-            &copy; {new Date().getFullYear()} The Adpharm Inc.
-          </p>
-        </div>
-      </div>
     </Section>
   </main>
 </Layout>
+
+<Section className="pt-12 pb-24" fullTopBorder>
+  <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+    <div slot="left" class="pl-0 lg:pl-10">
+      <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+      <p class="text-lg">133 Thomas Street</p>
+      <p class="text-zinc-400">Oakville, Ontario</p>
+      <p class="text-zinc-400">L6J 3A9</p>
+      <p class="pt-0 lg:pt-4">
+        <Href
+          href="https://www.linkedin.com/company/the-adpharm/"
+          className="text-sm">LinkedIn</Href
+        >
+      </p>
+    </div>
+
+    <div slot="right">
+      <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+        <div>
+          <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+            Contact
+          </p>
+          <p class="text-lg">Amy Moriarty</p>
+          <p class="text-zinc-400">SVP, Managing Director</p>
+          <div class="flex items-center justify-start">
+            <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+            <TextSwitcher
+              client:load
+              textToCopy="amy@theadpharm.com"
+              beforeText="(copy)"
+              beforeClassName="hover:underline cursor-pointer"
+              afterText="(copied ✔)"
+              afterClassName="text-green-600"
+            />
+          </div>
+        </div>
+
+        <div>
+          <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">Teams</p>
+
+          <ul class="space-y-1.5">
+            <li class="flex items-center space-x-2">
+              <Href
+                href="/"
+                className="text-sm text-white hover:text-orange-600"
+                >The Adpharm (Agency)</Href
+              >
+            </li>
+
+            <li class="flex items-center space-x-2">
+              <Href
+                href="https://www.synapsemedcom.ca/"
+                className="text-sm text-white hover:text-[#1292a9]"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Synapse Medcom
+              </Href>
+            </li>
+
+            <li class="flex items-center space-x-2">
+              <Href
+                href="/digital"
+                className="text-sm text-white hover:text-orange-600"
+                >AD (Adpharm Digital)</Href
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </Grid>
+</Section>
+
+<Snowfall />
+<Section topBorder className="py-4">
+  <div class="grid grid-cols-1 sm:grid-cols-5">
+    <div class="col-span-2 flex items-center justify-center sm:justify-start">
+    </div>
+    <div class="col-span-3 flex items-center justify-center sm:justify-end">
+      <p class="text-xs text-zinc-400">
+        &copy; {new Date().getFullYear()} The Adpharm Inc.
+      </p>
+    </div>
+  </div>
+</Section>
