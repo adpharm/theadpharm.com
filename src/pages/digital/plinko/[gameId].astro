@@ -255,7 +255,8 @@ $gameRemoteData.set(game);
     // set a background slightly lighter than the body's own background
     options: {
       wireframes: false,
-      background: "hsl(225, 60%, 20%)",
+      // background: "hsl(225, 60%, 20%)",
+      background: "transparent",
       width: globalSettings.width,
       height: globalSettings.height,
     },
@@ -985,12 +986,8 @@ $gameRemoteData.set(game);
         ) : (
           <>
             <PlinkoScoreboard client:load />
-            <div class="relative">
-              <canvas
-                class="matterCanvas relative bg-blue-950"
-                width={400}
-                height={600}
-              />
+            <div class="relative bg-blue-900">
+              <canvas class="matterCanvas relative" width={400} height={600} />
             </div>
 
             <div class="-mt-12 relative flex">
