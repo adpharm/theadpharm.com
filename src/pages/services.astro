@@ -1,0 +1,113 @@
+---
+import { Transition } from "@headlessui/react";
+
+import Layout from "../layouts/Layout.astro";
+import Href from "../components/Href";
+import Grid from "../layouts/Grid.astro";
+import Section from "../layouts/Section.astro";
+import Icon from "../components/Icon";
+import { twMerge } from "tailwind-merge";
+import TextSwitcher from "../components/TextSwitcher";
+import { LeadershipCard } from "../components/LeadershipCard";
+---
+
+<Layout title="The Adpharm: Big agency experience, small agency excellence">
+  <main class="relative">
+    <div class="absolute h-screen w-full top-0 left-0 z-0">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute top-0 left-0 w-full h-full object-cover object-left-top"
+        poster="/adpharm-bg.webp"
+      >
+        <!-- <source src="/adpharm-bg-bright.mp4" type="video/mp4" /> -->
+        <source src="/adpharm-bg.mp4" type="video/mp4" />
+        <!-- <source src="/video.webm" type="video/webm" /> -->
+      </video>
+
+      <!-- bg overlays -->
+      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
+      <div
+        class="relative flex flex-col items-center justify-center w-full mt-40"
+      >
+        <div class="flex flex-col items-center justify-center max-w-6xl w-full">
+          <h1 class="text-4xl font-thin w-full text-left ml-16">Services</h1>
+          <div class="w-full ml-16">
+            <div class="w-full mt-6 space-y-1">
+              <h2 class="text-2xl font-semibold text-orange-600">Strategy</h2>
+              <div class="font-extralight tracking-wide ml-6">
+                <ul class="list-disc">
+                  <li>Brand Strategy</li>
+                  <li>New Product and Indication Launch Strategy</li>
+                  <li>Content and Channel Strategy</li>
+                  <li>Competitive Intelligence</li>
+                  <li>Integrated Omnichannel Planning and Design</li>
+                  <li>Conference Planning</li>
+                </ul>
+              </div>
+            </div>
+            <div class="w-full mt-6 space-y-1">
+              <h2 class="text-2xl font-semibold text-orange-600">Creative</h2>
+              <div class="font-extralight tracking-wide ml-6">
+                <ul class="list-disc">
+                  <li>HCP, Patient, and Consumer Content Development</li>
+                  <li>Regulatory-Compliant Creative (PAAB & ASC Expertise)</li>
+                  <li>Sales Enablement Tools and Marketing Collateral</li>
+                  <li>Booth and Exhibit Design</li>
+                  <li>Corporate Communications and Messaging</li>
+                  <li>Logo and Visual Identity Development</li>
+                  <li>Brand Guidelines and Style Guide Creation</li>
+                  <li>
+                    Commercial Print Services (Conference, Sales and Marketing
+                    Materials)
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="w-full mt-6 space-y-1">
+              <h2 class="text-2xl font-semibold text-orange-600">
+                Design & Development
+              </h2>
+              <div class="font-extralight tracking-wide ml-6">
+                <ul class="list-disc">
+                  <li>Website and App Design and Development (Full Stack)</li>
+                  <li>
+                    Customer Experience (CX), UX, and UI Design and Optimization
+                  </li>
+                  <li>CRM Journey Mapping and Development</li>
+                  <li>Email Campaign Design and Deployment</li>
+                  <li>Advanced Analytics and Performance Reporting</li>
+                  <li>AI Tool Design and Development</li>
+                </ul>
+              </div>
+            </div>
+            <div class="w-full mt-6 space-y-1">
+              <h2 class="text-2xl font-semibold text-orange-600">
+                Medical Communications
+              </h2>
+              <div class="font-extralight tracking-wide ml-6">
+                <ul class="list-disc">
+                  <li>Advisory Boards and Consultancy Meetings</li>
+                  <li>Speaker Training and Development Programs</li>
+                  <li>
+                    Online Learning Activities (OLAs) and Accredited Continuing
+                    Medical Education (CME)
+                  </li>
+                  <li>
+                    Symposia, Manuscripts, and Medical Slide Deck Development
+                  </li>
+                  <li>
+                    Ambassador Programs, Stakeholder Mapping, and Asynchronous
+                    Engagements
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

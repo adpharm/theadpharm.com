@@ -29,6 +29,8 @@ interface NavigationItem {
   children?: NavigationItem[];
 }
 
+const currentPath = Astro.url.pathname;
+
 const navItems = [
   {
     label: "Our Brands",
@@ -43,11 +45,12 @@ const navItems = [
     href: "/about",
   },
   {
+    label: "Clients",
+    href: "/clients",
+  },
+  {
     label: "Services",
-    children: [
-      { label: "Service 1", href: "/service1" },
-      { label: "Service 2", href: "/service2" },
-    ],
+    href: "/services",
   },
   {
     label: "Contact",
@@ -194,7 +197,7 @@ const navItems = [
             className="hidden sm:inline-block"
           /> -->
           <img src="/src/images/adpharm-logo@4x.png" alt="the adpharm" class="w-36"/>
-          <MainNavigation items={navItems} client:idle />
+          <MainNavigation items={navItems} currentPath={currentPath} client:idle />
         </div>
         <div></div>
       </header>

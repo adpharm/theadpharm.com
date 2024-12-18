@@ -1,0 +1,102 @@
+---
+import { Transition } from "@headlessui/react";
+
+import Layout from "../layouts/Layout.astro";
+import Href from "../components/Href";
+import Grid from "../layouts/Grid.astro";
+import Section from "../layouts/Section.astro";
+import Icon from "../components/Icon";
+import { twMerge } from "tailwind-merge";
+import TextSwitcher from "../components/TextSwitcher";
+import { LeadershipCard } from "../components/LeadershipCard";
+
+const leadership = [
+  {
+    imgSrc: "/employees/brian.png",
+    name: "Brian Honda",
+    title: "President and Owner",
+  },
+  {
+    imgSrc: "/employees/amy.png",
+    name: "Amy Moriarty",
+    title: "SVP, Managing Director",
+  },
+  {
+    imgSrc: "/employees/fiona.png",
+    name: "Fiona Roossien",
+    title: `Vice President,<br />Creative Director`,
+  },
+  {
+    imgSrc: "/employees/jai.png",
+    name: "Jai Sharma",
+    title: `Vice President,<br / >Medical Communications`,
+  },
+  {
+    imgSrc: "/employees/tony.png",
+    name: "Tony Wong",
+    title: `Vice President,<br />Digital & Innovation`,
+  },
+];
+---
+
+<Layout title="The Adpharm: Big agency experience, small agency excellence">
+  <main class="relative">
+    <div class="absolute h-screen w-full top-0 left-0 z-0">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute top-0 left-0 w-full h-full object-cover object-left-top"
+        poster="/adpharm-bg.webp"
+      >
+        <!-- <source src="/adpharm-bg-bright.mp4" type="video/mp4" /> -->
+        <source src="/adpharm-bg.mp4" type="video/mp4" />
+        <!-- <source src="/video.webm" type="video/webm" /> -->
+      </video>
+
+      <!-- bg overlays -->
+      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
+      <div
+        class="relative flex flex-col items-center justify-center w-full mt-40"
+      >
+        <div class="flex flex-col items-center justify-center max-w-6xl w-full">
+          <h1 class="text-4xl font-thin w-full text-left mb-16 ml-16">
+            About us
+          </h1>
+          <div class="grid grid-cols-5 gap-12">
+            {
+              leadership.map((member) => (
+                <LeadershipCard
+                  imgSrc={member.imgSrc}
+                  name={member.name}
+                  title={member.title}
+                />
+              ))
+            }
+          </div>
+
+          <div class="w-full ml-16 mt-6 space-y-1">
+            <h2 class="text-2xl font-semibold text-orange-600">
+              Leadership Team
+            </h2>
+            <p class="font-light tracking-wide">
+              Our leadership team has decades of Canadian healthcare experience
+              - from multinational agencies to pharmaceutical companies.
+            </p>
+          </div>
+
+          <div class="w-full ml-16 mt-16 space-y-1">
+            <h2 class="text-2xl font-semibold text-orange-600">
+              Why we're here
+            </h2>
+            <p class="font-light tracking-wide">
+              We focus on the brand's success, free of the competing interests
+              typically seen in network agencies.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
