@@ -16,7 +16,6 @@ const clients = [
     id: "sun",
     name: "Sun Pharma",
     img: "/sun_pharma_white.webp",
-    classOverride: "brightness-50",
   },
   { id: "abbvie", name: "AbbVie", img: "/abbvie_blue.webp" },
   { id: "mirum", name: "Mirum Pharma", img: "/mirum_dark.webp" },
@@ -24,25 +23,25 @@ const clients = [
     id: "advanz",
     name: "Advanz Pharma",
     img: "/advanz_pharma_dark2.webp",
-    classOverride: "brightness-50",
   },
   {
     id: "sobi",
     name: "Sobi",
     img: "/sobi_dark.webp",
-    classOverride: "brightness-50",
   },
   { id: "mt", name: "MT Pharma", img: "/mt_pharma_dark.webp" },
   { id: "gsk", name: "GSK", img: "/gsk.png" },
 
   { id: "jazz", name: "Jazz Pharmaceuticals", img: "/jazz.png" },
-  { id: "novo", name: "Novo Nordisk", img: "/novo.png" },
+  { id: "novo", name: "Novo Nordisk", img: "/novo-1.webp" },
   { id: "ferring", name: "Ferring Pharmaceuticals", img: "/ferring.webp" },
-  { id: "kenvue", name: "Kenvue", img: "/kenvue.jpg" },
+  { id: "kenvue", name: "Kenvue", img: "/kenvue.webp" },
   { id: "gilead", name: "Gilead", img: "/gilead.png" },
   { id: "axsome", name: "Axsome", img: "/axsome.webp" },
   { id: "leo", name: "Leo Pharma", img: "/leo.png" },
   { id: "taiho", name: "Taiho Pharma", img: "/taiho.webp" },
+  { id: "daiichi", name: "Daichii Sankyo", img: "/daiichi.png" },
+  { id: "apotex", name: "Apotex", img: "/apotex.webp" },
 
   // {id: "", name: "Bristol Myers Squibb", href: "https://www.bms.com/ca/en-ca/home.html"},
   // {id: "", name: "Gilead", href: "https://www.gilead.com/"},
@@ -147,8 +146,7 @@ const clients = [
                       alt={c.name}
                       title={c.name}
                       class={twMerge(
-                        "max-h-[60px] sm:max-h-[100px] max-w-[250px] w-full object-contain grayscale-0 brightness-100",
-                        c.classOverride ?? ""
+                        "max-h-[60px] sm:max-h-[100px] max-w-[250px] w-full object-contain grayscale-0 brightness-100"
                       )}
                     />
                   </div>
