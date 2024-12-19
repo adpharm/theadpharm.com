@@ -655,7 +655,9 @@ $gameRemoteData.set(game);
 
     // create the plinko balls
     Object.entries(plinkoBallsToCreate).forEach(
-      ([plinkoBallKey, plinkoBallData]) => {
+      ([plinkoBallKey_, plinkoBallData]) => {
+        const plinkoBallKey =
+          plinkoBallKey_ as (typeof plinkoSettings.plinkoBallKeys)[number];
         // if the plinko ball is not on, skip
         if (plinkoBallData.on === false) {
           return;
@@ -680,6 +682,7 @@ $gameRemoteData.set(game);
 
         remainingPlinkoBallsThisRound.push({
           powerUps: plinkoBallData.powerUps,
+          key: plinkoBallKey,
         });
       }
     );
@@ -773,6 +776,7 @@ $gameRemoteData.set(game);
 
   let floatingTexts: {
     text: string;
+    style: "peg" | "pocket";
     x: number;
     y: number;
     startTime: number;
@@ -832,15 +836,21 @@ $gameRemoteData.set(game);
           throw new Error("No pocket found");
         }
 
-        // play the lottie animation
-        // position the lottie canvas
-        // dotLottieCanvas.style.left = `${plinkoBody.position.x}px`;
-        // dotLottieCanvas.style.top = `${plinkoBody.position.y}px`;
+        // add floating text, if score is greater than 0
+        if (pocket_.value > 0) {
+          floatingTexts.push({
+            text: `+${pocket_.value}`,
+            style: "pocket",
+            x: otherBody.position.x,
+            y: otherBody.position.y - 40,
+            startTime: performance.now(),
+            duration: 1000,
+          });
+        }
 
         // play the lottie animation
         const animation = pocketLottieAnimations[pocketKey];
         animation.play();
-        // dotLottie.play();
 
         // hide the animation after it finishes
         animation.addEventListener("complete", function onComplete() {
@@ -900,6 +910,7 @@ $gameRemoteData.set(game);
         // add floating text
         floatingTexts.push({
           text: `+${pegScore}`,
+          style: "peg",
           x: otherBody.position.x,
           y: otherBody.position.y,
           startTime: performance.now(),
@@ -1018,17 +1029,28 @@ $gameRemoteData.set(game);
       // Calculate alpha (1 at start, 0 at end)
       const alpha = 1 - elapsed / obj.duration;
 
-      // Convert world coordinates to screen (pixel) coordinates
-      // const screenPos = Matter.Render.worldToPixel(render, {
-      //   x: obj.x,
-      //   y: obj.y,
-      // });
+      // Calculate y position (we want it to move up)
+      const y = obj.y - 0.03 * elapsed;
 
       // Draw the text with fading alpha
       matterCanvasOverlayCtx.save();
-      matterCanvasOverlayCtx.font = "20px Arial";
-      matterCanvasOverlayCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-      matterCanvasOverlayCtx.fillText(obj.text, obj.x, obj.y);
+
+      if (obj.style === "peg") {
+        // peg text style
+        matterCanvasOverlayCtx.font = "20px Arial";
+        matterCanvasOverlayCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      } else {
+        // pocket text style
+        matterCanvasOverlayCtx.font = "bold 28px Arial";
+        // make text gold with an orange-ish outline
+        matterCanvasOverlayCtx.fillStyle = `rgba(255, 215, 0, ${alpha})`;
+        matterCanvasOverlayCtx.strokeStyle = `rgba(255, 165, 0, ${alpha})`;
+        matterCanvasOverlayCtx.lineWidth = 1;
+        matterCanvasOverlayCtx.strokeText(obj.text, obj.x, y);
+      }
+
+      // draw the text
+      matterCanvasOverlayCtx.fillText(obj.text, obj.x, y);
       matterCanvasOverlayCtx.restore();
 
       return true; // Keep this text in the array until it expires

@@ -4,49 +4,8 @@ import type {
   tableUsers,
 } from "@/db/schema";
 import { shared } from "@it-astro:request-nanostores";
-import Matter from "matter-js";
 import { atom, computed, deepMap, map } from "nanostores";
-
-/**
- * Store for the number of balls
- */
-// export const $numBalls = atom(0);
-
-/**
- * Store for the current round score
- */
-// export const $roundScore = atom(0);
-
-/**
- * Store for the current round key
- */
-// export const $roundKey = shared(
-//   "roundKey",
-//   atom<(typeof tablePlinkoGames.current_round_key.enumValues)[number]>("rnd2"),
-// );
-
-/**
- * Store for the current plinko round
- */
-// export const $currentRound = shared(
-//   "currentRound",
-//   atom<typeof tablePlinkoGameRounds.$inferSelect | undefined | null>(null),
-// );
-
-// export const $currentRoundState = atom<
-//   "ended" | "waiting_to_start" | "in_progress" | undefined
-// >("waiting_to_start");
-
-// export const $gameState = shared(
-//   "gameState",
-//   deepMap<{
-//     score: number;
-//     remoteData: typeof tablePlinkoGames.$inferSelect | undefined | null;
-//   }>({
-//     score: 0,
-//     remoteData: undefined,
-//   }),
-// );
+import type { plinkoSettings } from "../settings.plinko";
 
 export const $roundResult = atom<{
   score: number;
@@ -55,6 +14,7 @@ export const $roundResult = atom<{
 } | null>(null);
 
 export type PlinkoBallData = {
+  key: (typeof plinkoSettings.plinkoBallKeys)[number];
   powerUps: (typeof tablePlinkoGameRounds.$inferSelect)["plinko_ball_10_power_ups"];
 };
 

@@ -349,8 +349,46 @@ const upgrades: Record<
    *  Add 2 normal balls
    */
   add2NormalBalls: (inputData, updateData) => {
-    updateData = upgrades.addNormalBall(inputData, updateData);
-    updateData = upgrades.addNormalBall(inputData, updateData);
+    let ballsAdded = 0;
+
+    while (ballsAdded < 2) {
+      if (
+        inputData.roundData.plinko_ball_6_on === false &&
+        !updateData.plinko_ball_6_on
+      ) {
+        updateData.plinko_ball_6_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_7_on === false &&
+        !updateData.plinko_ball_7_on
+      ) {
+        updateData.plinko_ball_7_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_8_on === false &&
+        !updateData.plinko_ball_8_on
+      ) {
+        updateData.plinko_ball_8_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_9_on === false &&
+        !updateData.plinko_ball_9_on
+      ) {
+        updateData.plinko_ball_9_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_10_on === false &&
+        !updateData.plinko_ball_10_on
+      ) {
+        updateData.plinko_ball_10_on = true;
+        ballsAdded++;
+      } else {
+        throw new ActionError({
+          code: "BAD_REQUEST",
+          message: "No more balls to add",
+        });
+      }
+    }
 
     return updateData;
   },
@@ -365,31 +403,46 @@ const upgrades: Record<
       !updateData.plinko_ball_6_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_6_on = true;
-      updateData.plinko_ball_6_power_ups?.push("golden");
+      updateData.plinko_ball_6_power_ups = [
+        ...(updateData.plinko_ball_6_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_7_on === false &&
       !updateData.plinko_ball_7_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_7_on = true;
-      updateData.plinko_ball_7_power_ups?.push("golden");
+      updateData.plinko_ball_7_power_ups = [
+        ...(updateData.plinko_ball_7_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_8_on === false &&
       !updateData.plinko_ball_8_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_8_on = true;
-      updateData.plinko_ball_8_power_ups?.push("golden");
+      updateData.plinko_ball_8_power_ups = [
+        ...(updateData.plinko_ball_8_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_9_on === false &&
       !updateData.plinko_ball_9_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_9_on = true;
-      updateData.plinko_ball_9_power_ups?.push("golden");
+      updateData.plinko_ball_9_power_ups = [
+        ...(updateData.plinko_ball_9_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_10_on === false &&
       !updateData.plinko_ball_10_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_10_on = true;
-      updateData.plinko_ball_10_power_ups?.push("golden");
+      updateData.plinko_ball_10_power_ups = [
+        ...(updateData.plinko_ball_10_power_ups || []),
+        "golden",
+      ];
     } else {
       throw new ActionError({
         code: "BAD_REQUEST",
