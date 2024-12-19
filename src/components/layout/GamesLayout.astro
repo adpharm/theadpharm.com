@@ -9,6 +9,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Layout from "./Layout.astro";
+import snowyBackground from "@/assets/images/Snowfall_Background.png";
+import BottomGraphics from "@/images/BottomGraphics.png";
 
 interface Props {
   title: string;
@@ -18,9 +20,11 @@ const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
 ---
 
 <Layout title={title}>
-  <main class="flex flex-col min-h-screen">
+  <main
+    class="flex flex-col min-h-screen bg-snowfall-background bg-cover bg-center"
+  >
     <!-- main content -->
-    <div class="flex-1 w-full max-w-4xl mx-auto py-32">
+    <div class="relative flex-1 w-full max-w-4xl mx-auto pt-32 z-20">
       <div
         class="flex items-end justify-between py-2.5 border-b border-gray-700"
       >
@@ -50,6 +54,9 @@ const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
       </div>
 
       <slot />
+    </div>
+    <div class="relative -mt-72 w-full z-0">
+      <img src={BottomGraphics.src} class="w-full" />
     </div>
   </main>
 </Layout>

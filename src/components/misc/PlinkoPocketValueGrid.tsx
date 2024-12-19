@@ -1,11 +1,13 @@
 import { $currentRoundRemoteData } from "@/lib/stores";
 import { useStore } from "@nanostores/react";
+import { max } from "drizzle-orm";
+
 
 export function PlinkoPocketValueGrid() {
   const currentRound = useStore($currentRoundRemoteData);
 
   return (
-    <div className="grid grid-cols-7 text-center">
+    <div className="grid grid-cols-7 text-center" >
       <div>{currentRound?.pocket_middle_left_3_value}</div>
       <div>{currentRound?.pocket_middle_left_2_value}</div>
       <div>{currentRound?.pocket_middle_left_1_value}</div>
