@@ -85,7 +85,7 @@ $gameRemoteData.set(game);
 ---
 
 <script>
-  const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
+  const collisionSound = new Audio("/plinko/audio/bubblepop-254773.mp3");
   import Matter from "matter-js";
   import { actions } from "astro:actions";
   import { tablePlinkoGameRounds } from "@/db/schema";
@@ -149,8 +149,8 @@ $gameRemoteData.set(game);
   }
 
   const imagesToLoad = [
-    "../../src/images/hand.png",
-    "../../src/images/icy.png",
+    "/plinko/textures/hand.png",
+    "/plinko/textures/icy.png",
   ];
 
   logDebug("preloading images");
@@ -304,7 +304,7 @@ $gameRemoteData.set(game);
       },
       render: {
         sprite: {
-          texture: "../../src/images/hand.png",
+          texture: "/plinko/textures/hand.png",
           xScale: 1.0,
           yScale: 1.0,
         },
@@ -402,7 +402,7 @@ $gameRemoteData.set(game);
           angle: Math.PI,
           render: {
             sprite: {
-              texture: "../../src/images/icy.png",
+              texture: "/plinko/textures/icy.png",
               xScale: 0.36, //This is changing the pyramid's altitude (tip tip to floor)
               yScale: 0.9, //This is making the base wider (so they can touch)
             },
@@ -428,7 +428,7 @@ $gameRemoteData.set(game);
           render: {
             // fillStyle: "white",
             sprite: {
-              texture: "../../src/images/icy.png",
+              texture: "/plinko/textures/icy.png",
               xScale: 0.19, //This is changing the pyramid's altitude (tip tip to floor)
               yScale: 0.5, //This is making the base wider (so they can touch)
             },
