@@ -31,6 +31,7 @@ import { getPagePath } from "@nanostores/router";
 import { $router } from "@/lib/stores/router";
 import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
 import plinkoHeaderWithScoreBoard from "@/images/PlinkoHeaderwithScoreboard.png";
+import BottomGraphics from "@/images/BottomGraphics.png";
 import GamesLayout from "@/components/layout/GamesLayout.astro";
 import { plinkoSettings } from "@/lib/settings.plinko";
 import { PlinkoPocketValueGrid } from "@/components/misc/PlinkoPocketValueGrid";
@@ -302,7 +303,7 @@ $gameRemoteData.set(game);
 
   const hand = Matter.Bodies.rectangle(
     -20,
-    10,
+    50,
     plinkoSettings.ballSize * 2,
     plinkoSettings.ballSize * 2,
     {
@@ -337,7 +338,7 @@ $gameRemoteData.set(game);
       paddingTop: 80,
       paddingLeft: 0,
       paddingRight: 0,
-      paddingBottom: settings.pocketHeight + settings.pocketDividerHeight + 20,
+      paddingBottom: settings.pocketDividerHeight,
     } as const;
 
     /******************************************************************************************
@@ -609,6 +610,11 @@ $gameRemoteData.set(game);
           label: pocketKey,
           render: {
             fillStyle: "white",
+            sprite: {
+              texture: "../../src/images/Red_Giftbag.png",
+              xScale: 1,
+              yScale: 1,
+            },
           },
         }
       );
@@ -619,7 +625,7 @@ $gameRemoteData.set(game);
       if (index > 0) {
         const pocketDivider_ = {
           x: pocket_.x - pocketWidth / 2,
-          y: pocket_.y - pocket_.height + 5,
+          y: pocket_.y,
           width: 5,
           height: settings.pocketDividerHeight,
         };
@@ -631,7 +637,12 @@ $gameRemoteData.set(game);
           {
             isStatic: true,
             render: {
-              fillStyle: "white",
+              sprite: {
+                texture: "../../src/images/CandyCaneDivider.png",
+                xScale: 0.2,
+                yScale: 0.2,
+              },
+              // fillStyle: "white",
             },
           }
         );
@@ -988,7 +999,7 @@ $gameRemoteData.set(game);
     // set the hand position
     Matter.Body.setPosition(hand, {
       x: mouse.position.x,
-      y: 10,
+      y: 20,
     });
 
     if (!activePlinkoBall) return;
@@ -1089,7 +1100,6 @@ $gameRemoteData.set(game);
     { name: "Plinko home", href: getPagePath($router, "games.plinko.home") },
     { name: "This game" },
   ]}
-
 >
   <div class="max-w-4xl mx-auto p-4 w-full">
     <PlinkoRoundProgressBar client:load />
@@ -1111,15 +1121,18 @@ $gameRemoteData.set(game);
           {/* The width of the image should match the div above and the plinkopocketvaluegrid below */}
           <img
             src={plinkoHeaderWithScoreBoard.src}
-            width={443} 
+            width={443}
             class="relative translate-y-14 z-10"
-            />
-            {/* <PlinkoScoreboard client:load /> */}
+          />
+          {/* <PlinkoScoreboard client:load /> */}
           <div
             class="w-full mx-auto"
             style={`max-width: ${plinkoSettings.canvasWidth}px;`}
           >
-            <div class="relative bg-blue-900" style={`max-height: ${plinkoSettings.canvasHeight}px;`}>
+            <div
+              class="relative bg-blue-900"
+              style={`max-height: ${plinkoSettings.canvasHeight}px;`}
+            >
               <canvas
                 class="matterCanvas relative"
                 width={plinkoSettings.canvasWidth}
@@ -1131,6 +1144,7 @@ $gameRemoteData.set(game);
                 height={plinkoSettings.canvasHeight}
               />
             </div>
+            <PlinkoPocketValueGrid client:load />
           </div>
 
           <div class="-mt-12 relative flex">
@@ -1144,8 +1158,6 @@ $gameRemoteData.set(game);
               />
             ))}
           </div>
-
-          <PlinkoPocketValueGrid maxWidth={400} client:load />
         </div>
       )
     }
@@ -1156,6 +1168,9 @@ $gameRemoteData.set(game);
       <LeaderboardTable client:load user={user} />
     </div>
   </div>
+  <!-- <div class="static max-w-4xl mx-auto w-full">
+    <img src={BottomGraphics.src} class="w-full" />
+  </div> -->
 </GamesLayout>
 
 <!-- dialogs -->

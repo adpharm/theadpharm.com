@@ -12,6 +12,10 @@ export default {
       colors: {
         gray: zinc,
       },
+      backgroundImage: {
+        "snowfall-background": "url('/src/images/Snowfall_Background.png')",
+        "BottomGraphics": "url('/src/images/BottomGraphics.png')",
+      },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
         "slide-200": "slide-200 50s linear 4 alternate",
