@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import type { tableUsers } from "@/db/schema";
 import { $leaderboard } from "@/lib/stores";
+import { convertUTCToDistanceToNow } from "@/lib/utils.plinko.date";
 import { ClientOnly } from "@/lib/utils.react-hydration";
 import { useStore } from "@nanostores/react";
 
@@ -26,6 +27,7 @@ export function LeaderboardTable({
         <TableRow>
           <TableHead className="w-[100px]">Rank</TableHead>
           <TableHead>Username</TableHead>
+          <TableHead>Time</TableHead>
           <TableHead className="text-right">Score</TableHead>
         </TableRow>
       </TableHeader>
@@ -37,6 +39,15 @@ export function LeaderboardTable({
               <TableCell className="font-medium">
                 {rowData.user.username}{" "}
                 {rowData.user.id === user?.id ? "(you)" : ""}
+              </TableCell>
+              <TableCell>
+                <ClientOnly>
+                  {() => (
+                    <span className="capitalize">
+                      {convertUTCToDistanceToNow(rowData.game.created_at)}
+                    </span>
+                  )}
+                </ClientOnly>
               </TableCell>
               <TableCell className="text-right">{rowData.game.score}</TableCell>
             </TableRow>

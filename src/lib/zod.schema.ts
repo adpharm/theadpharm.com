@@ -24,13 +24,24 @@ export const firstNameSchema = z.string().max(50);
 export const lastNameSchema = z.string().max(50);
 export const passwordSchema = z.string().max(50);
 
-export const createFullUserSchema = z.object({
-  email: emailSchema,
-  username: usernameSchema,
-  password: passwordSchema,
-  firstName: firstNameSchema,
-  lastName: lastNameSchema,
-});
+export const createFullUserSchema = z
+  .object({
+    email: emailSchema,
+    username: usernameSchema,
+    password: passwordSchema,
+    password2: z.string(),
+    firstName: firstNameSchema,
+    lastName: lastNameSchema,
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== data.password2) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["password2"],
+        message: "Passwords do not match",
+      });
+    }
+  });
 
 export const createGuestUserSchema = z.object({
   email: emailSchema.optional(),
@@ -52,7 +63,10 @@ export const signInUserSchema = z.object({
  *
  *
  ************************************************************************************/
-export const upgradePlinkoGameKeys = ["add1Ball", "makeRandomBallGolden"] as const;
+export const upgradePlinkoGameKeys = [
+  "add1Ball",
+  "makeRandomBallGolden",
+] as const;
 
 export const upgradePlinkoGameSchema = z
   .object({

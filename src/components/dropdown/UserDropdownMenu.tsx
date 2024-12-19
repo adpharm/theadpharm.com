@@ -20,7 +20,7 @@ export function UserDropdownMenu({
       <DropdownMenuTrigger>
         <User2 className="size-5" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end">
         <DropdownMenuLabel>
           {user ? (
             <>Welcome, {user.username}</>
@@ -31,7 +31,7 @@ export function UserDropdownMenu({
         <DropdownMenuSeparator />
         {user ? (
           <>
-            <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>End session</DropdownMenuItem>
           </>
         ) : (
           <>

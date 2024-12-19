@@ -1,10 +1,4 @@
-import {
-  createFullUserSchema,
-  createGuestUserSchema,
-  signInUser,
-  signInUserSchema,
-  startUserSession,
-} from "@/lib/server/actions.user";
+import { signInUser, startUserSession } from "@/lib/server/actions.user";
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { createUser } from "@/lib/server/actions.user";
@@ -12,7 +6,11 @@ import {
   deleteSessionTokenCookie,
   invalidateSession,
 } from "@/lib/server/session";
-import { emailSchema, passwordSchema } from "@/lib/zod.schema";
+import {
+  createFullUserSchema,
+  createGuestUserSchema,
+  signInUserSchema,
+} from "@/lib/zod.schema";
 
 export const user = {
   /**

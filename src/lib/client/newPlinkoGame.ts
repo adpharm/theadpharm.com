@@ -16,7 +16,7 @@ export async function newPlinkoGame() {
   }
 
   // redirect to the new game
-  window.location.href = getPagePath($router, "plinko.game.gameId", {
+  window.location.href = getPagePath($router, "games.plinko.gameId", {
     gameId: data.game.id,
   });
 }

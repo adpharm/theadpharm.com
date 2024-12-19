@@ -23,6 +23,8 @@ import { $guestCode } from "@/lib/stores";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
 import { RefreshCcw } from "lucide-react";
 import { createFullUserSchema } from "@/lib/zod.schema";
+import { Separator } from "../ui/separator";
+import { getPagePath } from "@nanostores/router";
 
 export function RegisterFullUserForm() {
   const router = useStore($router);
@@ -55,7 +57,8 @@ export function RegisterFullUserForm() {
   const onSubmit = form.handleSubmit(
     async (inputData) => {
       // create the anonymous user
-      const { data, error } = await actions.user.createFullUserAndSignIn(inputData);
+      const { data, error } =
+        await actions.user.createFullUserAndSignIn(inputData);
 
       // if there's an error, show it
       if (error) {
@@ -111,6 +114,45 @@ export function RegisterFullUserForm() {
 
         {/***************************************************
          *
+         * First Name / Last Name
+         *
+         ****************************************************/}
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/***************************************************
+         *
          * Username
          *
          ****************************************************/}
@@ -141,19 +183,18 @@ export function RegisterFullUserForm() {
 
         {/***************************************************
          *
-         * First Name
+         * Password
          *
          ****************************************************/}
-
         <FormField
           control={form.control}
-          name="firstName"
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>Password</FormLabel>
 
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
 
               <FormMessage />
@@ -163,19 +204,18 @@ export function RegisterFullUserForm() {
 
         {/***************************************************
          *
-         * Last Name
+         * Password
          *
          ****************************************************/}
-
         <FormField
           control={form.control}
-          name="lastName"
+          name="password2"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>Password (again)</FormLabel>
 
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
 
               <FormMessage />
@@ -197,6 +237,27 @@ export function RegisterFullUserForm() {
             {form.formState.errors.root.message}
           </div>
         )}
+
+        {/***************************************************
+         *
+         * OR Sign in/sign up buttons
+         *
+         ****************************************************/}
+        <div className="">
+          <div className="text-center">
+            <Separator />
+          </div>
+
+          <FormDescription className="py-4 text-center">
+            Have an account?
+          </FormDescription>
+
+          <div className="grid grid-cols-1 gap-4">
+            <Button type="button" variant="secondary" asChild>
+              <a href={getPagePath($router, "login")}>Sign in</a>
+            </Button>
+          </div>
+        </div>
       </form>
     </Form>
   );

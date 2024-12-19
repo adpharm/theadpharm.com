@@ -21,6 +21,8 @@ import { useState } from "react";
 import { ClientOnly } from "@/lib/utils.react-hydration";
 import { logDebug } from "@/lib/utils.logger";
 import { cn } from "@/lib/utils";
+import { getPagePath } from "@nanostores/router";
+import { $router } from "@/lib/stores/router";
 
 export function PlinkoScoreboard() {
   const currentRoundScore = useStore($roundScore);
@@ -101,7 +103,7 @@ export function GameOverScoreboard({
 
       <CardFooter className={cn("grid gap-2", embeddedInDialog ? "p-0" : "")}>
         <Button type="button" asChild variant={"secondary"}>
-          <a href="/digital/plinko">Your games</a>
+          <a href={getPagePath($router, "games.plinko.home")}>Your games</a>
         </Button>
 
         <Button
