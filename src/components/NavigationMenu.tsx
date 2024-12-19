@@ -24,7 +24,7 @@ interface NavigationProps {
 
 export function MainNavigation({ items, currentPath }: NavigationProps) {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="hidden lg:block">
       <NavigationMenuList>
         {items.map((item, i) => {
           const isActive = currentPath === item.href;

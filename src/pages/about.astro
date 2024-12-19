@@ -98,15 +98,17 @@ let leaderCount = 0;
       About
       -->
     <Section
-      className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48 animate-fade-in"
+      className="pt-44 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48 animate-fade-in"
     >
       <Grid id="about">
         <div slot="left"></div>
         <div slot="right">
-          <h1 class="text-3xl w-full mb-10 text-left font-extralight">
+          <h1
+            class="text-3xl w-full mb-10 font-extralight text-center lg:text-left"
+          >
             About Us
           </h1>
-          <div class="grid grid-cols-5 gap-12">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
             {
               leadership.map((member) => (
                 <LeadershipCard
@@ -123,7 +125,7 @@ let leaderCount = 0;
 
     <Section topBorder className="py-20 space-y-10 animate-fade-in-2">
       <Grid id="about-paragraphs">
-        <div slot="left" class="pl-20">
+        <div slot="left" class="lg:pl-20">
           <h2 class="text-xl">Leadership Team</h2>
         </div>
         <div slot="right">
@@ -134,7 +136,7 @@ let leaderCount = 0;
         </div>
       </Grid>
       <Grid id="about-paragraphs">
-        <div slot="left" class="pl-20">
+        <div slot="left" class="lg:pl-20">
           <h2 class="text-xl">Why we're here</h2>
         </div>
         <div slot="right">

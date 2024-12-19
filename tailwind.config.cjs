@@ -12,9 +12,14 @@ module.exports = {
         pawn: "pawn 4s cubic-bezier(.86,0,.07,1) infinite",
         wiggle: "wiggle 1s ease-in-out infinite",
         "fade-in": "fade-in 1s ease-in-out",
+        "fade-in-quick": "fade-in 0.3s ease-in-out",
         "fade-in-2": "fade-in 2s ease-in-out",
         "fade-in-up": "fade-in-up 1s ease-in-out",
         bounce2: "bounce2 2s cubic-bezier(.55,.06,.68,.19) infinite",
+        "slide-in-from-right": "slide-in-from-right 0.3s forwards",
+        "slide-out-to-left": "slide-out-to-left 0.3s forwards",
+        "slide-in-from-left": "slide-in-from-left 0.3s forwards",
+        "slide-out-to-right": "slide-out-to-right 0.3s forwards",
       },
       keyframes: {
         "slide-200": {
@@ -85,6 +90,34 @@ module.exports = {
           "100%": {
             transform: "translateY(0)",
           },
+        },
+        "slide-in-from-right": {
+          "0%": {
+            transform: "translateX(100%)",
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
+        "slide-out-to-left": {
+          "0%": {
+            transform: "translateX(0)",
+          },
+          "100%": {
+            transform: "translateX(-100%)",
+          },
+        },
+        "slide-in-from-left": {
+          "0%": {
+            transform: "translateX(-100%)",
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
+        "slide-out-to-right": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
         },
       },
       borderRadius: {
