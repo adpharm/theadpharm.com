@@ -3,7 +3,7 @@ import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
 import { requireUserForAction } from "@/lib/server/auth.utils";
 import type { plinkoSettings } from "@/lib/settings.plinko";
 import { upgradeSettings } from "@/lib/settings.plinkoUpgrades";
-import { logDebug } from "@/lib/utils.logger";
+import { logDebug, logInfo } from "@/lib/utils.logger";
 import {
   upgradePlinkoGameKeys,
   upgradePlinkoGameSchema,
@@ -11,6 +11,7 @@ import {
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { eq, sql } from "drizzle-orm";
+import type { BatchResponse } from "drizzle-orm/batch";
 import { match } from "ts-pattern";
 
 export const plinko = {
@@ -24,11 +25,15 @@ export const plinko = {
   newGame: defineAction({
     input: undefined,
     handler: async (inputData, context) => {
-      const user = requireUserForAction(context);
+      let newPlinkoGames: (typeof tablePlinkoGames.$inferSelect)[] = [];
+      let newPlinkoGameRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] =
+        [];
 
-      const res = await db.transaction(async (trx) => {
+      try {
+        const user = requireUserForAction(context);
+
         // create a new plinko game
-        const newPlinkoGame = await trx
+        newPlinkoGames = await db
           .insert(tablePlinkoGames)
           .values({
             current_round_key: "rnd1",
@@ -36,7 +41,7 @@ export const plinko = {
           })
           .returning();
 
-        if (newPlinkoGame.length === 0) {
+        if (newPlinkoGames.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Failed to create plinko game",
@@ -44,7 +49,7 @@ export const plinko = {
         }
 
         // create the first round
-        const round1 = await trx
+        newPlinkoGameRounds = await db
           .insert(tablePlinkoGameRounds)
           .values({
             key: "rnd1",
@@ -55,11 +60,11 @@ export const plinko = {
             pocket_middle_right_2_value: 1000,
             pocket_middle_left_3_value: 500,
             pocket_middle_right_3_value: 500,
-            game_id: newPlinkoGame[0].id,
+            game_id: newPlinkoGames[0].id,
           })
           .returning();
 
-        if (round1.length === 0) {
+        if (newPlinkoGameRounds.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Failed to create plinko round",
@@ -67,12 +72,30 @@ export const plinko = {
         }
 
         return {
-          game: newPlinkoGame[0],
-          round: round1[0],
+          game: newPlinkoGames[0],
+          round: newPlinkoGameRounds[0],
         };
-      });
+      } catch (e) {
+        // MANUAL ROLLBACK
+        // if we have a game, delete it
+        if (newPlinkoGames.length > 0) {
+          logInfo("Rolling back game", newPlinkoGames[0].id);
+          await db
+            .delete(tablePlinkoGames)
+            .where(eq(tablePlinkoGames.id, newPlinkoGames[0].id));
+        }
 
-      return res;
+        // if we have a round, delete it
+        if (newPlinkoGameRounds.length > 0) {
+          logInfo("Rolling back round", newPlinkoGameRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, newPlinkoGameRounds[0].id));
+        }
+
+        // rethrow the error
+        throw e;
+      }
     },
   }),
 
