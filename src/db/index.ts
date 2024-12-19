@@ -6,14 +6,14 @@
 // export const db = drizzle({ client: sql });
 
 // Non-websockets (no transactions)
-// see: https://orm.drizzle.team/docs/connect-neon#step-2---initialize-the-driver-and-make-a-query 
+// see: https://orm.drizzle.team/docs/connect-neon#step-2---initialize-the-driver-and-make-a-query
 // import { drizzle } from "drizzle-orm/neon-http";
 
 // Websockets
 import { drizzle } from "drizzle-orm/neon-serverless";
-// import ws from "ws";
+import ws from "ws";
 
 export const db = drizzle({
   connection: process.env.DATABASE_URL!,
-  // ws,
+  ws,
 });
