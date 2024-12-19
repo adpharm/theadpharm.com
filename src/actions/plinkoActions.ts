@@ -1,12 +1,17 @@
 import { db } from "@/db";
 import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
 import { requireUserForAction } from "@/lib/server/auth.utils";
+import type { plinkoSettings } from "@/lib/settings.plinko";
+import { upgradeSettings } from "@/lib/settings.plinkoUpgrades";
 import { logDebug } from "@/lib/utils.logger";
-import { upgradePlinkoGameSchema } from "@/lib/zod.schema";
+import {
+  upgradePlinkoGameKeys,
+  upgradePlinkoGameSchema,
+} from "@/lib/zod.schema";
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { eq, sql } from "drizzle-orm";
-import { createInsertSchema } from "drizzle-zod";
+import { match } from "ts-pattern";
 
 export const plinko = {
   /*****************************************************************************************************************************
@@ -121,7 +126,7 @@ export const plinko = {
             id: _id,
             created_at: _created_at,
             updated_at: _updated_at,
-            upgraded: _upgraded,
+            did_select_upgrade: _upgraded,
             score: _score,
             key: _key,
             ...updatedDataSafeForCopy
@@ -162,6 +167,8 @@ export const plinko = {
         const updateData: Partial<typeof tablePlinkoGames.$inferInsert> = {
           // @ts-expect-error - we know this is valid
           score: sql`${tablePlinkoGames.score} + ${inputData.roundScore}`,
+          // @ts-expect-error - we know this is valid
+          upgrade_budget: sql`${tablePlinkoGames.upgrade_budget} + ${inputData.roundScore}`,
         };
 
         // if there is no next round, the game is over
@@ -211,91 +218,58 @@ export const plinko = {
       requireUserForAction(context);
 
       // update
-      const updateData: Partial<typeof tablePlinkoGameRounds.$inferInsert> = {
-        upgraded: true, // mark the round as upgraded
+      let updateData: Partial<typeof tablePlinkoGameRounds.$inferInsert> = {
+        did_select_upgrade: true, // mark the round as upgraded
       };
 
-      // add 1 ball
-      if (inputData.add1Ball) {
-        // find the first ball that is off and turn it on
-        if (inputData.roundData.plinko_ball_1_on === false) {
-          updateData.plinko_ball_1_on = true;
-        } else if (inputData.roundData.plinko_ball_2_on === false) {
-          updateData.plinko_ball_2_on = true;
-        } else if (inputData.roundData.plinko_ball_3_on === false) {
-          updateData.plinko_ball_3_on = true;
-        } else if (inputData.roundData.plinko_ball_4_on === false) {
-          updateData.plinko_ball_4_on = true;
-        } else if (inputData.roundData.plinko_ball_5_on === false) {
-          updateData.plinko_ball_5_on = true;
-        } else if (inputData.roundData.plinko_ball_6_on === false) {
-          updateData.plinko_ball_6_on = true;
-        } else if (inputData.roundData.plinko_ball_7_on === false) {
-          updateData.plinko_ball_7_on = true;
-        } else if (inputData.roundData.plinko_ball_8_on === false) {
-          updateData.plinko_ball_8_on = true;
-        } else if (inputData.roundData.plinko_ball_9_on === false) {
-          updateData.plinko_ball_9_on = true;
-        } else if (inputData.roundData.plinko_ball_10_on === false) {
-          updateData.plinko_ball_10_on = true;
-        } else {
-          throw new ActionError({
-            code: "BAD_REQUEST",
-            message: "No more balls to add",
-          });
-        }
-      }
+      // get the upgrade function
+      const upgradeFunction = upgrades[inputData.upgradeKey];
 
-      // make a ball golden
-      if (inputData.makeRandomBallGolden) {
-        // generate a list of numbers from 1 to 10 in random order
-        const randomOrder = Array.from({ length: 10 }, (_, i) => i + 1).sort(
-          () => Math.random() - 0.5,
-        );
-
-        let madeABallGolden = false;
-
-        // find the first ball that is on and not golden and make it golden
-        for (const ballNumber of randomOrder) {
-          const ballOnKey =
-            `plinko_ball_${ballNumber}_on` as "plinko_ball_1_on";
-          const ballPowerUpsKey =
-            `plinko_ball_${ballNumber}_power_ups` as "plinko_ball_1_power_ups";
-          if (
-            inputData.roundData[ballOnKey] === true &&
-            !inputData.roundData[ballPowerUpsKey].includes("golden")
-          ) {
-            updateData[ballPowerUpsKey] = [
-              ...inputData.roundData[ballPowerUpsKey],
-              "golden",
-            ];
-            madeABallGolden = true;
-            break;
-          }
-        }
-
-        if (!madeABallGolden) {
-          throw new ActionError({
-            code: "BAD_REQUEST",
-            message: "No balls to make golden",
-          });
-        }
-      }
-
-      const upgradedRound = await db
-        .update(tablePlinkoGameRounds)
-        .set(updateData)
-        .where(eq(tablePlinkoGameRounds.id, inputData.roundData.id))
-        .returning();
-
-      if (upgradedRound.length === 0) {
+      if (!upgradeFunction) {
         throw new ActionError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to upgrade plinko round",
+          code: "BAD_REQUEST",
+          message: "Invalid upgrade key",
         });
       }
 
-      return upgradedRound[0];
+      // run the upgrade
+      updateData = upgradeFunction(inputData, updateData);
+
+      return await db.transaction(async (trx) => {
+        const upgradedRound = await trx
+          .update(tablePlinkoGameRounds)
+          .set(updateData)
+          .where(eq(tablePlinkoGameRounds.id, inputData.roundData.id))
+          .returning();
+
+        if (upgradedRound.length === 0) {
+          throw new ActionError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Sorry, failed to upgrade plinko round",
+          });
+        }
+
+        // take away the upgrade budget
+        const gameUpdateData: Partial<typeof tablePlinkoGames.$inferInsert> = {
+          upgrade_budget:
+            sql`${tablePlinkoGames.upgrade_budget} - ${upgradeSettings[inputData.upgradeKey].cost}` as unknown as number,
+        };
+
+        const updatedGame = await trx
+          .update(tablePlinkoGames)
+          .set(gameUpdateData)
+          .where(eq(tablePlinkoGames.id, inputData.roundData.game_id))
+          .returning();
+
+        if (updatedGame.length === 0) {
+          throw new ActionError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Sorry, failed to update plinko game",
+          });
+        }
+
+        return upgradedRound[0];
+      });
     },
   }),
 };
@@ -322,4 +296,245 @@ function getNextRoundKey(
                   : currentRoundKey === "rnd9"
                     ? "rnd10"
                     : null;
+}
+
+/**
+ *
+ *
+ *
+ * plinko upgrades
+ *
+ *
+ */
+
+const upgrades: Record<
+  (typeof upgradePlinkoGameKeys)[number],
+  (
+    inputData: z.infer<typeof upgradePlinkoGameSchema>,
+    updateData: Partial<typeof tablePlinkoGameRounds.$inferInsert>,
+  ) => Partial<typeof tablePlinkoGameRounds.$inferInsert>
+> = {
+  /**
+   * Do nothing
+   */
+  none: (inputData, updateData) => {
+    return updateData;
+  },
+  /**
+   *  Add 2 normal balls
+   */
+  addNormalBall: (inputData, updateData) => {
+    // find the first ball that is off and turn it on
+    if (inputData.roundData.plinko_ball_6_on === false) {
+      updateData.plinko_ball_6_on = true;
+    } else if (inputData.roundData.plinko_ball_7_on === false) {
+      updateData.plinko_ball_7_on = true;
+    } else if (inputData.roundData.plinko_ball_8_on === false) {
+      updateData.plinko_ball_8_on = true;
+    } else if (inputData.roundData.plinko_ball_9_on === false) {
+      updateData.plinko_ball_9_on = true;
+    } else if (inputData.roundData.plinko_ball_10_on === false) {
+      updateData.plinko_ball_10_on = true;
+    } else {
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "No more balls to add",
+      });
+    }
+
+    return updateData;
+  },
+
+  /**
+   *  Add 2 normal balls
+   */
+  add2NormalBalls: (inputData, updateData) => {
+    updateData = upgrades.addNormalBall(inputData, updateData);
+    updateData = upgrades.addNormalBall(inputData, updateData);
+
+    return updateData;
+  },
+
+  /**
+   * Add a golden ball
+   */
+  addGoldenBall: (inputData, updateData) => {
+    // find the first ball that is off and not golden turn it on and make it golden
+    if (
+      inputData.roundData.plinko_ball_6_on === false &&
+      !updateData.plinko_ball_6_power_ups?.includes("golden")
+    ) {
+      updateData.plinko_ball_6_on = true;
+      updateData.plinko_ball_6_power_ups?.push("golden");
+    } else if (
+      inputData.roundData.plinko_ball_7_on === false &&
+      !updateData.plinko_ball_7_power_ups?.includes("golden")
+    ) {
+      updateData.plinko_ball_7_on = true;
+      updateData.plinko_ball_7_power_ups?.push("golden");
+    } else if (
+      inputData.roundData.plinko_ball_8_on === false &&
+      !updateData.plinko_ball_8_power_ups?.includes("golden")
+    ) {
+      updateData.plinko_ball_8_on = true;
+      updateData.plinko_ball_8_power_ups?.push("golden");
+    } else if (
+      inputData.roundData.plinko_ball_9_on === false &&
+      !updateData.plinko_ball_9_power_ups?.includes("golden")
+    ) {
+      updateData.plinko_ball_9_on = true;
+      updateData.plinko_ball_9_power_ups?.push("golden");
+    } else if (
+      inputData.roundData.plinko_ball_10_on === false &&
+      !updateData.plinko_ball_10_power_ups?.includes("golden")
+    ) {
+      updateData.plinko_ball_10_on = true;
+      updateData.plinko_ball_10_power_ups?.push("golden");
+    } else {
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "No more balls to add",
+      });
+    }
+
+    return updateData;
+  },
+
+  /**
+   * Increase a pocket value by 3000
+   */
+  pocketValuePlus3000: (inputData, updateData) => {
+    const pocketKey = inputData.pocketValuePlus3000;
+    if (!pocketKey) {
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "No pocket was selected!",
+      });
+    }
+
+    return updatePocketValueInUpdateData(
+      inputData,
+      updateData,
+      pocketKey,
+      3000,
+    );
+  },
+
+  /**
+   * Increase a pocket value by 6000
+   */
+  pocketValuePlus6000: (inputData, updateData) => {
+    const pocketKey = inputData.pocketValuePlus6000;
+    if (!pocketKey) {
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "No pocket was selected!",
+      });
+    }
+
+    return updatePocketValueInUpdateData(
+      inputData,
+      updateData,
+      pocketKey,
+      6000,
+    );
+  },
+
+  /**
+   * Increase a pocket value by 9000
+   */
+  pocketValuePlus9000: (inputData, updateData) => {
+    const pocketKey = inputData.pocketValuePlus9000;
+    if (!pocketKey) {
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "No pocket was selected!",
+      });
+    }
+
+    return updatePocketValueInUpdateData(
+      inputData,
+      updateData,
+      pocketKey,
+      9000,
+    );
+  },
+
+  /**
+   * Multiply the payout by 1.5
+   */
+  multiplyPayoutBy1_5: (inputData, updateData) => {
+    updateData.score_multiplier = 1.5;
+    return updateData;
+  },
+
+  /**
+   * Multiply the payout by 2
+   */
+  multiplyPayoutBy2: (inputData, updateData) => {
+    updateData.score_multiplier = 2;
+    return updateData;
+  },
+
+  /**
+   * Multiply the payout by 3
+   */
+  multiplyPayoutBy3: (inputData, updateData) => {
+    updateData.score_multiplier = 3;
+    return updateData;
+  },
+};
+
+function updatePocketValueInUpdateData(
+  inputData: z.infer<typeof upgradePlinkoGameSchema>,
+  updateData: Partial<typeof tablePlinkoGameRounds.$inferInsert>,
+  pocketKey: (typeof plinkoSettings.pocketKeys)[number],
+  pocketValue: number,
+) {
+  match(pocketKey)
+    .with(
+      "pocket_middle",
+      () =>
+        (updateData.pocket_middle_value =
+          inputData.roundData.pocket_middle_value + pocketValue),
+    )
+    .with(
+      "pocket_middle_left_1",
+      () =>
+        (updateData.pocket_middle_left_1_value =
+          inputData.roundData.pocket_middle_left_1_value + pocketValue),
+    )
+    .with(
+      "pocket_middle_right_1",
+      () =>
+        (updateData.pocket_middle_right_1_value =
+          inputData.roundData.pocket_middle_right_1_value + pocketValue),
+    )
+    .with(
+      "pocket_middle_left_2",
+      () =>
+        (updateData.pocket_middle_left_2_value =
+          inputData.roundData.pocket_middle_left_2_value + pocketValue),
+    )
+    .with(
+      "pocket_middle_right_2",
+      () =>
+        (updateData.pocket_middle_right_2_value =
+          inputData.roundData.pocket_middle_right_2_value + pocketValue),
+    )
+    .with(
+      "pocket_middle_left_3",
+      () =>
+        (updateData.pocket_middle_left_3_value =
+          inputData.roundData.pocket_middle_left_3_value + pocketValue),
+    )
+    .with(
+      "pocket_middle_right_3",
+      () =>
+        (updateData.pocket_middle_right_3_value =
+          inputData.roundData.pocket_middle_right_3_value + pocketValue),
+    )
+    .exhaustive();
+
+  return updateData;
 }

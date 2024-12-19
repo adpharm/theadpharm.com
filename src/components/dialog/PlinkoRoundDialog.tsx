@@ -43,41 +43,29 @@ import {
   FormMessage,
 } from "../ui/form";
 import { log, logDebug, logError } from "@/lib/utils.logger";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { actions } from "astro:actions";
+import { cn } from "@/lib/utils";
+import { ChevronLeft, Lock } from "lucide-react";
+import { makePrettyNumber } from "@/lib/utils.numbers";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "../ui/separator";
+import { plinkoSettings } from "@/lib/settings.plinko";
+import { upgradeSettings } from "@/lib/settings.plinkoUpgrades";
 
-const upgradesByRound: Record<
-  (typeof tablePlinkoGames.current_round_key.enumValues)[number],
-  // keys of the upgrade schema
-  (typeof upgradePlinkoGameKeys)[number][]
-> = {
-  rnd1: [],
-  rnd2: ["add1Ball", "makeRandomBallGolden"],
-  rnd3: ["add1Ball", "makeRandomBallGolden"],
-  rnd4: ["add1Ball", "makeRandomBallGolden"],
-  rnd5: ["add1Ball", "makeRandomBallGolden"],
-  rnd6: ["add1Ball", "makeRandomBallGolden"],
-  rnd7: [],
-  rnd8: [],
-  rnd9: [],
-  rnd10: [],
-};
-
-const upgradeKeyLabels: Record<(typeof upgradePlinkoGameKeys)[number], string> =
-  {
-    add1Ball: "Add 1 ball",
-    makeRandomBallGolden: "Make a ball golden (randomly chosen)",
-  };
+type Tabs = "main" | "detail";
 
 /**
  *  Pre-round dialog
  * @returns
  */
 export function PlinkoRoundWaitingToStartDialog() {
+  const [activeTab, setActiveTab] = useState<Tabs>("main");
   const currentRoundData = useStore($currentRoundRemoteData);
   const gameData = useStore($gameRemoteData);
   const gameState = useStore($gameState);
   const openDialog = gameState === "waiting_to_start" && !gameData?.game_over;
+  const upgradeBudget = gameData?.upgrade_budget || 0;
 
   const form = useForm<z.infer<typeof upgradePlinkoGameSchema>>({
     resolver: zodResolver(upgradePlinkoGameSchema),
@@ -123,13 +111,6 @@ export function PlinkoRoundWaitingToStartDialog() {
     return null;
   }
 
-  let upgradesForThisRound = upgradesByRound[currentRoundData.key];
-
-  // if we've already upgraded the board, don't show the form
-  if (currentRoundData.upgraded) {
-    upgradesForThisRound = [];
-  }
-
   return (
     <Dialog open={openDialog}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
@@ -138,80 +119,200 @@ export function PlinkoRoundWaitingToStartDialog() {
           <DialogTitle>
             Round {parsePlinkoRoundNum(currentRoundData.key)} is about to start!
           </DialogTitle>
-          <DialogDescription>Get ready to drop your balls</DialogDescription>
+          {/* <DialogDescription>Get ready to drop your balls</DialogDescription> */}
         </DialogHeader>
 
         {/* upgrade board form */}
-        {upgradesForThisRound.length > 0 ? (
-          <Form {...form}>
-            <form onSubmit={onSubmit} className="grid gap-8">
-              {/***************************************************
-               * Upgrade options
-               ****************************************************/}
-              <FormField
-                control={form.control}
-                name="upgradeKey"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>Select an upgrade</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={(val) => {
-                          const upgradeKey =
-                            val as (typeof upgradePlinkoGameKeys)[number];
-                          // set the value of the field
-                          field.onChange(upgradeKey);
+        {!currentRoundData.did_select_upgrade &&
+        gameData?.current_round_key !== "rnd1" ? (
+          <>
+            <div>
+              <p className="text-sm text-gray-500">Your upgrade budget:</p>
+              <p className="text-2xl">${makePrettyNumber(upgradeBudget)}</p>
+            </div>
 
-                          // handle when the add1Ball upgrade is selected
-                          if (upgradeKey === "add1Ball") {
-                            form.setValue("add1Ball", true);
-                            return;
-                          }
+            <Form {...form}>
+              <form onSubmit={onSubmit} className="grid gap-8">
+                <Tabs
+                  value={activeTab}
+                  onValueChange={(val) => setActiveTab(val as Tabs)}
+                >
+                  <TabsList className="sr-only">
+                    <TabsTrigger value="main">Main</TabsTrigger>
+                    <TabsTrigger value="detail">Detail</TabsTrigger>
+                  </TabsList>
 
-                          // handle when the makeRandomBallGolden upgrade is selected
-                          if (upgradeKey === "makeRandomBallGolden") {
-                            form.setValue("makeRandomBallGolden", true);
-                            return;
-                          }
-                        }}
-                        defaultValue={field.value}
-                        // className="flex flex-col space-y-1"
-                        className="grid grid-cols-2 gap-4"
-                      >
-                        {upgradesForThisRound.map((upgradeKey) => {
-                          return (
-                            <UpgradeRadioOption
-                              key={`radio-upgrade-${upgradeKey}`}
-                              label={upgradeKeyLabels[upgradeKey]}
-                              value={upgradeKey}
-                            />
-                          );
-                        })}
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                  <TabsContent value="main">
+                    {/***************************************************
+                     * Upgrade options
+                     ****************************************************/}
+                    <FormField
+                      control={form.control}
+                      name="upgradeKey"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>Select an upgrade</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={(val) => {
+                                const upgradeKey =
+                                  val as (typeof upgradePlinkoGameKeys)[number];
+                                // set the value of the field
+                                field.onChange(upgradeKey);
+
+                                // handle special cases separately
+                                if (
+                                  upgradeKey === "pocketValuePlus3000" ||
+                                  upgradeKey === "pocketValuePlus6000" ||
+                                  upgradeKey === "pocketValuePlus9000"
+                                ) {
+                                  setActiveTab("detail");
+                                  return;
+                                }
+
+                                // otherwise, it's a boolean field
+                                form.setValue(upgradeKey, true);
+                              }}
+                              defaultValue={field.value}
+                              // className="flex flex-col space-y-1"
+                              className="grid grid-cols-2 gap-4"
+                            >
+                              {Object.entries(upgradeSettings).map(
+                                ([
+                                  upgradeKey,
+                                  { label, description, cost },
+                                ]) => {
+                                  return (
+                                    <UpgradeRadioOption
+                                      key={`radio-upgrade-${upgradeKey}`}
+                                      label={label}
+                                      description={description}
+                                      value={upgradeKey}
+                                      cost={cost}
+                                      locked={upgradeBudget < cost}
+                                    />
+                                  );
+                                },
+                              )}
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </TabsContent>
+
+                  {/************************************************************************
+                  
+                  Detail tabs (if needed)
+                  
+                  *************************************************************************/}
+                  <TabsContent value="detail">
+                    <Button
+                      type="button"
+                      variant={"secondary"}
+                      // className="pl-0"
+                      onClick={() => {
+                        form.resetField("upgradeKey");
+                        setActiveTab("main");
+                      }}
+                    >
+                      <ChevronLeft className="size-4 -ml-1" />
+                      <span>Back</span>
+                    </Button>
+
+                    <Separator className="my-4" />
+
+                    {selectedUpgradeKey === "pocketValuePlus3000" ||
+                    selectedUpgradeKey === "pocketValuePlus6000" ||
+                    selectedUpgradeKey === "pocketValuePlus9000" ? (
+                      <FormField
+                        control={form.control}
+                        name={selectedUpgradeKey}
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel>
+                              Select a pocket to add
+                              <span className="text-green-400">
+                                {selectedUpgradeKey === "pocketValuePlus3000"
+                                  ? " 3000"
+                                  : selectedUpgradeKey === "pocketValuePlus6000"
+                                    ? " 6000"
+                                    : " 9000"}{" "}
+                              </span>
+                              to
+                            </FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={(val) => {
+                                  const pocketKey = val as string;
+                                  // set the value of the field
+                                  field.onChange(pocketKey);
+                                }}
+                                defaultValue={field.value}
+                                className="grid grid-cols-7 gap-1"
+                              >
+                                {plinkoSettings.pocketKeys.map((pocketKey) => {
+                                  const pocketValue =
+                                    currentRoundData[
+                                      // TODO:NOTE: potentially dangerous type-casting
+                                      `${pocketKey}_value` as "pocket_middle_value"
+                                    ];
+
+                                  return (
+                                    <FormItem
+                                      key={`pocket-${pocketKey}`}
+                                      className={cn("relative pb-12")}
+                                    >
+                                      <FormLabel className="h-full flex flex-col border-2 border-transparent bg-transparent border-gray-700 rounded-lg p-1 pl-1.5 aspect-square has-[:checked]:border-white has-[:checked]:bg-gray-900">
+                                        <div className="flex-1">
+                                          <FormControl>
+                                            <RadioGroupItem
+                                              value={pocketKey}
+                                              className=""
+                                            />
+                                          </FormControl>
+                                        </div>
+
+                                        <span className="block text-xs shrink-0">
+                                          {makePrettyNumber(pocketValue)}
+                                        </span>
+                                      </FormLabel>
+                                    </FormItem>
+                                  );
+                                })}
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    ) : null}
+                  </TabsContent>
+                </Tabs>
+
+                {/***************************************************
+                 *
+                 * Submit
+                 *
+                 ****************************************************/}
+                <Button
+                  type="submit"
+                  disabled={form.formState.isSubmitting || !selectedUpgradeKey}
+                >
+                  {form.formState.isSubmitting
+                    ? "Submitting..."
+                    : "Start next round"}
+                </Button>
+
+                {form.formState.errors.root && (
+                  <div className="text-red-500 dark:text-red-300">
+                    {form.formState.errors.root.message}
+                  </div>
                 )}
-              />
-
-              {/***************************************************
-               *
-               * Submit
-               *
-               ****************************************************/}
-              <Button type="submit">
-                {form.formState.isSubmitting
-                  ? "Submitting..."
-                  : "Start next round"}
-              </Button>
-
-              {form.formState.errors.root && (
-                <div className="text-red-500 dark:text-red-300">
-                  {form.formState.errors.root.message}
-                </div>
-              )}
-            </form>
-          </Form>
+              </form>
+            </Form>
+          </>
         ) : (
           <div className="grid">
             <Button type="button" onClick={startRound}>
@@ -227,21 +328,46 @@ export function PlinkoRoundWaitingToStartDialog() {
 function UpgradeRadioOption({
   label,
   value,
+  description,
+  cost,
+  locked,
 }: {
   label: ReactNode;
   value: string;
+  description: string;
+  cost: number;
+  locked?: boolean;
 }) {
   return (
-    <FormItem>
-      <FormLabel className="block border border-gray-700 rounded-lg p-4 has-[:checked]:border-blue-500 has-[:checked]:text-blue-500">
+    <FormItem
+      aria-disabled={locked}
+      className={cn(
+        "relative h-full",
+        locked ? "opacity-50 pointer-events-none" : "",
+      )}
+    >
+      <FormLabel className="h-full block border-2 border-transparent bg-transparent border-gray-700 rounded-lg p-4 has-[:checked]:border-white has-[:checked]:bg-gray-900">
         <FormControl>
-          <RadioGroupItem
-            value={value}
-            className="absolute left-0 top-0 opacity-0 pointer-events-none"
-          />
+          {locked ? (
+            <Lock className="absolute right-2 top-2 pointer-events-none size-4 text-gray-500" />
+          ) : (
+            <RadioGroupItem
+              value={value}
+              className="absolute right-2 top-2 pointer-events-none"
+            />
+          )}
         </FormControl>
 
-        <span>{label}</span>
+        <span
+          className={cn(
+            "block pb-1.5 font-normal text-sm",
+            locked ? "text-red-500" : "text-green-400",
+          )}
+        >
+          ${makePrettyNumber(cost)}
+        </span>
+        <span className="block pb-1.5">{label}</span>
+        <span className="block text-xs text-gray-500">{description}</span>
       </FormLabel>
     </FormItem>
   );
@@ -286,7 +412,7 @@ export function PlinkoRoundEndedDialog() {
             ended!
           </DialogTitle>
           <DialogDescription>
-            Your score is {currentRoundData?.score}
+            Your score is {makePrettyNumber(currentRoundData?.score || 0)}
           </DialogDescription>
         </DialogHeader>
 
@@ -313,20 +439,6 @@ export function PlinkoGameOverDialog() {
     <Dialog open={openDialog}>
       <DialogContent dismissable={false}>
         <GameOverScoreboard embeddedInDialog />
-        {/* <DialogHeader>
-          <DialogTitle>
-            Game over
-          </DialogTitle>
-          <DialogDescription>
-            Your score is {currentRoundData?.score}
-          </DialogDescription>
-        </DialogHeader>
-
-        <DialogFooter>
-          <Button type="button" onClick={nextRound}>
-            Next Round
-          </Button>
-        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

@@ -50,8 +50,8 @@ import { atom, computed, deepMap, map } from "nanostores";
 
 export const $roundResult = atom<{
   score: number;
-  // roundKey: (typeof tablePlinkoGames.current_round_key.enumValues)[number];
   roundId: number;
+  scoreMultiplier: number;
 } | null>(null);
 
 export type PlinkoBallData = {

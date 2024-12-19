@@ -1,0 +1,30 @@
+export const plinkoSettings = {
+  canvasWidth: 400,
+  canvasHeight: 600,
+  pocketKeys: [
+    "pocket_middle_left_3",
+    "pocket_middle_left_2",
+    "pocket_middle_left_1",
+    "pocket_middle",
+    "pocket_middle_right_1",
+    "pocket_middle_right_2",
+    "pocket_middle_right_3",
+  ],
+  plinkoBallKeys: [
+    "plinko_ball_1",
+    "plinko_ball_2",
+    "plinko_ball_3",
+    "plinko_ball_4",
+    "plinko_ball_5",
+    "plinko_ball_6",
+    "plinko_ball_7",
+    "plinko_ball_8",
+    "plinko_ball_9",
+    "plinko_ball_10",
+  ],
+  // pocketWidth: width / 7, // this number should be the the length of pocketKeys
+  pocketHeight: 50,
+  pocketDividerHeight: 50,
+  ballSize: 10,
+  pegScore: 30,
+} as const;

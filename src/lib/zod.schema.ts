@@ -1,6 +1,7 @@
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "astro:schema";
 import { tablePlinkoGameRounds } from "@/db/schema";
+import { plinkoSettings } from "./settings.plinko";
 
 /*************************************************************************************
  *
@@ -64,40 +65,71 @@ export const signInUserSchema = z.object({
  *
  ************************************************************************************/
 export const upgradePlinkoGameKeys = [
-  "add1Ball",
-  "makeRandomBallGolden",
+  "none",
+  "addNormalBall",
+  "add2NormalBalls",
+  "addGoldenBall",
+  "pocketValuePlus3000",
+  "pocketValuePlus6000",
+  "pocketValuePlus9000",
+  "multiplyPayoutBy1_5",
+  "multiplyPayoutBy2",
+  "multiplyPayoutBy3",
 ] as const;
 
-export const upgradePlinkoGameSchema = z
-  .object({
-    // the current round data
-    roundData: createSelectSchema(tablePlinkoGameRounds),
+export const upgradePlinkoGameSchema = z.object({
+  // the current round data
+  roundData: createSelectSchema(tablePlinkoGameRounds),
 
-    // the upgrade key
-    upgradeKey: z.enum(upgradePlinkoGameKeys, {
-      message: "Please select an upgrade",
-    }),
+  // the upgrade key
+  upgradeKey: z.enum(upgradePlinkoGameKeys, {
+    message: "Please select an upgrade",
+  }),
 
-    // the upgrade values
-    add1Ball: z.boolean().optional(),
-    makeRandomBallGolden: z.boolean().optional(),
-    // makeLastBallGolden: z.boolean().optional(),
-    // satisfies: make sure each upgrade has at least one value
-  } satisfies Record<
-    "roundData" | "upgradeKey" | (typeof upgradePlinkoGameKeys)[number],
-    any
-  >)
-  // minimally, one upgrade must be defined
-  .refine(
-    (data) => {
-      for (const key of upgradePlinkoGameKeys) {
-        if (data.upgradeKey === key && data[key] !== undefined) {
-          return true;
-        }
-      }
-    },
-    {
-      path: ["upgradeKey"],
-      message: "The upgrade is broken. Please choose another one for now.",
-    },
-  );
+  // the upgrade values
+  none: z.boolean().optional(),
+  addNormalBall: z.boolean().optional(),
+  add2NormalBalls: z.boolean().optional(),
+  addGoldenBall: z.boolean().optional(),
+  pocketValuePlus3000: z.enum(plinkoSettings.pocketKeys).optional(),
+  pocketValuePlus6000: z.enum(plinkoSettings.pocketKeys).optional(),
+  pocketValuePlus9000: z.enum(plinkoSettings.pocketKeys).optional(),
+  multiplyPayoutBy1_5: z.boolean().optional(),
+  multiplyPayoutBy2: z.boolean().optional(),
+  multiplyPayoutBy3: z.boolean().optional(),
+
+  // satisfies: make sure each upgrade has at least one value
+} satisfies Record<
+  "roundData" | "upgradeKey" | (typeof upgradePlinkoGameKeys)[number],
+  any
+>);
+// minimally, one upgrade must be defined
+// these are giving me issues, presumably because I'm using form.setValue() to set the values
+// .superRefine((data, ctx) => {
+//   let hasUpgrade = false;
+//   for (const key of upgradePlinkoGameKeys) {
+//     if (data.upgradeKey === key && data[key] !== undefined) {
+//       hasUpgrade = true;
+//     }
+//   }
+//   if (!hasUpgrade) {
+//     ctx.addIssue({
+//       code: z.ZodIssueCode.custom,
+//       path: ["upgradeKey"],
+//       message: "Please select an upgrade",
+//     });
+//   }
+// });
+// .refine(
+//   (data) => {
+//     for (const key of upgradePlinkoGameKeys) {
+//       if (data.upgradeKey === key && data[key] !== undefined) {
+//         return true;
+//       }
+//     }
+//   },
+//   {
+//     path: ["upgradeKey"],
+//     message: "The upgrade is broken. Please choose another one for now.",
+//   },
+// );

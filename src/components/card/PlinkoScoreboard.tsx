@@ -23,6 +23,7 @@ import { logDebug } from "@/lib/utils.logger";
 import { cn } from "@/lib/utils";
 import { getPagePath } from "@nanostores/router";
 import { $router } from "@/lib/stores/router";
+import { makePrettyNumber } from "@/lib/utils.numbers";
 
 export function PlinkoScoreboard() {
   const currentRoundScore = useStore($roundScore);
@@ -80,6 +81,7 @@ export function GameOverScoreboard({
 }: {
   embeddedInDialog?: boolean;
 }) {
+  const currentRoundScore = useStore($roundScore);
   const gameRemoteData = useStore($gameRemoteData);
   const gameScore = gameRemoteData?.score || 0;
   const [isCreatingGame, setIsCreatingGame] = useState(false);
@@ -93,17 +95,24 @@ export function GameOverScoreboard({
     >
       <CardHeader className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
         <CardTitle>Thanks for playing!</CardTitle>
-        {/* <CardDescription>Final results</CardDescription> */}
+        <CardDescription>Now get back to work.</CardDescription>
       </CardHeader>
 
       <CardContent className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
+        {currentRoundScore > 0 ? (
+          <>
+            <p>Final round score:</p>
+            <p>{makePrettyNumber(currentRoundScore)}</p>
+          </>
+        ) : null}
+
         <p>Final score:</p>
-        <p>{gameScore}</p>
+        <p>{makePrettyNumber(gameScore)}</p>
       </CardContent>
 
       <CardFooter className={cn("grid gap-2", embeddedInDialog ? "p-0" : "")}>
         <Button type="button" asChild variant={"secondary"}>
-          <a href={getPagePath($router, "games.plinko.home")}>Your games</a>
+          <a href={getPagePath($router, "games.plinko.home")}>Go home</a>
         </Button>
 
         <Button

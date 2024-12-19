@@ -113,6 +113,7 @@ export const tablePlinkoGames = pgTable(
       .references(() => tableUsers.id),
     current_round_key: text({ enum: roundKeys }).notNull().default("rnd1"),
     score: integer().notNull().default(0),
+    upgrade_budget: integer().notNull().default(0),
     game_over: boolean().notNull().default(false),
   },
   (table) => [
@@ -147,20 +148,11 @@ export const tablePlinkoGameRounds = pgTable(
     // the score for this round
     score: integer().notNull().default(0),
     // did upgrade the board for this round
-    upgraded: boolean().notNull().default(false),
+    // upgraded: boolean().notNull().default(false),
+    did_select_upgrade: boolean().notNull().default(false),
 
-    // ballsInPlay
-    // activeBallIndices: integer()
-    //   .array()
-    //   .notNull()
-    //   // default first 5 balls
-    //   .default(sql`ARRAY[1, 2, 3, 4, 5]`),
-
-    // // golden plinko balls
-    // goldenBallsIndices: integer()
-    //   .array()
-    //   .notNull()
-    //   .default(sql`ARRAY[]::int[]`),
+    // mutiplier
+    score_multiplier: integer().notNull().default(1),
 
     // ball details
     plinko_ball_1_on: boolean().notNull().default(true),
