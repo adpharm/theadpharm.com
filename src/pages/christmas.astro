@@ -1,22 +1,20 @@
 ---
 import { Transition } from "@headlessui/react";
 
-import Layout from "../layouts/Layout.astro";
-import Href from "../components/Href";
-import Grid from "../layouts/Grid.astro";
-import Section from "../layouts/Section.astro";
-import Icon from "../components/Icon";
-import { twMerge } from "tailwind-merge";
-import TextSwitcher from "../components/TextSwitcher";
+import Layout from "@/components/layout/Layout.astro";
+import Href from "@/components/Href";
+import Grid from "@/components/layout/Grid.astro";
+import Section from "@/components/layout/Section.astro";
+import Icon from "@/components/Icon";
+import TextSwitcher from "@/components/TextSwitcher";
 import { createOpenAI } from "@ai-sdk/openai";
-import { generateText } from "ai";
-import Snowfall from "../components/Snowfall.astro";
+import Snowfall from "@/components/Snowfall.astro";
 
-const perplexity = createOpenAI({
-  name: "perplexity",
-  apiKey: process.env.PERPLEXITY_API_KEY ?? "",
-  baseURL: "https://api.perplexity.ai/",
-});
+// const perplexity = createOpenAI({
+//   name: "perplexity",
+//   apiKey: process.env.PERPLEXITY_API_KEY ?? "",
+//   baseURL: "https://api.perplexity.ai/",
+// });
 
 const maxNumQuestions = 20;
 const currentQuestion = 1;
