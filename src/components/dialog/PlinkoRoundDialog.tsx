@@ -88,6 +88,8 @@ export function PlinkoRoundWaitingToStartDialog() {
 
       // reset the form
       form.reset();
+      // reset the selected tab
+      setActiveTab("main");
     },
     (err) => logError("RHF error", err),
   );
@@ -377,7 +379,10 @@ function UpgradeRadioOption({
         <FormControl>
           {disabled ? (
             // <Ban className="absolute right-2 top-2 pointer-events-none size-4 text-gray-500" />
-            <Badge className="absolute right-2 top-2 pointer-events-none font-medium text-xs" variant={"secondary"}>
+            <Badge
+              className="absolute right-2 top-2 pointer-events-none font-medium text-xs"
+              variant={"secondary"}
+            >
               Maxed out
             </Badge>
           ) : locked ? (
