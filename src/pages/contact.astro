@@ -1,0 +1,180 @@
+---
+import { Transition } from "@headlessui/react";
+
+import Layout from "../layouts/Layout.astro";
+import Href from "../components/Href";
+import Grid from "../layouts/Grid.astro";
+import Section from "../layouts/Section.astro";
+import Icon from "../components/Icon";
+import { twMerge } from "tailwind-merge";
+import TextSwitcher from "../components/TextSwitcher";
+import { LeadershipCard } from "../components/LeadershipCard";
+---
+
+<Layout title="The Adpharm: Big agency experience, small agency excellence">
+  <main class="relative">
+    <div class="absolute h-screen w-full top-0 left-0 z-0">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute top-0 left-0 w-full h-full object-cover object-left-top"
+        poster="/adpharm-bg.webp"
+      >
+        <!-- <source src="/adpharm-bg-bright.mp4" type="video/mp4" /> -->
+        <source src="/adpharm-bg.mp4" type="video/mp4" />
+        <!-- <source src="/video.webm" type="video/webm" /> -->
+      </video>
+
+      <!-- bg overlays -->
+      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
+      <div
+        class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10"
+      >
+      </div>
+    </div>
+
+    <!-- 
+
+
+
+
+
+
+
+      Hashes
+     -->
+    <!-- <Section>
+      <ul class="pt-20 sm:pt-32 space-y-2 text-right lg:text-left">
+        {
+          sections.map((item) => (
+            <li>
+              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`} className="text-sm">
+                {item.title}
+              </Href>
+            </li>
+          ))
+        }
+      </ul>
+    </Section> -->
+    <!-- 
+
+
+
+
+
+
+      About
+      -->
+    <Section className="pt-36 pb-24" fullTopBorder>
+      <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+        <div slot="left" class="pl-0 lg:pl-10">
+          <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+          <iframe
+            width="600"
+            height="450"
+            class="mb-4"
+            style="border:0"
+            loading="lazy"
+            src={`https://www.google.com/maps/embed/v1/place?key=${process.env.GOOGLE_API}&q=The+Adpharm,Oakville+ON`}
+          ></iframe>
+          <p class="text-lg">133 Thomas Street</p>
+          <p class="text-zinc-400">Oakville, Ontario</p>
+          <p class="text-zinc-400">L6J 3A9</p>
+          <p class="pt-0 lg:pt-4">
+            <Href
+              href="https://www.linkedin.com/company/the-adpharm/"
+              className="text-sm">LinkedIn</Href
+            >
+          </p>
+        </div>
+
+        <div slot="right">
+          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Contact
+              </p>
+              <p class="text-lg">Amy Moriarty</p>
+              <p class="text-zinc-400">SVP, Managing Director</p>
+              <div class="flex items-center justify-start">
+                <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+                <TextSwitcher
+                  client:load
+                  textToCopy="amy@theadpharm.com"
+                  beforeText="(copy)"
+                  beforeClassName="hover:underline cursor-pointer"
+                  afterText="(copied ✔)"
+                  afterClassName="text-green-600"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Teams
+              </p>
+
+              <ul class="space-y-1.5">
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
+                  <Href
+                    href="/"
+                    className="text-sm text-white hover:text-orange-600"
+                    >The Adpharm (Agency)</Href
+                  >
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
+                  <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
+                  <Href
+                    href="https://www.synapsemedcom.ca/"
+                    className="text-sm text-white hover:text-[#1292a9]"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Synapse Medcom
+                  </Href>
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
+                  <Href
+                    href="/digital"
+                    className="text-sm text-white hover:text-orange-600"
+                    >AD (Adpharm Digital)</Href
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Grid>
+    </Section>
+    <Section />
+    <Section topBorder fullBottomBorder className="pt-32 pb-32 space-y-10">
+      <Grid id="about-paragraphs">
+        <div slot="left" class="pl-20">
+          <h2 class="text-xl">Get in touch</h2>
+        </div>
+        <div slot="right"></div>
+      </Grid>
+    </Section>
+  </main>
+
+  <Section topBorder className="py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-5">
+      <div class="col-span-2 flex items-center justify-center sm:justify-start">
+        <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
+      </div>
+      <div class="col-span-3 flex items-center justify-center sm:justify-end">
+        <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+        <p class="text-xs text-zinc-400">
+          &copy; {new Date().getFullYear()} The Adpharm Inc.
+        </p>
+      </div>
+    </div>
+  </Section>
+</Layout>

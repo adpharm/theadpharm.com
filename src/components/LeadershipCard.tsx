@@ -10,7 +10,7 @@ export interface LeadershipCardProps {
 export function LeadershipCard({ imgSrc, name, title }: LeadershipCardProps) {
   return (
     <div className="flex flex-col justify-start items-center group">
-      <div className="h-48 w-48 rounded-full overflow-hidden mb-2 flex items-center justify-center">
+      <div className="h-44 w-44 rounded-full overflow-hidden mb-4 flex items-center justify-center border border-zinc-400">
         <img
           src={imgSrc}
           alt={name}
@@ -19,7 +19,7 @@ export function LeadershipCard({ imgSrc, name, title }: LeadershipCardProps) {
       </div>
       <h3 className="text-xl text-orange-600 font-semibold">{name}</h3>
       <p
-        className="text-sm text-gray-300 text-center"
+        className="text-sm text-zinc-400 text-center"
         dangerouslySetInnerHTML={{ __html: title }}
       ></p>
     </div>

@@ -8,6 +8,7 @@ import Section from "../layouts/Section.astro";
 import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
+import { ArrowRight } from "lucide-react";
 
 const sections = [
   { id: "about", title: "#about" },
@@ -110,12 +111,6 @@ const clients = _clients.concat(_clients);
       <Grid id="about">
         <div slot="left"></div>
         <div slot="right">
-          <Href
-            href="#about"
-            className="text-orange-600 hover:text-orange-500 text-sm"
-            >#about</Href
-          >
-
           <h1 class="pt-4 text-3xl font-light animate-fade-in-up">
             Fiercely independent, our unique agency model is structured to
             ensure our most senior people are involved in our clients' business
@@ -142,14 +137,12 @@ const clients = _clients.concat(_clients);
               </p>
             </div>
           </div>
-
-          <div class="pt-12">
-            <Icon
-              as="div"
-              name="arrowDownLong"
-              className="-ml-1.5 sm:-ml-3 lg:-ml-5 h-12 w-12 transition-colors text-white/20 hover:text-zinc-400 animate-fade-in-2"
-            />
-          </div>
+          <a
+            href="/contact"
+            class="flex flex-row justify-center items-stretch bg-orange-600 rounded-full px-6 py-2 mt-10 max-w-44 animate-fade-in-2"
+          >
+            Get in touch <ArrowRight className="ml-2 animate-pulse" />
+          </a>
         </div>
       </Grid>
     </Section>
@@ -166,31 +159,6 @@ const clients = _clients.concat(_clients);
      -->
 
     <!-- the height here just has to be greater or equal to the squares -->
-    <div
-      class="mx-auto w-full max-w-[150rem] relative overflow-hidden border-t border-b border-zinc-800"
-    >
-      <div
-        class="flex justify-start items-start h-full w-[400%] animate-slide-400 md:w-[300%] md:animate-slide-300 xl:w-[200%] xl:animate-slide-200 hover:pause"
-      >
-        {
-          clients.map((c) => (
-            <div class="flex-1 aspect-square border-r border-zinc-800 group">
-              <div class="h-full w-full flex items-center justify-center px-4 sm:px-12">
-                <img
-                  src={c.img}
-                  alt={c.name}
-                  title={c.name}
-                  class={twMerge(
-                    "max-h-[60px] sm:max-h-[100px] max-w-[150px] w-full object-contain transition duration-500 brightness-75 grayscale group-hover:grayscale-0 group-hover:brightness-100",
-                    c.classOverride ?? ""
-                  )}
-                />
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
 
     <!-- 
 
@@ -204,19 +172,7 @@ const clients = _clients.concat(_clients);
       Services
      -->
 
-    <Section className="pt-24">
-      <Grid id="services" className="py-4">
-        <div slot="right">
-          <Href
-            href="#services"
-            className="text-orange-600 hover:text-orange-500 text-sm"
-            >#services</Href
-          >
-        </div>
-      </Grid>
-    </Section>
-
-    {
+    <!-- {
       [
         {
           id: "fsad",
@@ -297,7 +253,7 @@ const clients = _clients.concat(_clients);
           </Grid>
         </Section>
       ))
-    }
+    } -->
 
     <!-- 
 
@@ -310,18 +266,6 @@ const clients = _clients.concat(_clients);
 
       Work
      -->
-    <Section className="pt-12 pb-24" fullTopBorder>
-      <Grid id="work">
-        <div slot="right">
-          <Href
-            href="#work"
-            className="text-orange-600 hover:text-orange-500 text-sm"
-            >#work</Href
-          >
-          <h4 class="text-lg text-zinc-400">Coming soon.</h4>
-        </div>
-      </Grid>
-    </Section>
 
     <!-- 
 
@@ -337,11 +281,11 @@ const clients = _clients.concat(_clients);
     <Section className="pt-32 lg:pt-56 pb-4">
       <Grid id="contact">
         <div slot="right">
-          <Href
+          <!-- <Href
             href="#contact"
             className="text-orange-600 hover:text-orange-500 text-sm"
             >#contact</Href
-          >
+          > -->
         </div>
       </Grid>
     </Section>
