@@ -77,6 +77,7 @@ module.exports = {
       },
       fontFamily: {
         christmas: ["Christmas", "sans-serif"],
+        speech: ["Speech", "sans-serif"],
       },
     },
   },

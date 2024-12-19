@@ -259,3 +259,11 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Speech";
+  src: url("../fonts/christmas/speech.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
