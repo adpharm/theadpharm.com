@@ -40,6 +40,7 @@ import { getUser } from "@/lib/server/auth.utils";
 import { getPagePath } from "@nanostores/router";
 import { $router } from "@/lib/stores/router";
 import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
+import plinkoHeaderWithScoreBoard from "@/images/PlinkoHeaderwithScoreboard.png";
 
 const user = getUser(Astro);
 
@@ -95,6 +96,8 @@ $gameRemoteData.set(game);
 <script>
   const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
   import Matter from "matter-js";
+  import redOrnamentPlinko from "@/images/3d-ornament-red.png";
+  import greenOrnamentPlinko from "@/images/3d-ornament-green.png";
   import { actions } from "astro:actions";
   import { tablePlinkoGameRounds } from "@/db/schema";
   import {
@@ -186,31 +189,39 @@ $gameRemoteData.set(game);
   > = {
     pocket_middle_left_3: new DotLottieWorker({
       canvas: pocketLottieCanvases[0]!,
-      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
+      // path: "../../src/lottie/celebration.json",
     }),
     pocket_middle_left_2: new DotLottieWorker({
       canvas: pocketLottieCanvases[1]!,
-      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
     }),
     pocket_middle_left_1: new DotLottieWorker({
       canvas: pocketLottieCanvases[2]!,
-      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
     }),
     pocket_middle: new DotLottieWorker({
       canvas: pocketLottieCanvases[3]!,
-      src: "https://lottie.host/0cbdb3ef-2fa5-4d1d-9e4e-f66c879e010d/D0bRr9d93F.lottie",
+      // src: "https://lottie.host/0cbdb3ef-2fa5-4d1d-9e4e-f66c879e010d/D0bRr9d93F.lottie",
+      src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
     }),
     pocket_middle_right_1: new DotLottieWorker({
       canvas: pocketLottieCanvases[4]!,
-      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
     }),
     pocket_middle_right_2: new DotLottieWorker({
       canvas: pocketLottieCanvases[5]!,
-      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
     }),
     pocket_middle_right_3: new DotLottieWorker({
       canvas: pocketLottieCanvases[6]!,
-      src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
+      src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
     }),
   };
 
@@ -270,6 +281,15 @@ $gameRemoteData.set(game);
     mouse,
   });
 
+  // Randomizing the color of the plinko balls (ornaments)
+  const randomPlinkoOrnamentColor = () => {
+    const ornamentOptions = ["red", "green"];
+    const selectedColor =
+      ornamentOptions[Math.floor(Math.random() * ornamentOptions.length)];
+    console.log("Random ornament color: ", selectedColor);
+    return selectedColor;
+  };
+
   // function fabricating a plinko, as a circle included atop the canvas
   const makePlinko = ({
     x,
@@ -289,10 +309,11 @@ $gameRemoteData.set(game);
     }
 
     // utility function returning a random integer between two values for color selection
-    const randomBetweenForColor = (min: number, max: number) =>
-      Math.floor(Math.random() * (max - min)) + min;
-    // Plinko Ball Color
-    const fillStyle = `hsl(${randomBetweenForColor(0, 360)}, 90%, 60%)`;
+    const selectedColor = randomPlinkoOrnamentColor();
+    const ballTexture =
+      selectedColor === "red"
+        ? "../../src/images/3d-ornament-red.png"
+        : greenOrnamentPlinko.src;
 
     const r = size; //ball size
 
@@ -300,7 +321,11 @@ $gameRemoteData.set(game);
       ...options,
       restitution: options.restitution || 0.8,
       render: options.render || {
-        fillStyle,
+        sprite: {
+          texture: ballTexture,
+          xScale: 1,
+          yScale: 1,
+        },
       },
     });
   };
@@ -394,16 +419,25 @@ $gameRemoteData.set(game);
     let contourLeftTriangles = [];
     let contourRightTriangles = [];
 
-    for (
-      let i = pegGrid.paddingTop;
-      i < settings.height - pegGrid.paddingBottom;
-      i += 50
-    ) {
+    const rowSizeForTriangles =
+      (settings.height - pegGrid.paddingTop - pegGrid.paddingBottom) /
+      pegGrid.numRows;
+
+    for (let rowIdx = 1; rowIdx < pegGrid.numRows; rowIdx += 2) {
+      const y =
+        rowSizeForTriangles * rowIdx +
+        rowSizeForTriangles / 2 +
+        pegGrid.paddingTop;
+
       const leftTriangle_ = {
-        x: -30,
-        y: i,
+        // x: -30,
+        x: 5,
+        // y: i,
+        y: y,
+        // sides: 3,
         sides: 3,
-        radius: 60,
+        // radius: 60,
+        radius: 30,
       } as const;
       const leftTriangle = Matter.Bodies.polygon(
         leftTriangle_.x,
@@ -416,41 +450,40 @@ $gameRemoteData.set(game);
           render: {
             sprite: {
               texture: "../../src/images/icy.png",
-              xScale: 0.36, //This is changing the pyramid's altitude (tip tip to floor)
-              yScale: 0.9, //This is making the base wider (so they can touch)
+              xScale: 0.2, //This is changing the pyramid's altitude (tip tip to floor)
+              yScale: 0.2, //This is making the base wider (so they can touch)
             },
           },
         }
       );
 
       const rightTriangle_ = {
-        x: settings.width + 30,
-        // x: width + width / 10,
-        y: i,
+        x: settings.width + 28,
+        y: y,
         sides: 3,
         radius: 60,
+        angle: 0,
       } as const;
-      const rigttTriangle = Matter.Bodies.polygon(
+      const rightTriangle = Matter.Bodies.polygon(
         rightTriangle_.x,
         rightTriangle_.y,
         rightTriangle_.sides,
         rightTriangle_.radius,
         {
           isStatic: true,
-          angle: 2 * Math.PI,
+          angle: 0,
           render: {
-            // fillStyle: "white",
             sprite: {
               texture: "../../src/images/icy.png",
-              xScale: 0.19, //This is changing the pyramid's altitude (tip tip to floor)
-              yScale: 0.5, //This is making the base wider (so they can touch)
+              xScale: 0.2,
+              yScale: 0.2,
             },
           },
         }
       );
 
       contourLeftTriangles.push(leftTriangle);
-      contourRightTriangles.push(rigttTriangle);
+      contourRightTriangles.push(rightTriangle);
     }
 
     // add the walls, triangles to the world

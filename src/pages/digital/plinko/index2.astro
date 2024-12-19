@@ -1,0 +1,405 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<!-- <style>
+  .matterCanvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../../images/canvas-background.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+</style> -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.14/lottie.min.js"
+></script>
+<script
+  src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"
+></script>
+<script>
+  const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
+  import { DotLottie } from "https://esm.sh/@lottiefiles/dotlottie-web";
+
+  import celebrationAnimation from "../../../animations/celebration.json";
+
+  import {
+    Mouse,
+    MouseConstraint,
+    Engine,
+    Render,
+    World,
+    Body,
+    Bodies,
+    Events,
+    Runner,
+    Composite,
+    type ICollisionCallback,
+  } from "matter-js";
+
+  import lottie from "lottie-web";
+
+  // set up the engine and environment
+  const engine = Engine.create();
+  const runner = Runner.create();
+
+  const matterCanvas: HTMLCanvasElement | null =
+    document.querySelector(".matterCanvas");
+
+  if (!matterCanvas) {
+    throw new Error("matterCanvas not found");
+  }
+
+  const lottieContainer = document.querySelector(".lottie-container");
+  const lottiePlayer = document.querySelector("lottie-player") as any;
+
+  // // Set the animation data
+  if (lottiePlayer) {
+    lottiePlayer.load(celebrationAnimation);
+  }
+
+  const animation = new DotLottie({
+    canvas: document.querySelector("#dotLottie-canvas"),
+    renderer: "svg",
+    loop: false,
+    autoplay: false,
+    // path: "../../src/animations/celebration.json",
+    src: 
+  });
+
+  const playCelebrationAnimation = () => {
+    console.log("Playing the animation");
+    console.log("Animation container: ", animation.container);
+    console.log("Animation player: ", animation);
+
+    if (animation) {
+      animation.play();
+
+      setTimeout(() => {
+        animation.stop();
+      }, 2000);
+    }
+  };
+
+  // set up the renderer
+  const render = Render.create({
+    canvas: matterCanvas,
+    engine,
+    options: {
+      wireframes: false,
+      background: "transparent",
+      width: 400,
+      height: 600,
+    },
+  });
+
+  const mouse = Mouse.create(matterCanvas); //Creating the mouse in the world (i.e. Canvas)
+  console.log("This is the mouse position: ", mouse.position);
+  const { world } = engine;
+
+  // global variables used throughout the canvas
+  const width = 400; //800
+  const height = 600;
+  // number of columns and rows for the grid of pegs
+  const columns = 8; //10
+  const rows = 10; //20
+  // margin to allocate buckets underneath the grid
+  const bottomMargin = 150;
+  const topMargin = 50;
+  // padding to include make space for two rectangles at either side of the canvas
+  const padding = width / columns / 2;
+
+  // Bucket height Global
+  const bucketHeight = 80;
+
+  //Setting limit on the number of Plinkos to play with.
+  let currentPlinkosCount = 0;
+  const maxPlinkosCount = 50;
+
+  const plinkoCounter = document.getElementById("plinkoCounterDiv");
+
+  const updatePlinkoCounter = () => {
+    if (plinkoCounter) {
+      plinkoCounter.textContent = `Count of plinkos: ${currentPlinkosCount}/${maxPlinkosCount}`;
+    }
+  };
+
+  if (plinkoCounter) {
+    updatePlinkoCounter();
+  }
+
+  const randomPlinkoOrnamentColor = () => {
+    const ornamentOptions = ["red", "green"];
+    const selectedColor =
+      ornamentOptions[Math.floor(Math.random() * ornamentOptions.length)];
+    console.log("Random ornament color: ", selectedColor);
+    return selectedColor;
+  };
+
+  // function fabricating a plinko, as a circle included atop the canvas
+  const makePlinko = (
+    x: number,
+    y: number,
+    size: number,
+    customImage: string
+  ) => {
+    // Plinko Ball Color
+    const red_fillStyle = "#c41414";
+    const green_fillStyle = "#157701";
+
+    const selectedColor = randomPlinkoOrnamentColor();
+    const ballTexture =
+      selectedColor === "red"
+        ? "../../src/images/3d-ornament-red.png"
+        : "../../src/images/3d-ornament-green.png";
+
+    const r = size; //ball size
+
+    if (customImage === "hand") {
+      return Bodies.rectangle(x, y, size * 2, size * 2, {
+        restitution: 0.9,
+        render: {
+          sprite: {
+            texture: "../../src/images/hand.png",
+            xScale: 1.0,
+            yScale: 1.0,
+          },
+        },
+        label: "hand",
+      });
+    }
+    return Bodies.circle(x, y, r, {
+      restitution: 0.8, //Restitution is the amount of bounce/elasticness that an object has when it collides with another object.
+      render: {
+        fillStyle: selectedColor === "red" ? red_fillStyle : green_fillStyle,
+        sprite: {
+          texture: ballTexture,
+          xScale: 1,
+          yScale: 1,
+        },
+      },
+      // add a label to later identify the circle in the collision event
+      label: "plinko",
+    });
+  };
+
+  // From Docs: Mouse constraints are used for allowing user interaction, providing the ability to move bodies via the mouse or touch.
+  const mouseConstraint = MouseConstraint.create(engine, {
+    mouse,
+  });
+
+  // Fake ball at the top to follow the mouse
+  let movingPlinkoBall: Matter.Body;
+  // mouseConstraint Mousemove event
+  Events.on(mouseConstraint, "mousemove", (event) => {
+    if (movingPlinkoBall) {
+      Body.setPosition(movingPlinkoBall, {
+        x: mouse.position.x,
+        y: 20,
+      });
+    } else {
+      movingPlinkoBall = makePlinko(mouse.position.x, 20, 20, "hand");
+      // playCelebrationAnimation();
+
+      movingPlinkoBall.isStatic = true;
+      Composite.add(world, movingPlinkoBall);
+    }
+  });
+
+  // mouseConstraint mouseUp event
+  Events.on(mouseConstraint, "mouseup", (event) => {
+    console.log("Mouse is moving", mouse.position);
+
+    if (currentPlinkosCount < maxPlinkosCount) {
+      movingPlinkoBall.isStatic = true;
+      movingPlinkoBall.render.fillStyle = "#808080";
+
+      const plinkoBall = makePlinko(mouse.position.x, 40, 10, "ball");
+      Composite.add(world, plinkoBall);
+
+      currentPlinkosCount++;
+      updatePlinkoCounter();
+    } else {
+      window.alert(
+        "Maximum number of plinkos reached, please refresh to play again!"
+      );
+    }
+  });
+
+  // function fabricating a peg, as a white circle with a static position
+  // accepting as input the coordinates of the circle's center
+  const makePeg = (x: number, y: number) => {
+    const r = 5;
+
+    return Bodies.circle(x, y, r, {
+      restitution: 1,
+      isStatic: true,
+      render: { fillStyle: "white" },
+      label: "peg", // add a label to later identify the circle in the collision event
+    });
+  };
+
+  // function fabricating a bucket, as a white taller-than-wider rectangle positioned at the bottom of the canvas
+  const makeBucket = (x: number) => {
+    const w = 5;
+    const h = bucketHeight;
+    const y = height - h / 2;
+
+    return Bodies.rectangle(x, y, w, h, {
+      isStatic: true,
+      render: {
+        fillStyle: "white",
+      },
+    });
+  };
+
+  let contourLeftTriangles = [];
+  let contourRightTriangles = [];
+
+  for (let i = 120; i < height - bottomMargin; i += 50) {
+    const leftTriangle = Bodies.polygon(-38, i, 3, 60, {
+      isStatic: true,
+      angle: Math.PI,
+      render: {
+        sprite: {
+          texture: "../../src/images/triangular-icy-mountain-small.png",
+          xScale: 0.36, //This is changing the pyramid's altitude (tip tip to floor)
+          yScale: 0.9, //This is making the base wider (so they can touch)
+        },
+      },
+    });
+
+    const rigttTriangle = Bodies.polygon(width + width / 10, i, 3, 60, {
+      isStatic: true,
+      angle: 2 * Math.PI,
+      render: {
+        sprite: {
+          texture: "../../src/images/icy.png",
+          xScale: 0.19, //This is changing the pyramid's altitude (tip tip to floor)
+          yScale: 0.5, //This is making the base wider (so they can touch)
+        },
+      },
+    });
+
+    contourLeftTriangles.push(leftTriangle);
+    contourRightTriangles.push(rigttTriangle);
+  }
+
+  World.add(world, [...contourLeftTriangles, ...contourRightTriangles]);
+
+  // pegs
+  // array of columns and rows; the idea is to have pegs ranging the width and height of the canvas
+  // use the padding to reduce the horizontal space allocated to the pegs
+  const columnSize = (width - padding * 2) / columns;
+  const rowSize = (height - bottomMargin) / rows;
+
+  const grid = Array.from({ length: rows }, (_, row) => {
+    const cols = row % 2 === 0 ? columns : columns - 1;
+    const dx = cols !== columns ? columnSize / 2 : 0;
+    return Array.from({ length: cols }, (_, column) => {
+      const x = padding + columnSize * column + columnSize / 2 + dx;
+      const y = rowSize * row + rowSize / 2 + topMargin;
+      return makePeg(x, y);
+    });
+  });
+
+  // since grid refers to a 2d array, flatten the items to a one-dimensional array
+  const pegs = grid.reduce((acc, curr) => [...acc, ...curr], []);
+
+  // buckets
+  // arrays of buckets in which the plinkos would eventually fall
+  // as many buckets as the number of columns, to make use of the left and right wall for the outer edges
+  const buckets = Array.from({ length: columns }, (_, column) => {
+    const x = columnSize * column + columnSize;
+    return makeBucket(x);
+  });
+
+  // UNTIL HERE, WE CREATED THE OBJECTS THAT WILL BE IN THE GAME (peg, ball, walls, buckets), AND GENERATED THEIR CORRECT NUMBERS.
+
+  // Now we create the world for the game by adding the objects into the world.
+  World.add(world, [...contourLeftTriangles, ...pegs, ...buckets]);
+
+  //TESTING SCORE TRACKING
+  const bucketScores = new Map();
+  buckets.forEach((bucket, index) => {
+    bucketScores.set(bucket.id, {
+      position: index + 1,
+      count: 0,
+    });
+  });
+
+  // following a collision event retrieve the label of the two bodies
+  // if one is a plinko, consider its color and apply it to the other body
+  const handleCollision: ICollisionCallback = (event) => {
+    const { pairs } = event;
+
+    pairs.forEach((pair) => {
+      const { bodyA, bodyB } = pair;
+      const { label: labelA } = bodyA;
+      const { label: labelB } = bodyB;
+
+      if (labelA === "plinko") {
+        if (bodyB.position.y > height - 100) {
+          const bucketScore = bucketScores.get(bodyB.id);
+          if (bucketScore) {
+            bucketScore.count++;
+            console.log(
+              `Ball landed in bucket ${bucketScore.position}! Count: ${bucketScore.count}`
+            );
+          }
+        }
+        const { fillStyle } = bodyA.render;
+        bodyB.render.fillStyle = fillStyle;
+        // collisionSound.play();
+      }
+
+      if (labelB === "plinko") {
+        if (bodyA.position.y > height - 100) {
+          const bucketScore = bucketScores.get(bodyA.id);
+          if (bucketScore) {
+            bucketScore.count++;
+            console.log(
+              `Ball landed in bucket ${bucketScore.position}! Count: ${bucketScore.count}`
+            );
+            playCelebrationAnimation();
+          }
+        }
+        const { fillStyle } = bodyB.render;
+        bodyA.render.fillStyle = fillStyle;
+        // collisionSound.play();
+      }
+    });
+  };
+
+  // Tarking the Bucket score
+  // const getBucketStandings = () => {
+  //   return Array.from(bucketScores.values())
+  //     .sort((a, b) => b.count - a.count)
+  //     .map((bucket) => `Bucket ${bucket.position}: ${bucket.count} balls`);
+  // };
+
+  Events.on(engine, "collisionStart", handleCollision);
+
+
+  Runner.run(runner, engine); //We have eto create and run the runner so that the engine start playing the annimation.
+
+  Render.run(render);
+</script>
+
+<Layout title="Let's play Christmas Plinko! by The Adpharm">
+  <main class="flex flex-col min-h-screen">
+    <div class="max-w-7xl mx-auto pt-32">
+      <h1>Plinko!</h1>
+      <div id="plinkoCounterDiv"></div>
+
+      <div class="matterContainer h-full w-full">
+        <canvas class="matterCanvas" id="dotLottie-canvas"></canvas>
+      </div>
+    </div>
+  </main>
+</Layout>
+
