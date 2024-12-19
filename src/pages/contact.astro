@@ -9,6 +9,7 @@ import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
 import { LeadershipCard } from "../components/LeadershipCard";
+import { ArrowRight } from "lucide-react";
 ---
 
 <Layout title="The Adpharm: Big agency experience, small agency excellence">
@@ -67,13 +68,13 @@ import { LeadershipCard } from "../components/LeadershipCard";
 
       About
       -->
-    <Section className="pt-36 pb-24" fullTopBorder>
+    <Section className="pt-36 pb-24 animate-fade-in-up" fullTopBorder>
       <Grid id="sfd23" className="space-y-12 lg:space-y-0">
         <div slot="left" class="pl-0 lg:pl-10">
           <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
           <iframe
-            width="600"
-            height="450"
+            width="400"
+            height="300"
             class="mb-4"
             style="border:0"
             loading="lazy"
@@ -154,27 +155,109 @@ import { LeadershipCard } from "../components/LeadershipCard";
       </Grid>
     </Section>
     <Section />
-    <Section topBorder fullBottomBorder className="pt-32 pb-32 space-y-10">
+    <Section
+      topBorder
+      fullBottomBorder
+      className="pt-32 pb-32 space-y-10 animate-fade-in-2"
+    >
       <Grid id="about-paragraphs">
-        <div slot="left" class="pl-20">
-          <h2 class="text-xl">Get in touch</h2>
+        <div slot="left"></div>
+        <div slot="right">
+          <h2 class="text-xl mb-4">Get in touch</h2>
+          <form
+            class="space-y-6 max-w-md border border-zinc-800 p-6 rounded-2xl"
+            id="get-in-touch-form"
+          >
+            <div>
+              <label for="firstName" class="block text-zinc-400"
+                >First Name</label
+              >
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                required
+                class="mt-1 block w-full bg-black border border-zinc-800 rounded-xl py-2 px-3 text-white focus:outline-none focus:border-orange-500"
+              />
+            </div>
+
+            <div>
+              <label for="lastName" class="block text-zinc-400">Last Name</label
+              >
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                required
+                class="mt-1 block w-full bg-black border border-zinc-800 rounded-xl py-2 px-3 text-white focus:outline-none focus:border-orange-500"
+              />
+            </div>
+
+            <div>
+              <label for="organization" class="block text-zinc-400"
+                >Organization</label
+              >
+              <input
+                type="text"
+                id="organization"
+                name="organization"
+                required
+                class="mt-1 block w-full bg-black border border-zinc-800 rounded-xl py-2 px-3 text-white focus:outline-none focus:border-orange-500"
+              />
+            </div>
+
+            <div>
+              <label for="email" class="block text-zinc-400">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="mt-1 block w-full bg-black border border-zinc-800 rounded-xl py-2 px-3 text-white focus:outline-none focus:border-orange-500"
+              />
+            </div>
+
+            <div>
+              <label for="message" class="block text-zinc-400"
+                >How Can We Help?</label
+              >
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                required
+                class="mt-1 block w-full bg-black border border-zinc-800 py-2 px-3 text-white focus:outline-none focus:border-orange-500 rounded-xl"
+              ></textarea>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                class="flex flex-row justify-center items-stretch bg-orange-600 rounded-full px-6 py-2 mt-6 max-w-44 animate-fade-in-2"
+              >
+                Submit <ArrowRight className="ml-2 animate-pulse" />
+              </button>
+            </div>
+          </form>
         </div>
-        <div slot="right"></div>
+
+        <script type="module" src="/scripts/get-in-touch.js"></script>
       </Grid>
     </Section>
+    <Section topBorder className="py-4">
+      <div class="grid grid-cols-1 sm:grid-cols-5">
+        <div
+          class="col-span-2 flex items-center justify-center sm:justify-start"
+        >
+          <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
+        </div>
+        <div class="col-span-3 flex items-center justify-center sm:justify-end">
+          <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+          <p class="text-xs text-zinc-400">
+            &copy; {new Date().getFullYear()} The Adpharm Inc.
+          </p>
+        </div>
+      </div>
+    </Section>
   </main>
-
-  <Section topBorder className="py-4">
-    <div class="grid grid-cols-1 sm:grid-cols-5">
-      <div class="col-span-2 flex items-center justify-center sm:justify-start">
-        <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
-      </div>
-      <div class="col-span-3 flex items-center justify-center sm:justify-end">
-        <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
-        <p class="text-xs text-zinc-400">
-          &copy; {new Date().getFullYear()} The Adpharm Inc.
-        </p>
-      </div>
-    </div>
-  </Section>
 </Layout>
