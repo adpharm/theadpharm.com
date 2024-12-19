@@ -108,7 +108,7 @@ $gameRemoteData.set(game);
     type PlinkoBallData,
   } from "@/lib/stores";
   import { toast } from "sonner";
-  import { logDebug, logError } from "@/lib/utils.logger";
+  import { logDebug, logError, logInfo } from "@/lib/utils.logger";
   import { DotLottie, DotLottieWorker } from "@lottiefiles/dotlottie-web";
 
   const matterCanvas: HTMLCanvasElement | null =
@@ -132,6 +132,15 @@ $gameRemoteData.set(game);
     },
     { passive: true }
   );
+
+  const matterCanvasOverlay: HTMLCanvasElement | null = document.querySelector(
+    ".matterCanvasOverlay"
+  );
+  const matterCanvasOverlayCtx = matterCanvasOverlay?.getContext("2d");
+
+  if (!matterCanvasOverlay || !matterCanvasOverlayCtx) {
+    throw new Error("matterCanvasOverlay not found");
+  }
 
   const globalSettings = {
     width: matterCanvas.width,
@@ -161,6 +170,7 @@ $gameRemoteData.set(game);
     pocketHeight: 50,
     pocketDividerHeight: 50,
     ballSize: 10,
+    pegScore: 30,
   } as const;
 
   const pocketLottieCanvases: (HTMLCanvasElement | null)[] = Array.from(
@@ -480,6 +490,7 @@ $gameRemoteData.set(game);
         const y = rowSize * rowIdx + rowSize / 2 + pegGrid.paddingTop;
         const r = pegGrid.pegSize / 2;
 
+        // create the peg
         return Matter.Bodies.circle(x, y, r, {
           isStatic: true,
           render: { fillStyle: "white" },
@@ -507,13 +518,19 @@ $gameRemoteData.set(game);
     // clear the round result
     $roundResult.set(null);
 
-    // if there is a "next round" set, set the current round to the next round
-    // const nextRound = $nextRoundRemoteData.get();
+    // if the game is over, stop everything
+    if ($gameState.get() === "game_over") {
+      logInfo("Game is over, stopping the game");
+      // remove all listeners
+      Matter.Events.off(engine, "collisionStart");
+      Matter.Events.off(mouseConstraint, "mousemove");
+      Matter.Events.off(mouseConstraint, "mouseup");
+      Matter.Events.off(runner, "afterTick");
 
-    // if (nextRound) {
-    //   $currentRoundRemoteData.set(nextRound);
-    //   $nextRoundRemoteData.set(null);
-    // }
+      // stop the engine
+      Matter.Runner.stop(runner);
+      Matter.Render.stop(render);
+    }
 
     const roundData = $currentRoundRemoteData.get();
 
@@ -790,6 +807,14 @@ $gameRemoteData.set(game);
     initRound(globalSettings);
   });
 
+  let floatingTexts: {
+    text: string;
+    x: number;
+    y: number;
+    startTime: number;
+    duration: number;
+  }[] = [];
+
   /******************************************************************************************
    * Handle collisions
    *******************************************************************************************/
@@ -825,7 +850,11 @@ $gameRemoteData.set(game);
         otherBody = bodyA;
       }
 
-      // if the plinko is colliding with a pocket
+      /******************************************************************************************
+       *
+       * Plinko <-> Pocket collision
+       *
+       *******************************************************************************************/
       if (otherBody.label in (pocketsToCreate || {})) {
         // get the pocket in which the plinko has fallen
         // const pocket = pockets.find((pocket) => pocket.label === other.label);
@@ -861,7 +890,6 @@ $gameRemoteData.set(game);
         (animation.canvas as HTMLCanvasElement).style.opacity = "1";
 
         internalScore += pocket_.value;
-        // roundScore += pocket_.value;
         $roundScore.set($roundScore.get() + pocket_.value);
 
         // remove the plinko from the world
@@ -881,6 +909,39 @@ $gameRemoteData.set(game);
           });
           // console.log("Round score: ", roundScore);
         }
+
+        return;
+      }
+
+      /******************************************************************************************
+       *
+       * Plinko <-> Peg collision
+       *
+       *******************************************************************************************/
+      if (otherBody.label.includes("peg")) {
+        const plinko_ =
+          plinkoBallsToCreate?.[
+            plinkoBody.label as keyof typeof plinkoBallsToCreate
+          ];
+
+        const isGoldenPlinko = plinko_?.powerUps.includes("golden");
+
+        const pegScore = isGoldenPlinko
+          ? globalSettings.pegScore * 2
+          : globalSettings.pegScore;
+
+        // add floating text
+        floatingTexts.push({
+          text: `+${pegScore}`,
+          x: otherBody.position.x,
+          y: otherBody.position.y,
+          startTime: performance.now(),
+          duration: 1000,
+        });
+
+        // add the score
+        internalScore += pegScore;
+        $roundScore.set($roundScore.get() + pegScore);
 
         return;
       }
@@ -963,6 +1024,46 @@ $gameRemoteData.set(game);
     }
   });
 
+  Matter.Events.on(runner, "afterTick", (event) => {
+    logDebug("tick");
+
+    // clear the canvas
+    matterCanvasOverlayCtx.clearRect(
+      0,
+      0,
+      globalSettings.width,
+      globalSettings.height
+    );
+
+    const now = performance.now();
+
+    floatingTexts = floatingTexts.filter((obj) => {
+      const elapsed = now - obj.startTime;
+      if (elapsed > obj.duration) {
+        // Time is up, this text will no longer be drawn
+        return false;
+      }
+
+      // Calculate alpha (1 at start, 0 at end)
+      const alpha = 1 - elapsed / obj.duration;
+
+      // Convert world coordinates to screen (pixel) coordinates
+      // const screenPos = Matter.Render.worldToPixel(render, {
+      //   x: obj.x,
+      //   y: obj.y,
+      // });
+
+      // Draw the text with fading alpha
+      matterCanvasOverlayCtx.save();
+      matterCanvasOverlayCtx.font = "20px Arial";
+      matterCanvasOverlayCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      matterCanvasOverlayCtx.fillText(obj.text, obj.x, obj.y);
+      matterCanvasOverlayCtx.restore();
+
+      return true; // Keep this text in the array until it expires
+    });
+  });
+
   // run the engine
   Matter.Runner.run(runner, engine); //We have eto create and run the runner so that the engine start playing the annimation.
   // run the renderer
@@ -987,17 +1088,28 @@ $gameRemoteData.set(game);
     <div class="max-w-4xl mx-auto p-4 w-full">
       <PlinkoRoundProgressBar client:load />
     </div>
-    <div class="flex-1 max-w-xl mx-auto p-4">
+    <div class="flex-1 max-w-xl mx-auto p-4 w-full">
       {
         game.game_over ? (
+          /**
+           * If the game is over, show the game over scoreboard
+           */
           <div>
             <GameOverScoreboard client:load />
           </div>
         ) : (
+          /**
+           * If the game is not over, show the game
+           */
           <>
             <PlinkoScoreboard client:load />
             <div class="relative bg-blue-900">
               <canvas class="matterCanvas relative" width={400} height={600} />
+              <canvas
+                class="matterCanvasOverlay absolute top-0 left-0 pointer-events-none"
+                width={400}
+                height={600}
+              />
             </div>
 
             <div class="-mt-12 relative flex">
@@ -1028,7 +1140,7 @@ $gameRemoteData.set(game);
 
     <div class="max-w-4xl mx-auto p-4 w-full">
       <div>
-        <LeaderboardTable client:only="react" user={user} />
+        <LeaderboardTable client:load user={user} />
       </div>
     </div>
   </main>

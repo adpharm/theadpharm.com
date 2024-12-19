@@ -53,11 +53,16 @@ export function PlinkoScoreboard() {
                   <div
                     // TODO: bad key
                     key={`ball-${idx}`}
-                    className={cn(
-                      "aspect-square bg-red-500 rounded-full",
-                      ball.powerUps.includes("golden") ? "bg-yellow-500" : "",
-                    )}
-                  ></div>
+                    className="aspect-square"
+                  >
+                    <div
+                      className={cn(
+                        "size-full bg-red-500 rounded-full border-2 border-transparent",
+                        ball.powerUps.includes("golden") ? "bg-yellow-500" : "",
+                        idx === 0 ? "border-white" : "",
+                      )}
+                    ></div>
+                  </div>
                 );
               })}
             </div>
@@ -68,24 +73,33 @@ export function PlinkoScoreboard() {
   );
 }
 
-export function GameOverScoreboard() {
+export function GameOverScoreboard({
+  embeddedInDialog,
+}: {
+  embeddedInDialog?: boolean;
+}) {
   const gameRemoteData = useStore($gameRemoteData);
   const gameScore = gameRemoteData?.score || 0;
   const [isCreatingGame, setIsCreatingGame] = useState(false);
 
   return (
-    <Card className="text-center">
-      <CardHeader>
+    <Card
+      className={cn(
+        "text-center w-full",
+        embeddedInDialog ? "border-0 bg-transparent" : "",
+      )}
+    >
+      <CardHeader className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
         <CardTitle>Thanks for playing!</CardTitle>
         {/* <CardDescription>Final results</CardDescription> */}
       </CardHeader>
 
-      <CardContent>
+      <CardContent className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
         <p>Final score:</p>
         <p>{gameScore}</p>
       </CardContent>
 
-      <CardFooter className="grid gap-2">
+      <CardFooter className={cn("grid gap-2", embeddedInDialog ? "p-0" : "")}>
         <Button type="button" asChild variant={"secondary"}>
           <a href="/digital/plinko">Your games</a>
         </Button>

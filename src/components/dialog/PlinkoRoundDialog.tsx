@@ -281,7 +281,10 @@ export function PlinkoRoundEndedDialog() {
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
       <DialogContent dismissable={false}>
         <DialogHeader>
-          <DialogTitle>Round {currentRoundData?.key} has ended!</DialogTitle>
+          <DialogTitle>
+            Round {parsePlinkoRoundNum(currentRoundData?.key || "rnd1")} has
+            ended!
+          </DialogTitle>
           <DialogDescription>
             Your score is {currentRoundData?.score}
           </DialogDescription>
@@ -309,7 +312,7 @@ export function PlinkoGameOverDialog() {
   return (
     <Dialog open={openDialog}>
       <DialogContent dismissable={false}>
-        <GameOverScoreboard />
+        <GameOverScoreboard embeddedInDialog />
         {/* <DialogHeader>
           <DialogTitle>
             Game over
