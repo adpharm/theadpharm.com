@@ -7,6 +7,8 @@ export default {
   theme: {
     fontFamily: {
       sans: ["Switzer-Variable", "Inter", "sans-serif"],
+      xmas: ["Playpen Sans Variable", "sans-serif"],
+      mono: ["DSEG14 Modern", "monospace"],
     },
     extend: {
       colors: {
@@ -14,7 +16,7 @@ export default {
       },
       backgroundImage: {
         "snowfall-background": "url('/src/images/Snowfall_Background.png')",
-        "BottomGraphics": "url('/src/images/BottomGraphics.png')",
+        BottomGraphics: "url('/src/images/BottomGraphics.png')",
       },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",

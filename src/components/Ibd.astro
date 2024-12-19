@@ -1,9 +1,9 @@
 ---
-import Layout from "@/components/layout/Layout.astro";
 import { IBDScroller } from "@/components/IBDScroll";
+import DefaultSiteLayout from "./layout/DefaultSiteLayout.astro";
 ---
 
-<Layout title="IBD & The Adpharm">
+<DefaultSiteLayout title="IBD & The Adpharm">
   <Fragment slot="meta">
     <meta name="robots" content="noindex" />
   </Fragment>
@@ -31,4 +31,4 @@ import { IBDScroller } from "@/components/IBDScroll";
   </div>
 
   <IBDScroller client:load />
-</Layout>
+</DefaultSiteLayout>

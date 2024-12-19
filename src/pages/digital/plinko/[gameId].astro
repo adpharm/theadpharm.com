@@ -155,7 +155,8 @@ $gameRemoteData.set(game);
 
   const imagesToLoad = [
     "/plinko/textures/hand.png",
-    "/plinko/textures/icy.png",
+    "/plinko/textures/icy-mtn-for-left-side.png",
+    "/plinko/textures/icy-mtn-for-right-side.png",
   ];
 
   logDebug("preloading images");
@@ -352,8 +353,8 @@ $gameRemoteData.set(game);
   function initBoard(settings: typeof plinkoSettings) {
     const pegGrid = {
       pegSize: 10,
-      numRows: 13, // this number should be odd
-      paddingTop: 80,
+      numRows: 17, // this number should be odd
+      paddingTop: 50,
       paddingLeft: 0,
       paddingRight: 0,
       paddingBottom: settings.pocketDividerHeight,
@@ -424,13 +425,9 @@ $gameRemoteData.set(game);
       //   i += 50
       // ) {
       const leftTriangle_ = {
-        // x: -30,
         x: 5,
-        // y: i,
         y: y,
-        // sides: 3,
-        sides: 3,
-        // radius: 60,
+        sides: 5,
         radius: 30,
       } as const;
       const leftTriangle = Matter.Bodies.polygon(
@@ -440,26 +437,21 @@ $gameRemoteData.set(game);
         leftTriangle_.radius,
         {
           isStatic: true,
-          angle: Math.PI,
           render: {
             sprite: {
-              texture: "/plinko/textures/icy.png",
-              xScale: 0.2, //This is changing the pyramid's altitude (tip tip to floor)
-              yScale: 0.2, //This is making the base wider (so they can touch)
+              texture: "/plinko/textures/icy-mtn-for-left-side.png",
+              xScale: 0.15, //This is changing the pyramid's altitude (tip tip to floor)
+              yScale: 0.3, //This is making the base wider (so they can touch)
             },
           },
         }
       );
 
       const rightTriangle_ = {
-        x: settings.canvasWidth + 28,
+        x: settings.canvasWidth - 5,
         y: y,
-        // x: settings.canvasWidth + 30,
-        // x: width + width / 10,
-        // y: i,
-        sides: 3,
-        radius: 60,
-        angle: 0,
+        sides: 5,
+        radius: 30,
       } as const;
       const rightTriangle = Matter.Bodies.polygon(
         rightTriangle_.x,
@@ -468,12 +460,11 @@ $gameRemoteData.set(game);
         rightTriangle_.radius,
         {
           isStatic: true,
-          angle: 0,
           render: {
             sprite: {
-              texture: "/plinko/textures/icy.png",
-              xScale: 0.2,
-              yScale: 0.2,
+              texture: "/plinko/textures/icy-mtn-for-right-side.png",
+              xScale: 0.15,
+              yScale: 0.3,
             },
           },
         }
@@ -740,7 +731,7 @@ $gameRemoteData.set(game);
           y: 20,
           size: settings.ballSize,
           options: {
-            restitution: 0.9,
+            restitution: 1,
             // balls should not collide with each other
             collisionFilter: {
               group: -1,
@@ -1035,9 +1026,14 @@ $gameRemoteData.set(game);
    * Handle mouse movement
    ******************************************************************************************/
   Matter.Events.on(mouseConstraint, "mousemove", (event) => {
+    const mouseX = Math.max(
+      Math.min(event.mouse.position.x, plinkoSettings.canvasWidth - 30),
+      30
+    );
+
     // set the hand position
     Matter.Body.setPosition(hand, {
-      x: mouse.position.x,
+      x: mouseX,
       y: 20,
     });
 
@@ -1045,7 +1041,7 @@ $gameRemoteData.set(game);
 
     // the next ball to be dropped should follow the mouse
     Matter.Body.setPosition(activePlinkoBall, {
-      x: mouse.position.x,
+      x: mouseX,
       // preserve the y position of the ball
       y: activePlinkoBall.position.y,
     });
@@ -1068,7 +1064,7 @@ $gameRemoteData.set(game);
       // add the next ball to the world
       if (activePlinkoBall) {
         Matter.Body.setPosition(activePlinkoBall, {
-          x: mouse.position.x,
+          x: activePlinkoBall.position.x,
           y: 20,
         });
         Matter.Composite.add(roundComposite, activePlinkoBall);
@@ -1161,9 +1157,9 @@ $gameRemoteData.set(game);
     { name: "This game" },
   ]}
 >
-  <div class="max-w-4xl mx-auto p-4 w-full">
+  <!-- <div class="max-w-4xl mx-auto p-4 w-full">
     <PlinkoRoundProgressBar client:load />
-  </div>
+  </div> -->
   <div class="flex-1 max-w-xl mx-auto p-4 w-full">
     {
       game.game_over ? (
@@ -1174,36 +1170,38 @@ $gameRemoteData.set(game);
           <GameOverScoreboard client:load />
         </div>
       ) : (
-        /**
-         * If the game is not over, show the game
-         */
-        <div class="max-w-[443px] mx-auto">
-          {/* The width of the image should match the div above and the plinkopocketvaluegrid below */}
-          <img
-            src={plinkoHeaderWithScoreBoard.src}
-            width={443}
-            class="relative translate-y-14 z-10"
-          />
-          {/* <PlinkoScoreboard client:load /> */}
+        <>
+          {/* above the board */}
+          <div
+            class="mx-auto w-full pointer-events-none"
+            style={`max-width: ${plinkoSettings.canvasWidth + 30}px;`}
+          >
+            <PlinkoScoreboard client:load className="-mb-8 relative z-20" />
+
+            <img
+              src="/plinko/other/PlinkoTopSnowOnly.webp"
+              class="relative -mb-14 z-10"
+            />
+          </div>
+
           <div
             class="w-full mx-auto"
             style={`max-width: ${plinkoSettings.canvasWidth}px;`}
           >
-            <div
-              class="relative bg-blue-900"
-              style={`max-height: ${plinkoSettings.canvasHeight}px;`}
-            >
+            <div class="bg-blue-900 h-8" />
+            <div class="relative bg-blue-900">
               <canvas
                 class="matterCanvas relative"
                 width={plinkoSettings.canvasWidth}
                 height={plinkoSettings.canvasHeight}
               />
               <canvas
-                class="matterCanvasOverlay relative top-0 left-0 pointer-events-none"
+                class="matterCanvasOverlay absolute top-0 left-0 pointer-events-none"
                 width={plinkoSettings.canvasWidth}
                 height={plinkoSettings.canvasHeight}
               />
             </div>
+
             <PlinkoPocketValueGrid client:load />
           </div>
 
@@ -1218,7 +1216,7 @@ $gameRemoteData.set(game);
               />
             ))}
           </div>
-        </div>
+        </>
       )
     }
   </div>

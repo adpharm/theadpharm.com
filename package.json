@@ -15,6 +15,8 @@
     "@astrojs/tailwind": "^5.1.3",
     "@astrojs/vercel": "^8.0.0",
     "@auth/core": "^0.37.4",
+    "@fontsource-variable/playpen-sans": "^5.1.0",
+    "@fontsource/dseg14-modern": "^5.1.0",
     "@hookform/resolvers": "^3.9.1",
     "@inox-tools/request-nanostores": "^0.2.1",
     "@lottiefiles/dotlottie-web": "^0.38.2",

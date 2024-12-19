@@ -26,7 +26,7 @@ import { $router } from "@/lib/stores/router";
 import { makePrettyNumber } from "@/lib/utils.numbers";
 import { PlinkoBallArsenal } from "../misc/PlinkoBallArsenal";
 
-export function PlinkoScoreboard() {
+export function PlinkoScoreboard({ className }: { className?: string }) {
   const currentRoundScore = useStore($roundScore);
   const currentRoundData = useStore($currentRoundRemoteData);
   const gameRemoteData = useStore($gameRemoteData);
@@ -34,6 +34,25 @@ export function PlinkoScoreboard() {
   const roundScore = currentRoundScore;
   const gameScore = gameRemoteData?.score || 0;
   const roundNum = currentRoundData?.key.split("rnd")[1] || "-";
+
+  return (
+    <div className={cn(className)}>
+      <h1 className="text-center text-red-500 text-2xl">
+        Round {roundNum} / 10
+      </h1>
+
+      <div className={"relative"}>
+        <img
+          src="/plinko/other/Scoreboard.webp"
+          className="object-contain w-full"
+        />
+
+        <div className="absolute inset-0 flex flex-col justify-center items-center">
+          <p className="text-xl font-mono text-green-500">{roundScore}</p>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <Card>
