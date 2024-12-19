@@ -115,9 +115,14 @@ export const plinko = {
     handler: async (inputData, context) => {
       requireUserForAction(context);
 
-      const res = await db.transaction(async (trx) => {
+      // store here so we can manually rollback (due to lack of transactins in neon-http)
+      let updatedRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] = [];
+      let nextRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] = [];
+      let games: (typeof tablePlinkoGames.$inferSelect)[] = [];
+
+      try {
         // update the round score
-        const updatedRound = await trx
+        updatedRounds = await db
           .update(tablePlinkoGameRounds)
           .set({
             score: inputData.roundScore,
@@ -125,14 +130,14 @@ export const plinko = {
           .where(eq(tablePlinkoGameRounds.id, inputData.roundId))
           .returning();
 
-        if (updatedRound.length === 0) {
+        if (updatedRounds.length === 0) {
           throw new ActionError({
             code: "NOT_FOUND",
             message: "Round not found",
           });
         }
 
-        const updatedRoundData = updatedRound[0];
+        const updatedRoundData = updatedRounds[0];
 
         // get the next round key
         const nextRoundKey = getNextRoundKey(updatedRoundData.key);
@@ -162,7 +167,7 @@ export const plinko = {
               game_id: updatedRoundData.game_id,
             };
 
-          const nextRound = await trx
+          nextRounds = await db
             .insert(tablePlinkoGameRounds)
             .values(nextRoundInsertData)
             .onConflictDoUpdate({
@@ -174,14 +179,14 @@ export const plinko = {
             })
             .returning();
 
-          if (nextRound.length === 0) {
+          if (nextRounds.length === 0) {
             throw new ActionError({
               code: "INTERNAL_SERVER_ERROR",
               message: "Failed to create plinko round",
             });
           }
 
-          nextRoundData = nextRound[0];
+          nextRoundData = nextRounds[0];
         }
 
         // update the game with:
@@ -201,29 +206,55 @@ export const plinko = {
           updateData.current_round_key = nextRoundData.key;
         }
 
-        const game = await trx
+        games = await db
           .update(tablePlinkoGames)
           .set(updateData)
           .where(eq(tablePlinkoGames.id, updatedRoundData.game_id))
           .returning();
 
-        if (game.length === 0) {
+        if (games.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Failed to update plinko game",
           });
         }
 
-        const updatedGameData = game[0];
+        const updatedGameData = games[0];
 
         return {
           updatedRound: updatedRoundData,
           nextRound: nextRoundData,
           updatedGame: updatedGameData,
         };
-      });
+      } catch (e) {
+        // MANUAL ROLLBACK
+        // if we have a round, delete it
+        if (updatedRounds.length > 0) {
+          logInfo("Rolling back round", updatedRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, updatedRounds[0].id));
+        }
 
-      return res;
+        // if we have a next round, delete it
+        if (nextRounds.length > 0) {
+          logInfo("Rolling back next round", nextRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, nextRounds[0].id));
+        }
+
+        // if we have a game, delete it
+        if (games.length > 0) {
+          logInfo("Rolling back game", games[0].id);
+          await db
+            .delete(tablePlinkoGames)
+            .where(eq(tablePlinkoGames.id, games[0].id));
+        }
+
+        // rethrow the error
+        throw e;
+      }
     },
   }),
 
@@ -258,14 +289,18 @@ export const plinko = {
       // run the upgrade
       updateData = upgradeFunction(inputData, updateData);
 
-      return await db.transaction(async (trx) => {
-        const upgradedRound = await trx
+      // store here so we can manually rollback (due to lack of transactins in neon-http)
+      let upgradedRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] = [];
+      let updatedGames: (typeof tablePlinkoGames.$inferSelect)[] = [];
+
+      try {
+        upgradedRounds = await db
           .update(tablePlinkoGameRounds)
           .set(updateData)
           .where(eq(tablePlinkoGameRounds.id, inputData.roundData.id))
           .returning();
 
-        if (upgradedRound.length === 0) {
+        if (upgradedRounds.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Sorry, failed to upgrade plinko round",
@@ -278,21 +313,41 @@ export const plinko = {
             sql`${tablePlinkoGames.upgrade_budget} - ${upgradeSettings[inputData.upgradeKey].cost}` as unknown as number,
         };
 
-        const updatedGame = await trx
+        updatedGames = await db
           .update(tablePlinkoGames)
           .set(gameUpdateData)
           .where(eq(tablePlinkoGames.id, inputData.roundData.game_id))
           .returning();
 
-        if (updatedGame.length === 0) {
+        if (updatedGames.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Sorry, failed to update plinko game",
           });
         }
 
-        return upgradedRound[0];
-      });
+        return upgradedRounds[0];
+      } catch (e) {
+        // MANUAL ROLLBACK
+        // if we have a round, delete it
+        if (upgradedRounds.length > 0) {
+          logInfo("Rolling back round", upgradedRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, upgradedRounds[0].id));
+        }
+
+        // if we have a game, delete it
+        if (updatedGames.length > 0) {
+          logInfo("Rolling back game", updatedGames[0].id);
+          await db
+            .delete(tablePlinkoGames)
+            .where(eq(tablePlinkoGames.id, updatedGames[0].id));
+        }
+
+        // rethrow the error
+        throw e;
+      }
     },
   }),
 };
