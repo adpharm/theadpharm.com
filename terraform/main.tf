@@ -35,8 +35,27 @@ data "aws_secretsmanager_secret_version" "vercel_secret_version" {
   secret_id = data.aws_secretsmanager_secret.vercel_secret.id
 }
 
+# get app secrets
+data "aws_secretsmanager_secret" "app_secrets" {
+  name = "adpharm/theadpharm.com"
+}
+
+data "aws_secretsmanager_secret_version" "app_secrets_version" {
+  secret_id = data.aws_secretsmanager_secret.app_secrets.id
+}
+
 locals {
   vercel_api_token = jsondecode(data.aws_secretsmanager_secret_version.vercel_secret_version.secret_string)["vercel_token_tf_key_1"]
+  app_secrets_json = jsondecode(data.aws_secretsmanager_secret_version.app_secrets_version.secret_string)
+
+  app_secrets = [
+    for key, value in local.app_secrets_json : {
+      key       = key
+      value     = value
+      target    = ["production", "preview"]
+      sensitive = true
+    }
+  ]
 }
 
 provider "vercel" {
@@ -53,6 +72,12 @@ resource "vercel_project" "proj" {
     type = "github"
     repo = "adpharm/theadpharm.com"
   }
+}
+
+resource "vercel_project_environment_variables" "env_vars" {
+  project_id = vercel_project.proj.id
+
+  variables = local.app_secrets
 }
 
 
