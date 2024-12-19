@@ -214,7 +214,7 @@ export function IBDScroller() {
             ))}
 
             <img
-              src={AdpharmLogo.src}
+              src="/adpharm-logo@4x.png"
               alt="Adpharm logo"
               className="relative z-20 h-6 object-contain mb-48 sm:mb-32"
             />
