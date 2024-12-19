@@ -13,7 +13,7 @@ import { useRef } from "react";
 export function MenuSheet() {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger className="block lg:hidden">
         <Menu className="text-white" />
       </SheetTrigger>
       <SheetContent className="bg-black border-l-zinc-800">
