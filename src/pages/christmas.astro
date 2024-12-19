@@ -468,7 +468,7 @@ const currentQuestion = 1;
 
             if (startButton) {
               startButton.addEventListener("click", () => {
-                if (!hasStarted) {
+                if (!hasStarted && selectedCharacter !== "") {
                   const buttons =
                     document.querySelectorAll(".selectable-button");
 
