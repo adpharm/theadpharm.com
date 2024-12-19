@@ -3,7 +3,7 @@ import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
 import { requireUserForAction } from "@/lib/server/auth.utils";
 import type { plinkoSettings } from "@/lib/settings.plinko";
 import { upgradeSettings } from "@/lib/settings.plinkoUpgrades";
-import { logDebug } from "@/lib/utils.logger";
+import { logDebug, logInfo } from "@/lib/utils.logger";
 import {
   upgradePlinkoGameKeys,
   upgradePlinkoGameSchema,
@@ -11,6 +11,7 @@ import {
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { eq, sql } from "drizzle-orm";
+import type { BatchResponse } from "drizzle-orm/batch";
 import { match } from "ts-pattern";
 
 export const plinko = {
@@ -24,11 +25,15 @@ export const plinko = {
   newGame: defineAction({
     input: undefined,
     handler: async (inputData, context) => {
-      const user = requireUserForAction(context);
+      let newPlinkoGames: (typeof tablePlinkoGames.$inferSelect)[] = [];
+      let newPlinkoGameRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] =
+        [];
 
-      const res = await db.transaction(async (trx) => {
+      try {
+        const user = requireUserForAction(context);
+
         // create a new plinko game
-        const newPlinkoGame = await trx
+        newPlinkoGames = await db
           .insert(tablePlinkoGames)
           .values({
             current_round_key: "rnd1",
@@ -36,7 +41,7 @@ export const plinko = {
           })
           .returning();
 
-        if (newPlinkoGame.length === 0) {
+        if (newPlinkoGames.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Failed to create plinko game",
@@ -44,7 +49,7 @@ export const plinko = {
         }
 
         // create the first round
-        const round1 = await trx
+        newPlinkoGameRounds = await db
           .insert(tablePlinkoGameRounds)
           .values({
             key: "rnd1",
@@ -55,11 +60,11 @@ export const plinko = {
             pocket_middle_right_2_value: 1000,
             pocket_middle_left_3_value: 500,
             pocket_middle_right_3_value: 500,
-            game_id: newPlinkoGame[0].id,
+            game_id: newPlinkoGames[0].id,
           })
           .returning();
 
-        if (round1.length === 0) {
+        if (newPlinkoGameRounds.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Failed to create plinko round",
@@ -67,12 +72,30 @@ export const plinko = {
         }
 
         return {
-          game: newPlinkoGame[0],
-          round: round1[0],
+          game: newPlinkoGames[0],
+          round: newPlinkoGameRounds[0],
         };
-      });
+      } catch (e) {
+        // MANUAL ROLLBACK
+        // if we have a game, delete it
+        if (newPlinkoGames.length > 0) {
+          logInfo("Rolling back game", newPlinkoGames[0].id);
+          await db
+            .delete(tablePlinkoGames)
+            .where(eq(tablePlinkoGames.id, newPlinkoGames[0].id));
+        }
 
-      return res;
+        // if we have a round, delete it
+        if (newPlinkoGameRounds.length > 0) {
+          logInfo("Rolling back round", newPlinkoGameRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, newPlinkoGameRounds[0].id));
+        }
+
+        // rethrow the error
+        throw e;
+      }
     },
   }),
 
@@ -92,9 +115,14 @@ export const plinko = {
     handler: async (inputData, context) => {
       requireUserForAction(context);
 
-      const res = await db.transaction(async (trx) => {
+      // store here so we can manually rollback (due to lack of transactins in neon-http)
+      let updatedRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] = [];
+      let nextRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] = [];
+      let games: (typeof tablePlinkoGames.$inferSelect)[] = [];
+
+      try {
         // update the round score
-        const updatedRound = await trx
+        updatedRounds = await db
           .update(tablePlinkoGameRounds)
           .set({
             score: inputData.roundScore,
@@ -102,14 +130,14 @@ export const plinko = {
           .where(eq(tablePlinkoGameRounds.id, inputData.roundId))
           .returning();
 
-        if (updatedRound.length === 0) {
+        if (updatedRounds.length === 0) {
           throw new ActionError({
             code: "NOT_FOUND",
             message: "Round not found",
           });
         }
 
-        const updatedRoundData = updatedRound[0];
+        const updatedRoundData = updatedRounds[0];
 
         // get the next round key
         const nextRoundKey = getNextRoundKey(updatedRoundData.key);
@@ -139,7 +167,7 @@ export const plinko = {
               game_id: updatedRoundData.game_id,
             };
 
-          const nextRound = await trx
+          nextRounds = await db
             .insert(tablePlinkoGameRounds)
             .values(nextRoundInsertData)
             .onConflictDoUpdate({
@@ -151,14 +179,14 @@ export const plinko = {
             })
             .returning();
 
-          if (nextRound.length === 0) {
+          if (nextRounds.length === 0) {
             throw new ActionError({
               code: "INTERNAL_SERVER_ERROR",
               message: "Failed to create plinko round",
             });
           }
 
-          nextRoundData = nextRound[0];
+          nextRoundData = nextRounds[0];
         }
 
         // update the game with:
@@ -178,29 +206,55 @@ export const plinko = {
           updateData.current_round_key = nextRoundData.key;
         }
 
-        const game = await trx
+        games = await db
           .update(tablePlinkoGames)
           .set(updateData)
           .where(eq(tablePlinkoGames.id, updatedRoundData.game_id))
           .returning();
 
-        if (game.length === 0) {
+        if (games.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Failed to update plinko game",
           });
         }
 
-        const updatedGameData = game[0];
+        const updatedGameData = games[0];
 
         return {
           updatedRound: updatedRoundData,
           nextRound: nextRoundData,
           updatedGame: updatedGameData,
         };
-      });
+      } catch (e) {
+        // MANUAL ROLLBACK
+        // if we have a round, delete it
+        if (updatedRounds.length > 0) {
+          logInfo("Rolling back round", updatedRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, updatedRounds[0].id));
+        }
 
-      return res;
+        // if we have a next round, delete it
+        if (nextRounds.length > 0) {
+          logInfo("Rolling back next round", nextRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, nextRounds[0].id));
+        }
+
+        // if we have a game, delete it
+        if (games.length > 0) {
+          logInfo("Rolling back game", games[0].id);
+          await db
+            .delete(tablePlinkoGames)
+            .where(eq(tablePlinkoGames.id, games[0].id));
+        }
+
+        // rethrow the error
+        throw e;
+      }
     },
   }),
 
@@ -235,14 +289,18 @@ export const plinko = {
       // run the upgrade
       updateData = upgradeFunction(inputData, updateData);
 
-      return await db.transaction(async (trx) => {
-        const upgradedRound = await trx
+      // store here so we can manually rollback (due to lack of transactins in neon-http)
+      let upgradedRounds: (typeof tablePlinkoGameRounds.$inferSelect)[] = [];
+      let updatedGames: (typeof tablePlinkoGames.$inferSelect)[] = [];
+
+      try {
+        upgradedRounds = await db
           .update(tablePlinkoGameRounds)
           .set(updateData)
           .where(eq(tablePlinkoGameRounds.id, inputData.roundData.id))
           .returning();
 
-        if (upgradedRound.length === 0) {
+        if (upgradedRounds.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Sorry, failed to upgrade plinko round",
@@ -255,21 +313,41 @@ export const plinko = {
             sql`${tablePlinkoGames.upgrade_budget} - ${upgradeSettings[inputData.upgradeKey].cost}` as unknown as number,
         };
 
-        const updatedGame = await trx
+        updatedGames = await db
           .update(tablePlinkoGames)
           .set(gameUpdateData)
           .where(eq(tablePlinkoGames.id, inputData.roundData.game_id))
           .returning();
 
-        if (updatedGame.length === 0) {
+        if (updatedGames.length === 0) {
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message: "Sorry, failed to update plinko game",
           });
         }
 
-        return upgradedRound[0];
-      });
+        return upgradedRounds[0];
+      } catch (e) {
+        // MANUAL ROLLBACK
+        // if we have a round, delete it
+        if (upgradedRounds.length > 0) {
+          logInfo("Rolling back round", upgradedRounds[0].id);
+          await db
+            .delete(tablePlinkoGameRounds)
+            .where(eq(tablePlinkoGameRounds.id, upgradedRounds[0].id));
+        }
+
+        // if we have a game, delete it
+        if (updatedGames.length > 0) {
+          logInfo("Rolling back game", updatedGames[0].id);
+          await db
+            .delete(tablePlinkoGames)
+            .where(eq(tablePlinkoGames.id, updatedGames[0].id));
+        }
+
+        // rethrow the error
+        throw e;
+      }
     },
   }),
 };
@@ -349,8 +427,46 @@ const upgrades: Record<
    *  Add 2 normal balls
    */
   add2NormalBalls: (inputData, updateData) => {
-    updateData = upgrades.addNormalBall(inputData, updateData);
-    updateData = upgrades.addNormalBall(inputData, updateData);
+    let ballsAdded = 0;
+
+    while (ballsAdded < 2) {
+      if (
+        inputData.roundData.plinko_ball_6_on === false &&
+        !updateData.plinko_ball_6_on
+      ) {
+        updateData.plinko_ball_6_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_7_on === false &&
+        !updateData.plinko_ball_7_on
+      ) {
+        updateData.plinko_ball_7_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_8_on === false &&
+        !updateData.plinko_ball_8_on
+      ) {
+        updateData.plinko_ball_8_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_9_on === false &&
+        !updateData.plinko_ball_9_on
+      ) {
+        updateData.plinko_ball_9_on = true;
+        ballsAdded++;
+      } else if (
+        inputData.roundData.plinko_ball_10_on === false &&
+        !updateData.plinko_ball_10_on
+      ) {
+        updateData.plinko_ball_10_on = true;
+        ballsAdded++;
+      } else {
+        throw new ActionError({
+          code: "BAD_REQUEST",
+          message: "No more balls to add",
+        });
+      }
+    }
 
     return updateData;
   },
@@ -365,31 +481,46 @@ const upgrades: Record<
       !updateData.plinko_ball_6_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_6_on = true;
-      updateData.plinko_ball_6_power_ups?.push("golden");
+      updateData.plinko_ball_6_power_ups = [
+        ...(updateData.plinko_ball_6_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_7_on === false &&
       !updateData.plinko_ball_7_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_7_on = true;
-      updateData.plinko_ball_7_power_ups?.push("golden");
+      updateData.plinko_ball_7_power_ups = [
+        ...(updateData.plinko_ball_7_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_8_on === false &&
       !updateData.plinko_ball_8_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_8_on = true;
-      updateData.plinko_ball_8_power_ups?.push("golden");
+      updateData.plinko_ball_8_power_ups = [
+        ...(updateData.plinko_ball_8_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_9_on === false &&
       !updateData.plinko_ball_9_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_9_on = true;
-      updateData.plinko_ball_9_power_ups?.push("golden");
+      updateData.plinko_ball_9_power_ups = [
+        ...(updateData.plinko_ball_9_power_ups || []),
+        "golden",
+      ];
     } else if (
       inputData.roundData.plinko_ball_10_on === false &&
       !updateData.plinko_ball_10_power_ups?.includes("golden")
     ) {
       updateData.plinko_ball_10_on = true;
-      updateData.plinko_ball_10_power_ups?.push("golden");
+      updateData.plinko_ball_10_power_ups = [
+        ...(updateData.plinko_ball_10_power_ups || []),
+        "golden",
+      ];
     } else {
       throw new ActionError({
         code: "BAD_REQUEST",

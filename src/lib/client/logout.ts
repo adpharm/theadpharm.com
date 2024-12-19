@@ -2,6 +2,7 @@ import { actions } from "astro:actions";
 import { logError } from "../utils.logger";
 import { getPagePath } from "@nanostores/router";
 import { $router } from "../stores/router";
+import { toast } from "sonner";
 
 /**
  * Play again
@@ -13,6 +14,8 @@ export async function logout() {
 
   if (error) {
     logError("Error logging out", error);
+    // show toast
+    toast.error(`Error logging out: ${error.message}`);
     return;
   }
 

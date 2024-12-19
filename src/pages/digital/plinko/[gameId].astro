@@ -88,7 +88,7 @@ $gameRemoteData.set(game);
 ---
 
 <script>
-  const collisionSound = new Audio("../../src/audio/bubblepop-254773.mp3");
+  const collisionSound = new Audio("/plinko/audio/bubblepop-254773.mp3");
   import Matter from "matter-js";
   import redOrnamentPlinko from "@/images/3d-ornament-red.png";
   import greenOrnamentPlinko from "@/images/3d-ornament-green.png";
@@ -152,6 +152,25 @@ $gameRemoteData.set(game);
   ) {
     throw new Error("At least one DotLottie canvas was not found");
   }
+
+  const imagesToLoad = [
+    "/plinko/textures/hand.png",
+    "/plinko/textures/icy-mtn-for-left-side.png",
+    "/plinko/textures/icy-mtn-for-right-side.png",
+  ];
+
+  logDebug("preloading images");
+  await Promise.all(
+    imagesToLoad.map((src) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = src;
+      });
+    })
+  );
+  logDebug("images preloaded");
 
   const pocketLottieAnimations: Record<
     (typeof plinkoSettings.pocketKeys)[number],
@@ -229,7 +248,7 @@ $gameRemoteData.set(game);
     engine,
     // set a background slightly lighter than the body's own background
     options: {
-      wireframes: false,
+      wireframes: false, // must be false in deployment
       // background: "hsl(225, 60%, 20%)",
       background: "transparent",
       width: plinkoSettings.canvasWidth,
@@ -306,7 +325,7 @@ $gameRemoteData.set(game);
       },
       render: {
         sprite: {
-          texture: "../../src/images/hand.png",
+          texture: "/plinko/textures/hand.png",
           xScale: 1.0,
           yScale: 1.0,
         },
@@ -327,8 +346,8 @@ $gameRemoteData.set(game);
   function initBoard(settings: typeof plinkoSettings) {
     const pegGrid = {
       pegSize: 10,
-      numRows: 13, // this number should be odd
-      paddingTop: 80,
+      numRows: 17, // this number should be odd
+      paddingTop: 50,
       paddingLeft: 0,
       paddingRight: 0,
       paddingBottom: settings.pocketDividerHeight,
@@ -399,13 +418,9 @@ $gameRemoteData.set(game);
       //   i += 50
       // ) {
       const leftTriangle_ = {
-        // x: -30,
         x: 5,
-        // y: i,
         y: y,
-        // sides: 3,
-        sides: 3,
-        // radius: 60,
+        sides: 5,
         radius: 30,
       } as const;
       const leftTriangle = Matter.Bodies.polygon(
@@ -415,26 +430,21 @@ $gameRemoteData.set(game);
         leftTriangle_.radius,
         {
           isStatic: true,
-          angle: Math.PI,
           render: {
             sprite: {
-              texture: "../../src/images/icy.png",
-              xScale: 0.2, //This is changing the pyramid's altitude (tip tip to floor)
-              yScale: 0.2, //This is making the base wider (so they can touch)
+              texture: "/plinko/textures/icy-mtn-for-left-side.png",
+              xScale: 0.15, //This is changing the pyramid's altitude (tip tip to floor)
+              yScale: 0.3, //This is making the base wider (so they can touch)
             },
           },
         }
       );
 
       const rightTriangle_ = {
-        x: settings.canvasWidth + 28,
+        x: settings.canvasWidth - 5,
         y: y,
-        // x: settings.canvasWidth + 30,
-        // x: width + width / 10,
-        // y: i,
-        sides: 3,
-        radius: 60,
-        angle: 0,
+        sides: 5,
+        radius: 30,
       } as const;
       const rightTriangle = Matter.Bodies.polygon(
         rightTriangle_.x,
@@ -443,12 +453,11 @@ $gameRemoteData.set(game);
         rightTriangle_.radius,
         {
           isStatic: true,
-          angle: 0,
           render: {
             sprite: {
-              texture: "../../src/images/icy.png",
-              xScale: 0.2,
-              yScale: 0.2,
+              texture: "/plinko/textures/icy-mtn-for-right-side.png",
+              xScale: 0.15,
+              yScale: 0.3,
             },
           },
         }
@@ -701,7 +710,9 @@ $gameRemoteData.set(game);
 
     // create the plinko balls
     Object.entries(plinkoBallsToCreate).forEach(
-      ([plinkoBallKey, plinkoBallData]) => {
+      ([plinkoBallKey_, plinkoBallData]) => {
+        const plinkoBallKey =
+          plinkoBallKey_ as (typeof plinkoSettings.plinkoBallKeys)[number];
         // if the plinko ball is not on, skip
         if (plinkoBallData.on === false) {
           return;
@@ -713,7 +724,7 @@ $gameRemoteData.set(game);
           y: 20,
           size: settings.ballSize,
           options: {
-            restitution: 0.9,
+            restitution: 1,
             // balls should not collide with each other
             collisionFilter: {
               group: -1,
@@ -726,6 +737,7 @@ $gameRemoteData.set(game);
 
         remainingPlinkoBallsThisRound.push({
           powerUps: plinkoBallData.powerUps,
+          key: plinkoBallKey,
         });
       }
     );
@@ -819,6 +831,7 @@ $gameRemoteData.set(game);
 
   let floatingTexts: {
     text: string;
+    style: "peg" | "peg-double-points" | "pocket" | "pocket-double-points";
     x: number;
     y: number;
     startTime: number;
@@ -878,15 +891,31 @@ $gameRemoteData.set(game);
           throw new Error("No pocket found");
         }
 
-        // play the lottie animation
-        // position the lottie canvas
-        // dotLottieCanvas.style.left = `${plinkoBody.position.x}px`;
-        // dotLottieCanvas.style.top = `${plinkoBody.position.y}px`;
+        const plinko_ =
+          plinkoBallsToCreate?.[
+            plinkoBody.label as keyof typeof plinkoBallsToCreate
+          ];
+        const isGoldenPlinko = plinko_?.powerUps.includes("golden");
+        const pocketValue = isGoldenPlinko ? pocket_.value * 2 : pocket_.value;
+
+        // add floating text, if score is greater than 0
+        if (pocketValue > 0) {
+          floatingTexts.push({
+            text: `+${pocketValue}`,
+            style: isGoldenPlinko ? "pocket-double-points" : "pocket",
+            x:
+              pocketKey === "pocket_middle_right_3"
+                ? otherBody.position.x - 40 // give it some space so it doesn't go off the canvas
+                : otherBody.position.x,
+            y: otherBody.position.y - 40,
+            startTime: performance.now(),
+            duration: 1000,
+          });
+        }
 
         // play the lottie animation
         const animation = pocketLottieAnimations[pocketKey];
         animation.play();
-        // dotLottie.play();
 
         // hide the animation after it finishes
         animation.addEventListener("complete", function onComplete() {
@@ -946,6 +975,7 @@ $gameRemoteData.set(game);
         // add floating text
         floatingTexts.push({
           text: `+${pegScore}`,
+          style: isGoldenPlinko ? "peg-double-points" : "peg",
           x: otherBody.position.x,
           y: otherBody.position.y,
           startTime: performance.now(),
@@ -989,9 +1019,14 @@ $gameRemoteData.set(game);
    * Handle mouse movement
    ******************************************************************************************/
   Matter.Events.on(mouseConstraint, "mousemove", (event) => {
+    const mouseX = Math.max(
+      Math.min(event.mouse.position.x, plinkoSettings.canvasWidth - 30),
+      30
+    );
+
     // set the hand position
     Matter.Body.setPosition(hand, {
-      x: mouse.position.x,
+      x: mouseX,
       y: 20,
     });
 
@@ -999,7 +1034,7 @@ $gameRemoteData.set(game);
 
     // the next ball to be dropped should follow the mouse
     Matter.Body.setPosition(activePlinkoBall, {
-      x: mouse.position.x,
+      x: mouseX,
       // preserve the y position of the ball
       y: activePlinkoBall.position.y,
     });
@@ -1022,7 +1057,7 @@ $gameRemoteData.set(game);
       // add the next ball to the world
       if (activePlinkoBall) {
         Matter.Body.setPosition(activePlinkoBall, {
-          x: mouse.position.x,
+          x: activePlinkoBall.position.x,
           y: 20,
         });
         Matter.Composite.add(roundComposite, activePlinkoBall);
@@ -1064,17 +1099,38 @@ $gameRemoteData.set(game);
       // Calculate alpha (1 at start, 0 at end)
       const alpha = 1 - elapsed / obj.duration;
 
-      // Convert world coordinates to screen (pixel) coordinates
-      // const screenPos = Matter.Render.worldToPixel(render, {
-      //   x: obj.x,
-      //   y: obj.y,
-      // });
+      // Calculate y position (we want it to move up)
+      const y = obj.y - 0.03 * elapsed;
 
       // Draw the text with fading alpha
       matterCanvasOverlayCtx.save();
-      matterCanvasOverlayCtx.font = "20px Arial";
-      matterCanvasOverlayCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-      matterCanvasOverlayCtx.fillText(obj.text, obj.x, obj.y);
+
+      const whiteFill = `rgba(255, 255, 255, ${alpha})`;
+      const yellowFill = `rgba(255, 215, 0, ${alpha})`;
+
+      if (obj.style === "peg" || obj.style === "peg-double-points") {
+        // peg text style
+        matterCanvasOverlayCtx.font = "20px Arial";
+        matterCanvasOverlayCtx.fillStyle = whiteFill;
+      } else {
+        // pocket text style
+        matterCanvasOverlayCtx.font = "bold 28px Arial";
+        // make text gold with an orange-ish outline
+        matterCanvasOverlayCtx.fillStyle = yellowFill;
+        matterCanvasOverlayCtx.strokeStyle = `rgba(255, 165, 0, ${alpha})`;
+        matterCanvasOverlayCtx.lineWidth = 1;
+        matterCanvasOverlayCtx.strokeText(obj.text, obj.x, y);
+      }
+
+      if (
+        obj.style === "peg-double-points" ||
+        obj.style === "pocket-double-points"
+      ) {
+        matterCanvasOverlayCtx.fillStyle = yellowFill;
+      }
+
+      // draw the text
+      matterCanvasOverlayCtx.fillText(obj.text, obj.x, y);
       matterCanvasOverlayCtx.restore();
 
       return true; // Keep this text in the array until it expires
@@ -1094,9 +1150,9 @@ $gameRemoteData.set(game);
     { name: "This game" },
   ]}
 >
-  <div class="max-w-4xl mx-auto p-4 w-full">
+  <!-- <div class="max-w-4xl mx-auto p-4 w-full">
     <PlinkoRoundProgressBar client:load />
-  </div>
+  </div> -->
   <div class="flex-1 max-w-xl mx-auto p-4 w-full">
     {
       game.game_over ? (
@@ -1107,25 +1163,26 @@ $gameRemoteData.set(game);
           <GameOverScoreboard client:load />
         </div>
       ) : (
-        /**
-         * If the game is not over, show the game
-         */
-        <div class="max-w-[443px] mx-auto">
-          {/* The width of the image should match the div above and the plinkopocketvaluegrid below */}
-          <img
-            src={plinkoHeaderWithScoreBoard.src}
-            width={443}
-            class="relative translate-y-14 z-10 pointer-events-none"
-          />
-          {/* <PlinkoScoreboard client:load /> */}
+        <>
+          {/* above the board */}
+          <div
+            class="mx-auto w-full pointer-events-none"
+            style={`max-width: ${plinkoSettings.canvasWidth + 30}px;`}
+          >
+            <PlinkoScoreboard client:load className="-mb-8 relative z-20" />
+
+            <img
+              src="/plinko/other/PlinkoTopSnowOnly.webp"
+              class="relative -mb-14 z-10"
+            />
+          </div>
+
           <div
             class="w-full mx-auto"
             style={`max-width: ${plinkoSettings.canvasWidth}px;`}
           >
-            <div
-              class="relative bg-blue-900"
-              style={`max-height: ${plinkoSettings.canvasHeight}px;`}
-            >
+            <div class="bg-blue-900 h-8" />
+            <div class="relative bg-blue-900">
               <canvas
                 class="matterCanvas relative"
                 width={plinkoSettings.canvasWidth}
@@ -1137,6 +1194,7 @@ $gameRemoteData.set(game);
                 height={plinkoSettings.canvasHeight}
               />
             </div>
+
             <PlinkoPocketValueGrid client:load />
           </div>
 
@@ -1151,7 +1209,7 @@ $gameRemoteData.set(game);
               />
             ))}
           </div>
-        </div>
+        </>
       )
     }
   </div>

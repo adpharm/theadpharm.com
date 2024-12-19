@@ -25,6 +25,6 @@ export const plinkoSettings = {
   // pocketWidth: width / 7, // this number should be the the length of pocketKeys
   pocketHeight: 50,
   pocketDividerHeight: 100,
-  ballSize: 10,
+  ballSize: 11,
   pegScore: 30,
 } as const;

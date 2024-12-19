@@ -13,10 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-  // $currentRoundState,
-  // $gameState,
-  // $nextRoundRemoteData,
-  // resetCurrentRoundToNext,
   $nextRoundRemoteData,
   $currentRoundRemoteData,
   $gameRemoteData,
@@ -46,12 +42,14 @@ import { log, logDebug, logError } from "@/lib/utils.logger";
 import { useEffect, useState, type ReactNode } from "react";
 import { actions } from "astro:actions";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, Lock } from "lucide-react";
+import { Ban, ChevronLeft, Lock } from "lucide-react";
 import { makePrettyNumber } from "@/lib/utils.numbers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "../ui/separator";
 import { plinkoSettings } from "@/lib/settings.plinko";
 import { upgradeSettings } from "@/lib/settings.plinkoUpgrades";
+import { PlinkoBallArsenal } from "../misc/PlinkoBallArsenal";
+import { Badge } from "../ui/badge";
 
 type Tabs = "main" | "detail";
 
@@ -90,6 +88,8 @@ export function PlinkoRoundWaitingToStartDialog() {
 
       // reset the form
       form.reset();
+      // reset the selected tab
+      setActiveTab("main");
     },
     (err) => logError("RHF error", err),
   );
@@ -127,8 +127,13 @@ export function PlinkoRoundWaitingToStartDialog() {
         gameData?.current_round_key !== "rnd1" ? (
           <>
             <div>
-              <p className="text-sm text-gray-500">Your upgrade budget:</p>
+              <p className="text-sm text-gray-500">Upgrade budget:</p>
               <p className="text-2xl">${makePrettyNumber(upgradeBudget)}</p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500 pb-2">Plinko arsenal:</p>
+              <PlinkoBallArsenal showActive={false} />
             </div>
 
             <Form {...form}>
@@ -174,14 +179,35 @@ export function PlinkoRoundWaitingToStartDialog() {
                                 form.setValue(upgradeKey, true);
                               }}
                               defaultValue={field.value}
-                              // className="flex flex-col space-y-1"
                               className="grid grid-cols-2 gap-4"
                             >
                               {Object.entries(upgradeSettings).map(
                                 ([
-                                  upgradeKey,
+                                  upgradeKey_,
                                   { label, description, cost },
                                 ]) => {
+                                  const upgradeKey =
+                                    upgradeKey_ as keyof typeof upgradeSettings;
+                                  // show/hide to restrict upgrades based on current state
+
+                                  let disabled = false;
+
+                                  // if ball 9 is on, don't allow "add2balls"
+                                  if (
+                                    currentRoundData.plinko_ball_9_on &&
+                                    upgradeKey === "add2NormalBalls"
+                                  ) {
+                                    disabled = true;
+                                  }
+                                  // if ball 10 is on, don't allow "addNormalBall" or "addGoldenBall"
+                                  else if (
+                                    currentRoundData.plinko_ball_10_on &&
+                                    (upgradeKey === "addNormalBall" ||
+                                      upgradeKey === "addGoldenBall")
+                                  ) {
+                                    disabled = true;
+                                  }
+
                                   return (
                                     <UpgradeRadioOption
                                       key={`radio-upgrade-${upgradeKey}`}
@@ -190,6 +216,7 @@ export function PlinkoRoundWaitingToStartDialog() {
                                       value={upgradeKey}
                                       cost={cost}
                                       locked={upgradeBudget < cost}
+                                      disabled={disabled}
                                     />
                                   );
                                 },
@@ -331,24 +358,34 @@ function UpgradeRadioOption({
   description,
   cost,
   locked,
+  disabled,
 }: {
   label: ReactNode;
   value: string;
   description: string;
   cost: number;
-  locked?: boolean;
+  locked: boolean;
+  disabled: boolean;
 }) {
   return (
     <FormItem
       aria-disabled={locked}
       className={cn(
         "relative h-full",
-        locked ? "opacity-50 pointer-events-none" : "",
+        locked || disabled ? "opacity-60 pointer-events-none" : "",
       )}
     >
       <FormLabel className="h-full block border-2 border-transparent bg-transparent border-gray-700 rounded-lg p-4 has-[:checked]:border-white has-[:checked]:bg-gray-900">
         <FormControl>
-          {locked ? (
+          {disabled ? (
+            // <Ban className="absolute right-2 top-2 pointer-events-none size-4 text-gray-500" />
+            <Badge
+              className="absolute right-2 top-2 pointer-events-none font-medium text-xs"
+              variant={"secondary"}
+            >
+              Maxed out
+            </Badge>
+          ) : locked ? (
             <Lock className="absolute right-2 top-2 pointer-events-none size-4 text-gray-500" />
           ) : (
             <RadioGroupItem
@@ -362,11 +399,19 @@ function UpgradeRadioOption({
           className={cn(
             "block pb-1.5 font-normal text-sm",
             locked ? "text-red-500" : "text-green-400",
+            disabled ? "text-gray-500" : "",
           )}
         >
           ${makePrettyNumber(cost)}
         </span>
-        <span className="block pb-1.5">{label}</span>
+        <span
+          className={cn(
+            "block pb-1.5",
+            disabled ? "text-gray-500" : "text-white",
+          )}
+        >
+          {label}
+        </span>
         <span className="block text-xs text-gray-500">{description}</span>
       </FormLabel>
     </FormItem>

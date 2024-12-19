@@ -7,6 +7,8 @@ export default {
   theme: {
     fontFamily: {
       sans: ["Switzer-Variable", "Inter", "sans-serif"],
+      xmas: ["Playpen Sans Variable", "sans-serif"],
+      mono: ["DSEG14 Modern", "monospace"],
     },
     extend: {
       colors: {
@@ -17,7 +19,6 @@ export default {
         "BottomGraphics": "url('/src/images/BottomGraphics.png')",
         "goldenBall": "url('/src/images/temp-gold-ornament.png')",
         "giftBow": "url('/src/images/gift-bow.png')",
-        
       },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
@@ -30,6 +31,9 @@ export default {
         "fade-in-2": "fade-in 2s ease-in-out",
         "fade-in-up": "fade-in-up 1s ease-in-out",
         bounce2: "bounce2 2s cubic-bezier(.55,.06,.68,.19) infinite",
+        fall: "fall linear infinite",
+        sway: "sway ease-in-out infinite",
+        rotate: "spin infinite",
       },
       keyframes: {
         "slide-200": {
@@ -65,6 +69,27 @@ export default {
           "50%": { transform: "translateY(-20px)" },
           "100%": { transform: "translateY(0)" },
         },
+        fall: {
+          "0%": { transform: "translateY(-200px)" },
+          "100%": { transform: "translateY(160vh)" },
+        },
+        sway: {
+          "0%": { transform: "translateX(0px)" },
+          "50%": { transform: "translateX(40px)" },
+          "100%": { transform: "translateX(0px)" },
+        },
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transorm: "rotate(360deg)" },
+        },
+        bounce: {
+          "0%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(20px)" },
+          "100%": { transform: "translateY(0px)" },
+        },
+      },
+      fontFamily: {
+        christmas: ["Christmas", "sans-serif"],
       },
     },
   },

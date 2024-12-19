@@ -24,16 +24,35 @@ import { cn } from "@/lib/utils";
 import { getPagePath } from "@nanostores/router";
 import { $router } from "@/lib/stores/router";
 import { makePrettyNumber } from "@/lib/utils.numbers";
+import { PlinkoBallArsenal } from "../misc/PlinkoBallArsenal";
 
-export function PlinkoScoreboard() {
+export function PlinkoScoreboard({ className }: { className?: string }) {
   const currentRoundScore = useStore($roundScore);
   const currentRoundData = useStore($currentRoundRemoteData);
   const gameRemoteData = useStore($gameRemoteData);
-  const plinkoBallsRemaining = useStore($remainingPlinkoBallsThisRound);
 
   const roundScore = currentRoundScore;
   const gameScore = gameRemoteData?.score || 0;
   const roundNum = currentRoundData?.key.split("rnd")[1] || "-";
+
+  return (
+    <div className={cn(className)}>
+      <h1 className="text-center text-red-500 text-2xl">
+        Round {roundNum} / 10
+      </h1>
+
+      <div className={"relative"}>
+        <img
+          src="/plinko/other/Scoreboard.webp"
+          className="object-contain w-full"
+        />
+
+        <div className="absolute inset-0 flex flex-col justify-center items-center">
+          <p className="text-xl font-mono text-green-500">{roundScore}</p>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <Card>
@@ -48,29 +67,7 @@ export function PlinkoScoreboard() {
       </CardContent>
 
       <CardFooter className="block">
-        <ClientOnly>
-          {() => (
-            <div className="grid grid-cols-10 gap-2">
-              {plinkoBallsRemaining.map((ball, idx) => {
-                return (
-                  <div
-                    // TODO: bad key
-                    key={`ball-${idx}`}
-                    className="aspect-square"
-                  >
-                    <div
-                      className={cn(
-                        "size-full bg-red-500 rounded-full border-2 border-transparent",
-                        ball.powerUps.includes("golden") ? "bg-yellow-500" : "",
-                        idx === 0 ? "border-white" : "",
-                      )}
-                    ></div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </ClientOnly>
+        <PlinkoBallArsenal />
       </CardFooter>
     </Card>
   );
@@ -112,7 +109,9 @@ export function GameOverScoreboard({
 
       <CardFooter className={cn("grid gap-2", embeddedInDialog ? "p-0" : "")}>
         <Button type="button" asChild variant={"secondary"}>
-          <a href={getPagePath($router, "games.plinko.home")}>Go home</a>
+          <a href={getPagePath($router, "games.plinko.home")}>
+            View leaderboard
+          </a>
         </Button>
 
         <Button

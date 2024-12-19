@@ -16,11 +16,12 @@ const isProd = import.meta.env.PROD;
 
 interface Props {
   title: string;
+  htmlClass?: string;
 }
 
 declare const window: Window & { dataLayer: Record<string, unknown>[] };
 
-const { title } = Astro.props;
+const { title, htmlClass } = Astro.props;
 
 const desc = `
   The Adpharm is a full-service healthcare marketing communications agency located in downtown Oakville. 
@@ -30,7 +31,7 @@ const desc = `
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class={htmlClass || ""}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
