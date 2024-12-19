@@ -23,6 +23,8 @@ import { $guestCode } from "@/lib/stores";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
 import { RefreshCcw } from "lucide-react";
 import { createGuestUserSchema } from "@/lib/zod.schema";
+import { getPagePath } from "@nanostores/router";
+import { Separator } from "../ui/separator";
 
 export function RegisterGuestUserForm() {
   const router = useStore($router);
@@ -83,53 +85,80 @@ export function RegisterGuestUserForm() {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={onSubmit} className="grid gap-8">
-        {/***************************************************
-         *
-         * Username
-         *
-         ****************************************************/}
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
+    <>
+      <Form {...form}>
+        <form onSubmit={onSubmit} className="grid gap-8">
+          {/***************************************************
+           *
+           * Username
+           *
+           ****************************************************/}
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
 
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
 
-              <button
-                type="button"
-                onClick={randomUsername}
-                className="text-sm font-medium inline-flex items-center active:opacity-75"
-              >
-                <span>Randomize</span>
-                <RefreshCcw className="size-3.5 ml-1" />
-              </button>
+                <button
+                  type="button"
+                  onClick={randomUsername}
+                  className="text-sm font-medium inline-flex items-center active:opacity-75"
+                >
+                  <span>Randomize</span>
+                  <RefreshCcw className="size-3.5 ml-1" />
+                </button>
 
-              <FormMessage />
-            </FormItem>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/***************************************************
+           *
+           * Submit
+           *
+           ****************************************************/}
+          <Button type="submit">
+            {form.formState.isSubmitting ? "Submitting..." : "Let's play 🎉"}
+          </Button>
+
+          {form.formState.errors.root && (
+            <div className="text-red-500 dark:text-red-300">
+              {form.formState.errors.root.message}
+            </div>
           )}
-        />
 
-        {/***************************************************
-         *
-         * Submit
-         *
-         ****************************************************/}
-        <Button type="submit">
-          {form.formState.isSubmitting ? "Submitting..." : "Let's play 🎉"}
-        </Button>
+          {/***************************************************
+           *
+           * OR Sign in/sign up buttons
+           *
+           ****************************************************/}
+          <div className="">
+            <div className="text-center">
+              <Separator />
+            </div>
 
-        {form.formState.errors.root && (
-          <div className="text-red-500 dark:text-red-300">
-            {form.formState.errors.root.message}
+            <FormDescription className="py-4">
+              Want to save your progress? Sign in or sign up.
+            </FormDescription>
+
+            <div className="grid grid-cols-2 gap-4">
+              <Button type="button" variant="secondary" asChild>
+                <a href={getPagePath($router, "login")}>Sign in</a>
+              </Button>
+
+              <Button type="button" variant="secondary" asChild>
+                <a href={getPagePath($router, "register")}>Sign up</a>
+              </Button>
+            </div>
           </div>
-        )}
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </>
   );
 }

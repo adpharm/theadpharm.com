@@ -18,6 +18,8 @@ import {
 } from "@/lib/utils.plinko.date";
 import { ClientOnly } from "@/lib/utils.react-hydration";
 import { useState } from "react";
+import { getPagePath } from "@nanostores/router";
+import { $router } from "@/lib/stores/router";
 
 export function UserPlinkoGamesTable() {
   const userGamesTableData = useStore($userGamesTable);
@@ -60,8 +62,14 @@ export function UserPlinkoGamesTable() {
               <TableRow key={`game-${game.id}`}>
                 {/* <TableCell>{idx + 1}</TableCell> */}
                 <TableCell className="font-medium">
-                  <ClientOnly fallback={<span>Loading...</span>}>
-                    {() => convertUTCToDistanceToNow(game.created_at)}
+                  <ClientOnly
+                    fallback={<span>Loading...&nbsp;&nbsp;&nbsp;&nbsp;</span>}
+                  >
+                    {() => (
+                      <span className="capitalize">
+                        {convertUTCToDistanceToNow(game.created_at)}
+                      </span>
+                    )}
                   </ClientOnly>
                 </TableCell>
                 <TableCell>
@@ -75,19 +83,23 @@ export function UserPlinkoGamesTable() {
                 </TableCell>
                 <TableCell className="text-right">{game.score}</TableCell>
                 <TableCell className="text-right">
-                  {!game.game_over && (
-                    <Button
-                      type="button"
-                      asChild
-                      onClick={() => setIsContinuingToGameId(game.id)}
+                  <Button
+                    type="button"
+                    asChild
+                    onClick={() => setIsContinuingToGameId(game.id)}
+                  >
+                    <a
+                      href={getPagePath($router, "games.plinko.gameId", {
+                        gameId: game.id,
+                      })}
                     >
-                      <a href={`/digital/plinko/${game.id}`}>
-                        {isContinuingToGameId === game.id
-                          ? "Loading..."
+                      {isContinuingToGameId === game.id
+                        ? "Loading..."
+                        : game.game_over
+                          ? "Review"
                           : "Continue"}
-                      </a>
-                    </Button>
-                  )}
+                    </a>
+                  </Button>
                 </TableCell>
               </TableRow>
             );

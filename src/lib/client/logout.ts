@@ -17,5 +17,5 @@ export async function logout() {
   }
 
   // redirect to the plinko home
-  window.location.href = getPagePath($router, "plinko.home");
+  window.location.href = getPagePath($router, "games.plinko.home");
 }

@@ -1,0 +1,55 @@
+---
+import { UserDropdownMenu } from "../dropdown/UserDropdownMenu";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Layout from "./Layout.astro";
+
+interface Props {
+  title: string;
+  breadcrumbs?: { name: string; href?: string }[];
+}
+const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
+---
+
+<Layout title={title}>
+  <main class="flex flex-col min-h-screen">
+    <!-- main content -->
+    <div class="flex-1 w-full max-w-4xl mx-auto py-32">
+      <div
+        class="flex items-end justify-between py-2.5 border-b border-gray-700"
+      >
+        <div>
+          {
+            breadcrumbs && (
+              <Breadcrumb>
+                <BreadcrumbList>
+                  {breadcrumbs.map((breadcrumb, idx) => (
+                    <>
+                      <BreadcrumbItem>
+                        <BreadcrumbLink href={breadcrumb.href}>
+                          {breadcrumb.name}
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+
+                      {idx < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+                    </>
+                  ))}
+                </BreadcrumbList>
+              </Breadcrumb>
+            )
+          }
+        </div>
+
+        <UserDropdownMenu client:load user={Astro.locals.user} />
+      </div>
+
+      <slot />
+    </div>
+  </main>
+</Layout>

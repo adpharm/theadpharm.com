@@ -1,0 +1,30 @@
+---
+import { LoginFullUserForm } from "@/components/form/LoginFullUserForm";
+import GamesLayout from "@/components/layout/GamesLayout.astro";
+import Layout from "@/components/layout/Layout.astro";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+---
+
+<GamesLayout title="Log in to The Adpharm and play games and more.">
+  <div class="max-w-xl mx-auto pt-6">
+    <Card>
+      <CardHeader>
+        <CardTitle>Log in to your Adpharm account.</CardTitle>
+        <CardDescription>
+          Available to the public, an Adpharm account allows you to play games,
+          receive our newsletter, and more.
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <LoginFullUserForm client:load />
+      </CardContent>
+    </Card>
+  </div>
+</GamesLayout>

@@ -1,52 +1,40 @@
 ---
-import { actions } from "astro:actions";
-import Layout from "@/layouts/Layout.astro";
-import { Button } from "@/components/ui/button";
 import { UserPlinkoGamesTable } from "@/components/table/UserPlinkoGamesTable";
 import { db } from "@/db";
-import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
+import { tablePlinkoGames } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { $userGamesTable } from "@/lib/stores";
 import { LeaderboardTable } from "@/components/table/LeaderboardTable";
 import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
-import { UserDropdownMenu } from "@/components/dropdown/UserDropdownMenu";
 import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
+import GamesLayout from "@/components/layout/GamesLayout.astro";
+import { getUser } from "@/lib/server/auth.utils";
+
+const user = getUser(Astro);
 
 await listTopGamesWithUsers();
 
 // Get the games for this user from the database
-const plinkoGameWithRounds = Astro.locals.user
+const plinkoGameWithRounds = user
   ? await db
       .select()
       .from(tablePlinkoGames)
-      .where(eq(tablePlinkoGames.user_id, Astro.locals.user.id))
+      .where(eq(tablePlinkoGames.user_id, user.id))
       .orderBy(desc(tablePlinkoGames.created_at))
   : [];
 
 $userGamesTable.set(plinkoGameWithRounds);
 ---
 
-<Layout title="Let's play Christmas Plinko! by The Adpharm">
-  <main class="flex flex-col min-h-screen">
-    <div class="flex-1 w-full max-w-4xl mx-auto pt-32">
-      <div
-        class="flex items-end justify-between py-2.5 border-b border-gray-700"
-      >
-        <h1>Let's play plinko!</h1>
+<GamesLayout title="Let's play Christmas Plinko!">
+  <div class="mt-6">
+    {user && <UserPlinkoGamesTable client:load />}
 
-        <UserDropdownMenu client:load user={Astro.locals.user} />
-      </div>
-
-      <div class="mt-6">
-        <UserPlinkoGamesTable client:load />
-
-        <LeaderboardTable client:load user={Astro.locals.user} />
-      </div>
-    </div>
-  </main>
-</Layout>
+    <LeaderboardTable client:load user={user} />
+  </div>
+</GamesLayout>
 
 <RegisterGuestUserDialog
   client:load
-  open={Astro.locals.user === null || Astro.locals.session === null}
+  open={user === null || Astro.locals.session === null}
 />

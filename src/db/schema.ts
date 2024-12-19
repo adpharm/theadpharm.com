@@ -113,6 +113,7 @@ export const tablePlinkoGames = pgTable(
       .references(() => tableUsers.id),
     current_round_key: text({ enum: roundKeys }).notNull().default("rnd1"),
     score: integer().notNull().default(0),
+    upgrade_budget: integer().notNull().default(0),
     game_over: boolean().notNull().default(false),
   },
   (table) => [
@@ -146,6 +147,12 @@ export const tablePlinkoGameRounds = pgTable(
     key: text({ enum: roundKeys }).notNull(),
     // the score for this round
     score: integer().notNull().default(0),
+    // did upgrade the board for this round
+    // upgraded: boolean().notNull().default(false),
+    did_select_upgrade: boolean().notNull().default(false),
+
+    // mutiplier
+    score_multiplier: integer().notNull().default(1),
 
     // ball details
     plinko_ball_1_on: boolean().notNull().default(true),

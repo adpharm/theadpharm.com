@@ -7,8 +7,6 @@ import {
 } from "@/db/schema";
 import { requireNum } from "@/lib/server/parse_int";
 import { desc, eq, gt, inArray } from "drizzle-orm";
-import { actions } from "astro:actions";
-import Layout from "@/layouts/Layout.astro";
 import {
   $currentRoundRemoteData,
   $gameRemoteData,
@@ -26,14 +24,6 @@ import {
   PlinkoRoundEndedDialog,
   PlinkoRoundWaitingToStartDialog,
 } from "@/components/dialog/PlinkoRoundDialog";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { PlinkoRoundProgressBar } from "@/components/progress/PlinkoRoundProgressBar";
 import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
 import { getUser } from "@/lib/server/auth.utils";
@@ -41,6 +31,9 @@ import { getPagePath } from "@nanostores/router";
 import { $router } from "@/lib/stores/router";
 import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
 import plinkoHeaderWithScoreBoard from "@/images/PlinkoHeaderwithScoreboard.png";
+import GamesLayout from "@/components/layout/GamesLayout.astro";
+import { plinkoSettings } from "@/lib/settings.plinko";
+import { PlinkoPocketValueGrid } from "@/components/misc/PlinkoPocketValueGrid";
 
 const user = getUser(Astro);
 
@@ -107,10 +100,13 @@ $gameRemoteData.set(game);
     $roundResult,
     $gameState,
     $roundScore,
+    $remainingPlinkoBallsThisRound,
+    type PlinkoBallData,
   } from "@/lib/stores";
   import { toast } from "sonner";
-  import { logDebug, logError } from "@/lib/utils.logger";
+  import { logDebug, logError, logInfo } from "@/lib/utils.logger";
   import { DotLottie, DotLottieWorker } from "@lottiefiles/dotlottie-web";
+  import { plinkoSettings } from "@/lib/settings.plinko";
 
   const matterCanvas: HTMLCanvasElement | null =
     document.querySelector(".matterCanvas");
@@ -134,35 +130,14 @@ $gameRemoteData.set(game);
     { passive: true }
   );
 
-  const globalSettings = {
-    width: matterCanvas.width,
-    height: matterCanvas.height,
-    pocketKeys: [
-      "pocket_middle_left_3",
-      "pocket_middle_left_2",
-      "pocket_middle_left_1",
-      "pocket_middle",
-      "pocket_middle_right_1",
-      "pocket_middle_right_2",
-      "pocket_middle_right_3",
-    ],
-    plinkoBallKeys: [
-      "plinko_ball_1",
-      "plinko_ball_2",
-      "plinko_ball_3",
-      "plinko_ball_4",
-      "plinko_ball_5",
-      "plinko_ball_6",
-      "plinko_ball_7",
-      "plinko_ball_8",
-      "plinko_ball_9",
-      "plinko_ball_10",
-    ],
-    // pocketWidth: width / 7, // this number should be the the length of pocketKeys
-    pocketHeight: 50,
-    pocketDividerHeight: 50,
-    ballSize: 10,
-  } as const;
+  const matterCanvasOverlay: HTMLCanvasElement | null = document.querySelector(
+    ".matterCanvasOverlay"
+  );
+  const matterCanvasOverlayCtx = matterCanvasOverlay?.getContext("2d");
+
+  if (!matterCanvasOverlay || !matterCanvasOverlayCtx) {
+    throw new Error("matterCanvasOverlay not found");
+  }
 
   const pocketLottieCanvases: (HTMLCanvasElement | null)[] = Array.from(
     document.querySelectorAll(
@@ -170,20 +145,15 @@ $gameRemoteData.set(game);
     ) as NodeListOf<HTMLCanvasElement>
   );
 
-  if (pocketLottieCanvases.some((canvas) => !canvas)) {
-    throw new Error("DotLottie canvas not found");
+  if (
+    pocketLottieCanvases.length === 0 ||
+    pocketLottieCanvases.some((canvas) => !canvas)
+  ) {
+    throw new Error("At least one DotLottie canvas was not found");
   }
 
-  // const pocketLottieAnimations = pocketLottieCanvases.map((canvas) => {
-  //   const dotLottie = new DotLottie({
-  //     canvas: canvas!,
-  //     src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
-  //   });
-
-  //   return dotLottie;
-  // });
   const pocketLottieAnimations: Record<
-    (typeof globalSettings.pocketKeys)[number],
+    (typeof plinkoSettings.pocketKeys)[number],
     DotLottieWorker
     // DotLottie
   > = {
@@ -237,17 +207,18 @@ $gameRemoteData.set(game);
 
   // the current round id
   let currentRoundId: number;
+  let currentRoundScoreMultiplier: number;
   let roundComposite: Matter.Composite;
 
   let pocketsToCreate: Record<
-    (typeof globalSettings.pocketKeys)[number],
+    (typeof plinkoSettings.pocketKeys)[number],
     {
       value: typeof tablePlinkoGameRounds.$inferSelect.pocket_middle_value;
       powerUps: typeof tablePlinkoGameRounds.$inferSelect.pocket_middle_power_ups;
     }
   > | null;
   let plinkoBallsToCreate: Record<
-    (typeof globalSettings.plinkoBallKeys)[number],
+    (typeof plinkoSettings.plinkoBallKeys)[number],
     {
       on: typeof tablePlinkoGameRounds.$inferSelect.plinko_ball_10_on;
       powerUps: typeof tablePlinkoGameRounds.$inferSelect.plinko_ball_10_power_ups;
@@ -255,8 +226,7 @@ $gameRemoteData.set(game);
   > | null;
   let activePlinkoBall: Matter.Body | null;
   let activePlinkoBallIdx: number;
-  let createdPlinkoBalls: Matter.Body[];
-  let numBallsLeftToDrop: number = 0;
+  let currentRoundPlinkoBallBodies: Matter.Body[];
   let currentAlivePlinkos: number;
 
   // set up the renderer
@@ -268,8 +238,8 @@ $gameRemoteData.set(game);
       wireframes: false,
       // background: "hsl(225, 60%, 20%)",
       background: "transparent",
-      width: globalSettings.width,
-      height: globalSettings.height,
+      width: plinkoSettings.canvasWidth,
+      height: plinkoSettings.canvasHeight,
     },
   });
 
@@ -333,8 +303,8 @@ $gameRemoteData.set(game);
   const hand = Matter.Bodies.rectangle(
     -20,
     10,
-    globalSettings.ballSize * 2,
-    globalSettings.ballSize * 2,
+    plinkoSettings.ballSize * 2,
+    plinkoSettings.ballSize * 2,
     {
       isStatic: true,
       collisionFilter: {
@@ -360,11 +330,11 @@ $gameRemoteData.set(game);
    *
    *
    *******************************************************************************************/
-  function initBoard(settings: typeof globalSettings) {
+  function initBoard(settings: typeof plinkoSettings) {
     const pegGrid = {
       pegSize: 10,
       numRows: 13, // this number should be odd
-      paddingTop: 50,
+      paddingTop: 80,
       paddingLeft: 0,
       paddingRight: 0,
       paddingBottom: settings.pocketHeight + settings.pocketDividerHeight + 20,
@@ -375,9 +345,9 @@ $gameRemoteData.set(game);
      *******************************************************************************************/
     const leftWall_ = {
       x: -1,
-      y: settings.height / 2,
+      y: settings.canvasHeight / 2,
       width: 1,
-      height: settings.height,
+      height: settings.canvasHeight,
     } as const;
     const leftWall = Matter.Bodies.rectangle(
       leftWall_.x,
@@ -394,10 +364,10 @@ $gameRemoteData.set(game);
     );
 
     const rightWall_ = {
-      x: settings.width + 1,
-      y: settings.height / 2,
+      x: settings.canvasWidth + 1,
+      y: settings.canvasHeight / 2,
       width: 1,
-      height: settings.height,
+      height: settings.canvasHeight,
     } as const;
     const rightWall = Matter.Bodies.rectangle(
       rightWall_.x,
@@ -420,7 +390,7 @@ $gameRemoteData.set(game);
     let contourRightTriangles = [];
 
     const rowSizeForTriangles =
-      (settings.height - pegGrid.paddingTop - pegGrid.paddingBottom) /
+      (settings.canvasHeight - pegGrid.paddingTop - pegGrid.paddingBottom) /
       pegGrid.numRows;
 
     for (let rowIdx = 1; rowIdx < pegGrid.numRows; rowIdx += 2) {
@@ -429,6 +399,11 @@ $gameRemoteData.set(game);
         rowSizeForTriangles / 2 +
         pegGrid.paddingTop;
 
+      // for (
+      //   let i = pegGrid.paddingTop;
+      //   i < settings.canvasHeight - pegGrid.paddingBottom;
+      //   i += 50
+      // ) {
       const leftTriangle_ = {
         // x: -30,
         x: 5,
@@ -458,8 +433,11 @@ $gameRemoteData.set(game);
       );
 
       const rightTriangle_ = {
-        x: settings.width + 28,
+        x: settings.canvasWidth + 28,
         y: y,
+        // x: settings.canvasWidth + 30,
+        // x: width + width / 10,
+        // y: i,
         sides: 3,
         radius: 60,
         angle: 0,
@@ -501,10 +479,10 @@ $gameRemoteData.set(game);
     const numPegsInRow = settings.pocketKeys.length - 1;
 
     const rowSize =
-      (settings.height - pegGrid.paddingTop - pegGrid.paddingBottom) /
+      (settings.canvasHeight - pegGrid.paddingTop - pegGrid.paddingBottom) /
       pegGrid.numRows;
 
-    const pocketWidth = settings.width / settings.pocketKeys.length;
+    const pocketWidth = settings.canvasWidth / settings.pocketKeys.length;
 
     const grid = Array.from({ length: pegGrid.numRows }, (_, rowIdx) => {
       // if the row is odd the number of pegs to create is one less than the number of pegs in the row
@@ -517,6 +495,7 @@ $gameRemoteData.set(game);
         const y = rowSize * rowIdx + rowSize / 2 + pegGrid.paddingTop;
         const r = pegGrid.pegSize / 2;
 
+        // create the peg
         return Matter.Bodies.circle(x, y, r, {
           isStatic: true,
           render: { fillStyle: "white" },
@@ -540,17 +519,23 @@ $gameRemoteData.set(game);
    *
    *
    *******************************************************************************************/
-  function initRound(settings: typeof globalSettings) {
+  function initRound(settings: typeof plinkoSettings) {
     // clear the round result
     $roundResult.set(null);
 
-    // if there is a "next round" set, set the current round to the next round
-    // const nextRound = $nextRoundRemoteData.get();
+    // if the game is over, stop everything
+    if ($gameState.get() === "game_over") {
+      logInfo("Game is over, stopping the game");
+      // remove all listeners
+      Matter.Events.off(engine, "collisionStart");
+      Matter.Events.off(mouseConstraint, "mousemove");
+      Matter.Events.off(mouseConstraint, "mouseup");
+      Matter.Events.off(runner, "afterTick");
 
-    // if (nextRound) {
-    //   $currentRoundRemoteData.set(nextRound);
-    //   $nextRoundRemoteData.set(null);
-    // }
+      // stop the engine
+      Matter.Runner.stop(runner);
+      Matter.Render.stop(render);
+    }
 
     const roundData = $currentRoundRemoteData.get();
 
@@ -558,10 +543,11 @@ $gameRemoteData.set(game);
       throw new Error("No current round found");
     }
 
-    console.log("initRound: ", roundData.key);
+    logDebug("initRound: ", roundData.key);
 
     // set the current round id
     currentRoundId = roundData.id;
+    currentRoundScoreMultiplier = roundData.score_multiplier;
 
     // set the pockets
     const pockets: Matter.Body[] = [];
@@ -603,13 +589,13 @@ $gameRemoteData.set(game);
       label: "round",
     });
 
-    const pocketWidth = settings.width / settings.pocketKeys.length;
+    const pocketWidth = settings.canvasWidth / settings.pocketKeys.length;
 
     settings.pocketKeys.forEach((pocketKey, index) => {
       // make pockets
       const pocket_ = {
         x: pocketWidth * index + pocketWidth / 2,
-        y: settings.height - settings.pocketHeight / 2,
+        y: settings.canvasHeight - settings.pocketHeight / 2,
         width: pocketWidth,
         height: settings.pocketHeight,
       };
@@ -661,7 +647,7 @@ $gameRemoteData.set(game);
      * Plinko balls
      *******************************************************************************************/
 
-    createdPlinkoBalls = [];
+    currentRoundPlinkoBallBodies = [];
 
     // set up the plinko balls
     plinkoBallsToCreate = {
@@ -707,6 +693,8 @@ $gameRemoteData.set(game);
       },
     };
 
+    const remainingPlinkoBallsThisRound: PlinkoBallData[] = [];
+
     // create the plinko balls
     Object.entries(plinkoBallsToCreate).forEach(
       ([plinkoBallKey, plinkoBallData]) => {
@@ -730,13 +718,20 @@ $gameRemoteData.set(game);
           },
         });
         plinkoBall.isStatic = true;
-        createdPlinkoBalls.push(plinkoBall);
-        numBallsLeftToDrop++;
+        currentRoundPlinkoBallBodies.push(plinkoBall);
+
+        remainingPlinkoBallsThisRound.push({
+          powerUps: plinkoBallData.powerUps,
+        });
       }
     );
 
+    // set the number of plinko balls remaining to store
+    $remainingPlinkoBallsThisRound.set(remainingPlinkoBallsThisRound);
+
     activePlinkoBallIdx = 0;
-    activePlinkoBall = createdPlinkoBalls[activePlinkoBallIdx] || null;
+    activePlinkoBall =
+      currentRoundPlinkoBallBodies[activePlinkoBallIdx] || null;
 
     // add the first ball to the world
     if (activePlinkoBall) {
@@ -757,18 +752,19 @@ $gameRemoteData.set(game);
   }
 
   // initialize the board
-  initBoard(globalSettings);
+  initBoard(plinkoSettings);
 
   // listen for the round result
   $roundResult.subscribe(async (val) => {
     // reset the local stuff when the round result is set to null
     if (val === null) {
+      logDebug("resetRound");
+
       pocketsToCreate = null;
       plinkoBallsToCreate = null;
-      createdPlinkoBalls = [];
+      currentRoundPlinkoBallBodies = [];
       currentAlivePlinkos = 0;
-      // numBallsLeftToDrop = 5;
-      numBallsLeftToDrop = 0; // this number should already be 0
+      $remainingPlinkoBallsThisRound.set([]);
       activePlinkoBallIdx = 0;
       activePlinkoBall = null;
       $roundScore.set(0);
@@ -814,11 +810,16 @@ $gameRemoteData.set(game);
       throw new Error("No round data found");
     }
 
-    // if the current round key has changed, reset the round
-    if (roundData.key !== prev?.key) {
-      initRound(globalSettings);
-    }
+    initRound(plinkoSettings);
   });
+
+  let floatingTexts: {
+    text: string;
+    x: number;
+    y: number;
+    startTime: number;
+    duration: number;
+  }[] = [];
 
   /******************************************************************************************
    * Handle collisions
@@ -836,8 +837,8 @@ $gameRemoteData.set(game);
 
       // we only care about plinko collisions
       if (
-        globalSettings.plinkoBallKeys.includes(labelA as any) === false &&
-        globalSettings.plinkoBallKeys.includes(labelB as any) === false
+        plinkoSettings.plinkoBallKeys.includes(labelA as any) === false &&
+        plinkoSettings.plinkoBallKeys.includes(labelB as any) === false
       ) {
         return;
       }
@@ -845,7 +846,7 @@ $gameRemoteData.set(game);
       // figure out which body is the plinko
       let plinkoBody: Matter.Body;
       let otherBody: Matter.Body;
-      if (globalSettings.plinkoBallKeys.includes(labelA as any)) {
+      if (plinkoSettings.plinkoBallKeys.includes(labelA as any)) {
         // bodyA is the plinko
         plinkoBody = bodyA;
         otherBody = bodyB;
@@ -855,13 +856,17 @@ $gameRemoteData.set(game);
         otherBody = bodyA;
       }
 
-      // if the plinko is colliding with a pocket
+      /******************************************************************************************
+       *
+       * Plinko <-> Pocket collision
+       *
+       *******************************************************************************************/
       if (otherBody.label in (pocketsToCreate || {})) {
         // get the pocket in which the plinko has fallen
         // const pocket = pockets.find((pocket) => pocket.label === other.label);
         // console.log("Plinko has fallen into pocket", pocket);
         const pocketKey =
-          otherBody.label as (typeof globalSettings.pocketKeys)[number];
+          otherBody.label as (typeof plinkoSettings.pocketKeys)[number];
         const pocket_ = pocketsToCreate?.[pocketKey];
 
         if (!pocket_) {
@@ -891,7 +896,6 @@ $gameRemoteData.set(game);
         (animation.canvas as HTMLCanvasElement).style.opacity = "1";
 
         internalScore += pocket_.value;
-        // roundScore += pocket_.value;
         $roundScore.set($roundScore.get() + pocket_.value);
 
         // remove the plinko from the world
@@ -899,15 +903,54 @@ $gameRemoteData.set(game);
         Matter.Composite.remove(roundComposite, plinkoBody);
         currentAlivePlinkos--;
 
-        if (currentAlivePlinkos <= 0 && numBallsLeftToDrop <= 0) {
-          logDebug("Round end");
-          // onRoundEnd();
+        /**
+         * TRIGGER ROUND END
+         */
+        if (
+          currentAlivePlinkos <= 0 &&
+          $remainingPlinkoBallsThisRound.get().length === 0
+        ) {
+          logInfo("Round end");
+
           $roundResult.set({
-            score: $roundScore.get(),
+            score: $roundScore.get() * currentRoundScoreMultiplier,
             roundId: currentRoundId,
+            scoreMultiplier: currentRoundScoreMultiplier,
           });
-          // console.log("Round score: ", roundScore);
         }
+
+        return;
+      }
+
+      /******************************************************************************************
+       *
+       * Plinko <-> Peg collision
+       *
+       *******************************************************************************************/
+      if (otherBody.label.includes("peg")) {
+        const plinko_ =
+          plinkoBallsToCreate?.[
+            plinkoBody.label as keyof typeof plinkoBallsToCreate
+          ];
+
+        const isGoldenPlinko = plinko_?.powerUps.includes("golden");
+
+        const pegScore = isGoldenPlinko
+          ? plinkoSettings.pegScore * 2
+          : plinkoSettings.pegScore;
+
+        // add floating text
+        floatingTexts.push({
+          text: `+${pegScore}`,
+          x: otherBody.position.x,
+          y: otherBody.position.y,
+          startTime: performance.now(),
+          duration: 1000,
+        });
+
+        // add the score
+        internalScore += pegScore;
+        $roundScore.set($roundScore.get() + pegScore);
 
         return;
       }
@@ -962,7 +1005,7 @@ $gameRemoteData.set(game);
    * Handle mouse up (click)
    ******************************************************************************************/
   Matter.Events.on(mouseConstraint, "mouseup", (event) => {
-    if (numBallsLeftToDrop <= 0) {
+    if ($remainingPlinkoBallsThisRound.get().length === 0) {
       console.log("No more balls remaining");
       return;
     }
@@ -971,7 +1014,7 @@ $gameRemoteData.set(game);
     if (activePlinkoBall) {
       Matter.Body.setStatic(activePlinkoBall, false);
       activePlinkoBallIdx++;
-      activePlinkoBall = createdPlinkoBalls[activePlinkoBallIdx];
+      activePlinkoBall = currentRoundPlinkoBallBodies[activePlinkoBallIdx];
       // add the next ball to the world
       if (activePlinkoBall) {
         Matter.Body.setPosition(activePlinkoBall, {
@@ -982,8 +1025,56 @@ $gameRemoteData.set(game);
       }
 
       currentAlivePlinkos++;
-      numBallsLeftToDrop--;
+
+      // remove the ball from the remaining balls
+      $remainingPlinkoBallsThisRound.set(
+        $remainingPlinkoBallsThisRound.get().slice(1)
+      );
     }
+  });
+
+  Matter.Events.on(runner, "afterTick", (event) => {
+    // logDebug("tick");
+    // TODO: not sure if I can do this or not
+    if (floatingTexts.length === 0) {
+      return;
+    }
+
+    // clear the canvas
+    matterCanvasOverlayCtx.clearRect(
+      0,
+      0,
+      plinkoSettings.canvasWidth,
+      plinkoSettings.canvasHeight
+    );
+
+    const now = performance.now();
+
+    floatingTexts = floatingTexts.filter((obj) => {
+      const elapsed = now - obj.startTime;
+      if (elapsed > obj.duration) {
+        // Time is up, this text will no longer be drawn
+        return false;
+      }
+
+      // Calculate alpha (1 at start, 0 at end)
+      const alpha = 1 - elapsed / obj.duration;
+
+      // Convert world coordinates to screen (pixel) coordinates
+      // const screenPos = Matter.Render.worldToPixel(render, {
+      //   x: obj.x,
+      //   y: obj.y,
+      // });
+
+      // Draw the text with fading alpha
+      matterCanvasOverlayCtx.save();
+      matterCanvasOverlayCtx.font = "20px Arial";
+      matterCanvasOverlayCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      matterCanvasOverlayCtx.fillText(obj.text, obj.x, obj.y);
+      matterCanvasOverlayCtx.restore();
+
+      return true; // Keep this text in the array until it expires
+    });
   });
 
   // run the engine
@@ -992,75 +1083,82 @@ $gameRemoteData.set(game);
   Matter.Render.run(render);
 </script>
 
-<Layout title="Let's play Christmas Plinko! by The Adpharm">
-  <main class="flex flex-col min-h-screen pt-32">
-    <div class="max-w-4xl mx-auto p-4 w-full">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/digital/plinko">Games</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>This game</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    </div>
-    <div class="max-w-4xl mx-auto p-4 w-full">
-      <PlinkoRoundProgressBar client:load />
-    </div>
-    <div class="flex-1 max-w-xl mx-auto p-4">
-      {
-        game.game_over ? (
-          <div>
-            <GameOverScoreboard client:load />
+<GamesLayout
+  title="Good luck in your Christmas Plinko game!"
+  breadcrumbs={[
+    { name: "Plinko home", href: getPagePath($router, "games.plinko.home") },
+    { name: "This game" },
+  ]}
+
+>
+  <div class="max-w-4xl mx-auto p-4 w-full">
+    <PlinkoRoundProgressBar client:load />
+  </div>
+  <div class="flex-1 max-w-xl mx-auto p-4 w-full">
+    {
+      game.game_over ? (
+        /**
+         * If the game is over, show the game over scoreboard
+         */
+        <div>
+          <GameOverScoreboard client:load />
+        </div>
+      ) : (
+        /**
+         * If the game is not over, show the game
+         */
+        <div class="max-w-[443px] mx-auto">
+          {/* The width of the image should match the div above and the plinkopocketvaluegrid below */}
+          <img
+            src={plinkoHeaderWithScoreBoard.src}
+            width={443} 
+            class="relative translate-y-14 z-10"
+            />
+            {/* <PlinkoScoreboard client:load /> */}
+          <div
+            class="w-full mx-auto"
+            style={`max-width: ${plinkoSettings.canvasWidth}px;`}
+          >
+            <div class="relative bg-blue-900" style={`max-height: ${plinkoSettings.canvasHeight}px;`}>
+              <canvas
+                class="matterCanvas relative"
+                width={plinkoSettings.canvasWidth}
+                height={plinkoSettings.canvasHeight}
+              />
+              <canvas
+                class="matterCanvasOverlay relative top-0 left-0 pointer-events-none"
+                width={plinkoSettings.canvasWidth}
+                height={plinkoSettings.canvasHeight}
+              />
+            </div>
           </div>
-        ) : (
-          <>
-            <PlinkoScoreboard client:load />
-            <div class="relative bg-blue-900">
-              <canvas class="matterCanvas relative" width={400} height={600} />
-            </div>
 
-            <div class="-mt-12 relative flex">
-              {/* lottie canvases */}
-              {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-                <canvas
-                  class="pocket-lottie-canvas opacity-0"
-                  width={400 / 7}
-                  height={50}
-                />
-              ))}
-            </div>
+          <div class="-mt-12 relative flex">
+            {/* lottie canvases */}
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <canvas
+                class="pocket-lottie-canvas opacity-0"
+                style={`width: ${plinkoSettings.canvasWidth / 7}px; height: 50px;`}
+                width={plinkoSettings.canvasWidth / 7}
+                height={50}
+              />
+            ))}
+          </div>
 
-            <div class="grid grid-cols-7 text-center">
-              <div>{currentRound.pocket_middle_left_3_value}</div>
-              <div>{currentRound.pocket_middle_left_2_value}</div>
-              <div>{currentRound.pocket_middle_left_1_value}</div>
-              <div>{currentRound.pocket_middle_value}</div>
-              <div>{currentRound.pocket_middle_right_1_value}</div>
-              <div>{currentRound.pocket_middle_right_2_value}</div>
-              <div>{currentRound.pocket_middle_right_3_value}</div>
-            </div>
-          </>
-        )
-      }
+          <PlinkoPocketValueGrid maxWidth={400} client:load />
+        </div>
+      )
+    }
+  </div>
+
+  <div class="max-w-4xl mx-auto p-4 w-full">
+    <div>
+      <LeaderboardTable client:load user={user} />
     </div>
-
-    <div class="max-w-4xl mx-auto p-4 w-full">
-      <div>
-        <LeaderboardTable client:only="react" user={user} />
-      </div>
-    </div>
-  </main>
-</Layout>
+  </div>
+</GamesLayout>
 
 <!-- dialogs -->
 <PlinkoRoundEndedDialog client:load />
 <PlinkoRoundWaitingToStartDialog client:load />
 <PlinkoGameOverDialog client:load />
-<RegisterGuestUserDialog
-  client:load
-  open={Astro.locals.user === null || Astro.locals.session === null}
-/>

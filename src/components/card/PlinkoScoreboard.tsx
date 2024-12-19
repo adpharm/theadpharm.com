@@ -11,17 +11,25 @@ import {
   $currentRoundRemoteData,
   $gameRemoteData,
   $gameState,
+  $remainingPlinkoBallsThisRound,
   $roundScore,
 } from "@/lib/stores";
 import { Button } from "../ui/button";
 import { actions } from "astro:actions";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
 import { useState } from "react";
+import { ClientOnly } from "@/lib/utils.react-hydration";
+import { logDebug } from "@/lib/utils.logger";
+import { cn } from "@/lib/utils";
+import { getPagePath } from "@nanostores/router";
+import { $router } from "@/lib/stores/router";
+import { makePrettyNumber } from "@/lib/utils.numbers";
 
 export function PlinkoScoreboard() {
   const currentRoundScore = useStore($roundScore);
   const currentRoundData = useStore($currentRoundRemoteData);
   const gameRemoteData = useStore($gameRemoteData);
+  const plinkoBallsRemaining = useStore($remainingPlinkoBallsThisRound);
 
   const roundScore = currentRoundScore;
   const gameScore = gameRemoteData?.score || 0;
@@ -30,7 +38,7 @@ export function PlinkoScoreboard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Round {roundNum}</CardTitle>
+        <CardTitle>Round {roundNum}/10</CardTitle>
         {/* <CardDescription></CardDescription> */}
       </CardHeader>
 
@@ -39,31 +47,72 @@ export function PlinkoScoreboard() {
         <p>Game score: {gameScore}</p>
       </CardContent>
 
-      <CardFooter></CardFooter>
+      <CardFooter className="block">
+        <ClientOnly>
+          {() => (
+            <div className="grid grid-cols-10 gap-2">
+              {plinkoBallsRemaining.map((ball, idx) => {
+                return (
+                  <div
+                    // TODO: bad key
+                    key={`ball-${idx}`}
+                    className="aspect-square"
+                  >
+                    <div
+                      className={cn(
+                        "size-full bg-red-500 rounded-full border-2 border-transparent",
+                        ball.powerUps.includes("golden") ? "bg-yellow-500" : "",
+                        idx === 0 ? "border-white" : "",
+                      )}
+                    ></div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </ClientOnly>
+      </CardFooter>
     </Card>
   );
 }
 
-export function GameOverScoreboard() {
+export function GameOverScoreboard({
+  embeddedInDialog,
+}: {
+  embeddedInDialog?: boolean;
+}) {
+  const currentRoundScore = useStore($roundScore);
   const gameRemoteData = useStore($gameRemoteData);
   const gameScore = gameRemoteData?.score || 0;
   const [isCreatingGame, setIsCreatingGame] = useState(false);
 
   return (
-    <Card className="text-center">
-      <CardHeader>
+    <Card
+      className={cn(
+        "text-center w-full",
+        embeddedInDialog ? "border-0 bg-transparent" : "",
+      )}
+    >
+      <CardHeader className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
         <CardTitle>Thanks for playing!</CardTitle>
-        {/* <CardDescription>Final results</CardDescription> */}
+        <CardDescription>Now get back to work.</CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
+        {currentRoundScore > 0 ? (
+          <>
+            <p>Final round score:</p>
+            <p>{makePrettyNumber(currentRoundScore)}</p>
+          </>
+        ) : null}
+
         <p>Final score:</p>
-        <p>{gameScore}</p>
+        <p>{makePrettyNumber(gameScore)}</p>
       </CardContent>
 
-      <CardFooter className="grid gap-2">
+      <CardFooter className={cn("grid gap-2", embeddedInDialog ? "p-0" : "")}>
         <Button type="button" asChild variant={"secondary"}>
-          <a href="/digital/plinko">Your games</a>
+          <a href={getPagePath($router, "games.plinko.home")}>Go home</a>
         </Button>
 
         <Button

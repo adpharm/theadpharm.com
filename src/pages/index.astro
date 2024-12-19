@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Href from "../components/Href";
-import Grid from "../layouts/Grid.astro";
-import Section from "../layouts/Section.astro";
+import Layout from "@/components/layout/Layout.astro";
+import Href from "@/components/Href";
+import Grid from "@/components/layout/Grid.astro";
+import Section from "@/components/layout/Section.astro";
 import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
@@ -16,11 +16,26 @@ const sections = [
 
 const _clients = [
   { id: "jnj", name: "Johnson & Johnson", img: "/j_and_j_dark.webp" },
-  { id: "sun", name: "Sun Pharma", img: "/sun_pharma_white.webp", classOverride: "brightness-50" },
+  {
+    id: "sun",
+    name: "Sun Pharma",
+    img: "/sun_pharma_white.webp",
+    classOverride: "brightness-50",
+  },
   { id: "abbvie", name: "AbbVie", img: "/abbvie_blue.webp" },
   { id: "mirum", name: "Mirum Pharma", img: "/mirum_dark.webp" },
-  { id: "advanz", name: "Advanz Pharma", img: "/advanz_pharma_dark2.webp", classOverride: "brightness-50" },
-  { id: "sobi", name: "Sobi", img: "/sobi_dark.webp", classOverride: "brightness-50" },
+  {
+    id: "advanz",
+    name: "Advanz Pharma",
+    img: "/advanz_pharma_dark2.webp",
+    classOverride: "brightness-50",
+  },
+  {
+    id: "sobi",
+    name: "Sobi",
+    img: "/sobi_dark.webp",
+    classOverride: "brightness-50",
+  },
   { id: "mt", name: "MT Pharma", img: "/mt_pharma_dark.webp" },
 
   // {id: "", name: "Bristol Myers Squibb", href: "https://www.bms.com/ca/en-ca/home.html"},
@@ -51,7 +66,9 @@ const clients = _clients.concat(_clients);
 
       <!-- bg overlays -->
       <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
-      <div class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10">
+      <div
+        class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10"
+      >
       </div>
     </div>
 
@@ -70,7 +87,11 @@ const clients = _clients.concat(_clients);
         {
           sections.map((item) => (
             <li>
-              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`} className="text-sm">
+              <Href
+                href={`#${item.id}`}
+                aria-label={`Skip to ${item.title} section`}
+                className="text-sm"
+              >
                 {item.title}
               </Href>
             </li>
@@ -91,26 +112,35 @@ const clients = _clients.concat(_clients);
       <Grid id="about">
         <div slot="left"></div>
         <div slot="right">
-          <Href href="#about" className="text-orange-600 hover:text-orange-500 text-sm">#about</Href>
+          <Href
+            href="#about"
+            className="text-orange-600 hover:text-orange-500 text-sm"
+            >#about</Href
+          >
 
           <h1 class="pt-4 text-3xl font-light animate-fade-in-up">
-            Fiercely independent, our unique agency model is structured to ensure our most senior people are involved in
-            our clients' business every day.
+            Fiercely independent, our unique agency model is structured to
+            ensure our most senior people are involved in our clients' business
+            every day.
           </h1>
 
-          <div class="pt-12 grid grid-cols-2 gap-8 text-zinc-400 animate-fade-in-2">
+          <div
+            class="pt-12 grid grid-cols-2 gap-8 text-zinc-400 animate-fade-in-2"
+          >
             <div>
               <p>
                 <!-- intro line -->
-                 Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch,
-                nurture and optimize the potential of their brands.
+                Since 2007, our diverse and dedicated team has helped pharmaceutical
+                clients of all sizes to launch, nurture and optimize the potential
+                of their brands.
               </p>
             </div>
 
             <div>
               <p>
-                Continuing our commitment, we strive to deliver innovative solutions and strategic insights that propel
-                healthcare brands to new heights.
+                Continuing our commitment, we strive to deliver innovative
+                solutions and strategic insights that propel healthcare brands
+                to new heights.
               </p>
             </div>
           </div>
@@ -138,7 +168,9 @@ const clients = _clients.concat(_clients);
      -->
 
     <!-- the height here just has to be greater or equal to the squares -->
-    <div class="mx-auto w-full max-w-[150rem] relative overflow-hidden border-t border-b border-zinc-800">
+    <div
+      class="mx-auto w-full max-w-[150rem] relative overflow-hidden border-t border-b border-zinc-800"
+    >
       <div
         class="flex justify-start items-start h-full w-[400%] animate-slide-400 md:w-[300%] md:animate-slide-300 xl:w-[200%] xl:animate-slide-200 hover:pause"
       >
@@ -177,7 +209,11 @@ const clients = _clients.concat(_clients);
     <Section className="pt-24">
       <Grid id="services" className="py-4">
         <div slot="right">
-          <Href href="#services" className="text-orange-600 hover:text-orange-500 text-sm">#services</Href>
+          <Href
+            href="#services"
+            className="text-orange-600 hover:text-orange-500 text-sm"
+            >#services</Href
+          >
         </div>
       </Grid>
     </Section>
@@ -186,7 +222,13 @@ const clients = _clients.concat(_clients);
       [
         {
           id: "fsad",
-          icon: <Icon as="div" name="omnichannel" className="h-8 w-8 text-yellow-600 animate-rev" />,
+          icon: (
+            <Icon
+              as="div"
+              name="omnichannel"
+              className="h-8 w-8 text-yellow-600 animate-rev"
+            />
+          ),
           title: "Omnichannel Marketing",
           description: `
             Seamlessly integrating diverse communication channels, we orchestrate a unified brand experience across digital 
@@ -197,7 +239,13 @@ const clients = _clients.concat(_clients);
         {
           id: "q324",
           title: "Brand Strategy",
-          icon: <Icon as="div" name="pawn" className="h-8 w-8 text-orange-700 animate-pawn" />,
+          icon: (
+            <Icon
+              as="div"
+              name="pawn"
+              className="h-8 w-8 text-orange-700 animate-pawn"
+            />
+          ),
           description: `
             We analyze market dynamics, competition, and audience insights to position your brand uniquely, ensuring 
             lasting connections with healthcare professionals and patients.
@@ -208,7 +256,11 @@ const clients = _clients.concat(_clients);
           title: "Digital-First",
           icon: (
             <div class="flex items-end">
-              <Icon as="div" name="chevronRight" className="h-7 w-7 text-violet-700" />
+              <Icon
+                as="div"
+                name="chevronRight"
+                className="h-7 w-7 text-violet-700"
+              />
               <div class="-ml-2 w-3.5 h-0.5 rounded-full bg-violet-700 animate-pulse" />
             </div>
           ),
@@ -220,7 +272,13 @@ const clients = _clients.concat(_clients);
         {
           id: "q2134f",
           title: "Sustainable Practices",
-          icon: <Icon as="div" name="plant" className="h-8 w-8 text-green-700 animate-wiggle" />,
+          icon: (
+            <Icon
+              as="div"
+              name="plant"
+              className="h-8 w-8 text-green-700 animate-wiggle"
+            />
+          ),
           description: `
             We prioritize sustainability by implementing green practices in every aspect of our campaigns. From eco-conscious design 
             to carbon-neutral events, we're committed to reducing our environmental footprint.
@@ -257,7 +315,11 @@ const clients = _clients.concat(_clients);
     <Section className="pt-12 pb-24" fullTopBorder>
       <Grid id="work">
         <div slot="right">
-          <Href href="#work" className="text-orange-600 hover:text-orange-500 text-sm">#work</Href>
+          <Href
+            href="#work"
+            className="text-orange-600 hover:text-orange-500 text-sm"
+            >#work</Href
+          >
           <h4 class="text-lg text-zinc-400">Coming soon.</h4>
         </div>
       </Grid>
@@ -277,7 +339,11 @@ const clients = _clients.concat(_clients);
     <Section className="pt-32 lg:pt-56 pb-4">
       <Grid id="contact">
         <div slot="right">
-          <Href href="#contact" className="text-orange-600 hover:text-orange-500 text-sm">#contact</Href>
+          <Href
+            href="#contact"
+            className="text-orange-600 hover:text-orange-500 text-sm"
+            >#contact</Href
+          >
         </div>
       </Grid>
     </Section>
@@ -290,14 +356,19 @@ const clients = _clients.concat(_clients);
           <p class="text-zinc-400">Oakville, Ontario</p>
           <p class="text-zinc-400">L6J 3A9</p>
           <p class="pt-0 lg:pt-4">
-            <Href href="https://www.linkedin.com/company/the-adpharm/" className="text-sm">LinkedIn</Href>
+            <Href
+              href="https://www.linkedin.com/company/the-adpharm/"
+              className="text-sm">LinkedIn</Href
+            >
           </p>
         </div>
 
         <div slot="right">
           <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
             <div>
-              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">Contact</p>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Contact
+              </p>
               <p class="text-lg">Amy Moriarty</p>
               <p class="text-zinc-400">SVP, Managing Director</p>
               <div class="flex items-center justify-start">
@@ -314,12 +385,18 @@ const clients = _clients.concat(_clients);
             </div>
 
             <div>
-              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">Teams</p>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Teams
+              </p>
 
               <ul class="space-y-1.5">
                 <li class="flex items-center space-x-2">
                   <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
-                  <Href href="/" className="text-sm text-white hover:text-orange-600">The Adpharm (Agency)</Href>
+                  <Href
+                    href="/"
+                    className="text-sm text-white hover:text-orange-600"
+                    >The Adpharm (Agency)</Href
+                  >
                 </li>
 
                 <li class="flex items-center space-x-2">
@@ -337,7 +414,11 @@ const clients = _clients.concat(_clients);
 
                 <li class="flex items-center space-x-2">
                   <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
-                  <Href href="/digital" className="text-sm text-white hover:text-orange-600">AD (Adpharm Digital)</Href>
+                  <Href
+                    href="/digital"
+                    className="text-sm text-white hover:text-orange-600"
+                    >AD (Adpharm Digital)</Href
+                  >
                 </li>
               </ul>
             </div>
@@ -364,12 +445,16 @@ const clients = _clients.concat(_clients);
 
     <Section topBorder className="py-4">
       <div class="grid grid-cols-1 sm:grid-cols-5">
-        <div class="col-span-2 flex items-center justify-center sm:justify-start">
+        <div
+          class="col-span-2 flex items-center justify-center sm:justify-start"
+        >
           <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
         </div>
         <div class="col-span-3 flex items-center justify-center sm:justify-end">
           <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
-          <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p>
+          <p class="text-xs text-zinc-400">
+            &copy; {new Date().getFullYear()} The Adpharm Inc.
+          </p>
         </div>
       </div>
     </Section>
