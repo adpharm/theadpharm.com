@@ -33,15 +33,18 @@ export function UserPlinkoGamesTable() {
       <div className="flex items-end justify-start">
         <div className="flex-1"></div>
 
-        <Button
-          type="button"
-          onClick={() => {
-            setIsCreatingGame(true);
-            newPlinkoGame();
-          }}
-        >
-          {isCreatingGame ? "Creating game..." : "New game"}
-        </Button>
+        <div className="relative">
+          {/* <img src="/src/images/bow2-gift.png" width={50} className="mx-auto" /> */}
+          <Button
+            type="button"
+            onClick={() => {
+              setIsCreatingGame(true);
+              newPlinkoGame();
+            }}
+          >
+            {isCreatingGame ? "Creating game..." : "New game"}
+          </Button>
+        </div>
       </div>
 
       <Table>

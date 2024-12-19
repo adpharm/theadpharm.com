@@ -16,6 +16,8 @@ export default {
         "snowfall-background": "url('/src/images/Snowfall_Background.png')",
         "BottomGraphics": "url('/src/images/BottomGraphics.png')",
         "goldenBall": "url('/src/images/temp-gold-ornament.png')",
+        "giftBow": "url('/src/images/gift-bow.png')",
+        
       },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
