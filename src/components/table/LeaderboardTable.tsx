@@ -21,8 +21,8 @@ export function LeaderboardTable({
   const leaderboardData = useStore($leaderboard);
 
   return (
-    <Table>
-      <TableCaption>The top scores.</TableCaption>
+    <Table className="group/winter">
+      {/* <TableCaption>The top scores.</TableCaption> */}
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Rank</TableHead>

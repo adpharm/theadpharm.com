@@ -20,7 +20,11 @@ import {
   $gameState,
   $remainingPlinkoBallsThisRound,
 } from "@/lib/stores";
-import { GameOverScoreboard } from "../card/PlinkoScoreboard";
+import {
+  GameOverScoreboard,
+  PlinkoScoreboard,
+  PlinkoScoreboardUi,
+} from "../card/PlinkoScoreboard";
 import { parsePlinkoRoundNum } from "@/lib/parsePlinkoRoundNum";
 import { useForm, type Control } from "react-hook-form";
 import { z } from "astro:schema";
@@ -111,29 +115,49 @@ export function PlinkoRoundWaitingToStartDialog() {
     return null;
   }
 
+  const showUpgradeForm =
+    !currentRoundData.did_select_upgrade &&
+    gameData?.current_round_key !== "rnd1";
+
   return (
     <Dialog open={openDialog}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
-      <DialogContent dismissable={false}>
+      <DialogContent
+        dismissable={false}
+        winter
+        className={cn(showUpgradeForm ? "pb-40" : "")}
+      >
         <DialogHeader>
           <DialogTitle>
             Round {parsePlinkoRoundNum(currentRoundData.key)} is about to start!
           </DialogTitle>
-          {/* <DialogDescription>Get ready to drop your balls</DialogDescription> */}
+          <DialogDescription>
+            {showUpgradeForm ? (
+              <>
+                Below you'll find your upgrade budget, plinko arsenal, and the
+                available upgrades. You are only allowed to upgrade the board
+                once per round. Will you spend your dough now or save for
+                something bigger? When you're ready, click "Start Round".
+              </>
+            ) : null}
+          </DialogDescription>
         </DialogHeader>
 
         {/* upgrade board form */}
-        {!currentRoundData.did_select_upgrade &&
-        gameData?.current_round_key !== "rnd1" ? (
+        {showUpgradeForm ? (
           <>
-            <div>
-              <p className="text-sm text-gray-500">Upgrade budget:</p>
-              <p className="text-2xl">${makePrettyNumber(upgradeBudget)}</p>
-            </div>
+            <div className="grid grid-cols-5 gap-4">
+              <div className="col-span-2">
+                <p className="text-sm text-gray-500">Upgrade budget:</p>
+                <p className="pt-1 text-2xl">
+                  ${makePrettyNumber(upgradeBudget)}
+                </p>
+              </div>
 
-            <div>
-              <p className="text-sm text-gray-500 pb-2">Plinko arsenal:</p>
-              <PlinkoBallArsenal showActive={false} />
+              <div className="col-span-3">
+                <p className="text-sm text-gray-500 pb-2">Plinko arsenal:</p>
+                <PlinkoBallArsenal showActive={false} />
+              </div>
             </div>
 
             <Form {...form}>
@@ -237,7 +261,7 @@ export function PlinkoRoundWaitingToStartDialog() {
                   <TabsContent value="detail">
                     <Button
                       type="button"
-                      variant={"secondary"}
+                      variant={"secondaryWinter"}
                       // className="pl-0"
                       onClick={() => {
                         form.resetField("upgradeKey");
@@ -291,7 +315,7 @@ export function PlinkoRoundWaitingToStartDialog() {
                                       key={`pocket-${pocketKey}`}
                                       className={cn("relative pb-12")}
                                     >
-                                      <FormLabel className="h-full flex flex-col border-2 border-transparent bg-transparent border-gray-700 rounded-lg p-1 pl-1.5 aspect-square has-[:checked]:border-white has-[:checked]:bg-gray-900">
+                                      <FormLabel className="h-full flex flex-col border-2 bg-transparent border-sky-700/50 rounded-lg p-1 pl-1.5 aspect-square has-[:checked]:border-sky-500 has-[:checked]:bg-sky-200">
                                         <div className="flex-1">
                                           <FormControl>
                                             <RadioGroupItem
@@ -326,10 +350,9 @@ export function PlinkoRoundWaitingToStartDialog() {
                 <Button
                   type="submit"
                   disabled={form.formState.isSubmitting || !selectedUpgradeKey}
+                  variant={"primaryWinter"}
                 >
-                  {form.formState.isSubmitting
-                    ? "Submitting..."
-                    : "Start next round"}
+                  {form.formState.isSubmitting ? "Starting..." : "Start round"}
                 </Button>
 
                 {form.formState.errors.root && (
@@ -341,8 +364,12 @@ export function PlinkoRoundWaitingToStartDialog() {
             </Form>
           </>
         ) : (
-          <div className="grid">
-            <Button type="button" onClick={startRound}>
+          <div className="grid pt-6">
+            <Button
+              type="button"
+              onClick={startRound}
+              variant={"primaryWinter"}
+            >
               Start Round
             </Button>
           </div>
@@ -371,34 +398,45 @@ function UpgradeRadioOption({
     <FormItem
       aria-disabled={locked}
       className={cn(
-        "relative h-full",
-        locked || disabled ? "opacity-60 pointer-events-none" : "",
+        "relative h-full bg-[url('/plinko/other/GiftTagGold.webp')] has-[:checked]:bg-[url('/plinko/other/GiftTagGoldFilled.webp')] bg-no-repeat bg-contain",
+        locked || disabled ? "opacity-60 saturate-0 pointer-events-none" : "",
       )}
     >
-      <FormLabel className="h-full block border-2 border-transparent bg-transparent border-gray-700 rounded-lg p-4 has-[:checked]:border-white has-[:checked]:bg-gray-900">
+      {/* this image sets the size */}
+      <img
+        src="/plinko/other/GiftTagGold.webp"
+        className={cn(
+          "w-full opacity-0 pointer-events-none",
+          // locked || disabled ? " filter saturate-0" : "",
+        )}
+      />
+
+      <FormLabel
+        className="absolute z-10 inset-0 block pl-12 pr-6 pt-2"
+        onClick={() => log("clicked")}
+      >
         <FormControl>
           {disabled ? (
-            // <Ban className="absolute right-2 top-2 pointer-events-none size-4 text-gray-500" />
             <Badge
-              className="absolute right-2 top-2 pointer-events-none font-medium text-xs"
+              className="absolute right-6 top-2 pointer-events-none font-medium text-xs"
               variant={"secondary"}
             >
               Maxed out
             </Badge>
           ) : locked ? (
-            <Lock className="absolute right-2 top-2 pointer-events-none size-4 text-gray-500" />
+            <Lock className="absolute right-6 top-2 pointer-events-none size-4 text-gray-500" />
           ) : (
             <RadioGroupItem
               value={value}
-              className="absolute right-2 top-2 pointer-events-none"
+              className="absolute right-6 top-2 pointer-events-none"
             />
           )}
         </FormControl>
 
         <span
           className={cn(
-            "block pb-1.5 font-normal text-sm",
-            locked ? "text-red-500" : "text-green-400",
+            "block pb-1.5 font-semibold text-sm",
+            locked ? "text-red-500" : "text-green-700",
             disabled ? "text-gray-500" : "",
           )}
         >
@@ -407,12 +445,12 @@ function UpgradeRadioOption({
         <span
           className={cn(
             "block pb-1.5",
-            disabled ? "text-gray-500" : "text-white",
+            disabled ? "text-gray-500" : "text-yellow-900",
           )}
         >
           {label}
         </span>
-        <span className="block text-xs text-gray-500">{description}</span>
+        <span className="block text-xs text-yellow-700/80">{description}</span>
       </FormLabel>
     </FormItem>
   );
@@ -424,6 +462,7 @@ function UpgradeRadioOption({
 export function PlinkoRoundEndedDialog() {
   const currentRoundData = useStore($currentRoundRemoteData);
   const nextRoundData = useStore($nextRoundRemoteData);
+  const gameData = useStore($gameRemoteData);
   const gameState = useStore($gameState);
   const openDialog = gameState === "round_ended";
 
@@ -450,21 +489,33 @@ export function PlinkoRoundEndedDialog() {
   return (
     <Dialog open={openDialog}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
-      <DialogContent dismissable={false}>
+      <DialogContent dismissable={false} winter>
         <DialogHeader>
           <DialogTitle>
             Round {parsePlinkoRoundNum(currentRoundData?.key || "rnd1")} has
             ended!
           </DialogTitle>
-          <DialogDescription>
+          {/* <DialogDescription>
             Your score is {makePrettyNumber(currentRoundData?.score || 0)}
-          </DialogDescription>
+          </DialogDescription> */}
         </DialogHeader>
 
-        <DialogFooter>
-          <Button type="button" onClick={nextRound}>
-            Next Round
-          </Button>
+        <PlinkoScoreboardUi
+          title={`Round ${parsePlinkoRoundNum(currentRoundData?.key || "rnd1")} Score`}
+          roundScore={currentRoundData?.score || 0}
+        />
+
+        <PlinkoScoreboardUi
+          title={`Total Game Score`}
+          roundScore={gameData?.score || 0}
+        />
+
+        <DialogFooter className="pt-6">
+          <div className="grid w-full">
+            <Button type="button" onClick={nextRound} variant={"primaryWinter"}>
+              Next: Select upgrades
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -482,7 +533,7 @@ export function PlinkoGameOverDialog() {
 
   return (
     <Dialog open={openDialog}>
-      <DialogContent dismissable={false}>
+      <DialogContent dismissable={false} winter>
         <GameOverScoreboard embeddedInDialog />
       </DialogContent>
     </Dialog>

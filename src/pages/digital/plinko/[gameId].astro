@@ -35,6 +35,8 @@ import BottomGraphics from "@/images/BottomGraphics.png";
 import GamesLayout from "@/components/layout/GamesLayout.astro";
 import { plinkoSettings } from "@/lib/settings.plinko";
 import { PlinkoPocketValueGrid } from "@/components/misc/PlinkoPocketValueGrid";
+import { PlinkoBallArsenal } from "@/components/misc/PlinkoBallArsenal";
+import { PlinkoLoadingScreen } from "@/components/loading/PlinkoLoadingScreen";
 
 const user = getUser(Astro);
 
@@ -90,8 +92,6 @@ $gameRemoteData.set(game);
 <script>
   const collisionSound = new Audio("/plinko/audio/bubblepop-254773.mp3");
   import Matter from "matter-js";
-  import redOrnamentPlinko from "@/images/3d-ornament-red.png";
-  import greenOrnamentPlinko from "@/images/3d-ornament-green.png";
   import { actions } from "astro:actions";
   import { tablePlinkoGameRounds } from "@/db/schema";
   import {
@@ -102,6 +102,7 @@ $gameRemoteData.set(game);
     $gameState,
     $roundScore,
     $remainingPlinkoBallsThisRound,
+    $settingUpGame,
     type PlinkoBallData,
   } from "@/lib/stores";
   import { toast } from "sonner";
@@ -153,23 +154,31 @@ $gameRemoteData.set(game);
     throw new Error("At least one DotLottie canvas was not found");
   }
 
-  const imagesToLoad = [
-    "/plinko/textures/hand.png",
-    "/plinko/textures/icy-mtn-for-left-side.png",
-    "/plinko/textures/icy-mtn-for-right-side.png",
-  ];
+  const textures = {
+    hand: "/plinko/textures/hand.png",
+    icyMtnForLeftSide: "/plinko/textures/icy-mtn-for-left-side.png",
+    icyMtnForRightSide: "/plinko/textures/icy-mtn-for-right-side.png",
+    goldOrnamentPlinko: "/plinko/other/GoldOrnamentPlinko.webp",
+    redOrnamentPlinko: "/plinko/other/RedOrnamentPlinko.webp",
+    pocketRedSac: "/plinko/textures/Red_Giftbag.png",
+    candyCaneDivider: "/plinko/textures/CandyCaneDivider.png",
+  };
 
+  const imagesToLoad = Object.values(textures);
   logDebug("preloading images");
-  await Promise.all(
-    imagesToLoad.map((src) => {
+  await Promise.all([
+    ...imagesToLoad.map((src) => {
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = resolve;
         img.onerror = reject;
         img.src = src;
       });
-    })
-  );
+    }),
+    // wait min 2 seconds
+    new Promise((resolve) => setTimeout(resolve, 2000)),
+  ]);
+  $settingUpGame.set(false);
   logDebug("images preloaded");
 
   const pocketLottieAnimations: Record<
@@ -271,48 +280,30 @@ $gameRemoteData.set(game);
     mouse,
   });
 
-  // Randomizing the color of the plinko balls (ornaments)
-  const randomPlinkoOrnamentColor = () => {
-    const ornamentOptions = ["red", "green"];
-    const selectedColor =
-      ornamentOptions[Math.floor(Math.random() * ornamentOptions.length)];
-    console.log("Random ornament color: ", selectedColor);
-    return selectedColor;
-  };
-
   // function fabricating a plinko, as a circle included atop the canvas
   const makePlinko = ({
     x,
     y,
     size,
-    // customImage,
+    texturePath,
     options = {},
   }: {
     x: number;
     y: number;
     size: number;
-    // customImage: string;
+    texturePath: string;
     options: Matter.IBodyDefinition;
   }) => {
     if (!options.label) {
       throw new Error("You should provide a label for the plinko");
     }
 
-    // utility function returning a random integer between two values for color selection
-    const selectedColor = randomPlinkoOrnamentColor();
-    const ballTexture =
-      selectedColor === "red"
-        ? "../../src/images/3d-ornament-red.png"
-        : greenOrnamentPlinko.src;
-
-    const r = size; //ball size
-
-    return Matter.Bodies.circle(x, y, r, {
+    return Matter.Bodies.circle(x, y, size, {
       ...options,
       restitution: options.restitution || 0.8,
       render: options.render || {
         sprite: {
-          texture: ballTexture,
+          texture: texturePath,
           xScale: 1,
           yScale: 1,
         },
@@ -332,7 +323,7 @@ $gameRemoteData.set(game);
       },
       render: {
         sprite: {
-          texture: "/plinko/textures/hand.png",
+          texture: textures.hand,
           xScale: 1.0,
           yScale: 1.0,
         },
@@ -439,7 +430,7 @@ $gameRemoteData.set(game);
           isStatic: true,
           render: {
             sprite: {
-              texture: "/plinko/textures/icy-mtn-for-left-side.png",
+              texture: textures.icyMtnForLeftSide,
               xScale: 0.15, //This is changing the pyramid's altitude (tip tip to floor)
               yScale: 0.3, //This is making the base wider (so they can touch)
             },
@@ -462,7 +453,7 @@ $gameRemoteData.set(game);
           isStatic: true,
           render: {
             sprite: {
-              texture: "/plinko/textures/icy-mtn-for-right-side.png",
+              texture: textures.icyMtnForRightSide,
               xScale: 0.15,
               yScale: 0.3,
             },
@@ -620,9 +611,9 @@ $gameRemoteData.set(game);
           render: {
             fillStyle: "white",
             sprite: {
-              texture: "../../src/images/Red_Giftbag.png",
-              xScale: 1,
-              yScale: 1,
+              texture: textures.pocketRedSac,
+              xScale: 0.8,
+              yScale: 0.8,
             },
           },
         }
@@ -647,9 +638,9 @@ $gameRemoteData.set(game);
             isStatic: true,
             render: {
               sprite: {
-                texture: "../../src/images/CandyCaneDivider.png",
+                texture: textures.candyCaneDivider,
                 xScale: 0.2,
-                yScale: 0.2,
+                yScale: 0.24,
               },
               // fillStyle: "white",
             },
@@ -725,11 +716,16 @@ $gameRemoteData.set(game);
           return;
         }
 
+        const isGolden = plinkoBallData.powerUps.includes("golden");
+
         // otherwise, create the plinko ball and add it to the plinko balls for the round
         const plinkoBall = makePlinko({
           x: -20,
           y: 20,
           size: settings.ballSize,
+          texturePath: isGolden
+            ? textures.goldOrnamentPlinko
+            : textures.redOrnamentPlinko,
           options: {
             restitution: 1,
             // balls should not collide with each other
@@ -1064,7 +1060,8 @@ $gameRemoteData.set(game);
       // add the next ball to the world
       if (activePlinkoBall) {
         Matter.Body.setPosition(activePlinkoBall, {
-          x: activePlinkoBall.position.x,
+          // x: activePlinkoBall.position.x,
+          x: hand.position.x,
           y: 20,
         });
         Matter.Composite.add(roundComposite, activePlinkoBall);
@@ -1176,7 +1173,8 @@ $gameRemoteData.set(game);
             class="mx-auto w-full pointer-events-none"
             style={`max-width: ${plinkoSettings.canvasWidth + 30}px;`}
           >
-            <PlinkoScoreboard client:load className="-mb-8 relative z-20" />
+            <PlinkoScoreboard client:load className="relative z-20" />
+            <PlinkoBallArsenal client:load className="-mb-4 relative z-0" />
 
             <img
               src="/plinko/other/PlinkoTopSnowOnly.webp"
@@ -1188,8 +1186,8 @@ $gameRemoteData.set(game);
             class="w-full mx-auto"
             style={`max-width: ${plinkoSettings.canvasWidth}px;`}
           >
-            <div class="bg-blue-900 h-8" />
-            <div class="relative bg-blue-900">
+            <div class="h-8 bg-sky-900" />
+            <div class="relative bg-sky-900">
               <canvas
                 class="matterCanvas relative"
                 width={plinkoSettings.canvasWidth}
@@ -1203,6 +1201,11 @@ $gameRemoteData.set(game);
             </div>
 
             <PlinkoPocketValueGrid client:load />
+
+            <img
+              src="/plinko/other/SnowLong.webp"
+              class="w-full -mt-2 relative z-10 object-contain"
+            />
           </div>
 
           <div class="-mt-12 relative flex">
@@ -1235,3 +1238,4 @@ $gameRemoteData.set(game);
 <PlinkoRoundEndedDialog client:load />
 <PlinkoRoundWaitingToStartDialog client:load />
 <PlinkoGameOverDialog client:load />
+<PlinkoLoadingScreen client:load />

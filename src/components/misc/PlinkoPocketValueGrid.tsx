@@ -7,7 +7,7 @@ export function PlinkoPocketValueGrid() {
   const currentRound = useStore($currentRoundRemoteData);
 
   return (
-    <div className="grid grid-cols-7 text-center font-bold text-2xl bg-blue-900 pb-3 text-white">
+    <div className="grid grid-cols-7 text-center font-bold text-xl bg-sky-950 pt-2 pb-4 text-white">
       {[
         currentRound?.pocket_middle_left_3_value,
         currentRound?.pocket_middle_left_2_value,

@@ -11,6 +11,9 @@ export default {
       mono: ["DSEG14 Modern", "monospace"],
     },
     extend: {
+      zIndex: {
+        60: "60",
+      },
       colors: {
         gray: zinc,
       },

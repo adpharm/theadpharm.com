@@ -74,3 +74,5 @@ export const $nextRoundRemoteData = atom<
 >(null);
 
 export const $guestCode = atom("guest");
+
+export const $settingUpGame = atom(true);

@@ -24,14 +24,14 @@
   font-style: italic;
 }
 
-/* @layer base {
-  html {
+@layer base {
+  /* html {
     font-family: "Switzer-Variable", "ui-sans-serif", system-ui, sans-serif;
     font-weight: 300;
     background: #000;
     color: #fafafa;
-  }
-} */
+  } */
+}
 
 @layer utilities {
   .pause {

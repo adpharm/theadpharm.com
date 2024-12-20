@@ -19,6 +19,7 @@
     "@fontsource/dseg14-modern": "^5.1.0",
     "@hookform/resolvers": "^3.9.1",
     "@inox-tools/request-nanostores": "^0.2.1",
+    "@lottiefiles/dotlottie-react": "^0.12.0",
     "@lottiefiles/dotlottie-web": "^0.38.2",
     "@nanostores/react": "^0.8.2",
     "@nanostores/router": "^0.16.1",

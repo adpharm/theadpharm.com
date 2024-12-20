@@ -45,11 +45,11 @@ export function UserPlinkoGamesTable() {
       </div>
 
       <Table>
-        <TableCaption>Your games.</TableCaption>
+        {/* <TableCaption>Your games.</TableCaption> */}
         <TableHeader>
           <TableRow>
             {/* <TableHead className="w-[100px]">Rank</TableHead> */}
-            <TableHead>Game</TableHead>
+            <TableHead>Last played</TableHead>
             <TableHead className="">Progress</TableHead>
             <TableHead className="text-right">Score</TableHead>
             <TableHead className="text-right w-[200px]"></TableHead>
@@ -67,7 +67,7 @@ export function UserPlinkoGamesTable() {
                   >
                     {() => (
                       <span className="capitalize">
-                        {convertUTCToDistanceToNow(game.created_at)}
+                        {convertUTCToDistanceToNow(game.updated_at)}
                       </span>
                     )}
                   </ClientOnly>
@@ -86,6 +86,7 @@ export function UserPlinkoGamesTable() {
                   <Button
                     type="button"
                     asChild
+                    variant={"primaryWinter"}
                     onClick={() => setIsContinuingToGameId(game.id)}
                   >
                     <a

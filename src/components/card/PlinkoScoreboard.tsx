@@ -17,7 +17,7 @@ import {
 import { Button } from "../ui/button";
 import { actions } from "astro:actions";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ClientOnly } from "@/lib/utils.react-hydration";
 import { logDebug } from "@/lib/utils.logger";
 import { cn } from "@/lib/utils";
@@ -26,20 +26,18 @@ import { $router } from "@/lib/stores/router";
 import { makePrettyNumber } from "@/lib/utils.numbers";
 import { PlinkoBallArsenal } from "../misc/PlinkoBallArsenal";
 
-export function PlinkoScoreboard({ className }: { className?: string }) {
-  const currentRoundScore = useStore($roundScore);
-  const currentRoundData = useStore($currentRoundRemoteData);
-  const gameRemoteData = useStore($gameRemoteData);
-
-  const roundScore = currentRoundScore;
-  const gameScore = gameRemoteData?.score || 0;
-  const roundNum = currentRoundData?.key.split("rnd")[1] || "-";
-
+export function PlinkoScoreboardUi({
+  className,
+  title,
+  roundScore,
+}: {
+  className?: string;
+  title: ReactNode;
+  roundScore: number;
+}) {
   return (
     <div className={cn(className)}>
-      <h1 className="text-center text-red-500 text-2xl">
-        Round {roundNum} / 10
-      </h1>
+      <h1 className="text-center text-red-500 text-2xl">{title}</h1>
 
       <div className={"relative"}>
         <img
@@ -53,23 +51,23 @@ export function PlinkoScoreboard({ className }: { className?: string }) {
       </div>
     </div>
   );
+}
+
+export function PlinkoScoreboard({ className }: { className?: string }) {
+  const currentRoundScore = useStore($roundScore);
+  const currentRoundData = useStore($currentRoundRemoteData);
+  const gameRemoteData = useStore($gameRemoteData);
+
+  const roundScore = currentRoundScore;
+  const gameScore = gameRemoteData?.score || 0;
+  const roundNum = currentRoundData?.key.split("rnd")[1] || "-";
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Round {roundNum}/10</CardTitle>
-        {/* <CardDescription></CardDescription> */}
-      </CardHeader>
-
-      <CardContent>
-        <p>Round score: {roundScore}</p>
-        <p>Game score: {gameScore}</p>
-      </CardContent>
-
-      <CardFooter className="block">
-        <PlinkoBallArsenal />
-      </CardFooter>
-    </Card>
+    <PlinkoScoreboardUi
+      className={className}
+      title={`Round ${roundNum} / 10`}
+      roundScore={roundScore}
+    />
   );
 }
 

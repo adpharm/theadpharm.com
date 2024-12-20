@@ -8,8 +8,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import "@fontsource/dseg14-modern";
-import "@fontsource-variable/playpen-sans";
 import Layout from "./Layout.astro";
 import snowyBackground from "@/assets/images/Snowfall_Background.png";
 import BottomGraphics from "@/images/BottomGraphics.png";
@@ -21,26 +19,35 @@ interface Props {
 const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
 ---
 
+<Fragment slot="meta">
+  <link
+    rel="preload"
+    href="/plinko/lottie/SantaLoading.lottie"
+    as="fetch"
+    crossorigin="anonymous"
+  />
+</Fragment>
+
 <Layout title={title}>
   <main
-    class="flex flex-col min-h-screen bg-snowfall-background bg-cover bg-center font-xmas"
+    class="flex flex-col min-h-screen bg-snowfall-background bg-cover bg-center font-xmas group winter"
   >
     <!-- main content -->
-    <div class="relative flex-1 w-full max-w-4xl mx-auto pt-28 z-20">
-      <div class="shrink-0">
+    <div class="relative flex-1 w-full max-w-4xl mx-auto pt-20 z-20">
+      <!-- <div class="shrink-0">
         <img
           src="/plinko/other/PlinkoHeader_Alone.webp"
           class="object-contain h-14"
         />
-      </div>
+      </div> -->
 
       <div
-        class="flex items-end justify-between py-2.5 border-b border-gray-700"
+        class="flex items-end justify-between py-2.5 "
       >
         <div>
           {
             breadcrumbs && (
-              <Breadcrumb>
+              <Breadcrumb className="group/winter">
                 <BreadcrumbList>
                   {breadcrumbs.map((breadcrumb, idx) => (
                     <>

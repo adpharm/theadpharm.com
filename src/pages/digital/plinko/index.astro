@@ -27,7 +27,7 @@ $userGamesTable.set(plinkoGameWithRounds);
 ---
 
 <GamesLayout title="Let's play Christmas Plinko!">
-  <div class="mt-6">
+  <div class="mt-6 grid gap-12">
     {user && <UserPlinkoGamesTable client:load />}
 
     <LeaderboardTable client:load user={user} />
