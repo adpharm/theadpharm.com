@@ -10,6 +10,7 @@ import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
 import GamesLayout from "@/components/layout/GamesLayout.astro";
 import { getUser } from "@/lib/server/auth.utils";
 import { PlinkoNewGameButton } from "@/components/button/PlinkoNewGameButton";
+import { plinkoSettings } from "@/lib/settings.plinko";
 
 const user = getUser(Astro);
 
@@ -31,7 +32,7 @@ $userGamesTable.set(plinkoGameWithRounds);
   <div class="mt-6 grid gap-12">
     <div class="text-center">
       <img
-        src="/plinko/other/PlinkoHeader_Alone.webp"
+        src={plinkoSettings.preloadImagesNonBlocking.plinkoTitleImage}
         class="object-contain w-full max-w-sm mx-auto"
       />
 
