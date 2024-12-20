@@ -1,0 +1,83 @@
+---
+import { UserDropdownMenu } from "../dropdown/UserDropdownMenu";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Layout from "./Layout.astro";
+import snowyBackground from "@/assets/images/Snowfall_Background.png";
+import { plinkoSettings } from "@/lib/settings.plinko";
+import GtmSendUser from "../tagging/gtmSendUser.astro";
+
+const isProd = import.meta.env.PROD;
+
+interface Props {
+  title: string;
+  breadcrumbs?: { name: string; href?: string }[];
+}
+const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
+---
+
+<Fragment slot="meta">
+  {
+    Object.values(plinkoSettings.preloadImagesNonBlocking).map((src) => (
+      <link rel="preload" href={src} as="fetch" crossorigin="anonymous" />
+    ))
+  }
+</Fragment>
+
+<Layout title={title}>
+  <main
+    class="flex flex-col min-h-screen bg-snowfall-background bg-cover bg-center font-xmas group winter"
+  >
+    <!-- main content -->
+    <div class="relative flex-1 w-full max-w-4xl mx-auto pt-20 z-20 px-4">
+      <!-- <div class="shrink-0">
+        <img
+          src="/plinko/other/PlinkoHeader_Alone.webp"
+          class="object-contain h-14"
+        />
+      </div> -->
+
+      <div class="flex items-end justify-between py-2.5">
+        <div>
+          {
+            breadcrumbs && (
+              <Breadcrumb className="group/winter">
+                <BreadcrumbList>
+                  {breadcrumbs.map((breadcrumb, idx) => (
+                    <>
+                      <BreadcrumbItem>
+                        <BreadcrumbLink href={breadcrumb.href}>
+                          {breadcrumb.name}
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+
+                      {idx < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+                    </>
+                  ))}
+                </BreadcrumbList>
+              </Breadcrumb>
+            )
+          }
+        </div>
+
+        <UserDropdownMenu client:load user={Astro.locals.user} />
+      </div>
+
+      <slot />
+    </div>
+    <div class="relative -mt-0 sm:-mt-48 xl:-mt-72 w-full z-0">
+      <img
+        src={plinkoSettings.preloadImagesNonBlocking.bottomScene}
+        class="w-full"
+      />
+    </div>
+  </main>
+</Layout>
+
+{isProd && <GtmSendUser />}

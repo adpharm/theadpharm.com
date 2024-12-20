@@ -1,0 +1,502 @@
+---
+import Layout from "@/components/layout/Layout.astro";
+import Href from "@/components/Href";
+import Grid from "@/components/layout/Grid.astro";
+import Section from "@/components/layout/Section.astro";
+import Icon from "../components/Icon";
+import TextSwitcher from "../components/TextSwitcher";
+import { LeadershipCard } from "../components/LeadershipCard";
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
+---
+
+<DefaultSiteLayout title="Our Services">
+  <main class="relative">
+    <div class="absolute h-screen w-full top-0 left-0 z-0">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute top-0 left-0 w-full h-full object-cover object-left-top"
+        poster="/adpharm-bg.webp"
+      >
+        <!-- <source src="/adpharm-bg-bright.mp4" type="video/mp4" /> -->
+        <source src="/adpharm-bg.mp4" type="video/mp4" />
+        <!-- <source src="/video.webm" type="video/webm" /> -->
+      </video>
+
+      <!-- bg overlays -->
+      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
+      <div
+        class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10"
+      >
+      </div>
+    </div>
+
+    <!-- 
+
+
+
+
+
+
+
+      Hashes
+     -->
+    <!-- <Section>
+      <ul class="pt-20 sm:pt-32 space-y-2 text-right lg:text-left">
+        {
+          sections.map((item) => (
+            <li>
+              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`} className="text-sm">
+                {item.title}
+              </Href>
+            </li>
+          ))
+        }
+      </ul>
+    </Section> -->
+    <!-- 
+
+
+
+
+
+
+      About
+      -->
+    <Section className=" pt-20 pb-48 animate-fade-in-up">
+      <Grid id="about">
+        <div
+          slot="left"
+          class="flex justify-center items-center w-full sticky top-20"
+        >
+          <h1
+            class="2xl:text-5xl text-4xl w-full mb-10 text-center font-light pt-36"
+          >
+            Services
+          </h1>
+        </div>
+        <div
+          slot="right"
+          class="sm:px-2 md:px-6 lg:px-10 xl:px-24 2xl:px-32 pt-20"
+        >
+          <div
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+          >
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
+            >
+              <Icon
+                as="div"
+                name="pawn"
+                className="h-10 w-10 xl:h-12 xl:w-12 text-orange-700 animate-pawn mr-8"
+              />
+              <h2 class="2xl:text-4xl xl:text-3xl text-2xl">Strategy</h2>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
+              >
+                <li>Brand Strategy</li>
+                <li>New Product and Indication Launch Strategy</li>
+                <li>Content and Channel Strategy</li>
+                <li>Competitive Intelligence</li>
+                <li>Integrated Omnichannel Planning and Design</li>
+                <li>Conference Planning</li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+          >
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
+            >
+              <Icon
+                as="div"
+                name="paint"
+                className="h-10 w-10 xl:h-12 xl:w-12 text-blue-600 animate-wiggle mr-8"
+              />
+              <h2 class="2xl:text-4xl xl:text-3xl text-2xl">Creative</h2>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
+              >
+                <li>HCP, Patient, and Consumer Content Development</li>
+                <li>Regulatory-Compliant Creative (PAAB & ASC Expertise)</li>
+                <li>Sales Enablement Tools and Marketing Collateral</li>
+                <li>Booth and Exhibit Design</li>
+                <li>Corporate Communications and Messaging</li>
+                <li>Logo and Visual Identity Development</li>
+                <li>Brand Guidelines and Style Guide Creation</li>
+                <li>
+                  Commercial Print Services (Conference, Sales and Marketing
+                  Materials)
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+          >
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
+            >
+              <div>
+                <Icon
+                  as="div"
+                  name="chevronRight"
+                  className="h-10 w-10 xl:h-12 xl:w-12 text-violet-700 animate-wiggle"
+                />
+                <div
+                  class="w-5 h-1 translate-x-4 rounded-full bg-violet-700 animate-pulse"
+                >
+                </div>
+              </div>
+
+              <h2 class="2xl:text-4xl xl:text-3xl text-2xl">
+                Design & Development
+              </h2>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
+              >
+                <li>Website and App Design and Development (Full Stack)</li>
+                <li>
+                  Customer Experience (CX), UX, and UI Design and Optimization
+                </li>
+                <li>CRM Journey Mapping and Development</li>
+                <li>Email Campaign Design and Deployment</li>
+                <li>Advanced Analytics and Performance Reporting</li>
+                <li>AI Tool Design and Development</li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+          >
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
+            >
+              <Icon
+                as="div"
+                name="heart"
+                className="h-10 w-10 xl:h-12 xl:w-12 text-red-600 animate-pulse mr-8"
+              />
+              <div class="flex flex-col justify-center items-start">
+                <h2 class="2xl:text-4xl xl:text-3xl text-2xl">
+                  Medical Communications
+                </h2>
+                <a
+                  href="https://www.synapsemedcom.ca"
+                  class="text-xs text-orange-500 hover:underline decoration-orange-500"
+                  >visit SynapseMedcom</a
+                >
+              </div>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
+              >
+                <li>Advisory Boards and Consultancy Meetings</li>
+                <li>Speaker Training and Development Programs</li>
+                <li>
+                  Online Learning Activities (OLAs) and Accredited Continuing
+                  Medical Education (CME)
+                </li>
+                <li>
+                  Symposia, Manuscripts, and Medical Slide Deck Development
+                </li>
+                <li>
+                  Ambassador Programs, Stakeholder Mapping, and Asynchronous
+                  Engagements
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Grid>
+    </Section>
+  </main>
+
+  <!-- 
+
+
+
+
+
+
+
+      Clients
+     -->
+
+  <!-- the height here just has to be greater or equal to the squares -->
+
+  <!-- 
+
+
+
+
+
+
+
+
+      Services
+     -->
+
+  <!-- {
+      [
+        {
+          id: "fsad",
+          icon: (
+            <Icon
+              as="div"
+              name="omnichannel"
+              className="h-8 w-8 text-yellow-600 animate-rev"
+            />
+          ),
+          title: "Omnichannel Marketing",
+          description: `
+            Seamlessly integrating diverse communication channels, we orchestrate a unified brand experience across digital 
+            and traditional platforms. From digital campaigns to events and print materials, our approach ensures 
+            consistent messaging and brand cohesion.
+          `,
+        },
+        {
+          id: "q324",
+          title: "Brand Strategy",
+          icon: (
+            <Icon
+              as="div"
+              name="pawn"
+              className="h-8 w-8 text-orange-700 animate-pawn"
+            />
+          ),
+          description: `
+            We analyze market dynamics, competition, and audience insights to position your brand uniquely, ensuring 
+            lasting connections with healthcare professionals and patients.
+          `,
+        },
+        {
+          id: "asdf34q",
+          title: "Digital-First",
+          icon: (
+            <div class="flex items-end">
+              <Icon
+                as="div"
+                name="chevronRight"
+                className="h-7 w-7 text-violet-700"
+              />
+              <div class="-ml-2 w-3.5 h-0.5 rounded-full bg-violet-700 animate-pulse" />
+            </div>
+          ),
+          description: `
+            From sleek user interfaces to robust backend systems, we're committed to crafting digital solutions that redefine industry standards.
+            Tried & true processeses help us deliver websites, apps, and digital campaigns that are accessible, highly available, and secure.
+          `,
+        },
+        {
+          id: "q2134f",
+          title: "Sustainable Practices",
+          icon: (
+            <Icon
+              as="div"
+              name="plant"
+              className="h-8 w-8 text-green-700 animate-wiggle"
+            />
+          ),
+          description: `
+            We prioritize sustainability by implementing green practices in every aspect of our campaigns. From eco-conscious design 
+            to carbon-neutral events, we're committed to reducing our environmental footprint.
+          `,
+        },
+      ].map((s, i) => (
+        <Section fullTopBorder={i === 0} topBorder={i !== 0}>
+          <Grid id={s.id} className="pt-12 pb-20 space-y-6 lg:space-y-0">
+            <div slot="left" class="flex items-start justify-start lg:pl-8">
+              <div class="w-12 sm:w-16">{s.icon}</div>
+              <h2 class="text-xl">{s.title}</h2>
+            </div>
+            <div slot="right">
+              <div class="max-w-xl text-lg text-zinc-400">
+                <p>{s.description}</p>
+              </div>
+            </div>
+          </Grid>
+        </Section>
+      ))
+    } -->
+
+  <!-- 
+
+
+
+
+
+
+
+
+      Work
+     -->
+
+  <!-- 
+
+
+
+
+
+
+
+
+      Contact
+     -->
+  <Section className="pt-12 pb-24" fullTopBorder>
+    <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+      <div slot="left" class="pl-0 lg:pl-10">
+        <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+        <p class="text-lg">133 Thomas Street</p>
+        <p class="text-zinc-400">Oakville, Ontario</p>
+        <p class="text-zinc-400">L6J 3A9</p>
+        <p class="pt-0 lg:pt-4">
+          <Href
+            href="https://www.linkedin.com/company/the-adpharm/"
+            className="text-sm">LinkedIn</Href
+          >
+        </p>
+      </div>
+
+      <div slot="right">
+        <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+          <div>
+            <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+              Contact
+            </p>
+            <p class="text-lg">Amy Moriarty</p>
+            <p class="text-zinc-400">SVP, Managing Director</p>
+            <div class="flex items-center justify-start">
+              <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+              <TextSwitcher
+                client:load
+                textToCopy="amy@theadpharm.com"
+                beforeText="(copy)"
+                beforeClassName="hover:underline cursor-pointer"
+                afterText="(copied ✔)"
+                afterClassName="text-green-600"
+              />
+            </div>
+          </div>
+
+          <div>
+            <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+              Teams
+            </p>
+
+            <ul class="space-y-1.5">
+              <li class="flex items-center space-x-2">
+                <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
+                <Href
+                  href="/"
+                  className="text-sm text-white hover:text-orange-600"
+                  >The Adpharm (Agency)</Href
+                >
+              </li>
+
+              <li class="flex items-center space-x-2">
+                <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
+                <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
+                <Href
+                  href="https://www.synapsemedcom.ca/"
+                  className="text-sm text-white hover:text-[#1292a9]"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Synapse Medcom
+                </Href>
+              </li>
+
+              <li class="flex items-center space-x-2">
+                <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
+                <Href
+                  href="/digital"
+                  className="text-sm text-white hover:text-orange-600"
+                  >AD (Adpharm Digital)</Href
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Grid>
+  </Section>
+
+  <!-- <Section className="py-12">
+      <Grid id="2334tsd">
+        
+      </Grid>
+    </Section> -->
+
+  <!-- 
+
+
+
+
+
+
+      Blocks
+     -->
+
+  <Section topBorder className="py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-5">
+      <div class="col-span-2 flex items-center justify-center sm:justify-start">
+        <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
+      </div>
+      <div class="col-span-3 flex items-center justify-center sm:justify-end">
+        <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+        <p class="text-xs text-zinc-400">
+          &copy; {new Date().getFullYear()} The Adpharm Inc.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- <Section topBorder bottomBorder hideRight className="border-r border-zinc-800">
+      <div class="grid grid-cols-2 lg:grid-cols-3 lg:divide-x divide-zinc-800">
+        {
+          [
+            {
+              id: "fsda34",
+              title: "The Adpharm",
+              desc: "Full service, at your service.",
+              href: "/",
+            },
+            {
+              id: "fsda34",
+              title: "Synapse Medcom",
+              desc: "Medical communications",
+              href: "https://www.synapsemedcom.ca/",
+            },
+            { id: "fsda34", title: "Adpharm Digital", desc: "Digital capabilities", href: "/ad" },
+          ].map((item) => (
+            <a href={item.href} class="transition-colors bg-black hover:bg-zinc-900 text-center py-6">
+              <span class="">{item.title}</span>
+            </a>
+          ))
+        }
+      </div>
+    </Section> -->
+
+  <!-- 
+
+<div class="aspect-square">
+                <div class="h-full w-full flex flex-col">
+                  <div class="flex-1 flex items-center justify-center">
+                    <h4 class="text-center text-2xl">{item.title}</h4>
+                  </div>
+                  <div class="flex-shrink-0 text-center pb-4">
+                    <p class="text-zinc-400">{item.desc}</p>
+                  </div>
+                </div>
+              </div>
+
+
+     -->
+</DefaultSiteLayout>

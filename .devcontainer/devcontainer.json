@@ -24,6 +24,10 @@
       "version": "latest",
       "dockerDashComposeVersion": "latest"
     },
+    "ghcr.io/devcontainers/features/python:1": {
+      "installTools": true,
+      "version": "3.12"
+    },
     // "ghcr.io/devcontainers-extra/features/age:1": {
     //   "version": "v1.2.0"
     // },
@@ -54,7 +58,9 @@
         // "foxundermoon.shell-format",
         "ms-azuretools.vscode-docker",
         "astro-build.astro-vscode",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "oven.bun-vscode",
+        "HashiCorp.HCL"
       ]
     }
   },

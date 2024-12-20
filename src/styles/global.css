@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Switzer-Variable";
+  src:
+    url("/fonts/Switzer-Variable.woff2") format("woff2"),
+    url("/fonts/Switzer-Variable.woff") format("woff"),
+    url("/fonts/Switzer-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Switzer-VariableItalic";
+  src:
+    url("/fonts/Switzer-VariableItalic.woff2") format("woff2"),
+    url("/fonts/Switzer-VariableItalic.woff") format("woff"),
+    url("/fonts/Switzer-VariableItalic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+}
+
+@layer base {
+  /* html {
+    font-family: "Switzer-Variable", "ui-sans-serif", system-ui, sans-serif;
+    font-weight: 300;
+    background: #000;
+    color: #fafafa;
+  } */
+}
+
+@layer utilities {
+  .pause {
+    animation-play-state: paused !important;
+  }
+
+  .animation-delay-50 {
+    animation-delay: 50ms;
+  }
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  .animation-delay-1000 {
+    animation-delay: 1s;
+  }
+}

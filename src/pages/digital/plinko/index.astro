@@ -1,0 +1,53 @@
+---
+import { UserPlinkoGamesTable } from "@/components/table/UserPlinkoGamesTable";
+import { db } from "@/db";
+import { tablePlinkoGames } from "@/db/schema";
+import { desc, eq } from "drizzle-orm";
+import { $userGamesTable } from "@/lib/stores";
+import { LeaderboardTable } from "@/components/table/LeaderboardTable";
+import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
+import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
+import GamesLayout from "@/components/layout/GamesLayout.astro";
+import { getUser } from "@/lib/server/auth.utils";
+import { PlinkoNewGameButton } from "@/components/button/PlinkoNewGameButton";
+import { plinkoSettings } from "@/lib/settings.plinko";
+
+const user = getUser(Astro);
+
+await listTopGamesWithUsers();
+
+// Get the games for this user from the database
+const plinkoGameWithRounds = user
+  ? await db
+      .select()
+      .from(tablePlinkoGames)
+      .where(eq(tablePlinkoGames.user_id, user.id))
+      .orderBy(desc(tablePlinkoGames.created_at))
+  : [];
+
+$userGamesTable.set(plinkoGameWithRounds);
+---
+
+<GamesLayout title="Let's play Christmas Plinko!">
+  <div class="mt-6 grid gap-12">
+    <div class="text-center">
+      <img
+        src={plinkoSettings.preloadImagesNonBlocking.plinkoTitleImage}
+        class="object-contain w-full max-w-sm mx-auto"
+      />
+
+      <div class="pt-10">
+        <PlinkoNewGameButton client:load />
+      </div>
+    </div>
+
+    {user && <UserPlinkoGamesTable client:load />}
+
+    <LeaderboardTable client:load user={user} />
+  </div>
+</GamesLayout>
+
+<RegisterGuestUserDialog
+  client:load
+  open={user === null || Astro.locals.session === null}
+/>

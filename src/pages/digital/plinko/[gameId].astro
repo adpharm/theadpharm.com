@@ -1,0 +1,1271 @@
+---
+import { db } from "@/db";
+import {
+  tablePlinkoGameRounds,
+  tablePlinkoGames,
+  tableUsers,
+} from "@/db/schema";
+import { requireNum } from "@/lib/server/parse_int";
+import { desc, eq, gt, inArray } from "drizzle-orm";
+import {
+  mobileCanvasSettings,
+  $currentRoundRemoteData,
+  $gameRemoteData,
+  $leaderboard,
+} from "@/lib/stores";
+import {
+  GameOverScoreboard,
+  PlinkoScoreboard,
+} from "@/components/card/PlinkoScoreboard";
+import { LeaderboardTable } from "@/components/table/LeaderboardTable";
+import {
+  PlinkoGameOverDialog,
+  PlinkoRoundEndedDialog,
+  PlinkoRoundWaitingToStartDialog,
+} from "@/components/dialog/PlinkoRoundDialog";
+import { PlinkoRoundProgressBar } from "@/components/progress/PlinkoRoundProgressBar";
+import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
+import { getUser } from "@/lib/server/auth.utils";
+import { getPagePath } from "@nanostores/router";
+import { $router } from "@/lib/stores/router";
+import GamesLayout from "@/components/layout/GamesLayout.astro";
+import { PlinkoPocketValueGrid } from "@/components/misc/PlinkoPocketValueGrid";
+import { PlinkoBallArsenal } from "@/components/misc/PlinkoBallArsenal";
+import { PlinkoLoadingScreen } from "@/components/loading/PlinkoLoadingScreen";
+import { isProbablyMobileBrowser } from "@/lib/server/isMobile";
+import { $canvasSettings } from "@/lib/stores";
+import { logDebug } from "@/lib/utils.logger";
+
+const user = getUser(Astro);
+
+if (!user) {
+  return Astro.redirect(getPagePath($router, "login"));
+}
+
+const { gameId: gameId_ } = Astro.params;
+
+if (!gameId_) throw new Error("No game ID provided");
+
+const gameId = requireNum(gameId_);
+
+await listTopGamesWithUsers();
+
+// TODO: consider batching https://orm.drizzle.team/docs/batch-api
+
+//
+
+// Get the game from the database
+const plinkoGameWithRounds = await db
+  .select({
+    game: tablePlinkoGames, // This will include all columns from the plinkoGames table
+    round: tablePlinkoGameRounds, // This includes all columns from the plinkoGameRounds table
+  })
+  .from(tablePlinkoGames)
+  .leftJoin(
+    tablePlinkoGameRounds,
+    eq(tablePlinkoGames.id, tablePlinkoGameRounds.game_id)
+  )
+  .where(eq(tablePlinkoGames.id, gameId));
+
+if (plinkoGameWithRounds.length === 0) {
+  throw new Error("Game not found");
+}
+
+const game = plinkoGameWithRounds[0].game;
+
+const gameRounds = plinkoGameWithRounds.map((row) => row.round).filter(Boolean);
+
+const currentRoundKey = game.current_round_key;
+const currentRound = gameRounds.find((round) => round?.key === currentRoundKey);
+
+if (!currentRound) {
+  throw new Error("No current round found");
+}
+
+// get user agent
+// check if this is a mobile device
+const isProbablyMobile = isProbablyMobileBrowser(Astro);
+
+if (isProbablyMobile) {
+  $canvasSettings.set(mobileCanvasSettings);
+}
+
+const canvasSettings = $canvasSettings.get();
+
+// set stores
+$currentRoundRemoteData.set(currentRound);
+$gameRemoteData.set(game);
+---
+
+<script>
+  const collisionSound = new Audio("/plinko/audio/bubblepop-254773.mp3");
+  import Matter from "matter-js";
+  import { actions } from "astro:actions";
+  import { tablePlinkoGameRounds } from "@/db/schema";
+  import {
+    $currentRoundRemoteData,
+    $gameRemoteData,
+    $nextRoundRemoteData,
+    $roundResult,
+    $gameState,
+    $roundScore,
+    $remainingPlinkoBallsThisRound,
+    $settingUpGame,
+    $canvasSettings,
+    mobileCanvasSettings,
+    desktopCanvasSettings,
+    type PlinkoBallData,
+  } from "@/lib/stores";
+  import { toast } from "sonner";
+  import { logDebug, logError, logInfo } from "@/lib/utils.logger";
+  import { DotLottie, DotLottieWorker } from "@lottiefiles/dotlottie-web";
+  import { plinkoSettings } from "@/lib/settings.plinko";
+
+  const matterCanvas: HTMLCanvasElement | null =
+    document.querySelector(".matterCanvas");
+
+  if (!matterCanvas) {
+    // if the game is over, the canvas is removed on purpose
+    if ($gameRemoteData.get()?.game_over) {
+      throw new Error("Game is over");
+    }
+
+    throw new Error("matterCanvas not found");
+  }
+
+  // simulate page scrolling when cursor is over the canvas
+  matterCanvas.addEventListener(
+    "wheel",
+    (e) => {
+      // e.preventDefault(); // can't use with passive: true
+      window.scrollBy(0, e.deltaY);
+    },
+    { passive: true }
+  );
+
+  const matterCanvasOverlay: HTMLCanvasElement | null = document.querySelector(
+    ".matterCanvasOverlay"
+  );
+  const matterCanvasOverlayCtx = matterCanvasOverlay?.getContext("2d");
+
+  if (!matterCanvasOverlay || !matterCanvasOverlayCtx) {
+    throw new Error("matterCanvasOverlay not found");
+  }
+
+  const pocketLottieCanvases: (HTMLCanvasElement | null)[] = Array.from(
+    document.querySelectorAll(
+      ".pocket-lottie-canvas"
+    ) as NodeListOf<HTMLCanvasElement>
+  );
+
+  if (
+    pocketLottieCanvases.length === 0 ||
+    pocketLottieCanvases.some((canvas) => !canvas)
+  ) {
+    throw new Error("At least one DotLottie canvas was not found");
+  }
+
+  const textures = plinkoSettings.preloadImagesBlocking;
+
+  const imagesToLoad = Object.values(textures);
+  logDebug("preloading images");
+  await Promise.all([
+    ...imagesToLoad.map((src) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = src;
+      });
+    }),
+    // wait min 2 seconds
+    new Promise((resolve) => setTimeout(resolve, 2000)),
+  ]);
+  $settingUpGame.set(false);
+  logDebug("images preloaded");
+
+  const pocketLottieAnimations: Record<
+    (typeof plinkoSettings.pocketKeys)[number],
+    DotLottieWorker
+    // DotLottie
+  > = {
+    pocket_middle_left_3: new DotLottieWorker({
+      canvas: pocketLottieCanvases[0]!,
+      src: "https://lottie.host/ea5a1f68-a847-4d6a-9818-91dd0191ec02/HSvLJexHI4.lottie",
+      // path: "../../src/lottie/celebration.json",
+    }),
+    pocket_middle_left_2: new DotLottieWorker({
+      canvas: pocketLottieCanvases[1]!,
+      src: "https://lottie.host/ea5a1f68-a847-4d6a-9818-91dd0191ec02/HSvLJexHI4.lottie",
+    }),
+    pocket_middle_left_1: new DotLottieWorker({
+      canvas: pocketLottieCanvases[2]!,
+      src: "https://lottie.host/ea5a1f68-a847-4d6a-9818-91dd0191ec02/HSvLJexHI4.lottie",
+    }),
+    pocket_middle: new DotLottieWorker({
+      canvas: pocketLottieCanvases[3]!,
+      src: "https://lottie.host/ea5a1f68-a847-4d6a-9818-91dd0191ec02/HSvLJexHI4.lottie",
+    }),
+    pocket_middle_right_1: new DotLottieWorker({
+      canvas: pocketLottieCanvases[4]!,
+      src: "https://lottie.host/ea5a1f68-a847-4d6a-9818-91dd0191ec02/HSvLJexHI4.lottie",
+    }),
+    pocket_middle_right_2: new DotLottieWorker({
+      canvas: pocketLottieCanvases[5]!,
+      src: "https://lottie.host/ea5a1f68-a847-4d6a-9818-91dd0191ec02/HSvLJexHI4.lottie",
+    }),
+    pocket_middle_right_3: new DotLottieWorker({
+      canvas: pocketLottieCanvases[6]!,
+      src: "https://lottie.host/ea5a1f68-a847-4d6a-9818-91dd0191ec02/HSvLJexHI4.lottie",
+    }),
+  };
+
+  // const dotLottie = new DotLottie({
+  //   canvas: dotLottieCanvas,
+  //   // src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie", // or .json file
+  //   src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
+  // });
+
+  let canvasSettings = $canvasSettings.get();
+  $canvasSettings.subscribe((val) => {
+    canvasSettings = val;
+  });
+
+  // if we're on a screen less than 500px wide, reduce the canvas size
+  if (window.innerWidth < 501) {
+    $canvasSettings.set(mobileCanvasSettings);
+  } else {
+    $canvasSettings.set(desktopCanvasSettings);
+  }
+
+  // set up the engine and environment
+  const engine = Matter.Engine.create();
+  const runner = Matter.Runner.create();
+
+  // the current round id
+  let currentRoundId: number;
+  let currentRoundScoreMultiplier: number;
+  let roundComposite: Matter.Composite;
+
+  let pocketsToCreate: Record<
+    (typeof plinkoSettings.pocketKeys)[number],
+    {
+      value: typeof tablePlinkoGameRounds.$inferSelect.pocket_middle_value;
+      powerUps: typeof tablePlinkoGameRounds.$inferSelect.pocket_middle_power_ups;
+    }
+  > | null;
+  let plinkoBallsToCreate: Record<
+    (typeof plinkoSettings.plinkoBallKeys)[number],
+    {
+      on: typeof tablePlinkoGameRounds.$inferSelect.plinko_ball_10_on;
+      powerUps: typeof tablePlinkoGameRounds.$inferSelect.plinko_ball_10_power_ups;
+    }
+  > | null;
+  let activePlinkoBall: Matter.Body | null;
+  let activePlinkoBallIdx: number;
+  let currentRoundPlinkoBallBodies: Matter.Body[];
+  let currentAlivePlinkos: number;
+
+  // set up the renderer
+  const render = Matter.Render.create({
+    canvas: matterCanvas,
+    engine,
+    // set a background slightly lighter than the body's own background
+    options: {
+      wireframes: false, // must be false in deployment
+      // background: "hsl(225, 60%, 20%)",
+      background: "transparent",
+      width: canvasSettings.width,
+      height: canvasSettings.height,
+    },
+  });
+
+  const mouse = Matter.Mouse.create(matterCanvas); //Creating the mouse in the world (i.e. Canvas)
+  const { world } = engine;
+
+  // From Docs: Mouse constraints are used for allowing user interaction, providing the ability to move bodies via the mouse or touch.
+  const mouseConstraint = Matter.MouseConstraint.create(engine, {
+    mouse,
+  });
+
+  // function fabricating a plinko, as a circle included atop the canvas
+  const makePlinko = ({
+    x,
+    y,
+    size,
+    texturePath,
+    options = {},
+  }: {
+    x: number;
+    y: number;
+    size: number;
+    texturePath: string;
+    options: Matter.IBodyDefinition;
+  }) => {
+    if (!options.label) {
+      throw new Error("You should provide a label for the plinko");
+    }
+
+    return Matter.Bodies.circle(x, y, size, {
+      ...options,
+      restitution: options.restitution || 0.8,
+      render: options.render || {
+        sprite: {
+          texture: texturePath,
+          xScale: 1,
+          yScale: 1,
+        },
+      },
+    });
+  };
+
+  // const hand = Matter.Bodies.rectangle(
+  //   -20,
+  //   50,
+  //   plinkoSettings.ballSize * 2,
+  //   plinkoSettings.ballSize * 2,
+  //   {
+  //     isStatic: true,
+  //     collisionFilter: {
+  //       group: -1, // so that the hand does not collide with the plinko balls
+  //     },
+  //     render: {
+  //       sprite: {
+  //         texture: textures.hand,
+  //         xScale: 1.0,
+  //         yScale: 1.0,
+  //       },
+  //     },
+  //     label: "hand",
+  //   }
+  // );
+  // Matter.World.add(world, [hand]);
+
+  const platform = Matter.Bodies.rectangle(
+    -20,
+    60,
+    plinkoSettings.ballSize * 3,
+    6,
+    {
+      isStatic: true,
+      collisionFilter: {
+        group: -1, // so that the hand does not collide with the plinko balls
+      },
+      render: {
+        fillStyle: "white",
+      },
+      label: "platform",
+    }
+  );
+  Matter.World.add(world, [platform]);
+
+  /********************************************************************************************
+   *
+   *
+   * Create the board
+   *
+   *
+   *******************************************************************************************/
+  function initBoard(settings: typeof plinkoSettings) {
+    const pegGrid = {
+      paddingTop: 50,
+      paddingLeft: 0,
+      paddingRight: 0,
+      paddingBottom: settings.pocketDividerHeight,
+    } as const;
+
+    /******************************************************************************************
+     * Create the left and right walls
+     *******************************************************************************************/
+    const leftWall_ = {
+      x: -1,
+      y: canvasSettings.height / 2,
+      width: 1,
+      height: canvasSettings.height,
+    } as const;
+    const leftWall = Matter.Bodies.rectangle(
+      leftWall_.x,
+      leftWall_.y,
+      leftWall_.width,
+      leftWall_.height,
+      {
+        isStatic: true,
+        label: "leftWall",
+        render: {
+          fillStyle: "white",
+        },
+      }
+    );
+
+    const rightWall_ = {
+      x: canvasSettings.width + 1,
+      y: canvasSettings.height / 2,
+      width: 1,
+      height: canvasSettings.height,
+    } as const;
+    const rightWall = Matter.Bodies.rectangle(
+      rightWall_.x,
+      rightWall_.y,
+      rightWall_.width,
+      rightWall_.height,
+      {
+        isStatic: true,
+        label: "rightWall",
+        render: {
+          fillStyle: "white",
+        },
+      }
+    );
+
+    /******************************************************************************************
+     * Create the triangles on the left and right sides
+     *******************************************************************************************/
+    let contourLeftTriangles = [];
+    let contourRightTriangles = [];
+
+    const rowSizeForTriangles =
+      (canvasSettings.height - pegGrid.paddingTop - pegGrid.paddingBottom) /
+      canvasSettings.pegRows;
+
+    for (let rowIdx = 1; rowIdx < canvasSettings.pegRows; rowIdx += 2) {
+      const y =
+        rowSizeForTriangles * rowIdx +
+        rowSizeForTriangles / 2 +
+        pegGrid.paddingTop;
+
+      // for (
+      //   let i = pegGrid.paddingTop;
+      //   i < canvasSettings.height - pegGrid.paddingBottom;
+      //   i += 50
+      // ) {
+      const leftTriangle_ = {
+        x: 6,
+        y: y,
+        sides: 5,
+        radius: 30,
+      } as const;
+      const leftTriangle = Matter.Bodies.polygon(
+        leftTriangle_.x,
+        leftTriangle_.y,
+        leftTriangle_.sides,
+        leftTriangle_.radius,
+        {
+          isStatic: true,
+          angle: Math.PI,
+          render: {
+            sprite: {
+              texture: textures.icyMtnForLeftSide,
+              xScale: 0.15, //This is changing the pyramid's altitude (tip tip to floor)
+              yScale: 0.3, //This is making the base wider (so they can touch)
+            },
+          },
+        }
+      );
+
+      const rightTriangle_ = {
+        x: canvasSettings.width - 5,
+        y: y,
+        sides: 5,
+        radius: 30,
+      } as const;
+      const rightTriangle = Matter.Bodies.polygon(
+        rightTriangle_.x,
+        rightTriangle_.y,
+        rightTriangle_.sides,
+        rightTriangle_.radius,
+        {
+          isStatic: true,
+          render: {
+            sprite: {
+              texture: textures.icyMtnForRightSide,
+              xScale: 0.15,
+              yScale: 0.3,
+            },
+          },
+        }
+      );
+
+      contourLeftTriangles.push(leftTriangle);
+      contourRightTriangles.push(rightTriangle);
+    }
+
+    // add the walls, triangles to the world
+    Matter.World.add(world, [
+      leftWall,
+      rightWall,
+      ...contourLeftTriangles,
+      ...contourRightTriangles,
+    ]);
+
+    /******************************************************************************************
+     * Create the pegs
+     *******************************************************************************************/
+    // pegs
+    const numPegsInRow = settings.pocketKeys.length - 1;
+
+    const rowSize =
+      (canvasSettings.height - pegGrid.paddingTop - pegGrid.paddingBottom) /
+      canvasSettings.pegRows;
+
+    const pocketWidth = canvasSettings.width / settings.pocketKeys.length;
+
+    const grid = Array.from({ length: canvasSettings.pegRows }, (_, rowIdx) => {
+      // if the row is odd the number of pegs to create is one less than the number of pegs in the row
+      const pegsToCreate = rowIdx % 2 === 0 ? numPegsInRow : numPegsInRow - 1;
+      // we have to shift the pegs to the right by half the column size
+      const xOffset = pegsToCreate !== numPegsInRow ? pocketWidth / 2 : 0;
+
+      return Array.from({ length: pegsToCreate }, (_, pegIdx) => {
+        const x = pocketWidth + pocketWidth * pegIdx + xOffset;
+        const y = rowSize * rowIdx + rowSize / 2 + pegGrid.paddingTop;
+        const r = canvasSettings.pegSize / 2;
+
+        // create the peg
+        return Matter.Bodies.circle(x, y, r, {
+          isStatic: true,
+          render: { fillStyle: "white" },
+          // add a label to later identify the circle in the collision event
+          label: "peg",
+        });
+      });
+    });
+
+    // since grid refers to a 2d array, flatten the items to a one-dimensional array
+    const pegs = grid.reduce((acc, curr) => [...acc, ...curr], []);
+
+    // add the pegs to the world
+    Matter.World.add(world, pegs);
+  }
+
+  /******************************************************************************************
+   *
+   *
+   * Create the round
+   *
+   *
+   *******************************************************************************************/
+  function initRound(settings: typeof plinkoSettings) {
+    // clear the round result
+    $roundResult.set(null);
+
+    // if the game is over, stop everything
+    if ($gameState.get() === "game_over") {
+      logInfo("Game is over, stopping the game");
+      // remove all listeners
+      Matter.Events.off(engine, "collisionStart");
+      Matter.Events.off(mouseConstraint, "mousemove");
+      Matter.Events.off(mouseConstraint, "mouseup");
+      Matter.Events.off(runner, "afterTick");
+
+      // stop the engine
+      Matter.Runner.stop(runner);
+      Matter.Render.stop(render);
+    }
+
+    const roundData = $currentRoundRemoteData.get();
+
+    if (!roundData) {
+      throw new Error("No current round found");
+    }
+
+    logDebug("initRound: ", roundData.key);
+
+    // set the current round id
+    currentRoundId = roundData.id;
+    currentRoundScoreMultiplier = roundData.score_multiplier;
+
+    // set the pockets
+    const pockets: Matter.Body[] = [];
+    const pocketDividers: Matter.Body[] = [];
+    //
+    pocketsToCreate = {
+      pocket_middle_left_3: {
+        value: roundData.pocket_middle_left_3_value,
+        powerUps: roundData.pocket_middle_left_3_power_ups,
+      },
+      pocket_middle_left_2: {
+        value: roundData.pocket_middle_left_2_value,
+        powerUps: roundData.pocket_middle_left_2_power_ups,
+      },
+      pocket_middle_left_1: {
+        value: roundData.pocket_middle_left_1_value,
+        powerUps: roundData.pocket_middle_left_1_power_ups,
+      },
+      pocket_middle: {
+        value: roundData.pocket_middle_value,
+        powerUps: roundData.pocket_middle_power_ups,
+      },
+      pocket_middle_right_1: {
+        value: roundData.pocket_middle_right_1_value,
+        powerUps: roundData.pocket_middle_right_1_power_ups,
+      },
+      pocket_middle_right_2: {
+        value: roundData.pocket_middle_right_2_value,
+        powerUps: roundData.pocket_middle_right_2_power_ups,
+      },
+      pocket_middle_right_3: {
+        value: roundData.pocket_middle_right_3_value,
+        powerUps: roundData.pocket_middle_right_3_power_ups,
+      },
+    };
+
+    // create a new round
+    let newRoundComposite = Matter.Composite.create({
+      label: "round",
+    });
+
+    const pocketWidth = canvasSettings.width / settings.pocketKeys.length;
+
+    settings.pocketKeys.forEach((pocketKey, index) => {
+      // make pockets
+      const pocket_ = {
+        x: pocketWidth * index + pocketWidth / 2,
+        y: canvasSettings.height - settings.pocketHeight / 2,
+        width: pocketWidth,
+        height: settings.pocketHeight,
+      };
+      const pocket = Matter.Bodies.rectangle(
+        pocket_.x,
+        pocket_.y,
+        pocket_.width,
+        pocket_.height,
+        {
+          isStatic: true,
+          label: pocketKey,
+          render: {
+            fillStyle: "white",
+            sprite: {
+              texture: textures.pocketRedSac,
+              xScale: 0.8,
+              yScale: 0.8,
+            },
+          },
+        }
+      );
+
+      pockets.push(pocket);
+
+      // make pocket dividers
+      if (index > 0) {
+        const pocketDivider_ = {
+          x: pocket_.x - pocketWidth / 2,
+          y: pocket_.y,
+          width: 5,
+          height: settings.pocketDividerHeight,
+        };
+        const pocketDivider = Matter.Bodies.rectangle(
+          pocketDivider_.x,
+          pocketDivider_.y,
+          pocketDivider_.width,
+          pocketDivider_.height,
+          {
+            isStatic: true,
+            render: {
+              sprite: {
+                texture: textures.candyCaneDivider,
+                xScale: 0.2,
+                yScale: 0.24,
+              },
+              // fillStyle: "white",
+            },
+          }
+        );
+
+        pocketDividers.push(pocketDivider);
+      }
+    });
+
+    // add the pockets to the composite
+    Matter.Composite.add(newRoundComposite, [...pockets, ...pocketDividers]);
+
+    /******************************************************************************************
+     * Plinko balls
+     *******************************************************************************************/
+
+    currentRoundPlinkoBallBodies = [];
+
+    // set up the plinko balls
+    plinkoBallsToCreate = {
+      plinko_ball_1: {
+        on: roundData.plinko_ball_1_on,
+        powerUps: roundData.plinko_ball_1_power_ups,
+      },
+      plinko_ball_2: {
+        on: roundData.plinko_ball_2_on,
+        powerUps: roundData.plinko_ball_2_power_ups,
+      },
+      plinko_ball_3: {
+        on: roundData.plinko_ball_3_on,
+        powerUps: roundData.plinko_ball_3_power_ups,
+      },
+      plinko_ball_4: {
+        on: roundData.plinko_ball_4_on,
+        powerUps: roundData.plinko_ball_4_power_ups,
+      },
+      plinko_ball_5: {
+        on: roundData.plinko_ball_5_on,
+        powerUps: roundData.plinko_ball_5_power_ups,
+      },
+      plinko_ball_6: {
+        on: roundData.plinko_ball_6_on,
+        powerUps: roundData.plinko_ball_6_power_ups,
+      },
+      plinko_ball_7: {
+        on: roundData.plinko_ball_7_on,
+        powerUps: roundData.plinko_ball_7_power_ups,
+      },
+      plinko_ball_8: {
+        on: roundData.plinko_ball_8_on,
+        powerUps: roundData.plinko_ball_8_power_ups,
+      },
+      plinko_ball_9: {
+        on: roundData.plinko_ball_9_on,
+        powerUps: roundData.plinko_ball_9_power_ups,
+      },
+      plinko_ball_10: {
+        on: roundData.plinko_ball_10_on,
+        powerUps: roundData.plinko_ball_10_power_ups,
+      },
+    };
+
+    const remainingPlinkoBallsThisRound: PlinkoBallData[] = [];
+
+    // create the plinko balls
+    Object.entries(plinkoBallsToCreate).forEach(
+      ([plinkoBallKey_, plinkoBallData]) => {
+        const plinkoBallKey =
+          plinkoBallKey_ as (typeof plinkoSettings.plinkoBallKeys)[number];
+        // if the plinko ball is not on, skip
+        if (plinkoBallData.on === false) {
+          return;
+        }
+
+        const isGolden = plinkoBallData.powerUps.includes("golden");
+
+        // otherwise, create the plinko ball and add it to the plinko balls for the round
+        const plinkoBall = makePlinko({
+          x: -20,
+          y: 20,
+          size: settings.ballSize,
+          texturePath: isGolden
+            ? textures.goldOrnamentPlinko
+            : textures.redOrnamentPlinko,
+          options: {
+            restitution: 1,
+            // balls should not collide with each other
+            collisionFilter: {
+              group: -1,
+            },
+            label: plinkoBallKey,
+          },
+        });
+        plinkoBall.isStatic = true;
+        currentRoundPlinkoBallBodies.push(plinkoBall);
+
+        remainingPlinkoBallsThisRound.push({
+          powerUps: plinkoBallData.powerUps,
+          key: plinkoBallKey,
+        });
+      }
+    );
+
+    // set the number of plinko balls remaining to store
+    $remainingPlinkoBallsThisRound.set(remainingPlinkoBallsThisRound);
+
+    activePlinkoBallIdx = 0;
+    activePlinkoBall =
+      currentRoundPlinkoBallBodies[activePlinkoBallIdx] || null;
+
+    // add the first ball to the world
+    if (activePlinkoBall) {
+      Matter.Composite.add(newRoundComposite, activePlinkoBall);
+    }
+
+    /******************************************************************************************
+     *
+     ******************************************************************************************/
+    // remove the previous round
+    if (roundComposite) {
+      Matter.World.remove(world, roundComposite);
+    }
+
+    // add the composite to the world
+    Matter.World.add(world, newRoundComposite);
+    roundComposite = newRoundComposite;
+  }
+
+  // initialize the board
+  initBoard(plinkoSettings);
+
+  // listen for the round result
+  $roundResult.subscribe(async (val) => {
+    // reset the local stuff when the round result is set to null
+    if (val === null) {
+      logDebug("resetRound");
+
+      pocketsToCreate = null;
+      plinkoBallsToCreate = null;
+      currentRoundPlinkoBallBodies = [];
+      currentAlivePlinkos = 0;
+      $remainingPlinkoBallsThisRound.set([]);
+      activePlinkoBallIdx = 0;
+      activePlinkoBall = null;
+      $roundScore.set(0);
+
+      return;
+    }
+
+    // if the round result is set, save to the database
+    const { data, error } = await actions.plinko.updateScoreAndCreateNextRound({
+      roundId: val.roundId,
+      roundScore: val.score,
+    });
+
+    if (error) {
+      logError(error);
+
+      toast.error(`Sorry, an error occured: ${error.message}`, {
+        duration: 8000,
+      });
+
+      throw new Error();
+    }
+
+    const { updatedRound, nextRound, updatedGame } = data;
+    // update the stores
+    $currentRoundRemoteData.set(updatedRound);
+    $nextRoundRemoteData.set(nextRound);
+    $gameRemoteData.set(updatedGame);
+
+    // proceed
+    // if there is a next round, set this game state to "round_ended"
+    if (nextRound) {
+      $gameState.set("round_ended");
+    } else {
+      // if there is no next round, set the game state to "game_over"
+      $gameState.set("game_over");
+    }
+  });
+
+  // initialize the round
+  $currentRoundRemoteData.subscribe((roundData, prev) => {
+    if (!roundData) {
+      throw new Error("No round data found");
+    }
+
+    initRound(plinkoSettings);
+  });
+
+  let floatingTexts: {
+    text: string;
+    style: "peg" | "peg-double-points" | "pocket" | "pocket-double-points";
+    x: number;
+    y: number;
+    startTime: number;
+    duration: number;
+  }[] = [];
+
+  /******************************************************************************************
+   * Handle collisions
+   *******************************************************************************************/
+  Matter.Events.on(engine, "collisionStart", (event) => {
+    const { pairs } = event;
+
+    let internalScore = 0;
+
+    pairs.forEach((pair) => {
+      // get the x position of the plinko and floor collision
+      const { bodyA, bodyB } = pair;
+      const { label: labelA } = bodyA;
+      const { label: labelB } = bodyB;
+
+      // we only care about plinko collisions
+      if (
+        plinkoSettings.plinkoBallKeys.includes(labelA as any) === false &&
+        plinkoSettings.plinkoBallKeys.includes(labelB as any) === false
+      ) {
+        return;
+      }
+
+      // figure out which body is the plinko
+      let plinkoBody: Matter.Body;
+      let otherBody: Matter.Body;
+      if (plinkoSettings.plinkoBallKeys.includes(labelA as any)) {
+        // bodyA is the plinko
+        plinkoBody = bodyA;
+        otherBody = bodyB;
+      } else {
+        // bodyB is the plinko
+        plinkoBody = bodyB;
+        otherBody = bodyA;
+      }
+
+      /******************************************************************************************
+       *
+       * Plinko <-> Pocket collision
+       *
+       *******************************************************************************************/
+      if (otherBody.label in (pocketsToCreate || {})) {
+        // get the pocket in which the plinko has fallen
+        // const pocket = pockets.find((pocket) => pocket.label === other.label);
+        // console.log("Plinko has fallen into pocket", pocket);
+        const pocketKey =
+          otherBody.label as (typeof plinkoSettings.pocketKeys)[number];
+        const pocket_ = pocketsToCreate?.[pocketKey];
+
+        if (!pocket_) {
+          toast.error("Something went wrong: No pocket found");
+          throw new Error("No pocket found");
+        }
+
+        const plinko_ =
+          plinkoBallsToCreate?.[
+            plinkoBody.label as keyof typeof plinkoBallsToCreate
+          ];
+        const isGoldenPlinko = plinko_?.powerUps.includes("golden");
+        const pocketValue = isGoldenPlinko ? pocket_.value * 2 : pocket_.value;
+
+        // add floating text, if score is greater than 0
+        if (pocketValue > 0) {
+          floatingTexts.push({
+            text: `+${pocketValue}`,
+            style: isGoldenPlinko ? "pocket-double-points" : "pocket",
+            x:
+              pocketKey === "pocket_middle_right_3"
+                ? otherBody.position.x - 40 // give it some space so it doesn't go off the canvas
+                : otherBody.position.x,
+            y: otherBody.position.y - 40,
+            startTime: performance.now(),
+            duration: 1000,
+          });
+        }
+
+        // play the lottie animation
+        const animation = pocketLottieAnimations[pocketKey];
+        animation.play();
+
+        // hide the animation after it finishes
+        animation.addEventListener("complete", function onComplete() {
+          // Hide or remove the animation after it finishes
+          // dotLottieCanvas.style.opacity = "0";
+          (animation.canvas as HTMLCanvasElement).style.opacity = "0";
+          animation.removeEventListener("complete", onComplete);
+        });
+
+        // show the animation
+        (animation.canvas as HTMLCanvasElement).style.opacity = "1";
+
+        internalScore += pocket_.value;
+        $roundScore.set($roundScore.get() + pocket_.value);
+
+        // remove the plinko from the world
+        // World.remove(world, plinko);
+        Matter.Composite.remove(roundComposite, plinkoBody);
+        currentAlivePlinkos--;
+
+        /**
+         * TRIGGER ROUND END
+         */
+        if (
+          currentAlivePlinkos <= 0 &&
+          $remainingPlinkoBallsThisRound.get().length === 0
+        ) {
+          logInfo("Round end");
+
+          $roundResult.set({
+            score: $roundScore.get() * currentRoundScoreMultiplier,
+            roundId: currentRoundId,
+            scoreMultiplier: currentRoundScoreMultiplier,
+          });
+        }
+
+        return;
+      }
+
+      /******************************************************************************************
+       *
+       * Plinko <-> Peg collision
+       *
+       *******************************************************************************************/
+      if (otherBody.label.includes("peg")) {
+        const plinko_ =
+          plinkoBallsToCreate?.[
+            plinkoBody.label as keyof typeof plinkoBallsToCreate
+          ];
+
+        const isGoldenPlinko = plinko_?.powerUps.includes("golden");
+
+        const pegScore = isGoldenPlinko
+          ? plinkoSettings.pegScore * 2
+          : plinkoSettings.pegScore;
+
+        // add floating text
+        floatingTexts.push({
+          text: `+${pegScore}`,
+          style: isGoldenPlinko ? "peg-double-points" : "peg",
+          x: otherBody.position.x,
+          y: otherBody.position.y,
+          startTime: performance.now(),
+          duration: 1000,
+        });
+
+        // add the score
+        internalScore += pegScore;
+        $roundScore.set($roundScore.get() + pegScore);
+
+        return;
+      }
+
+      // following a collision event retrieve the label of the two bodies
+      // if one is a plinko, consider its color and apply it to the other body
+      // const { bodyA, bodyB } = pair;
+      // const { label: labelA } = bodyA;
+      // const { label: labelB } = bodyB;
+
+      // ! change the color only if one of the two body is a plinko
+      // if (labelA !== labelB) {
+      //   if (labelA === "plinko") {
+      //     const { fillStyle } = bodyA.render;
+      //     bodyB.render.fillStyle = fillStyle;
+      //     collisionSound.play();
+      //   }
+      //   if (labelB === "plinko") {
+      //     const { fillStyle } = bodyB.render;
+      //     bodyA.render.fillStyle = fillStyle;
+      //     collisionSound.play();
+      //   }
+      // }
+    });
+
+    if (internalScore > 0) {
+      collisionSound.play();
+    }
+  });
+
+  /******************************************************************************************
+   * Handle mouse movement
+   ******************************************************************************************/
+  Matter.Events.on(mouseConstraint, "mousemove", (event) => {
+    const mouseX = Math.max(
+      Math.min(event.mouse.position.x, canvasSettings.width - 30),
+      30
+    );
+
+    // set the hand position
+    // Matter.Body.setPosition(hand, {
+    //   x: mouseX,
+    //   y: 20,
+    // });
+    // set the platform position
+    Matter.Body.setPosition(platform, {
+      x: mouseX,
+      y: 36,
+    });
+
+    if (!activePlinkoBall) return;
+
+    // the next ball to be dropped should follow the mouse
+    Matter.Body.setPosition(activePlinkoBall, {
+      x: mouseX,
+      // preserve the y position of the ball
+      y: activePlinkoBall.position.y,
+    });
+  });
+
+  /******************************************************************************************
+   * Handle mouse up (click)
+   ******************************************************************************************/
+  Matter.Events.on(mouseConstraint, "mouseup", (event) => {
+    if ($remainingPlinkoBallsThisRound.get().length === 0) {
+      console.log("No more balls remaining");
+      return;
+    }
+
+    // if there is an active ball, drop it
+    if (activePlinkoBall) {
+      Matter.Body.setStatic(activePlinkoBall, false);
+      activePlinkoBallIdx++;
+      activePlinkoBall = currentRoundPlinkoBallBodies[activePlinkoBallIdx];
+      // add the next ball to the world
+      if (activePlinkoBall) {
+        Matter.Body.setPosition(activePlinkoBall, {
+          // x: hand.position.x,
+          x: platform.position.x,
+          y: 20,
+        });
+        Matter.Composite.add(roundComposite, activePlinkoBall);
+      }
+
+      currentAlivePlinkos++;
+
+      // remove the ball from the remaining balls
+      $remainingPlinkoBallsThisRound.set(
+        $remainingPlinkoBallsThisRound.get().slice(1)
+      );
+    }
+  });
+
+  Matter.Events.on(runner, "afterTick", (event) => {
+    // logDebug("tick");
+    // TODO: not sure if I can do this or not
+    if (floatingTexts.length === 0) {
+      return;
+    }
+
+    // clear the canvas
+    matterCanvasOverlayCtx.clearRect(
+      0,
+      0,
+      canvasSettings.width,
+      canvasSettings.height
+    );
+
+    const now = performance.now();
+
+    floatingTexts = floatingTexts.filter((obj) => {
+      const elapsed = now - obj.startTime;
+      if (elapsed > obj.duration) {
+        // Time is up, this text will no longer be drawn
+        return false;
+      }
+
+      // Calculate alpha (1 at start, 0 at end)
+      const alpha = 1 - elapsed / obj.duration;
+
+      // Calculate y position (we want it to move up)
+      const y = obj.y - 0.03 * elapsed;
+
+      // Draw the text with fading alpha
+      matterCanvasOverlayCtx.save();
+
+      const whiteFill = `rgba(255, 255, 255, ${alpha})`;
+      const yellowFill = `rgba(255, 215, 0, ${alpha})`;
+
+      if (obj.style === "peg" || obj.style === "peg-double-points") {
+        // peg text style
+        matterCanvasOverlayCtx.font = "20px Arial";
+        matterCanvasOverlayCtx.fillStyle = whiteFill;
+      } else {
+        // pocket text style
+        matterCanvasOverlayCtx.font = "bold 28px Arial";
+        // make text gold with an orange-ish outline
+        matterCanvasOverlayCtx.fillStyle = yellowFill;
+        matterCanvasOverlayCtx.strokeStyle = `rgba(255, 165, 0, ${alpha})`;
+        matterCanvasOverlayCtx.lineWidth = 1;
+        matterCanvasOverlayCtx.strokeText(obj.text, obj.x, y);
+      }
+
+      if (
+        obj.style === "peg-double-points" ||
+        obj.style === "pocket-double-points"
+      ) {
+        matterCanvasOverlayCtx.fillStyle = yellowFill;
+      }
+
+      // draw the text
+      matterCanvasOverlayCtx.fillText(obj.text, obj.x, y);
+      matterCanvasOverlayCtx.restore();
+
+      return true; // Keep this text in the array until it expires
+    });
+  });
+
+  // run the engine
+  Matter.Runner.run(runner, engine); //We have eto create and run the runner so that the engine start playing the annimation.
+  // run the renderer
+  Matter.Render.run(render);
+</script>
+
+<GamesLayout
+  title="Good luck in your Christmas Plinko game!"
+  breadcrumbs={[
+    { name: "Plinko home", href: getPagePath($router, "games.plinko.home") },
+    { name: "This game" },
+  ]}
+>
+  <!-- <div class="max-w-4xl mx-auto p-4 w-full">
+    <PlinkoRoundProgressBar client:load />
+  </div> -->
+  <div class="flex-1 max-w-xl mx-auto p-4 w-full">
+    {
+      game.game_over ? (
+        /**
+         * If the game is over, show the game over scoreboard
+         */
+        <div>
+          <GameOverScoreboard client:load />
+        </div>
+      ) : (
+        <>
+          {/* above the board */}
+          <div
+            class="mx-auto w-full pointer-events-none"
+            style={`max-width: ${canvasSettings.width + 30}px;`}
+          >
+            <PlinkoScoreboard client:load className="relative z-20" />
+            <PlinkoBallArsenal client:load className="-mb-4 relative z-0" />
+
+            <img
+              src="/plinko/other/PlinkoTopSnowOnly.webp"
+              class="relative -mb-14 z-10"
+            />
+          </div>
+
+          <div
+            class="w-full mx-auto relative"
+            style={`max-width: ${canvasSettings.width}px;`}
+          >
+            <div class="h-6 bg-sky-900" />
+            <div class="relative bg-sky-900">
+              <canvas
+                class="matterCanvas relative"
+                width={canvasSettings.width}
+                height={canvasSettings.height}
+              />
+              <canvas
+                class="matterCanvasOverlay absolute top-0 left-0 pointer-events-none"
+                width={canvasSettings.width}
+                height={canvasSettings.height}
+              />
+
+              {/* Pocket animations */}
+              {/* move up the roughly the height of the squares */}
+              <div class="absolute inset-x-0 bottom-[30px] flex pointer-events-none z-20">
+                {/* lottie canvases */}
+                {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                  <canvas
+                    class="pocket-lottie-canvas opacity-0"
+                    style={`width: ${canvasSettings.width / 7}px; height: 50px;`}
+                    width={canvasSettings.width / 7}
+                    height={50}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Pocket value grid */}
+            <PlinkoPocketValueGrid client:load />
+
+            <img
+              src="/plinko/other/SnowLong.webp"
+              class="w-full -mt-2 relative z-10 object-contain"
+            />
+          </div>
+        </>
+      )
+    }
+  </div>
+
+  <div class="max-w-4xl mx-auto p-4 w-full pt-20">
+    <div>
+      <LeaderboardTable client:load user={user} />
+    </div>
+  </div>
+  
+</GamesLayout>
+
+<!-- dialogs -->
+<PlinkoRoundEndedDialog client:load />
+<PlinkoRoundWaitingToStartDialog client:load />
+<PlinkoGameOverDialog client:load />
+<PlinkoLoadingScreen client:load />

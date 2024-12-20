@@ -1,0 +1,164 @@
+---
+import Href from "@/components/Href";
+import Layout from "@/components/layout/Layout.astro";
+import Section from "@/components/layout/Section.astro";
+import Grid from "@/components/layout/Grid.astro";
+import TextSwitcher from "@/components/TextSwitcher";
+import { ExternalLink } from "lucide-react";
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
+---
+
+<DefaultSiteLayout title="Synapse Medcom">
+  <main class="relative">
+    <Section className="pt-32 2xl:py-96">
+      <Grid id="about">
+        <div
+          slot="left"
+          class="flex flex-col justify-center items-center lg:ml-10"
+        >
+          <!-- <h1 class="text-5xl w-full mb-10 text-center font-light pt-36">
+            Synapse Medcom
+          </h1> -->
+          <img
+            src="/synpaselogo.png"
+            alt="synapse medcom"
+            class="w-64 lg:w-72 animate-fade-in"
+          />
+        </div>
+        <div slot="right">
+          <h1 class="pt-16 text-2xl xl:text-3xl font-light animate-fade-in">
+            The Synapse Group debuted as a medical communications company over
+            30 years ago. After a long history of success, we became part of the
+            Adpharm family as Synapse Medical Communications.
+          </h1>
+          <div
+            class="flex flex-col justify-center items-start space-y-4 pt-4 text-zinc-400 animate-fade-in-2"
+          >
+            <p class="">
+              We pride ourselves on being a full-service agency that's
+              passionate about our brands, knows the science behind them, and
+              uses this knowledge to successfully engage with Thought Leaders.
+              We've built a reputation for asking the right questions to gain
+              insights that lead to the right answers.
+            </p>
+
+            <p>
+              And for the last 30+ years, that's precisely what we've been
+              doing.
+            </p>
+
+            <p>
+              To learn more about Synapse Medcom and our service offerings,
+              click the button below.
+            </p>
+            <a
+              href="https://www.synapsemedcom.ca"
+              class="flex flex-row justify-center items-center bg-[#4390a6] rounded-full px-6 py-2 max-w-72 text-white mb-32 lg:mb-0"
+            >
+              Learn more about Synapse <ExternalLink
+                className="ml-2 animate-pulse"
+              />
+            </a>
+          </div>
+        </div>
+      </Grid>
+    </Section>
+
+    <div class="h-20 lg:h-0"></div>
+
+    <Section className="pt-12 pb-24" fullTopBorder>
+      <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+        <div slot="left" class="pl-0 lg:pl-10">
+          <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+          <p class="text-lg">133 Thomas Street</p>
+          <p class="text-zinc-400">Oakville, Ontario</p>
+          <p class="text-zinc-400">L6J 3A9</p>
+          <p class="pt-0 lg:pt-4">
+            <Href
+              href="https://www.linkedin.com/company/the-adpharm/"
+              className="text-sm">LinkedIn</Href
+            >
+          </p>
+        </div>
+
+        <div slot="right">
+          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Contact
+              </p>
+              <p class="text-lg">Amy Moriarty</p>
+              <p class="text-zinc-400">SVP, Managing Director</p>
+              <div class="flex items-center justify-start">
+                <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+                <TextSwitcher
+                  client:load
+                  textToCopy="amy@theadpharm.com"
+                  beforeText="(copy)"
+                  beforeClassName="hover:underline cursor-pointer"
+                  afterText="(copied ✔)"
+                  afterClassName="text-green-600"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Teams
+              </p>
+
+              <ul class="space-y-1.5">
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
+                  <Href
+                    href="/"
+                    className="text-sm text-white hover:text-orange-600"
+                    >The Adpharm (Agency)</Href
+                  >
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
+                  <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
+                  <Href
+                    href="https://www.synapsemedcom.ca/"
+                    className="text-sm text-white hover:text-[#1292a9]"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Synapse Medcom
+                  </Href>
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
+                  <Href
+                    href="/digital"
+                    className="text-sm text-white hover:text-orange-600"
+                    >AD (Adpharm Digital)</Href
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Grid>
+    </Section>
+
+    <Section topBorder className="py-4">
+      <div class="grid grid-cols-1 sm:grid-cols-5">
+        <div
+          class="col-span-2 flex items-center justify-center sm:justify-start"
+        >
+          <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
+        </div>
+        <div class="col-span-3 flex items-center justify-center sm:justify-end">
+          <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+          <p class="text-xs text-zinc-400">
+            &copy; {new Date().getFullYear()} The Adpharm Inc.
+          </p>
+        </div>
+      </div>
+    </Section>
+  </main>
+</DefaultSiteLayout>

@@ -1,0 +1,143 @@
+---
+import { Image } from "astro:assets";
+import ADLogo from "@/images/adpharm-digital-logomark.png";
+import "@/styles/global.css";
+import "@fontsource/dseg14-modern";
+import "@fontsource-variable/playpen-sans";
+import Section from "./Section.astro";
+import { Toaster } from "@/components/ui/sonner";
+import GtmHead from "@/components/tagging/gtmHead.astro";
+import GtmBody from "@/components/tagging/gtmBody.astro";
+import LinkedInInsightsHead from "@/components/tagging/linkedInInsightsHead.astro";
+import LinkedInInsightsBody from "@/components/tagging/linkedInInsightsBody.astro";
+import MetaHead from "@/components/tagging/metaHead.astro";
+import MetaBody from "@/components/tagging/metaBody.astro";
+import { MainNavigation } from "../NavigationMenu";
+import { MenuSheet } from "../Sheet";
+import { type NavItem } from "@/lib/types.nav";
+import { $router } from "@/lib/stores/router";
+import { getPagePath } from "@nanostores/router";
+
+const isProd = import.meta.env.PROD;
+
+interface Props {
+  title: string;
+  htmlClass?: string;
+}
+
+declare const window: Window & { dataLayer: Record<string, unknown>[] };
+
+const { title, htmlClass } = Astro.props;
+
+const desc = `
+  The Adpharm is a full-service healthcare marketing communications agency located in downtown Oakville. 
+  Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch, 
+  nurture and optimize the potential of their brands.
+`;
+
+const navItems: NavItem[] = [
+  {
+    label: "Our Brands",
+    children: [
+      { label: "The Adpharm", href: getPagePath($router, "home") },
+      { label: "Adpharm Digital", href: getPagePath($router, "digital.home") },
+      { label: "Synapse Medcom", href: getPagePath($router, "synapse.home") },
+    ],
+  },
+  {
+    label: "About",
+    href: getPagePath($router, "about"),
+  },
+  {
+    label: "Clients",
+    href: getPagePath($router, "clients"),
+  },
+  {
+    label: "Services",
+    href: getPagePath($router, "services"),
+  },
+  {
+    label: "Contact",
+    href: getPagePath($router, "contact"),
+  },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en" class={htmlClass || ""}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#2b5797" />
+
+    <meta name="theme-color" content="#090909" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.request.url} />
+    <meta property="og:image" content="/ogimage.jpg" />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="720" />
+
+    <title>{title} | The Adpharm</title>
+    <meta name="description" content={desc} />
+
+    <slot name="meta" />
+
+    {isProd && <GtmHead />}
+    {isProd && <MetaHead />}
+    {isProd && <LinkedInInsightsHead />}
+  </head>
+  <body>
+    {isProd && <GtmBody />}
+    {isProd && <LinkedInInsightsBody />}
+    {isProd && <MetaBody />}
+
+    <Section>
+      <header
+        class="lg:px-5 sm:px-0 pt-4 sm:pt-4 pb-4 z-40 fixed top-0 left-0 w-full flex items-center justify-between bg-black border-b border-zinc-800"
+      >
+        <div>
+          <!-- <a href="/">
+            <Image
+              src={ADLogo}
+              alt="The Adpharm"
+              class="w-10"
+            />
+          </a> -->
+        </div>
+        <div
+          class="flex items-center justify-between w-full p-1 space-x-0.5 mx-4 lg:mx-10"
+        >
+          <a href={getPagePath($router, "home")}>
+            <img src="/adpharm-logo@4x.png" alt="the adpharm" class="w-36" />
+          </a>
+
+          <MainNavigation
+            items={navItems}
+            currentPath={currentPath}
+            client:load
+          />
+
+          <MenuSheet client:idle />
+        </div>
+        <div></div>
+      </header>
+    </Section>
+
+    <!-- Content -->
+    <slot />
+
+    <!-- Sonner -->
+    <Toaster client:load richColors />
+  </body>
+</html>

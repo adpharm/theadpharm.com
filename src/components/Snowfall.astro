@@ -1,0 +1,61 @@
+---
+/* src/components/Snowfall.astro */
+---
+
+<div
+  class="fixed top-0 left-0 w-full h-screen pointer-events-none z-40 overflow-hidden animate-fall animate-sway"
+>
+  <!-- Snow particles will be dynamically added here -->
+</div>
+
+<script type="module">
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createSnowParticle() {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("absolute", "top-0", "left-0", "pointer-events-none");
+
+    const particle = document.createElement("div");
+    particle.classList.add(
+      "pointer-events-none",
+      "select-none",
+      "-translate-y-40",
+      "opacity-80"
+    );
+
+    // Customize the particle to be a small white circle
+    const size = random(4, 8);
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.borderRadius = "50%";
+    particle.style.backgroundColor = "white";
+
+    const duration = random(10, 40);
+    const swayDuration = random(3, 5);
+    const delay = random(0, 20);
+    const left = random(0, 100);
+
+    wrapper.style.left = `${left}%`;
+    wrapper.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+    particle.style.animation = `sway ${swayDuration}s ease-in-out ${delay}s infinite`;
+
+    wrapper.appendChild(particle);
+    return wrapper;
+  }
+
+  function generateSnowParticles(count) {
+    const container = document.querySelector(
+      ".fixed.top-0.left-0.pointer-events-none"
+    );
+    for (let i = 0; i < count; i++) {
+      const particle = createSnowParticle();
+      container.appendChild(particle);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    generateSnowParticles(120);
+  });
+</script>
