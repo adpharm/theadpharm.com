@@ -1,6 +1,4 @@
 ---
-import { Transition } from "@headlessui/react";
-
 import Layout from "@/components/layout/Layout.astro";
 import Href from "@/components/Href";
 import Grid from "@/components/layout/Grid.astro";
@@ -8,6 +6,7 @@ import Section from "@/components/layout/Section.astro";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "@/components/TextSwitcher";
 import { LeadershipCard } from "@/components/LeadershipCard";
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 
 const leadership = [
   {
@@ -40,7 +39,7 @@ const leadership = [
 let leaderCount = 0;
 ---
 
-<Layout title="About Us | theadpharm.com">
+<DefaultSiteLayout title="About us">
   <main class="relative">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <video
@@ -64,38 +63,6 @@ let leaderCount = 0;
       </div>
     </div>
 
-    <!-- 
-
-
-
-
-
-
-
-      Hashes
-     -->
-    <!-- <Section>
-      <ul class="pt-20 sm:pt-32 space-y-2 text-right lg:text-left">
-        {
-          sections.map((item) => (
-            <li>
-              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`} className="text-sm">
-                {item.title}
-              </Href>
-            </li>
-          ))
-        }
-      </ul>
-    </Section> -->
-    <!-- 
-
-
-
-
-
-
-      About
-      -->
     <Section
       className="pt-44 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48 animate-fade-in"
     >
@@ -426,4 +393,4 @@ let leaderCount = 0;
 
 
      -->
-</Layout>
+</DefaultSiteLayout>

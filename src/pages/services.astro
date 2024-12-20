@@ -1,6 +1,4 @@
 ---
-import { Transition } from "@headlessui/react";
-
 import Layout from "@/components/layout/Layout.astro";
 import Href from "@/components/Href";
 import Grid from "@/components/layout/Grid.astro";
@@ -9,9 +7,10 @@ import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
 import { LeadershipCard } from "../components/LeadershipCard";
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 ---
 
-<Layout title="Our Services | theadpharm.com">
+<DefaultSiteLayout title="Our Services">
   <main class="relative">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <video
@@ -73,7 +72,7 @@ import { LeadershipCard } from "../components/LeadershipCard";
           slot="left"
           class="flex justify-center items-center w-full sticky top-20"
         >
-          <h1 class="text-5xl w-full mb-10 text-center font-extralight pt-36">
+          <h1 class="text-5xl w-full mb-10 text-center font-light pt-36">
             Services
           </h1>
         </div>
@@ -492,4 +491,4 @@ import { LeadershipCard } from "../components/LeadershipCard";
 
 
      -->
-</Layout>
+</DefaultSiteLayout>

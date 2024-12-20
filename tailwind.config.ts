@@ -1,5 +1,6 @@
 import { type Config } from "tailwindcss";
 import { zinc } from "tailwindcss/colors";
+import * as twAnimation from "tailwindcss-animate";
 
 export default {
   darkMode: "class", // or 'media' or 'class'
@@ -132,5 +133,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [twAnimation],
 } satisfies Config;

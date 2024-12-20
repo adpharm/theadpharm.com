@@ -1,6 +1,4 @@
 ---
-import { Transition } from "@headlessui/react";
-
 import Layout from "@/components/layout/Layout.astro";
 import Href from "@/components/Href";
 import Grid from "@/components/layout/Grid.astro";
@@ -9,6 +7,7 @@ import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
 import { LeadershipCard } from "../components/LeadershipCard";
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 
 const clients = [
   { id: "jnj", name: "Johnson & Johnson", img: "/j_and_j.png" },
@@ -51,7 +50,7 @@ const clients = [
 ];
 ---
 
-<Layout title="The Adpharm: Big agency experience, small agency excellence">
+<DefaultSiteLayout title="Our clients">
   <main class="relative">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <video
@@ -441,4 +440,4 @@ const clients = [
 
 
      -->
-</Layout>
+</DefaultSiteLayout>

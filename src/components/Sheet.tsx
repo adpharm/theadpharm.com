@@ -28,7 +28,7 @@ export function MenuSheet() {
         </SheetHeader>
         <div
           id="main"
-          className="flex flex-col justify-center items-start space-y-4 w-full pt-10 font-extralight text-lg animate-fade-in-quick"
+          className="flex flex-col justify-center items-start space-y-4 w-full pt-10 font-light text-lg animate-fade-in-quick"
         >
           <button
             id="brands-btn"
@@ -57,7 +57,7 @@ export function MenuSheet() {
         </div>
         <div
           id="brands"
-          className="hidden flex-col justify-center items-start space-y-4 w-full pt-10 font-extralight text-lg"
+          className="hidden flex-col justify-center items-start space-y-4 w-full pt-10 font-light text-lg"
         >
           <button
             id="brands-btn"

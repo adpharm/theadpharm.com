@@ -1,6 +1,4 @@
 ---
-import { Transition } from "@headlessui/react";
-
 import Layout from "@/components/layout/Layout.astro";
 import Href from "@/components/Href";
 import Grid from "@/components/layout/Grid.astro";
@@ -10,11 +8,11 @@ import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
 import { LeadershipCard } from "../components/LeadershipCard";
 import { ArrowRight } from "lucide-react";
-import { useForm } from "react-hook-form";
 import ContactForm from "../components/ContactForm";
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 ---
 
-<Layout title="Contact Us | theadpharm.com">
+<DefaultSiteLayout title="Contact Us">
   <main class="relative">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <video
@@ -77,7 +75,7 @@ import ContactForm from "../components/ContactForm";
     >
       <Grid id="about-paragraphs">
         <div slot="left" class="flex justify-center items-center w-full">
-          <h1 class="text-5xl w-full mb-10 text-center font-extralight pt-36">
+          <h1 class="text-5xl w-full mb-10 text-center font-light pt-36">
             Contact Us
           </h1>
         </div>
@@ -188,4 +186,4 @@ import ContactForm from "../components/ContactForm";
       </div>
     </Section>
   </main>
-</Layout>
+</DefaultSiteLayout>

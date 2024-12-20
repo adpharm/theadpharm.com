@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -12,6 +11,9 @@ import {
 import type { NavItem } from "@/lib/types.nav";
 import { $router } from "@/lib/stores/router";
 import { useStore } from "@nanostores/react";
+import { logDebug } from "@/lib/utils.logger";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function MainNavigation({
   items,
@@ -21,27 +23,46 @@ export function MainNavigation({
   currentPath: string;
 }) {
   const router = useStore($router);
-  const pathname = router?.path ?? currentPath;
+  const [activePathName, setActivePathName] = useState(currentPath);
+
+  logDebug(activePathName);
+
+  useEffect(() => {
+    logDebug("use effect to set active path name");
+    if (router.path) setActivePathName(router.path);
+  }, [router.path]);
 
   return (
     <NavigationMenu className="hidden lg:block">
       <NavigationMenuList>
         {items.map((item, i) => {
-          const isActive = pathname === item.href;
+          const isActive = activePathName === item.href;
 
           return (
-            <NavigationMenuItem className="tracking-wider" key={i}>
+            <NavigationMenuItem
+              className="tracking-wider"
+              key={`${item.label}-nav-item-1`}
+            >
               {item.children && item.children.length > 0 ? (
                 <>
-                  <NavigationMenuTrigger className="tracking-wider font-extralight text-md">
+                  <NavigationMenuTrigger
+                    className={cn(
+                      "tracking-wider font-light text-md",
+                      item.children.some(
+                        (child) => activePathName === child.href,
+                      )
+                        ? "text-white"
+                        : "text-gray-500 hover:text-white",
+                    )}
+                  >
                     {item.label}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="p-4 grid gap-2">
                       {item.children.map((child, j) => {
-                        const childActive = pathname === child.href;
+                        const childActive = activePathName === child.href;
                         return (
-                          <li key={j}>
+                          <li key={`${child.label}-nav-item`}>
                             <NavigationMenuLink
                               className={
                                 childActive
@@ -60,7 +81,7 @@ export function MainNavigation({
                 </>
               ) : (
                 <NavigationMenuLink
-                  className={`tracking-wider font-extralight mx-6 ${
+                  className={`tracking-wider font-light mx-6 ${
                     isActive ? "text-white" : "text-gray-500 hover:text-white"
                   }`}
                   asChild

@@ -15,6 +15,8 @@ import MetaBody from "@/components/tagging/metaBody.astro";
 import { MainNavigation } from "../NavigationMenu";
 import { MenuSheet } from "../Sheet";
 import { type NavItem } from "@/lib/types.nav";
+import { $router } from "@/lib/stores/router";
+import { getPagePath } from "@nanostores/router";
 
 const isProd = import.meta.env.PROD;
 
@@ -37,26 +39,26 @@ const navItems: NavItem[] = [
   {
     label: "Our Brands",
     children: [
-      { label: "The Adpharm", href: "/" },
-      { label: "Adpharm Digital", href: "/digital" },
-      { label: "Synapse Medcom", href: "/synapse" },
+      { label: "The Adpharm", href: getPagePath($router, "home") },
+      { label: "Adpharm Digital", href: getPagePath($router, "digital.home") },
+      { label: "Synapse Medcom", href: getPagePath($router, "synapse.home") },
     ],
   },
   {
     label: "About",
-    href: "/about",
+    href: getPagePath($router, "about"),
   },
   {
     label: "Clients",
-    href: "/clients",
+    href: getPagePath($router, "clients"),
   },
   {
     label: "Services",
-    href: "/services",
+    href: getPagePath($router, "services"),
   },
   {
     label: "Contact",
-    href: "/contact",
+    href: getPagePath($router, "contact"),
   },
 ];
 
@@ -116,7 +118,9 @@ const currentPath = Astro.url.pathname;
         <div
           class="flex items-center justify-between w-full p-1 space-x-0.5 mx-4 lg:mx-10"
         >
-          <img src="/adpharm-logo@4x.png" alt="the adpharm" class="w-36" />
+          <a href={getPagePath($router, "home")}>
+            <img src="/adpharm-logo@4x.png" alt="the adpharm" class="w-36" />
+          </a>
 
           <MainNavigation
             items={navItems}
