@@ -24,6 +24,22 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: "Christmas";
+  src: url("../fonts/christmas/christmas.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Speech";
+  src: url("../fonts/christmas/speech.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   /* html {
     font-family: "Switzer-Variable", "ui-sans-serif", system-ui, sans-serif;

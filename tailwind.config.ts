@@ -132,6 +132,7 @@ export default {
       },
       fontFamily: {
         christmas: ["Christmas", "sans-serif"],
+        speech: ["Speech", "sans-serif"],
       },
     },
   },
