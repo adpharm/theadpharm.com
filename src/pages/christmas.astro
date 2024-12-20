@@ -8,7 +8,6 @@ import Section from "../layouts/Section.astro";
 import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
-import { createOpenAI } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import Snowfall from "../components/Snowfall.astro";
 import { BadgeInfo, XIcon } from "lucide-react";
@@ -675,7 +674,7 @@ const currentQuestion = 1;
                       });
 
                       showOutcomeButtons();
-
+                      questionCountElement.classList.add("hidden");
                       hideGuessButtons();
                     } else {
                       handleAIResponse(aiMessage);
@@ -697,6 +696,7 @@ const currentQuestion = 1;
                           startButton.innerText = "Play again";
                           startButton.classList.remove("hidden");
                         }
+                        questionCountElement.classList.add("hidden");
                       }
                     }
                   } else {
