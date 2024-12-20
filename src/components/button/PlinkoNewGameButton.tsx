@@ -11,7 +11,7 @@ export function PlinkoNewGameButton() {
   }
 
   return (
-    <Button type="button" onClick={hanldeNewGame}>
+    <Button type="button" onClick={hanldeNewGame} variant={"primaryWinter"}>
       {isCreatingGame ? "Creating game..." : "New game"}
     </Button>
   );

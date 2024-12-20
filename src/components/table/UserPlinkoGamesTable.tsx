@@ -30,8 +30,8 @@ export function UserPlinkoGamesTable() {
 
   return (
     <div>
-      <h2 className="text-2xl text-sky-900/70 text-center">
-        Your current and past games
+      <h2 className="text-xl text-sky-900/80 text-center">
+        Your Current and Past Games
       </h2>
 
       <Table>

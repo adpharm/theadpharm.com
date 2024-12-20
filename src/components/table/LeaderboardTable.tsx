@@ -23,7 +23,9 @@ export function LeaderboardTable({
 
   return (
     <div>
-      <h2 className="text-2xl text-sky-900/70 text-center">Leaderboard</h2>
+      <h2 className="text-xl text-sky-900/80 text-center">
+        Top 25 Leaderboard
+      </h2>
       <Table className="group/winter">
         {/* <TableCaption>The top scores.</TableCaption> */}
         <TableHeader>
