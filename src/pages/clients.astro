@@ -4,7 +4,6 @@ import Href from "@/components/Href";
 import Grid from "@/components/layout/Grid.astro";
 import Section from "@/components/layout/Section.astro";
 import Icon from "../components/Icon";
-import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
 import { LeadershipCard } from "../components/LeadershipCard";
 import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
@@ -135,9 +134,9 @@ const clients = [
                 src={c.img}
                 alt={c.name}
                 title={c.name}
-                class={twMerge(
+                class={
                   "max-h-[100px] sm:max-h-[150px] max-w-[250px] w-full object-contain transition duration-500 brightness-100"
-                )}
+                }
               />
             </div>
           </div>
