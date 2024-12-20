@@ -26,10 +26,10 @@ export default defineConfig({
     inoxToolsRequestNanostores(),
     sentry({
       dsn: process.env.SENTRY_DSN,
-      sourceMapsUploadOptions: {
-        project: "theadpharm-com",
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-      },
+      // sourceMapsUploadOptions: {
+      //   project: "theadpharm-com",
+      //   authToken: process.env.SENTRY_AUTH_TOKEN,
+      // },
     }),
   ],
 
