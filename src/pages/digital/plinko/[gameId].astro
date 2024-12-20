@@ -341,9 +341,12 @@ $gameRemoteData.set(game);
   // );
   // Matter.World.add(world, [hand]);
 
+  const platformY = 36;
+  const plinkoY = 20;
+
   const platform = Matter.Bodies.rectangle(
-    -20,
-    60,
+    canvasSettings.width / 2,
+    platformY,
     plinkoSettings.ballSize * 3,
     6,
     {
@@ -442,10 +445,10 @@ $gameRemoteData.set(game);
         x: 6,
         y: y,
         sides: 5,
-        radius: 30,
+        radius: 40,
       } as const;
       const leftTriangle = Matter.Bodies.polygon(
-        leftTriangle_.x,
+        leftTriangle_.x - 10,
         leftTriangle_.y,
         leftTriangle_.sides,
         leftTriangle_.radius,
@@ -455,7 +458,7 @@ $gameRemoteData.set(game);
           render: {
             sprite: {
               texture: textures.icyMtnForLeftSide,
-              xScale: 0.15, //This is changing the pyramid's altitude (tip tip to floor)
+              xScale: 0.18, //This is changing the pyramid's altitude (tip tip to floor)
               yScale: 0.3, //This is making the base wider (so they can touch)
             },
           },
@@ -463,10 +466,10 @@ $gameRemoteData.set(game);
       );
 
       const rightTriangle_ = {
-        x: canvasSettings.width - 5,
+        x: canvasSettings.width + 5,
         y: y,
         sides: 5,
-        radius: 30,
+        radius: 40,
       } as const;
       const rightTriangle = Matter.Bodies.polygon(
         rightTriangle_.x,
@@ -478,7 +481,7 @@ $gameRemoteData.set(game);
           render: {
             sprite: {
               texture: textures.icyMtnForRightSide,
-              xScale: 0.15,
+              xScale: 0.18,
               yScale: 0.3,
             },
           },
@@ -744,8 +747,8 @@ $gameRemoteData.set(game);
 
         // otherwise, create the plinko ball and add it to the plinko balls for the round
         const plinkoBall = makePlinko({
-          x: -20,
-          y: 20,
+          x: canvasSettings.width / 2,
+          y: plinkoY,
           size: settings.ballSize,
           texturePath: isGolden
             ? textures.goldOrnamentPlinko
@@ -868,6 +871,18 @@ $gameRemoteData.set(game);
   /******************************************************************************************
    * Handle collisions
    *******************************************************************************************/
+  // rate limit a single ball's collision with pegs
+  let plinko1LastCollisionTime = 0;
+  let plinko2LastCollisionTime = 0;
+  let plinko3LastCollisionTime = 0;
+  let plinko4LastCollisionTime = 0;
+  let plinko5LastCollisionTime = 0;
+  let plinko6LastCollisionTime = 0;
+  let plinko7LastCollisionTime = 0;
+  let plinko8LastCollisionTime = 0;
+  let plinko9LastCollisionTime = 0;
+  let plinko10LastCollisionTime = 0;
+
   Matter.Events.on(engine, "collisionStart", (event) => {
     const { pairs } = event;
 
@@ -988,10 +1003,66 @@ $gameRemoteData.set(game);
        *
        *******************************************************************************************/
       if (otherBody.label.includes("peg")) {
-        const plinko_ =
-          plinkoBallsToCreate?.[
-            plinkoBody.label as keyof typeof plinkoBallsToCreate
-          ];
+        // rate limit the collision
+        const plinkoKey =
+          plinkoBody.label as (typeof plinkoSettings.plinkoBallKeys)[number];
+        let now = performance.now();
+
+        const rateLimit = 150;
+
+        if (plinkoKey === "plinko_ball_1") {
+          if (now - plinko1LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko1LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_2") {
+          if (now - plinko2LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko2LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_3") {
+          if (now - plinko3LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko3LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_4") {
+          if (now - plinko4LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko4LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_5") {
+          if (now - plinko5LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko5LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_6") {
+          if (now - plinko6LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko6LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_7") {
+          if (now - plinko7LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko7LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_8") {
+          if (now - plinko8LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko8LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_9") {
+          if (now - plinko9LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko9LastCollisionTime = now;
+        } else if (plinkoKey === "plinko_ball_10") {
+          if (now - plinko10LastCollisionTime < rateLimit) {
+            return;
+          }
+          plinko10LastCollisionTime = now;
+        }
+
+        const plinko_ = plinkoBallsToCreate?.[plinkoKey];
 
         const isGoldenPlinko = plinko_?.powerUps.includes("golden");
 
@@ -1059,7 +1130,7 @@ $gameRemoteData.set(game);
     // set the platform position
     Matter.Body.setPosition(platform, {
       x: mouseX,
-      y: 36,
+      y: platformY,
     });
 
     if (!activePlinkoBall) return;
@@ -1091,7 +1162,7 @@ $gameRemoteData.set(game);
         Matter.Body.setPosition(activePlinkoBall, {
           // x: hand.position.x,
           x: platform.position.x,
-          y: 20,
+          y: plinkoY,
         });
         Matter.Composite.add(roundComposite, activePlinkoBall);
       }
@@ -1261,7 +1332,6 @@ $gameRemoteData.set(game);
       <LeaderboardTable client:load user={user} />
     </div>
   </div>
-  
 </GamesLayout>
 
 <!-- dialogs -->
