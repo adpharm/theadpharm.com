@@ -1,6 +1,7 @@
 import { type Config } from "tailwindcss";
 import { zinc } from "tailwindcss/colors";
 import * as twAnimation from "tailwindcss-animate";
+import { plinkoSettings } from "@/lib/settings.plinko";
 
 export default {
   darkMode: "class", // or 'media' or 'class'
@@ -23,10 +24,11 @@ export default {
         gray: zinc,
       },
       backgroundImage: {
-        "snowfall-background": "url('/src/images/Snowfall_Background.png')",
-        BottomGraphics: "url('/src/images/BottomGraphics.png')",
-        goldenBall: "url('/src/images/temp-gold-ornament.png')",
-        giftBow: "url('/src/images/gift-bow.png')",
+        // "snowfall-background": "url('/src/images/Snowfall_Background.png')",
+        "snowfall-background": `url(${plinkoSettings.preloadImagesNonBlocking.snowfallBackground})`,
+        // BottomGraphics: "url('/src/images/BottomGraphics.png')",
+        // goldenBall: "url('/src/images/temp-gold-ornament.png')",
+        // giftBow: "url('/src/images/gift-bow.png')",
       },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
@@ -92,7 +94,7 @@ export default {
         },
         spin: {
           "0%": { transform: "rotate(0deg)" },
-          "100%": { transorm: "rotate(360deg)" },
+          "100%": { transform: "rotate(360deg)" },
         },
         bounce: {
           "0%": { transform: "translateY(0px)" },

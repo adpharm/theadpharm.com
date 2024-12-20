@@ -3,6 +3,9 @@ export const plinkoSettings = {
     santaLoading: "/plinko/lottie/SantaLoading.lottie",
     giftTagGold: "/plinko/other/GiftTagGold.webp",
     giftTagGoldFilled: "/plinko/other/GiftTagGoldFilled.webp",
+    bottomScene: "/plinko/other/BottomScene.webp",
+    snowfallBackground: "/plinko/other/Snowfall_Background.webp",
+    plinkoTitleImage: "/plinko/other/PlinkoHeader_Alone.webp",
   },
   preloadImagesBlocking: {
     hand: "/plinko/textures/hand.png",

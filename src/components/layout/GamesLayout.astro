@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import Layout from "./Layout.astro";
 import snowyBackground from "@/assets/images/Snowfall_Background.png";
-import BottomGraphics from "@/images/BottomGraphics.png";
 import { plinkoSettings } from "@/lib/settings.plinko";
 import GtmSendUser from "../tagging/gtmSendUser.astro";
 
@@ -73,7 +72,10 @@ const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
       <slot />
     </div>
     <div class="relative -mt-0 sm:-mt-48 xl:-mt-72 w-full z-0">
-      <img src={BottomGraphics.src} class="w-full" />
+      <img
+        src={plinkoSettings.preloadImagesNonBlocking.bottomScene}
+        class="w-full"
+      />
     </div>
   </main>
 </Layout>

@@ -1,12 +1,11 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
-
 import vercel from "@astrojs/vercel";
-
 import inoxToolsRequestNanostores from "@inox-tools/request-nanostores";
-
-// import auth from "auth-astro";
+import sentry from "@sentry/astro";
+import { config } from "dotenv";
+config({ path: ".env" }); // or .env.local
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,22 +21,17 @@ export default defineConfig({
     tailwind({
       // To prevent serving the Tailwind base styles twice
       applyBaseStyles: false,
-    }), // auth(),
+    }),
     react(),
     inoxToolsRequestNanostores(),
+    sentry({
+      dsn: process.env.SENTRY_DSN,
+      sourceMapsUploadOptions: {
+        project: "theadpharm-com",
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      },
+    }),
   ],
 
   adapter: vercel(),
-
-  // vite: {
-  //   optimizeDeps: {
-  //     // exclude: ["oslo"],
-  //     // exclude: ["@node-rs/argon2", "@node-rs/bcrypt"],
-  //     exclude: ["@node-rs/argon2"],
-  //   },
-  //   ssr: {
-  //     // noExternal: ["oslo"],
-  //     noExternal: ["@node-rs/argon2"],
-  //   },
-  // },
 });
