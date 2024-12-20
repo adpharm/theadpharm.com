@@ -10,11 +10,11 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 
 <DefaultSiteLayout title="Synapse Medcom">
   <main class="relative">
-    <Section className="py-96">
+    <Section className="pt-32 2xl:py-96">
       <Grid id="about">
         <div
           slot="left"
-          class="flex flex-col justify-center items-center ml-10"
+          class="flex flex-col justify-center items-center lg:ml-10"
         >
           <!-- <h1 class="text-5xl w-full mb-10 text-center font-light pt-36">
             Synapse Medcom
@@ -22,11 +22,11 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
           <img
             src="/synpaselogo.png"
             alt="synapse medcom"
-            class="w-72 animate-fade-in"
+            class="w-64 lg:w-72 animate-fade-in"
           />
         </div>
         <div slot="right">
-          <h1 class="pt-16 text-3xl font-light animate-fade-in">
+          <h1 class="pt-16 text-2xl xl:text-3xl font-light animate-fade-in">
             The Synapse Group debuted as a medical communications company over
             30 years ago. After a long history of success, we became part of the
             Adpharm family as Synapse Medical Communications.
@@ -53,7 +53,7 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
             </p>
             <a
               href="https://www.synapsemedcom.ca"
-              class="flex flex-row justify-center items-center bg-[#4390a6] rounded-full px-6 py-2 max-w-72 text-white"
+              class="flex flex-row justify-center items-center bg-[#4390a6] rounded-full px-6 py-2 max-w-72 text-white mb-32 lg:mb-0"
             >
               Learn more about Synapse <ExternalLink
                 className="ml-2 animate-pulse"
@@ -63,6 +63,8 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
         </div>
       </Grid>
     </Section>
+
+    <div class="h-20 lg:h-0"></div>
 
     <Section className="pt-12 pb-24" fullTopBorder>
       <Grid id="sfd23" className="space-y-12 lg:space-y-0">

@@ -69,7 +69,7 @@ export default function ContactForm() {
 
   return (
     <form
-      className="space-y-6 max-w-md border border-zinc-800 p-6"
+      className="space-y-6 w-full max-w-md border border-zinc-800 p-6"
       onSubmit={handleSubmit(onSubmit)}
     >
       <h2 className="text-xl mb-4">Get in touch</h2>
