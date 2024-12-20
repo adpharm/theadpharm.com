@@ -75,11 +75,13 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
     >
       <Grid id="about-paragraphs">
         <div slot="left" class="flex justify-center items-center w-full">
-          <h1 class="text-5xl w-full mb-10 text-center font-light pt-36">
+          <h1
+            class="2xl:text-5xl text-4xl w-full mb-10 text-center font-light pt-20 lg:pt-36"
+          >
             Contact Us
           </h1>
         </div>
-        <div slot="right">
+        <div slot="right" class="w-full flex justify-center items-center pt-24">
           <ContactForm />
         </div>
       </Grid>
@@ -108,7 +110,9 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
         </div>
 
         <div slot="right">
-          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+          <div
+            class="grid space-y-8 xl:space-y-0 grid-cols-1 xl:grid-cols-2 pl-20 xl:pl-0"
+          >
             <div>
               <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
                 Contact

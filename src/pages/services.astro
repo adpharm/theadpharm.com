@@ -72,26 +72,31 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
           slot="left"
           class="flex justify-center items-center w-full sticky top-20"
         >
-          <h1 class="text-5xl w-full mb-10 text-center font-light pt-36">
+          <h1
+            class="2xl:text-5xl text-4xl w-full mb-10 text-center font-light pt-36"
+          >
             Services
           </h1>
         </div>
-        <div slot="right" class="lg:px-32 pt-20">
+        <div
+          slot="right"
+          class="sm:px-2 md:px-6 lg:px-10 xl:px-24 2xl:px-32 pt-20"
+        >
           <div
-            class="pt-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
           >
             <div
-              class="flex flex-col items-start justify-start w-full space-y-16"
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
             >
               <Icon
                 as="div"
                 name="pawn"
-                className="h-12 w-12 text-orange-700 animate-pawn mr-8"
+                className="h-10 w-10 xl:h-12 xl:w-12 text-orange-700 animate-pawn mr-8"
               />
-              <h2 class="text-4xl">Strategy</h2>
+              <h2 class="2xl:text-4xl xl:text-3xl text-2xl">Strategy</h2>
 
               <ul
-                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
               >
                 <li>Brand Strategy</li>
                 <li>New Product and Indication Launch Strategy</li>
@@ -103,20 +108,20 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
             </div>
           </div>
           <div
-            class="p-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
           >
             <div
-              class="flex flex-col items-start justify-start w-full space-y-16"
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
             >
               <Icon
                 as="div"
                 name="paint"
-                className="h-12 w-12 text-blue-700 animate-wiggle mr-8"
+                className="h-10 w-10 xl:h-12 xl:w-12 text-blue-600 animate-wiggle mr-8"
               />
-              <h2 class="text-4xl">Creative</h2>
+              <h2 class="2xl:text-4xl xl:text-3xl text-2xl">Creative</h2>
 
               <ul
-                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
               >
                 <li>HCP, Patient, and Consumer Content Development</li>
                 <li>Regulatory-Compliant Creative (PAAB & ASC Expertise)</li>
@@ -133,27 +138,29 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
             </div>
           </div>
           <div
-            class="p-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
           >
             <div
-              class="flex flex-col items-start justify-start w-full space-y-16"
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
             >
               <div>
                 <Icon
                   as="div"
                   name="chevronRight"
-                  className="h-12 w-12 text-violet-700"
+                  className="h-10 w-10 xl:h-12 xl:w-12 text-violet-700 animate-wiggle"
                 />
                 <div
-                  class="-ml-2 w-5 h-1 rounded-full bg-violet-700 animate-pulse"
+                  class="w-5 h-1 translate-x-4 rounded-full bg-violet-700 animate-pulse"
                 >
                 </div>
               </div>
 
-              <h2 class="text-4xl">Design & Development</h2>
+              <h2 class="2xl:text-4xl xl:text-3xl text-2xl">
+                Design & Development
+              </h2>
 
               <ul
-                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
               >
                 <li>Website and App Design and Development (Full Stack)</li>
                 <li>
@@ -167,18 +174,20 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
             </div>
           </div>
           <div
-            class="p-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+            class="2xl:p-24 p-8 md:p-16 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
           >
             <div
-              class="flex flex-col items-start justify-start w-full space-y-16"
+              class="flex flex-col items-start justify-start w-full space-y-8 xl:space-y-16"
             >
               <Icon
                 as="div"
                 name="heart"
-                className="h-12 w-12 text-red-600 animate-pulse mr-8"
+                className="h-10 w-10 xl:h-12 xl:w-12 text-red-600 animate-pulse mr-8"
               />
               <div class="flex flex-col justify-center items-start">
-                <h2 class="text-4xl">Medical Communications</h2>
+                <h2 class="2xl:text-4xl xl:text-3xl text-2xl">
+                  Medical Communications
+                </h2>
                 <a
                   href="https://www.synapsemedcom.ca"
                   class="text-xs text-orange-500 hover:underline decoration-orange-500"
@@ -187,7 +196,7 @@ import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
               </div>
 
               <ul
-                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 2xl:text-xl md:text-lg text-md"
               >
                 <li>Advisory Boards and Consultancy Meetings</li>
                 <li>Speaker Training and Development Programs</li>
