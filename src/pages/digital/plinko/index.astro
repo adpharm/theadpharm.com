@@ -9,6 +9,7 @@ import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUser
 import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
 import GamesLayout from "@/components/layout/GamesLayout.astro";
 import { getUser } from "@/lib/server/auth.utils";
+import { PlinkoNewGameButton } from "@/components/button/PlinkoNewGameButton";
 
 const user = getUser(Astro);
 
@@ -28,6 +29,17 @@ $userGamesTable.set(plinkoGameWithRounds);
 
 <GamesLayout title="Let's play Christmas Plinko!">
   <div class="mt-6 grid gap-12">
+    <div class="text-center">
+      <img
+        src="/plinko/other/PlinkoHeader_Alone.webp"
+        class="object-contain w-full max-w-sm mx-auto"
+      />
+
+      <div class="pt-10">
+        <PlinkoNewGameButton client:load />
+      </div>
+    </div>
+
     {user && <UserPlinkoGamesTable client:load />}
 
     <LeaderboardTable client:load user={user} />

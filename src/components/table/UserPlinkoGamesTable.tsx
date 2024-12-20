@@ -20,29 +20,19 @@ import { ClientOnly } from "@/lib/utils.react-hydration";
 import { useState } from "react";
 import { getPagePath } from "@nanostores/router";
 import { $router } from "@/lib/stores/router";
+import { makePrettyNumber } from "@/lib/utils.numbers";
 
 export function UserPlinkoGamesTable() {
   const userGamesTableData = useStore($userGamesTable);
-  const [isCreatingGame, setIsCreatingGame] = useState(false);
   const [isContinuingToGameId, setIsContinuingToGameId] = useState<
     number | null
   >(null);
 
   return (
     <div>
-      <div className="flex items-end justify-start">
-        <div className="flex-1"></div>
-
-        <Button
-          type="button"
-          onClick={() => {
-            setIsCreatingGame(true);
-            newPlinkoGame();
-          }}
-        >
-          {isCreatingGame ? "Creating game..." : "New game"}
-        </Button>
-      </div>
+      <h2 className="text-2xl text-sky-900/70 text-center">
+        Your current and past games
+      </h2>
 
       <Table>
         {/* <TableCaption>Your games.</TableCaption> */}
@@ -81,7 +71,9 @@ export function UserPlinkoGamesTable() {
                     </span>
                   )}
                 </TableCell>
-                <TableCell className="text-right">{game.score}</TableCell>
+                <TableCell className="text-right">
+                  {makePrettyNumber(game.score)}
+                </TableCell>
                 <TableCell className="text-right">
                   <Button
                     type="button"

@@ -32,10 +32,14 @@ export function RegisterGuestUserDialog({ open }: { open: boolean }) {
   return (
     <Dialog open={open}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
-      <DialogContent dismissable={false}>
-        <DialogHeader>
-          <DialogTitle>Welcome to The Adpharm's Xmas Plinko!</DialogTitle>
-          <DialogDescription>Pick a username and let's play!</DialogDescription>
+      <DialogContent dismissable={false} winter>
+        <DialogHeader className="border-b border-sky-900/30 pb-4">
+          <DialogTitle className="text-center">
+            Pick a username and let's play!
+          </DialogTitle>
+          {/* <DialogDescription className="text-center">
+            
+          </DialogDescription> */}
         </DialogHeader>
 
         {/* Form */}

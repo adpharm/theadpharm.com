@@ -11,6 +11,10 @@ import {
 import Layout from "./Layout.astro";
 import snowyBackground from "@/assets/images/Snowfall_Background.png";
 import BottomGraphics from "@/images/BottomGraphics.png";
+import { plinkoSettings } from "@/lib/settings.plinko";
+import GtmSendUser from "../tagging/gtmSendUser.astro";
+
+const isProd = import.meta.env.PROD;
 
 interface Props {
   title: string;
@@ -20,12 +24,11 @@ const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
 ---
 
 <Fragment slot="meta">
-  <link
-    rel="preload"
-    href="/plinko/lottie/SantaLoading.lottie"
-    as="fetch"
-    crossorigin="anonymous"
-  />
+  {
+    Object.values(plinkoSettings.preloadImagesNonBlocking).map((src) => (
+      <link rel="preload" href={src} as="fetch" crossorigin="anonymous" />
+    ))
+  }
 </Fragment>
 
 <Layout title={title}>
@@ -33,7 +36,7 @@ const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
     class="flex flex-col min-h-screen bg-snowfall-background bg-cover bg-center font-xmas group winter"
   >
     <!-- main content -->
-    <div class="relative flex-1 w-full max-w-4xl mx-auto pt-20 z-20">
+    <div class="relative flex-1 w-full max-w-4xl mx-auto pt-20 z-20 px-4">
       <!-- <div class="shrink-0">
         <img
           src="/plinko/other/PlinkoHeader_Alone.webp"
@@ -41,9 +44,7 @@ const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
         />
       </div> -->
 
-      <div
-        class="flex items-end justify-between py-2.5 "
-      >
+      <div class="flex items-end justify-between py-2.5">
         <div>
           {
             breadcrumbs && (
@@ -71,8 +72,10 @@ const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
 
       <slot />
     </div>
-    <div class="relative -mt-72 w-full z-0">
+    <div class="relative -mt-0 sm:-mt-48 xl:-mt-72 w-full z-0">
       <img src={BottomGraphics.src} class="w-full" />
     </div>
   </main>
 </Layout>
+
+{isProd && <GtmSendUser />}

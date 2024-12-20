@@ -11,6 +11,10 @@ export default {
       mono: ["DSEG14 Modern", "monospace"],
     },
     extend: {
+      // add an xs breakpoint
+      screens: {
+        xs: "475px",
+      },
       zIndex: {
         60: "60",
       },

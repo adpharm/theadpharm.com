@@ -11,7 +11,10 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { generateRandomUsername } from "@/lib/generateRandomUsername";
+import {
+  generateRandomUsername,
+  generateRandomUsernameFromName,
+} from "@/lib/generateRandomUsername";
 import { Button } from "../ui/button";
 import { actions } from "astro:actions";
 import { useStore } from "@nanostores/react";
@@ -35,6 +38,8 @@ export function RegisterGuestUserForm() {
     guestFromSearch && guestFromSearch.code === guestCode
   );
 
+  logDebug("guestFromSearch", guestFromSearch);
+
   // test:
   // {"email": "ben@theadpharm.com","code": "guest", "first_name":"Ben","last_name":"Honda"}
   // %7B%22email%22%3A%20%22ben%40theadpharm.com%22%2C%22code%22%3A%20%22guest%22%2C%20%22first_name%22%3A%22Ben%22%2C%22last_name%22%3A%22Honda%22%7D
@@ -45,7 +50,7 @@ export function RegisterGuestUserForm() {
   const form = useForm<z.infer<typeof createGuestUserSchema>>({
     resolver: zodResolver(createGuestUserSchema),
     defaultValues: {
-      username: "",
+      username: generateRandomUsernameFromName(guestFromSearch?.first_name),
     },
   });
 
@@ -81,7 +86,10 @@ export function RegisterGuestUserForm() {
 
   // random username generator
   const randomUsername = () => {
-    form.setValue("username", generateRandomUsername());
+    form.setValue(
+      "username",
+      generateRandomUsernameFromName(guestFromSearch?.first_name),
+    );
   };
 
   return (
@@ -101,7 +109,7 @@ export function RegisterGuestUserForm() {
                 <FormLabel>Username</FormLabel>
 
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} className="py-7" />
                 </FormControl>
 
                 <button
@@ -123,7 +131,7 @@ export function RegisterGuestUserForm() {
            * Submit
            *
            ****************************************************/}
-          <Button type="submit">
+          <Button type="submit" variant={"primaryWinter"}>
             {form.formState.isSubmitting ? "Submitting..." : "Let's play 🎉"}
           </Button>
 
@@ -138,25 +146,26 @@ export function RegisterGuestUserForm() {
            * OR Sign in/sign up buttons
            *
            ****************************************************/}
-          <div className="">
+           {/* TODO: re-enable this after some testing */}
+          {/* <div className="">
             <div className="text-center">
-              <Separator />
+              <Separator className="bg-sky-900/30" />
             </div>
 
-            <FormDescription className="py-4">
+            <FormDescription className="py-6 text-center">
               Want to save your progress? Sign in or sign up.
             </FormDescription>
 
             <div className="grid grid-cols-2 gap-4">
-              <Button type="button" variant="secondary" asChild>
+              <Button type="button" variant="secondaryWinter" asChild>
                 <a href={getPagePath($router, "login")}>Sign in</a>
               </Button>
 
-              <Button type="button" variant="secondary" asChild>
+              <Button type="button" variant="secondaryWinter" asChild>
                 <a href={getPagePath($router, "register")}>Sign up</a>
               </Button>
             </div>
-          </div>
+          </div> */}
         </form>
       </Form>
     </>

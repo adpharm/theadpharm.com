@@ -1,6 +1,18 @@
 export const plinkoSettings = {
-  canvasWidth: 400,
-  canvasHeight: 600,
+  preloadImagesNonBlocking: {
+    santaLoading: "/plinko/lottie/SantaLoading.lottie",
+    giftTagGold: "/plinko/other/GiftTagGold.webp",
+    giftTagGoldFilled: "/plinko/other/GiftTagGoldFilled.webp",
+  },
+  preloadImagesBlocking: {
+    hand: "/plinko/textures/hand.png",
+    icyMtnForLeftSide: "/plinko/textures/icy-mtn-for-left-side.png",
+    icyMtnForRightSide: "/plinko/textures/icy-mtn-for-right-side.png",
+    goldOrnamentPlinko: "/plinko/other/GoldOrnamentPlinko.webp",
+    redOrnamentPlinko: "/plinko/other/RedOrnamentPlinko.webp",
+    pocketRedSac: "/plinko/textures/Red_Giftbag.png",
+    candyCaneDivider: "/plinko/textures/CandyCaneDivider.png",
+  },
   pocketKeys: [
     "pocket_middle_left_3",
     "pocket_middle_left_2",

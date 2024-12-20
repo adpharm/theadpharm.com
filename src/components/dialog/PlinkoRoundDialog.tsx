@@ -127,11 +127,11 @@ export function PlinkoRoundWaitingToStartDialog() {
         winter
         className={cn(showUpgradeForm ? "pb-40" : "")}
       >
-        <DialogHeader>
-          <DialogTitle>
-            Round {parsePlinkoRoundNum(currentRoundData.key)} is about to start!
+        <DialogHeader className="border-b border-sky-900/30 pb-3">
+          <DialogTitle className="text-center text-sky-900 text-xl">
+            Round {parsePlinkoRoundNum(currentRoundData.key)}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-center ">
             {showUpgradeForm ? (
               <>
                 Below you'll find your upgrade budget, plinko arsenal, and the
@@ -147,14 +147,14 @@ export function PlinkoRoundWaitingToStartDialog() {
         {showUpgradeForm ? (
           <>
             <div className="grid grid-cols-5 gap-4">
-              <div className="col-span-2">
+              <div className="col-span-5 sm:col-span-2">
                 <p className="text-sm text-gray-500">Upgrade budget:</p>
                 <p className="pt-1 text-2xl">
                   ${makePrettyNumber(upgradeBudget)}
                 </p>
               </div>
 
-              <div className="col-span-3">
+              <div className="col-span-5 sm:col-span-3">
                 <p className="text-sm text-gray-500 pb-2">Plinko arsenal:</p>
                 <PlinkoBallArsenal showActive={false} />
               </div>
@@ -203,7 +203,7 @@ export function PlinkoRoundWaitingToStartDialog() {
                                 form.setValue(upgradeKey, true);
                               }}
                               defaultValue={field.value}
-                              className="grid grid-cols-2 gap-4"
+                              className="grid grid-cols-1 sm:grid-cols-2 gap-0 md:gap-4"
                             >
                               {Object.entries(upgradeSettings).map(
                                 ([
@@ -398,6 +398,7 @@ function UpgradeRadioOption({
     <FormItem
       aria-disabled={locked}
       className={cn(
+        "max-w-80 mx-auto",
         "relative h-full bg-[url('/plinko/other/GiftTagGold.webp')] has-[:checked]:bg-[url('/plinko/other/GiftTagGoldFilled.webp')] bg-no-repeat bg-contain",
         locked || disabled ? "opacity-60 saturate-0 pointer-events-none" : "",
       )}
@@ -411,10 +412,7 @@ function UpgradeRadioOption({
         )}
       />
 
-      <FormLabel
-        className="absolute z-10 inset-0 block pl-12 pr-6 pt-2"
-        onClick={() => log("clicked")}
-      >
+      <FormLabel className="absolute z-10 inset-0 block pl-16 sm:pl-12 pr-6 pt-2">
         <FormControl>
           {disabled ? (
             <Badge
@@ -490,11 +488,8 @@ export function PlinkoRoundEndedDialog() {
     <Dialog open={openDialog}>
       {/* <!-- <DialogTrigger>Open</DialogTrigger> --> */}
       <DialogContent dismissable={false} winter>
-        <DialogHeader>
-          <DialogTitle>
-            Round {parsePlinkoRoundNum(currentRoundData?.key || "rnd1")} has
-            ended!
-          </DialogTitle>
+        <DialogHeader className="border-b border-sky-900/30 pb-3">
+          <DialogTitle className="text-center">Results</DialogTitle>
           {/* <DialogDescription>
             Your score is {makePrettyNumber(currentRoundData?.score || 0)}
           </DialogDescription> */}

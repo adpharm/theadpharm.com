@@ -8,7 +8,7 @@ export function PlinkoLoadingScreen() {
   if (!settingUpGame) return null;
 
   return (
-    <div className="fixed inset-0 z-60 flex flex-col items-center justify-center bg-sky-100 font-xmas">
+    <div className="fixed inset-0 z-60 flex flex-col items-center justify-center bg-sky-100 font-xmas p-4 text-center">
       <h1 className="text-2xl">We're getting your game ready...</h1>
 
       <div className="size-96">

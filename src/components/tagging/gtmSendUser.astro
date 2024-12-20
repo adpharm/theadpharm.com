@@ -1,0 +1,12 @@
+---
+
+---
+
+<script>
+  if (Astro.locals.user) {
+    // @ts-expect-error
+    window.customDataLayer = window.dataLayer || [];
+    // @ts-expect-error
+    window.customDataLayer.push({ user: Astro.locals.user.username });
+  }
+</script>

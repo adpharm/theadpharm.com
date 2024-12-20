@@ -19,7 +19,7 @@ export async function listTopGamesWithUsers() {
     .where(gt(tablePlinkoGames.score, 0))
     .innerJoin(tableUsers, eq(tablePlinkoGames.user_id, tableUsers.id))
     .orderBy(desc(tablePlinkoGames.score))
-    .limit(10);
+    .limit(25);
 
   $leaderboard.set(topGamesWithUsers);
 }

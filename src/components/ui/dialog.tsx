@@ -48,9 +48,9 @@ const DialogContent = React.forwardRef<
     >
       <ScrollArea
         className="max-h-[90vh]"
-        classNameViewport={cn("p-7", className)}
+        classNameViewport={cn("p-4 sm:p-7", className)}
       >
-        <div className="grid gap-4">{children}</div>
+        <div className="grid gap-4 group/winter">{children}</div>
       </ScrollArea>
       <DialogPrimitive.Close
         className={cn(
@@ -75,7 +75,7 @@ const DialogContent = React.forwardRef<
           />
           <img
             src="/plinko/other/SnowLong.webp"
-            className="absolute inset-x-0 -bottom-12 w-full"
+            className="absolute inset-x-0 -bottom-8 xs:-bottom-10 sm:-bottom-12 w-full"
           />
         </>
       )}

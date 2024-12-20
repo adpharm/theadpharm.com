@@ -76,3 +76,29 @@ export const $nextRoundRemoteData = atom<
 export const $guestCode = atom("guest");
 
 export const $settingUpGame = atom(true);
+
+export const mobileCanvasSettings = {
+  width: 300,
+  height: 600,
+  pegSize: 7,
+  pegRows: 17,
+};
+
+export const desktopCanvasSettings = {
+  width: 400,
+  height: 600,
+  pegSize: 10,
+  pegRows: 17,
+};
+
+export const $canvasSettings = shared(
+  "canvasSettings",
+  atom(desktopCanvasSettings),
+);
+
+// <{
+//   width: number;
+//   height: number;
+//   pegSize: number;
+//   pegRows: number; // should be odd
+// }>({ width: 400, height: 600, pegSize: 10, pegRows: 17 });

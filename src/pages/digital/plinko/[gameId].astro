@@ -8,12 +8,11 @@ import {
 import { requireNum } from "@/lib/server/parse_int";
 import { desc, eq, gt, inArray } from "drizzle-orm";
 import {
+  mobileCanvasSettings,
   $currentRoundRemoteData,
   $gameRemoteData,
   $leaderboard,
 } from "@/lib/stores";
-import { allTasks } from "nanostores";
-import { Button } from "@/components/ui/button";
 import {
   GameOverScoreboard,
   PlinkoScoreboard,
@@ -29,14 +28,13 @@ import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUser
 import { getUser } from "@/lib/server/auth.utils";
 import { getPagePath } from "@nanostores/router";
 import { $router } from "@/lib/stores/router";
-import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
-import plinkoHeaderWithScoreBoard from "@/images/PlinkoHeaderwithScoreboard.png";
-import BottomGraphics from "@/images/BottomGraphics.png";
 import GamesLayout from "@/components/layout/GamesLayout.astro";
-import { plinkoSettings } from "@/lib/settings.plinko";
 import { PlinkoPocketValueGrid } from "@/components/misc/PlinkoPocketValueGrid";
 import { PlinkoBallArsenal } from "@/components/misc/PlinkoBallArsenal";
 import { PlinkoLoadingScreen } from "@/components/loading/PlinkoLoadingScreen";
+import { isProbablyMobileBrowser } from "@/lib/server/isMobile";
+import { $canvasSettings } from "@/lib/stores";
+import { logDebug } from "@/lib/utils.logger";
 
 const user = getUser(Astro);
 
@@ -84,6 +82,16 @@ if (!currentRound) {
   throw new Error("No current round found");
 }
 
+// get user agent
+// check if this is a mobile device
+const isProbablyMobile = isProbablyMobileBrowser(Astro);
+
+if (isProbablyMobile) {
+  $canvasSettings.set(mobileCanvasSettings);
+}
+
+const canvasSettings = $canvasSettings.get();
+
 // set stores
 $currentRoundRemoteData.set(currentRound);
 $gameRemoteData.set(game);
@@ -103,6 +111,9 @@ $gameRemoteData.set(game);
     $roundScore,
     $remainingPlinkoBallsThisRound,
     $settingUpGame,
+    $canvasSettings,
+    mobileCanvasSettings,
+    desktopCanvasSettings,
     type PlinkoBallData,
   } from "@/lib/stores";
   import { toast } from "sonner";
@@ -154,15 +165,7 @@ $gameRemoteData.set(game);
     throw new Error("At least one DotLottie canvas was not found");
   }
 
-  const textures = {
-    hand: "/plinko/textures/hand.png",
-    icyMtnForLeftSide: "/plinko/textures/icy-mtn-for-left-side.png",
-    icyMtnForRightSide: "/plinko/textures/icy-mtn-for-right-side.png",
-    goldOrnamentPlinko: "/plinko/other/GoldOrnamentPlinko.webp",
-    redOrnamentPlinko: "/plinko/other/RedOrnamentPlinko.webp",
-    pocketRedSac: "/plinko/textures/Red_Giftbag.png",
-    candyCaneDivider: "/plinko/textures/CandyCaneDivider.png",
-  };
+  const textures = plinkoSettings.preloadImagesBlocking;
 
   const imagesToLoad = Object.values(textures);
   logDebug("preloading images");
@@ -230,6 +233,18 @@ $gameRemoteData.set(game);
   //   src: "https://lottie.host/ddc1847b-5563-45dd-806c-c124252ce2ea/BZ8KuBgUWM.lottie",
   // });
 
+  let canvasSettings = $canvasSettings.get();
+  $canvasSettings.subscribe((val) => {
+    canvasSettings = val;
+  });
+
+  // if we're on a screen less than 500px wide, reduce the canvas size
+  if (window.innerWidth < 501) {
+    $canvasSettings.set(mobileCanvasSettings);
+  } else {
+    $canvasSettings.set(desktopCanvasSettings);
+  }
+
   // set up the engine and environment
   const engine = Matter.Engine.create();
   const runner = Matter.Runner.create();
@@ -267,8 +282,8 @@ $gameRemoteData.set(game);
       wireframes: false, // must be false in deployment
       // background: "hsl(225, 60%, 20%)",
       background: "transparent",
-      width: plinkoSettings.canvasWidth,
-      height: plinkoSettings.canvasHeight,
+      width: canvasSettings.width,
+      height: canvasSettings.height,
     },
   });
 
@@ -311,28 +326,45 @@ $gameRemoteData.set(game);
     });
   };
 
-  const hand = Matter.Bodies.rectangle(
+  // const hand = Matter.Bodies.rectangle(
+  //   -20,
+  //   50,
+  //   plinkoSettings.ballSize * 2,
+  //   plinkoSettings.ballSize * 2,
+  //   {
+  //     isStatic: true,
+  //     collisionFilter: {
+  //       group: -1, // so that the hand does not collide with the plinko balls
+  //     },
+  //     render: {
+  //       sprite: {
+  //         texture: textures.hand,
+  //         xScale: 1.0,
+  //         yScale: 1.0,
+  //       },
+  //     },
+  //     label: "hand",
+  //   }
+  // );
+  // Matter.World.add(world, [hand]);
+
+  const platform = Matter.Bodies.rectangle(
     -20,
-    50,
-    plinkoSettings.ballSize * 2,
-    plinkoSettings.ballSize * 2,
+    60,
+    plinkoSettings.ballSize * 3,
+    6,
     {
       isStatic: true,
       collisionFilter: {
         group: -1, // so that the hand does not collide with the plinko balls
       },
       render: {
-        sprite: {
-          texture: textures.hand,
-          xScale: 1.0,
-          yScale: 1.0,
-        },
+        fillStyle: "white",
       },
-      label: "hand",
+      label: "platform",
     }
   );
-
-  Matter.World.add(world, [hand]);
+  Matter.World.add(world, [platform]);
 
   /********************************************************************************************
    *
@@ -343,8 +375,6 @@ $gameRemoteData.set(game);
    *******************************************************************************************/
   function initBoard(settings: typeof plinkoSettings) {
     const pegGrid = {
-      pegSize: 10,
-      numRows: 17, // this number should be odd
       paddingTop: 50,
       paddingLeft: 0,
       paddingRight: 0,
@@ -356,9 +386,9 @@ $gameRemoteData.set(game);
      *******************************************************************************************/
     const leftWall_ = {
       x: -1,
-      y: settings.canvasHeight / 2,
+      y: canvasSettings.height / 2,
       width: 1,
-      height: settings.canvasHeight,
+      height: canvasSettings.height,
     } as const;
     const leftWall = Matter.Bodies.rectangle(
       leftWall_.x,
@@ -375,10 +405,10 @@ $gameRemoteData.set(game);
     );
 
     const rightWall_ = {
-      x: settings.canvasWidth + 1,
-      y: settings.canvasHeight / 2,
+      x: canvasSettings.width + 1,
+      y: canvasSettings.height / 2,
       width: 1,
-      height: settings.canvasHeight,
+      height: canvasSettings.height,
     } as const;
     const rightWall = Matter.Bodies.rectangle(
       rightWall_.x,
@@ -401,10 +431,10 @@ $gameRemoteData.set(game);
     let contourRightTriangles = [];
 
     const rowSizeForTriangles =
-      (settings.canvasHeight - pegGrid.paddingTop - pegGrid.paddingBottom) /
-      pegGrid.numRows;
+      (canvasSettings.height - pegGrid.paddingTop - pegGrid.paddingBottom) /
+      canvasSettings.pegRows;
 
-    for (let rowIdx = 1; rowIdx < pegGrid.numRows; rowIdx += 2) {
+    for (let rowIdx = 1; rowIdx < canvasSettings.pegRows; rowIdx += 2) {
       const y =
         rowSizeForTriangles * rowIdx +
         rowSizeForTriangles / 2 +
@@ -412,11 +442,11 @@ $gameRemoteData.set(game);
 
       // for (
       //   let i = pegGrid.paddingTop;
-      //   i < settings.canvasHeight - pegGrid.paddingBottom;
+      //   i < canvasSettings.height - pegGrid.paddingBottom;
       //   i += 50
       // ) {
       const leftTriangle_ = {
-        x: 5,
+        x: 6,
         y: y,
         sides: 5,
         radius: 30,
@@ -428,6 +458,7 @@ $gameRemoteData.set(game);
         leftTriangle_.radius,
         {
           isStatic: true,
+          angle: Math.PI,
           render: {
             sprite: {
               texture: textures.icyMtnForLeftSide,
@@ -439,7 +470,7 @@ $gameRemoteData.set(game);
       );
 
       const rightTriangle_ = {
-        x: settings.canvasWidth - 5,
+        x: canvasSettings.width - 5,
         y: y,
         sides: 5,
         radius: 30,
@@ -480,12 +511,12 @@ $gameRemoteData.set(game);
     const numPegsInRow = settings.pocketKeys.length - 1;
 
     const rowSize =
-      (settings.canvasHeight - pegGrid.paddingTop - pegGrid.paddingBottom) /
-      pegGrid.numRows;
+      (canvasSettings.height - pegGrid.paddingTop - pegGrid.paddingBottom) /
+      canvasSettings.pegRows;
 
-    const pocketWidth = settings.canvasWidth / settings.pocketKeys.length;
+    const pocketWidth = canvasSettings.width / settings.pocketKeys.length;
 
-    const grid = Array.from({ length: pegGrid.numRows }, (_, rowIdx) => {
+    const grid = Array.from({ length: canvasSettings.pegRows }, (_, rowIdx) => {
       // if the row is odd the number of pegs to create is one less than the number of pegs in the row
       const pegsToCreate = rowIdx % 2 === 0 ? numPegsInRow : numPegsInRow - 1;
       // we have to shift the pegs to the right by half the column size
@@ -494,7 +525,7 @@ $gameRemoteData.set(game);
       return Array.from({ length: pegsToCreate }, (_, pegIdx) => {
         const x = pocketWidth + pocketWidth * pegIdx + xOffset;
         const y = rowSize * rowIdx + rowSize / 2 + pegGrid.paddingTop;
-        const r = pegGrid.pegSize / 2;
+        const r = canvasSettings.pegSize / 2;
 
         // create the peg
         return Matter.Bodies.circle(x, y, r, {
@@ -590,13 +621,13 @@ $gameRemoteData.set(game);
       label: "round",
     });
 
-    const pocketWidth = settings.canvasWidth / settings.pocketKeys.length;
+    const pocketWidth = canvasSettings.width / settings.pocketKeys.length;
 
     settings.pocketKeys.forEach((pocketKey, index) => {
       // make pockets
       const pocket_ = {
         x: pocketWidth * index + pocketWidth / 2,
-        y: settings.canvasHeight - settings.pocketHeight / 2,
+        y: canvasSettings.height - settings.pocketHeight / 2,
         width: pocketWidth,
         height: settings.pocketHeight,
       };
@@ -1023,14 +1054,19 @@ $gameRemoteData.set(game);
    ******************************************************************************************/
   Matter.Events.on(mouseConstraint, "mousemove", (event) => {
     const mouseX = Math.max(
-      Math.min(event.mouse.position.x, plinkoSettings.canvasWidth - 30),
+      Math.min(event.mouse.position.x, canvasSettings.width - 30),
       30
     );
 
     // set the hand position
-    Matter.Body.setPosition(hand, {
+    // Matter.Body.setPosition(hand, {
+    //   x: mouseX,
+    //   y: 20,
+    // });
+    // set the platform position
+    Matter.Body.setPosition(platform, {
       x: mouseX,
-      y: 20,
+      y: 36,
     });
 
     if (!activePlinkoBall) return;
@@ -1060,8 +1096,8 @@ $gameRemoteData.set(game);
       // add the next ball to the world
       if (activePlinkoBall) {
         Matter.Body.setPosition(activePlinkoBall, {
-          // x: activePlinkoBall.position.x,
-          x: hand.position.x,
+          // x: hand.position.x,
+          x: platform.position.x,
           y: 20,
         });
         Matter.Composite.add(roundComposite, activePlinkoBall);
@@ -1087,8 +1123,8 @@ $gameRemoteData.set(game);
     matterCanvasOverlayCtx.clearRect(
       0,
       0,
-      plinkoSettings.canvasWidth,
-      plinkoSettings.canvasHeight
+      canvasSettings.width,
+      canvasSettings.height
     );
 
     const now = performance.now();
@@ -1171,7 +1207,7 @@ $gameRemoteData.set(game);
           {/* above the board */}
           <div
             class="mx-auto w-full pointer-events-none"
-            style={`max-width: ${plinkoSettings.canvasWidth + 30}px;`}
+            style={`max-width: ${canvasSettings.width + 30}px;`}
           >
             <PlinkoScoreboard client:load className="relative z-20" />
             <PlinkoBallArsenal client:load className="-mb-4 relative z-0" />
@@ -1184,19 +1220,19 @@ $gameRemoteData.set(game);
 
           <div
             class="w-full mx-auto"
-            style={`max-width: ${plinkoSettings.canvasWidth}px;`}
+            style={`max-width: ${canvasSettings.width}px;`}
           >
-            <div class="h-8 bg-sky-900" />
+            <div class="h-6 bg-sky-900" />
             <div class="relative bg-sky-900">
               <canvas
                 class="matterCanvas relative"
-                width={plinkoSettings.canvasWidth}
-                height={plinkoSettings.canvasHeight}
+                width={canvasSettings.width}
+                height={canvasSettings.height}
               />
               <canvas
                 class="matterCanvasOverlay absolute top-0 left-0 pointer-events-none"
-                width={plinkoSettings.canvasWidth}
-                height={plinkoSettings.canvasHeight}
+                width={canvasSettings.width}
+                height={canvasSettings.height}
               />
             </div>
 
@@ -1213,8 +1249,8 @@ $gameRemoteData.set(game);
             {[1, 2, 3, 4, 5, 6, 7].map((i) => (
               <canvas
                 class="pocket-lottie-canvas opacity-0"
-                style={`width: ${plinkoSettings.canvasWidth / 7}px; height: 50px;`}
-                width={plinkoSettings.canvasWidth / 7}
+                style={`width: ${canvasSettings.width / 7}px; height: 50px;`}
+                width={canvasSettings.width / 7}
                 height={50}
               />
             ))}
