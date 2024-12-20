@@ -3,7 +3,7 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import inoxToolsRequestNanostores from "@inox-tools/request-nanostores";
-// import sentry from "@sentry/astro";
+import sentry from "@sentry/astro";
 import { config } from "dotenv";
 config({ path: ".env" }); // or .env.local
 
@@ -24,13 +24,13 @@ export default defineConfig({
     }),
     react(),
     inoxToolsRequestNanostores(),
-    // sentry({
-    //   dsn: process.env.SENTRY_DSN,
-    //   sourceMapsUploadOptions: {
-    //     project: "theadpharm-com",
-    //     authToken: process.env.SENTRY_AUTH_TOKEN,
-    //   },
-    // }),
+    sentry({
+      dsn: process.env.SENTRY_DSN,
+      // sourceMapsUploadOptions: {
+      //   project: "theadpharm-com",
+      //   authToken: process.env.SENTRY_AUTH_TOKEN,
+      // },
+    }),
   ],
 
   adapter: vercel(),
