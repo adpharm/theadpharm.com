@@ -127,6 +127,7 @@ $gameRemoteData.set(game);
   if (!matterCanvas) {
     // if the game is over, the canvas is removed on purpose
     if ($gameRemoteData.get()?.game_over) {
+      $settingUpGame.set(false);
       throw new Error("Game is over");
     }
 

@@ -106,22 +106,24 @@ export function RegisterGuestUserForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Enter a username, or generate a random one
-                </FormLabel>
+                <FormLabel>Username</FormLabel>
+                <FormDescription className="text-xs">
+                  Pick a username using the "Randomize" button.
+                </FormDescription>
 
                 <FormControl>
-                  <Input {...field} className="py-7" />
+                  <Input {...field} className="py-7 pointer-events-none" />
                 </FormControl>
 
-                <button
+                <Button
                   type="button"
                   onClick={randomUsername}
-                  className="text-sm font-medium inline-flex items-center active:opacity-75"
+                  // className="text-sm font-medium inline-flex items-center active:opacity-75"
+                  variant={"secondaryWinter"}
                 >
                   <span>Randomize</span>
                   <RefreshCcw className="size-3.5 ml-1" />
-                </button>
+                </Button>
 
                 <FormMessage />
               </FormItem>

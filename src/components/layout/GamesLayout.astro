@@ -19,7 +19,7 @@ interface Props {
   title: string;
   breadcrumbs?: { name: string; href?: string }[];
 }
-const { title, breadcrumbs = [{ name: "Games home" }] } = Astro.props;
+const { title, breadcrumbs } = Astro.props;
 ---
 
 <Fragment slot="meta">
