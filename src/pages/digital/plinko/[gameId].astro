@@ -360,7 +360,7 @@ $gameRemoteData.set(game);
   const platform = Matter.Bodies.rectangle(
     canvasSettings.width / 2,
     platformY,
-    plinkoSettings.ballSize * 3,
+    canvasSettings.ballSize * 3,
     6,
     {
       isStatic: true,
@@ -586,6 +586,12 @@ $gameRemoteData.set(game);
 
     logDebug("initRound: ", roundData.key);
 
+    // set platform position
+    Matter.Body.setPosition(platform, {
+      x: canvasSettings.width / 2,
+      y: platformY,
+    });
+
     // set the current round id
     currentRoundId = roundData.id;
     currentRoundScoreMultiplier = roundData.score_multiplier;
@@ -765,7 +771,7 @@ $gameRemoteData.set(game);
         const plinkoBall = makePlinko({
           x: canvasSettings.width / 2,
           y: plinkoY,
-          size: settings.ballSize,
+          size: canvasSettings.ballSize,
           texturePath: isGolden
             ? textures.goldOrnamentPlinko
             : textures.redOrnamentPlinko,
@@ -1170,11 +1176,23 @@ $gameRemoteData.set(game);
 
     // if there is an active ball, drop it
     if (activePlinkoBall) {
+      // set the position of the activePlinkoBall ( this is mostly for mobile )
+      Matter.Body.setPosition(activePlinkoBall, {
+        x: mouse.position.x,
+        y: plinkoY,
+      });
       Matter.Body.setStatic(activePlinkoBall, false);
       activePlinkoBallIdx++;
       activePlinkoBall = currentRoundPlinkoBallBodies[activePlinkoBallIdx];
+
       // add the next ball to the world
       if (activePlinkoBall) {
+        // set the position of the platform ( this is mostly for mobile )
+        Matter.Body.setPosition(platform, {
+          x: mouse.position.x,
+          y: platformY,
+        });
+
         Matter.Body.setPosition(activePlinkoBall, {
           // x: hand.position.x,
           x: platform.position.x,

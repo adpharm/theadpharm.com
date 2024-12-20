@@ -16,7 +16,7 @@ export function MenuSheet() {
       <SheetTrigger className="block lg:hidden">
         <Menu className="text-white" />
       </SheetTrigger>
-      <SheetContent className="bg-black border-l-zinc-800">
+      <SheetContent className="bg-black border-l-zinc-800 text-white">
         <SheetHeader className="">
           <SheetTitle>
             <img

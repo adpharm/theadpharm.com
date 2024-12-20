@@ -112,7 +112,11 @@ export function RegisterGuestUserForm() {
                 </FormDescription>
 
                 <FormControl>
-                  <Input {...field} className="py-7 pointer-events-none" />
+                  <Input
+                    {...field}
+                    disabled
+                    className="py-7 pointer-events-none disabled:opacity-100"
+                  />
                 </FormControl>
 
                 <Button
