@@ -10,65 +10,65 @@ import TextSwitcher from "@/components/TextSwitcher";
   <main class="relative">
     <Section className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48">
       <Grid id="about">
-        <div
-          slot="left"
-          class="flex flex-row justify-start items-center pt-32 lg:pt-6 pl-8"
-        >
-          <h1 class="font-bold text-4xl">
-            Adpharm <span class="text-orange-600 mr-4">Digital</span>
-          </h1>
-          <img
-            src="/adpharm-digital-logomark.png"
-            alt="adpharm digital"
-            class="w-12 mr-10 lg:mr-0"
-          />
-        </div>
-        <div slot="right">
+        <div slot="left" class="flex-col justify-start items-center ml-10">
+          <div class="flex flex-row justify-start items-center pt-32 lg:pt-6">
+            <h1 class="font-bold text-xl">
+              Adpharm <span class="text-orange-600 mr-4">Digital</span>
+            </h1>
+            <img
+              src="/adpharm-digital-logomark.png"
+              alt="adpharm digital"
+              class="w-8 mr-10 lg:mr-0"
+            />
+          </div>
           <h2 class="pt-20 lg:pt-4 text-3xl font-light animate-fade-in-up">
             Connecting Brands with Audiences Through Technology and Thoughtful
             Innovation
           </h2>
-
+        </div>
+        <div slot="right">
           <div
             class="pt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 text-zinc-400 animate-fade-in-2"
           >
-            <div>
-              <p>
-                <!-- intro line -->
-                Initially created to service clients looking for digital-only solutions,
-                Adpharm Digital today blends pharmaceutical expertise with technology
-                to make meaningful connections between brands and their audiences.
-                We take an integrated approach, aligning digital strategies with
-                broader brand and product goals to deliver seamless experiences across
-                online and in-person channels.
-              </p>
-            </div>
+            <div></div>
 
-            <div>
-              <p>
-                Our capabilities include website and app development, CX/UX/UI
-                and customer journey mapping, advanced CRM, email design and
-                deployment, analytics, and reporting, all executed with a focus
-                on precision and collaboration. Through our Digital Innovation
-                Lab, we explore emerging technologies like AI, machine learning,
-                and virtual reality to craft forward-thinking solutions that
-                engage and inspire. We're here to help you navigate the digital
-                landscape and deliver experiences that make an impact.
-              </p>
-            </div>
+            <div></div>
           </div>
         </div>
       </Grid>
     </Section>
 
-    <Section className="pt-16 lg:pt-56 pb-4">
-      <Grid id="contact">
+    <Section topBorder bottomBorder className="py-20">
+      <Grid id="digital">
+        <div slot="left"></div>
         <div slot="right">
-          <!-- <Href
-            href="#contact"
-            className="text-orange-600 hover:text-orange-500 text-sm"
-            >#contact</Href
-          > -->
+          <p>
+            <!-- intro line -->
+            Initially created to service clients looking for digital-only solutions,
+            Adpharm Digital today blends pharmaceutical expertise with technology
+            to make meaningful connections between brands and their audiences. We
+            take an integrated approach, aligning digital strategies with broader
+            brand and product goals to deliver seamless experiences across online
+            and in-person channels.
+          </p>
+        </div>
+      </Grid>
+    </Section>
+
+    <Section fullBottomBorder className="py-20">
+      <Grid id="digital">
+        <div slot="left"></div>
+        <div slot="right">
+          <p>
+            Our capabilities include website and app development, CX/UX/UI and
+            customer journey mapping, advanced CRM, email design and deployment,
+            analytics, and reporting, all executed with a focus on precision and
+            collaboration. Through our Digital Innovation Lab, we explore
+            emerging technologies like AI, machine learning, and virtual reality
+            to craft forward-thinking solutions that engage and inspire. We're
+            here to help you navigate the digital landscape and deliver
+            experiences that make an impact.
+          </p>
         </div>
       </Grid>
     </Section>

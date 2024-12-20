@@ -111,7 +111,7 @@ const clients = _clients.concat(_clients);
       <Grid id="about">
         <div slot="left"></div>
         <div slot="right">
-          <h1 class="pt-4 text-3xl font-light animate-fade-in-up">
+          <h1 class="pt-48 text-3xl font-light animate-fade-in-up">
             Fiercely independent, our unique agency model is structured to
             ensure our most senior people are involved in our client's daily
             business.
@@ -137,12 +137,21 @@ const clients = _clients.concat(_clients);
               </p>
             </div>
           </div>
-          <a
-            href="/contact"
-            class="flex flex-row justify-center items-stretch bg-orange-600 rounded-full px-6 py-2 mt-10 max-w-44 animate-fade-in-2"
+          <div
+            class="flex flex-row justify-start items-center mt-10 space-x-4 animate-fade-in-2"
           >
-            Get in touch <ArrowRight className="ml-2 animate-pulse" />
-          </a>
+            <a
+              href="/contact"
+              class="flex flex-row justify-center items-center bg-orange-600 rounded-full px-6 py-2 max-w-44"
+            >
+              Get in touch <ArrowRight className="ml-2 animate-pulse" />
+            </a>
+            <a
+              href="/about"
+              class="text-sm text-white hover:underline decoration-white"
+              >Learn more about us</a
+            >
+          </div>
         </div>
       </Grid>
     </Section>

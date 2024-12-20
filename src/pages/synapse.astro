@@ -1,103 +1,72 @@
 ---
-import { Transition } from "@headlessui/react";
-
-import Layout from "../layouts/Layout.astro";
 import Href from "../components/Href";
-import Grid from "../layouts/Grid.astro";
+import Layout from "../layouts/Layout.astro";
 import Section from "../layouts/Section.astro";
-import Icon from "../components/Icon";
-import { twMerge } from "tailwind-merge";
-import TextSwitcher from "../components/TextSwitcher";
-import { LeadershipCard } from "../components/LeadershipCard";
-import { ArrowRight } from "lucide-react";
-import { useForm } from "react-hook-form";
-import ContactForm from "../components/ContactForm";
+import Grid from "@/layouts/Grid.astro";
+import TextSwitcher from "@/components/TextSwitcher";
+import { ExternalLink } from "lucide-react";
 ---
 
-<Layout title="Contact Us | theadpharm.com">
+<Layout title="Synapse Medcom | theadpharm.com">
   <main class="relative">
-    <div class="absolute h-screen w-full top-0 left-0 z-0">
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        class="absolute top-0 left-0 w-full h-full object-cover object-left-top"
-        poster="/adpharm-bg.webp"
-      >
-        <!-- <source src="/adpharm-bg-bright.mp4" type="video/mp4" /> -->
-        <source src="/adpharm-bg.mp4" type="video/mp4" />
-        <!-- <source src="/video.webm" type="video/webm" /> -->
-      </video>
-
-      <!-- bg overlays -->
-      <!-- <div class="absolute left-0 top-0 bg-black/70 w-full h-full z-10"></div> -->
-      <div
-        class="absolute left-0 top-0 bg-gradient-to-b from-transparent via-transparent to-black w-full h-full z-10"
-      >
-      </div>
-    </div>
-
-    <!-- 
-
-
-
-
-
-
-
-      Hashes
-     -->
-    <!-- <Section>
-      <ul class="pt-20 sm:pt-32 space-y-2 text-right lg:text-left">
-        {
-          sections.map((item) => (
-            <li>
-              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`} className="text-sm">
-                {item.title}
-              </Href>
-            </li>
-          ))
-        }
-      </ul>
-    </Section> -->
-    <!-- 
-
-
-
-
-
-
-      About
-      -->
-    <Section
-      topBorder
-      fullBottomBorder
-      className="pt-32 pb-32 space-y-10 animate-fade-in-2"
-    >
-      <Grid id="about-paragraphs">
-        <div slot="left" class="flex justify-center items-center w-full">
-          <h1 class="text-5xl w-full mb-10 text-center font-extralight pt-36">
-            Contact Us
-          </h1>
+    <Section className="py-96">
+      <Grid id="about">
+        <div
+          slot="left"
+          class="flex flex-col justify-center items-center ml-10"
+        >
+          <!-- <h1 class="text-5xl w-full mb-10 text-center font-extralight pt-36">
+            Synapse Medcom
+          </h1> -->
+          <img
+            src="/synpaselogo.png"
+            alt="synapse medcom"
+            class="w-72 animate-fade-in"
+          />
         </div>
         <div slot="right">
-          <ContactForm />
+          <h1 class="pt-16 text-3xl font-light animate-fade-in">
+            The Synapse Group debuted as a medical communications company over
+            30 years ago. After a long history of success, we became part of the
+            Adpharm family as Synapse Medical Communications.
+          </h1>
+          <div
+            class="flex flex-col justify-center items-start space-y-4 pt-4 text-zinc-400 animate-fade-in-2"
+          >
+            <p class="">
+              We pride ourselves on being a full-service agency that's
+              passionate about our brands, knows the science behind them, and
+              uses this knowledge to successfully engage with Thought Leaders.
+              We've built a reputation for asking the right questions to gain
+              insights that lead to the right answers.
+            </p>
+
+            <p>
+              And for the last 30+ years, that's precisely what we've been
+              doing.
+            </p>
+
+            <p>
+              To learn more about Synapse Medcom and our service offerings,
+              click the button below.
+            </p>
+            <a
+              href="https://www.synapsemedcom.ca"
+              class="flex flex-row justify-center items-center bg-[#4390a6] rounded-full px-6 py-2 max-w-72 text-white"
+            >
+              Learn more about Synapse <ExternalLink
+                className="ml-2 animate-pulse"
+              />
+            </a>
+          </div>
         </div>
       </Grid>
     </Section>
-    <Section className="pt-36 pb-24 animate-fade-in-up" fullTopBorder>
+
+    <Section className="pt-12 pb-24" fullTopBorder>
       <Grid id="sfd23" className="space-y-12 lg:space-y-0">
         <div slot="left" class="pl-0 lg:pl-10">
           <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
-          <iframe
-            width="310"
-            height="275"
-            class="mb-4"
-            style="border:0"
-            loading="lazy"
-            src={`https://www.google.com/maps/embed/v1/place?key=${process.env.GOOGLE_API}&q=The+Adpharm,Oakville+ON`}
-          ></iframe>
           <p class="text-lg">133 Thomas Street</p>
           <p class="text-zinc-400">Oakville, Ontario</p>
           <p class="text-zinc-400">L6J 3A9</p>
@@ -172,6 +141,7 @@ import ContactForm from "../components/ContactForm";
         </div>
       </Grid>
     </Section>
+
     <Section topBorder className="py-4">
       <div class="grid grid-cols-1 sm:grid-cols-5">
         <div

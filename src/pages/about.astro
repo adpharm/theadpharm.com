@@ -41,7 +41,7 @@ const leadership = [
 let leaderCount = 0;
 ---
 
-<Layout title="The Adpharm: Big agency experience, small agency excellence">
+<Layout title="About Us | theadpharm.com">
   <main class="relative">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <video
@@ -103,51 +103,45 @@ let leaderCount = 0;
       <Grid id="about">
         <div slot="left"></div>
         <div slot="right">
-          <h1
-            class="text-3xl w-full mb-10 font-extralight text-center lg:text-left"
-          >
-            About Us
-          </h1>
-          <div
-            class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-12"
-          >
-            {
-              leadership.map((member) => (
-                <LeadershipCard
-                  imgSrc={member.imgSrc}
-                  name={member.name}
-                  title={member.title}
-                />
-              ))
-            }
-          </div>
-        </div>
-      </Grid>
-    </Section>
-
-    <Section topBorder className="py-20 space-y-10 animate-fade-in-2">
-      <Grid id="about-paragraphs">
-        <div slot="left" class="lg:pl-20">
-          <h2 class="text-xl">Leadership Team</h2>
-        </div>
-        <div slot="right">
-          <p class="font-light tracking-wide max-w-md text-zinc-400">
+          <h2 class="text-4xl mb-6">Why we're here</h2>
+          <p class="font-light tracking-wide max-w-md text-xl text-zinc-400">
             Our leadership team has decades of Canadian healthcare experience -
             from multinational agencies to pharmaceutical companies.
           </p>
         </div>
       </Grid>
+    </Section>
+
+    <Section
+      topBorder
+      fullBottomBorder
+      className="py-20 space-y-10 animate-fade-in-2"
+    >
       <Grid id="about-paragraphs">
         <div slot="left" class="lg:pl-20">
-          <h2 class="text-xl">Why we're here</h2>
+          <h2 class="text-2xl">Leadership Team</h2>
         </div>
         <div slot="right">
-          <p class="font-light tracking-wide max-w-md text-zinc-400">
-            We focus on the brand's success, free of the competing interests
-            typically seen in network agencies.
+          <p class="font-light tracking-wide max-w-md text-zinc-400 text-lg">
+            Our leadership team has decades of Canadian healthcare experience -
+            from multinational agencies to pharmaceutical companies.
           </p>
         </div>
       </Grid>
+
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-12"
+      >
+        {
+          leadership.map((member) => (
+            <LeadershipCard
+              imgSrc={member.imgSrc}
+              name={member.name}
+              title={member.title}
+            />
+          ))
+        }
+      </div>
     </Section>
   </main>
 
@@ -282,17 +276,6 @@ let leaderCount = 0;
 
       Contact
      -->
-  <Section className="pb-4">
-    <Grid id="contact">
-      <div slot="right">
-        <!-- <Href
-            href="#contact"
-            className="text-orange-600 hover:text-orange-500 text-sm"
-            >#contact</Href
-          > -->
-      </div>
-    </Grid>
-  </Section>
 
   <Section className="pt-12 pb-24" fullTopBorder>
     <Grid id="sfd23" className="space-y-12 lg:space-y-0">
