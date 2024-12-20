@@ -1,10 +1,10 @@
 ---
 import { Transition } from "@headlessui/react";
 
-import Layout from "../layouts/Layout.astro";
-import Href from "../components/Href";
-import Grid from "../layouts/Grid.astro";
-import Section from "../layouts/Section.astro";
+import Layout from "@/components/layout/Layout.astro";
+import Href from "@/components/Href";
+import Grid from "@/components/layout/Grid.astro";
+import Section from "@/components/layout/Section.astro";
 import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
@@ -110,54 +110,43 @@ const clients = [
     <Section
       topBorder
       fullBottomBorder
-      className="pt-56 pb-32 space-y-10 animate-fade-in"
+      className="pt-56 pb-56 space-y-10 animate-fade-in flex items-center justify-center"
     >
-      <Grid id="about-paragraphs">
-        <div slot="left" class="mb-10 lg:pl-20">
-          <h2 class="text-xl">Case Studies</h2>
-        </div>
-        <div slot="right">
-          <p class="text-lg font-light tracking-wide max-w-xl text-zinc-400">
-            Our case studies showcase a diverse range of success stories—from
-            breakthrough HCP engagement strategies to award-winning patient
-            awareness campaigns—tailored to the pharmaceutical industry's unique
-            challenges.
-          </p>
-        </div>
-      </Grid>
-    </Section>
-    <Section
-      className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-32 pb-24 animate-fade-in-2"
-    >
-      <Grid id="about">
-        <div slot="left" class="mb-10 lg:pl-20">
-          <h1 class="text-xl w-full mb-10">Clients</h1>
-        </div>
-        <div slot="right">
-          <div
-            class="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:-translate-y-10 lg:-translate-x-14"
-          >
-            {
-              clients.map((c) => (
-                <div class="flex-1 group">
-                  <div class="h-full w-full flex items-center justify-center px-4 sm:px-12">
-                    <img
-                      src={c.img}
-                      alt={c.name}
-                      title={c.name}
-                      class={twMerge(
-                        "max-h-[60px] sm:max-h-[100px] max-w-[250px] w-full object-contain grayscale-0 brightness-100"
-                      )}
-                    />
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </Grid>
+      <p
+        class="text-xl font-light tracking-wide max-w-xl text-white lg:mt-36 text-center"
+      >
+        Our case studies showcase a diverse range of success stories—from
+        breakthrough HCP engagement strategies to award-winning patient
+        awareness campaigns—tailored to the pharmaceutical industry's unique
+        challenges.
+      </p>
     </Section>
   </main>
+  <div
+    class="mx-auto w-full max-w-[150rem] relative overflow-hidden border-t border-b border-zinc-800"
+  >
+    <div
+      class="flex justify-start items-start h-full w-[400%] animate-slide-400 md:w-[300%] md:animate-slide-300 xl:w-[200%] xl:animate-slide-200 hover:pause"
+    >
+      {
+        clients.map((c) => (
+          <div class="flex-1 aspect-square border-r border-zinc-800 group">
+            <div class="h-full w-full flex items-center justify-center px-4 sm:px-12">
+              <img
+                src={c.img}
+                alt={c.name}
+                title={c.name}
+                class={twMerge(
+                  "max-h-[100px] sm:max-h-[150px] max-w-[250px] w-full object-contain transition duration-500 brightness-100"
+                )}
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <Section className="p-40" />
 
   <!-- 
 
@@ -302,7 +291,7 @@ const clients = [
     </Grid>
   </Section>
 
-  <Section className="pt-12 pb-24" fullTopBorder>
+  <Section className="pt-12 pb-24">
     <Grid id="sfd23" className="space-y-12 lg:space-y-0">
       <div slot="left" class="pl-0 lg:pl-10">
         <h3 class="text-xl pb-4">The Adpharm Inc.</h3>

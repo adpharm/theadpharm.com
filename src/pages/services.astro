@@ -1,17 +1,17 @@
 ---
 import { Transition } from "@headlessui/react";
 
-import Layout from "../layouts/Layout.astro";
-import Href from "../components/Href";
-import Grid from "../layouts/Grid.astro";
-import Section from "../layouts/Section.astro";
+import Layout from "@/components/layout/Layout.astro";
+import Href from "@/components/Href";
+import Grid from "@/components/layout/Grid.astro";
+import Section from "@/components/layout/Section.astro";
 import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
 import { LeadershipCard } from "../components/LeadershipCard";
 ---
 
-<Layout title="The Adpharm: Big agency experience, small agency excellence">
+<Layout title="Our Services | theadpharm.com">
   <main class="relative">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <video
@@ -67,138 +67,145 @@ import { LeadershipCard } from "../components/LeadershipCard";
 
       About
       -->
-    <Section
-      className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48 animate-fade-in-up"
-    >
+    <Section className=" pt-20 pb-48 animate-fade-in-up">
       <Grid id="about">
-        <div slot="left"></div>
-        <div slot="right">
-          <h1 class="pt-44 text-3xl w-full mb-10 text-left font-extralight">
+        <div
+          slot="left"
+          class="flex justify-center items-center w-full sticky top-20"
+        >
+          <h1 class="text-5xl w-full mb-10 text-center font-extralight pt-36">
             Services
           </h1>
-          <p class="text-orange-500 text-sm">Things we do</p>
         </div>
-      </Grid>
-    </Section>
-
-    <Section topBorder className="py-16 space-y-10 animate-fade-in-2">
-      <Grid id="about-paragraphs">
-        <div slot="left" class="flex items-start justify-start lg:pl-8">
-          <Icon
-            as="div"
-            name="pawn"
-            className="h-8 w-8 text-orange-700 animate-pawn mr-8"
-          />
-          <h2 class="text-xl">Strategy</h2>
-        </div>
-        <div slot="right">
-          <ul
-            class="list-disc text-zinc-400 grid lg:grid-cols-2 gap-x-4 px-4 pt-4"
+        <div slot="right" class="lg:px-32 pt-20">
+          <div
+            class="pt-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
           >
-            <li>Brand Strategy</li>
-            <li>New Product and Indication Launch Strategy</li>
-            <li>Content and Channel Strategy</li>
-            <li>Competitive Intelligence</li>
-            <li>Integrated Omnichannel Planning and Design</li>
-            <li>Conference Planning</li>
-          </ul>
-        </div>
-      </Grid>
-    </Section>
-    <Section topBorder className="py-16 space-y-10 animate-fade-in-2">
-      <Grid id="about-paragraphs">
-        <div slot="left" class="flex items-start justify-start lg:pl-8">
-          <Icon
-            as="div"
-            name="paint"
-            className="h-8 w-8 text-blue-700 animate-wiggle mr-8"
-          />
-          <h2 class="text-xl">Creative</h2>
-        </div>
-        <div slot="right">
-          <ul
-            class="list-disc text-zinc-400 grid lg:grid-cols-2 gap-x-4 px-4 pt-4"
-          >
-            <li>HCP, Patient, and Consumer Content Development</li>
-            <li>Regulatory-Compliant Creative (PAAB & ASC Expertise)</li>
-            <li>Sales Enablement Tools and Marketing Collateral</li>
-            <li>Booth and Exhibit Design</li>
-            <li>Corporate Communications and Messaging</li>
-            <li>Logo and Visual Identity Development</li>
-            <li>Brand Guidelines and Style Guide Creation</li>
-            <li>
-              Commercial Print Services (Conference, Sales and Marketing
-              Materials)
-            </li>
-          </ul>
-        </div>
-      </Grid>
-    </Section>
-    <Section topBorder className="py-16 space-y-10 animate-fade-in-2">
-      <Grid id="about-paragraphs">
-        <div slot="left" class="flex items-start justify-start lg:pl-8">
-          <div class="flex items-end mr-8">
-            <Icon
-              as="div"
-              name="chevronRight"
-              className="h-7 w-7 text-violet-700"
-            />
             <div
-              class="-ml-2 w-3.5 h-0.5 rounded-full bg-violet-700 animate-pulse"
+              class="flex flex-col items-start justify-start w-full space-y-16"
             >
+              <Icon
+                as="div"
+                name="pawn"
+                className="h-12 w-12 text-orange-700 animate-pawn mr-8"
+              />
+              <h2 class="text-4xl">Strategy</h2>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+              >
+                <li>Brand Strategy</li>
+                <li>New Product and Indication Launch Strategy</li>
+                <li>Content and Channel Strategy</li>
+                <li>Competitive Intelligence</li>
+                <li>Integrated Omnichannel Planning and Design</li>
+                <li>Conference Planning</li>
+              </ul>
             </div>
           </div>
-          <h2 class="text-xl">Design & Development</h2>
-        </div>
-        <div slot="right">
-          <ul
-            class="list-disc text-zinc-400 grid lg:grid-cols-2 gap-x-4 px-4 pt-4"
+          <div
+            class="p-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
           >
-            <li>Website and App Design and Development (Full Stack)</li>
-            <li>
-              Customer Experience (CX), UX, and UI Design and Optimization
-            </li>
-            <li>CRM Journey Mapping and Development</li>
-            <li>Email Campaign Design and Deployment</li>
-            <li>Advanced Analytics and Performance Reporting</li>
-            <li>AI Tool Design and Development</li>
-          </ul>
-        </div>
-      </Grid>
-    </Section>
-    <Section topBorder className="py-16 space-y-10 animate-fade-in-2">
-      <Grid id="about-paragraphs">
-        <div slot="left" class="flex items-start justify-start lg:pl-8">
-          <Icon
-            as="div"
-            name="heart"
-            className="h-8 w-8 text-red-600 animate-pulse mr-8 translate-y-2 lg:translate-y-0"
-          />
-          <div class="flex flex-col justify-center items-start">
-            <h2 class="text-xl">Medical Communications</h2>
-            <a
-              href="https://www.synapsemedcom.ca"
-              class="text-xs text-orange-500 hover:underline decoration-orange-500"
-              >via SynapseMedcom</a
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-16"
             >
+              <Icon
+                as="div"
+                name="paint"
+                className="h-12 w-12 text-blue-700 animate-wiggle mr-8"
+              />
+              <h2 class="text-4xl">Creative</h2>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+              >
+                <li>HCP, Patient, and Consumer Content Development</li>
+                <li>Regulatory-Compliant Creative (PAAB & ASC Expertise)</li>
+                <li>Sales Enablement Tools and Marketing Collateral</li>
+                <li>Booth and Exhibit Design</li>
+                <li>Corporate Communications and Messaging</li>
+                <li>Logo and Visual Identity Development</li>
+                <li>Brand Guidelines and Style Guide Creation</li>
+                <li>
+                  Commercial Print Services (Conference, Sales and Marketing
+                  Materials)
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div slot="right">
-          <ul
-            class="list-disc text-zinc-400 grid lg:grid-cols-2 gap-x-4 px-4 pt-4"
+          <div
+            class="p-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
           >
-            <li>Advisory Boards and Consultancy Meetings</li>
-            <li>Speaker Training and Development Programs</li>
-            <li>
-              Online Learning Activities (OLAs) and Accredited Continuing
-              Medical Education (CME)
-            </li>
-            <li>Symposia, Manuscripts, and Medical Slide Deck Development</li>
-            <li>
-              Ambassador Programs, Stakeholder Mapping, and Asynchronous
-              Engagements
-            </li>
-          </ul>
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-16"
+            >
+              <div>
+                <Icon
+                  as="div"
+                  name="chevronRight"
+                  className="h-12 w-12 text-violet-700"
+                />
+                <div
+                  class="-ml-2 w-5 h-1 rounded-full bg-violet-700 animate-pulse"
+                >
+                </div>
+              </div>
+
+              <h2 class="text-4xl">Design & Development</h2>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+              >
+                <li>Website and App Design and Development (Full Stack)</li>
+                <li>
+                  Customer Experience (CX), UX, and UI Design and Optimization
+                </li>
+                <li>CRM Journey Mapping and Development</li>
+                <li>Email Campaign Design and Deployment</li>
+                <li>Advanced Analytics and Performance Reporting</li>
+                <li>AI Tool Design and Development</li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="p-10 lg:p-24 border border-zinc-800 w-full flex flex-col justify-start items-center mb-8"
+          >
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-16"
+            >
+              <Icon
+                as="div"
+                name="heart"
+                className="h-12 w-12 text-red-600 animate-pulse mr-8"
+              />
+              <div class="flex flex-col justify-center items-start">
+                <h2 class="text-4xl">Medical Communications</h2>
+                <a
+                  href="https://www.synapsemedcom.ca"
+                  class="text-xs text-orange-500 hover:underline decoration-orange-500"
+                  >visit SynapseMedcom</a
+                >
+              </div>
+
+              <ul
+                class="list-disc text-zinc-400 grid lg:grid-cols-1 gap-x-10 gap-y-2 px-4 pt-4 text-xl"
+              >
+                <li>Advisory Boards and Consultancy Meetings</li>
+                <li>Speaker Training and Development Programs</li>
+                <li>
+                  Online Learning Activities (OLAs) and Accredited Continuing
+                  Medical Education (CME)
+                </li>
+                <li>
+                  Symposia, Manuscripts, and Medical Slide Deck Development
+                </li>
+                <li>
+                  Ambassador Programs, Stakeholder Mapping, and Asynchronous
+                  Engagements
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </Grid>
     </Section>
@@ -335,18 +342,6 @@ import { LeadershipCard } from "../components/LeadershipCard";
 
       Contact
      -->
-  <Section className="pb-4">
-    <Grid id="contact">
-      <div slot="right">
-        <!-- <Href
-            href="#contact"
-            className="text-orange-600 hover:text-orange-500 text-sm"
-            >#contact</Href
-          > -->
-      </div>
-    </Grid>
-  </Section>
-
   <Section className="pt-12 pb-24" fullTopBorder>
     <Grid id="sfd23" className="space-y-12 lg:space-y-0">
       <div slot="left" class="pl-0 lg:pl-10">

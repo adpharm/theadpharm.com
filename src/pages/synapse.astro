@@ -2,73 +2,63 @@
 import Href from "@/components/Href";
 import Layout from "@/components/layout/Layout.astro";
 import Section from "@/components/layout/Section.astro";
-import Grid from "@/components/layout/Grid.astro";
+import Grid from "@/layouts/Grid.astro";
 import TextSwitcher from "@/components/TextSwitcher";
+import { ExternalLink } from "lucide-react";
 ---
 
-<Layout title="AD | Adpharm Digital">
+<Layout title="Synapse Medcom | theadpharm.com">
   <main class="relative">
-    <Section className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48">
+    <Section className="py-96">
       <Grid id="about">
-        <div slot="left" class="flex-col justify-start items-center ml-10">
-          <div class="flex flex-row justify-start items-center pt-32 lg:pt-6">
-            <h1 class="font-bold text-xl">
-              Adpharm <span class="text-orange-600 mr-4">Digital</span>
-            </h1>
-            <img
-              src="/adpharm-digital-logomark.png"
-              alt="adpharm digital"
-              class="w-8 mr-10 lg:mr-0"
-            />
-          </div>
-          <h2 class="pt-20 lg:pt-4 text-3xl font-light animate-fade-in-up">
-            Connecting Brands with Audiences Through Technology and Thoughtful
-            Innovation
-          </h2>
+        <div
+          slot="left"
+          class="flex flex-col justify-center items-center ml-10"
+        >
+          <!-- <h1 class="text-5xl w-full mb-10 text-center font-extralight pt-36">
+            Synapse Medcom
+          </h1> -->
+          <img
+            src="/synpaselogo.png"
+            alt="synapse medcom"
+            class="w-72 animate-fade-in"
+          />
         </div>
         <div slot="right">
+          <h1 class="pt-16 text-3xl font-light animate-fade-in">
+            The Synapse Group debuted as a medical communications company over
+            30 years ago. After a long history of success, we became part of the
+            Adpharm family as Synapse Medical Communications.
+          </h1>
           <div
-            class="pt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 text-zinc-400 animate-fade-in-2"
+            class="flex flex-col justify-center items-start space-y-4 pt-4 text-zinc-400 animate-fade-in-2"
           >
-            <div></div>
+            <p class="">
+              We pride ourselves on being a full-service agency that's
+              passionate about our brands, knows the science behind them, and
+              uses this knowledge to successfully engage with Thought Leaders.
+              We've built a reputation for asking the right questions to gain
+              insights that lead to the right answers.
+            </p>
 
-            <div></div>
+            <p>
+              And for the last 30+ years, that's precisely what we've been
+              doing.
+            </p>
+
+            <p>
+              To learn more about Synapse Medcom and our service offerings,
+              click the button below.
+            </p>
+            <a
+              href="https://www.synapsemedcom.ca"
+              class="flex flex-row justify-center items-center bg-[#4390a6] rounded-full px-6 py-2 max-w-72 text-white"
+            >
+              Learn more about Synapse <ExternalLink
+                className="ml-2 animate-pulse"
+              />
+            </a>
           </div>
-        </div>
-      </Grid>
-    </Section>
-
-    <Section topBorder bottomBorder className="py-20">
-      <Grid id="digital">
-        <div slot="left"></div>
-        <div slot="right">
-          <p>
-            <!-- intro line -->
-            Initially created to service clients looking for digital-only solutions,
-            Adpharm Digital today blends pharmaceutical expertise with technology
-            to make meaningful connections between brands and their audiences. We
-            take an integrated approach, aligning digital strategies with broader
-            brand and product goals to deliver seamless experiences across online
-            and in-person channels.
-          </p>
-        </div>
-      </Grid>
-    </Section>
-
-    <Section fullBottomBorder className="py-20">
-      <Grid id="digital">
-        <div slot="left"></div>
-        <div slot="right">
-          <p>
-            Our capabilities include website and app development, CX/UX/UI and
-            customer journey mapping, advanced CRM, email design and deployment,
-            analytics, and reporting, all executed with a focus on precision and
-            collaboration. Through our Digital Innovation Lab, we explore
-            emerging technologies like AI, machine learning, and virtual reality
-            to craft forward-thinking solutions that engage and inspire. We're
-            here to help you navigate the digital landscape and deliver
-            experiences that make an impact.
-          </p>
         </div>
       </Grid>
     </Section>
@@ -165,13 +155,6 @@ import TextSwitcher from "@/components/TextSwitcher";
             &copy; {new Date().getFullYear()} The Adpharm Inc.
           </p>
         </div>
-      </div>
-      <div class="flex items-center justify-center h-48">
-        <p>
-          Find the new christmas Game here: <Href href="digital/plinko/"
-            >Christmas Game - Plinko</Href
-          >
-        </p>
       </div>
     </Section>
   </main>
