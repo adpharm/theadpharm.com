@@ -121,13 +121,44 @@ $gameRemoteData.set(game);
   import { DotLottie, DotLottieWorker } from "@lottiefiles/dotlottie-web";
   import { plinkoSettings } from "@/lib/settings.plinko";
 
+  const textures = plinkoSettings.preloadImagesBlocking;
+
+  const imagesToLoad = Object.values(textures);
+  logDebug("preloading images");
+  const imagesPromise = Promise.all([
+    ...imagesToLoad.map((src) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = src;
+      });
+    }),
+    // Wait a minimum of 2 seconds before continuing
+    new Promise((resolve) => setTimeout(resolve, 2000)),
+  ]);
+
+  // Create a timeout promise that resolves after 5 seconds
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("Loading timed out")), 5000)
+  );
+
+  // Use Promise.race to ensure we don't wait longer than 5 seconds
+  try {
+    await Promise.race([imagesPromise, timeoutPromise]);
+  } catch (err) {
+    console.error(err); // Handle the timeout error if needed
+  }
+
+  $settingUpGame.set(false);
+  logDebug("images preloaded");
+
   const matterCanvas: HTMLCanvasElement | null =
     document.querySelector(".matterCanvas");
 
   if (!matterCanvas) {
     // if the game is over, the canvas is removed on purpose
     if ($gameRemoteData.get()?.game_over) {
-      $settingUpGame.set(false);
       throw new Error("Game is over");
     }
 
@@ -165,25 +196,6 @@ $gameRemoteData.set(game);
   ) {
     throw new Error("At least one DotLottie canvas was not found");
   }
-
-  const textures = plinkoSettings.preloadImagesBlocking;
-
-  const imagesToLoad = Object.values(textures);
-  logDebug("preloading images");
-  await Promise.all([
-    ...imagesToLoad.map((src) => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = resolve;
-        img.onerror = reject;
-        img.src = src;
-      });
-    }),
-    // wait min 2 seconds
-    new Promise((resolve) => setTimeout(resolve, 2000)),
-  ]);
-  $settingUpGame.set(false);
-  logDebug("images preloaded");
 
   const pocketLottieAnimations: Record<
     (typeof plinkoSettings.pocketKeys)[number],
@@ -746,6 +758,9 @@ $gameRemoteData.set(game);
 
         const isGolden = plinkoBallData.powerUps.includes("golden");
 
+        // randomly set the restitution of the plinko ball between 0.8 and 1
+        const restitution = Math.random() * 0.2 + 0.8;
+
         // otherwise, create the plinko ball and add it to the plinko balls for the round
         const plinkoBall = makePlinko({
           x: canvasSettings.width / 2,
@@ -755,7 +770,7 @@ $gameRemoteData.set(game);
             ? textures.goldOrnamentPlinko
             : textures.redOrnamentPlinko,
           options: {
-            restitution: 1,
+            restitution: restitution,
             // balls should not collide with each other
             collisionFilter: {
               group: -1,

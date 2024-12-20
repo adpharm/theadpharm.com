@@ -84,14 +84,13 @@ export function GameOverScoreboard({
   return (
     <Card
       className={cn(
-        "text-center w-full",
+        "text-center w-full bg-sky-50 border-0 text-sky-900",
         embeddedInDialog ? "border-0 bg-transparent" : "",
       )}
     >
-      <CardHeader className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
-        <CardTitle>Thanks for playing!</CardTitle>
-        <CardDescription>Now get back to work.</CardDescription>
-      </CardHeader>
+      <CardHeader
+        className={cn(embeddedInDialog ? "p-0 pb-6" : "pb-0")}
+      ></CardHeader>
 
       <CardContent className={cn(embeddedInDialog ? "p-0 pb-6" : "")}>
         {currentRoundScore > 0 ? (
@@ -101,14 +100,15 @@ export function GameOverScoreboard({
           </>
         ) : null}
 
-        <p>Final score:</p>
-        <p>{makePrettyNumber(gameScore)}</p>
+        <p></p>
+
+        <PlinkoScoreboardUi roundScore={gameScore} title={"Final score:"} />
       </CardContent>
 
       <CardFooter className={cn("grid gap-2", embeddedInDialog ? "p-0" : "")}>
-        <Button type="button" asChild variant={"secondary"}>
+        <Button type="button" asChild variant={"secondaryWinter"}>
           <a href={getPagePath($router, "games.plinko.home")}>
-            View leaderboard
+            {embeddedInDialog ? "View leaderboard" : "Return home"}
           </a>
         </Button>
 
@@ -119,6 +119,7 @@ export function GameOverScoreboard({
             newPlinkoGame();
           }}
           className="w-full"
+          variant={"primaryWinter"}
         >
           {isCreatingGame ? "Creating game..." : "Play again"}
         </Button>
