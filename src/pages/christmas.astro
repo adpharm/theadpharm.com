@@ -51,7 +51,7 @@ const currentQuestion = 1;
         <div class="red-overlay" id="transition-overlay">
           <div
             id="overlay-description"
-            class="relative text-lg text-center space-y-6 mb-20 flex hidden p-10 flex-col justify-center items-center pt-40"
+            class="relative text-lg text-center space-y-6 mb-20 flex hidden p-10 flex-col justify-center items-center pt-10"
           >
             <XIcon
               id="close-instructions"
@@ -96,7 +96,7 @@ const currentQuestion = 1;
 
               <div>
                 <button
-                  id="close-instructions"
+                  id="close-instructions-2"
                   class="relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-3xl my-4"
                 >
                   <img
@@ -125,7 +125,8 @@ const currentQuestion = 1;
         </div>
         <div id="info-div" class="absolute inset-0 hidden">
           <BadgeInfo
-            className="text-white absolute top-0 right-0 m-6 size-8 hover:cursor-pointer hover:scale-110"
+            id="info-btn"
+            className="text-white absolute top-0 right-0 m-6 size-8 hover:cursor-pointer hover:scale-110 hidden lg:block"
           />
         </div>
         <div
@@ -154,15 +155,17 @@ const currentQuestion = 1;
           </div>
           <div
             id="speech-bubble"
-            class="relative bg-white text-white rounded-full px-6 py-4 max-w-md mb-12
-              after:content-[''] after:absolute after:bottom-[-10px] after:left-1/2 after:transform after:-translate-x-1/2 after:translate-y-2
-              after:border-[10px] after:border-transparent after:border-t-white hidden"
+            class="relative bg-white text-black rounded-full px-6 py-4 max-w-md mb-12 h-32 flex items-center justify-center
+    after:content-[''] after:absolute after:bottom-[-10px] after:left-1/2 after:transform after:-translate-x-1/2 after:translate-y-2
+    after:border-[10px] after:border-transparent after:border-t-white hidden"
           >
             <p
               id="ai-question"
-              class="text-center text-xl md:text-xl text-black px-4 font-semibold transition ease-in-out font-speech"
+              class="text-center text-xl md:text-xl px-4 font-semibold transition ease-in-out font-speech break-words"
             >
+              <!-- AI Question Text -->
             </p>
+            <!-- Thinking Loader -->
             <div
               class="hidden flex-row items-center justify-center space-x-2"
               id="thinking-loader"
@@ -179,7 +182,7 @@ const currentQuestion = 1;
               />
             </div>
           </div>
-          <div class="flex flex-row justify-center items-center">
+          <div class="flex flex-col lg:flex-row justify-center items-center">
             <!-- Santa -->
             <div class="flex flex-col justify-center items-center">
               <div
@@ -248,33 +251,33 @@ const currentQuestion = 1;
           >
             Question {currentQuestion} of {maxNumQuestions}
           </p>
-          <div class="answer-btns hidden grid-cols-4 gap-6 mb-8">
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
             <button
               data-response="Yes"
-              class="response-button bg-green-700 rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105"
+              class="answer-btns response-button bg-green-700 rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105 opacity-0"
             >
               Yes
             </button>
             <button
               data-response="No"
-              class="response-button bg-red-600 rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105"
+              class="answer-btns response-button bg-red-600 rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105 opacity-0"
             >
               No
             </button>
             <button
               data-response="Sort of"
-              class="response-button bg-white text-black rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105"
+              class="answer-btns response-button bg-white text-black rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105 opacity-0"
             >
               Sort Of
             </button>
             <button
               data-response="Not sure"
-              class="response-button bg-white text-black rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105"
+              class="answer-btns response-button bg-white text-black rounded-xl px-8 py-4 text-2xl font-christmas hover:scale-105 opacity-0"
             >
               Not sure
             </button>
           </div>
-          <div class="guess-btns hidden grid-cols-2 gap-6">
+          <div class="guess-btns hidden grid-cols-1 lg:grid-cols-2 gap-6">
             <button
               data-response="Yes"
               class="guess-button bg-green-500 rounded-xl px-6 py-4 text-2xl font-christmas hover:scale-105"
@@ -309,6 +312,9 @@ const currentQuestion = 1;
             let selectedCharacter = "";
 
             const infoDiv = document.getElementById("info-div");
+            const infoBtn = document.getElementById("info-btn");
+
+            const answerBtns = document.querySelectorAll(".answer-btns");
 
             if (overlay) {
               overlay.addEventListener("transitionend", () => {
@@ -339,8 +345,8 @@ const currentQuestion = 1;
               });
             }
 
-            if (infoDiv) {
-              infoDiv.addEventListener("click", () => {
+            if (infoBtn) {
+              infoBtn.addEventListener("click", () => {
                 if (overlay) {
                   console.log("triggering overlay");
                   const desc = document.getElementById("overlay-description");
@@ -460,14 +466,32 @@ const currentQuestion = 1;
             const closeInstructions =
               document.getElementById("close-instructions");
 
+            const closeInstructions2 = document.getElementById(
+              "close-instructions-2"
+            );
+
             if (closeInstructions) {
               closeInstructions.addEventListener("click", () => {
                 overlay?.classList.add("shrinking");
               });
             }
 
+            if (closeInstructions2) {
+              closeInstructions2.addEventListener("click", () => {
+                overlay?.classList.add("shrinking");
+              });
+            }
+
             if (startButton) {
               startButton.addEventListener("click", () => {
+                playAgainFlag = false;
+
+                answerBtns.forEach((button) => {
+                  button.classList.remove("opacity-0");
+
+                  button.classList.add("opacity-100");
+                });
+
                 if (!hasStarted && selectedCharacter !== "") {
                   const buttons =
                     document.querySelectorAll(".selectable-button");
@@ -478,44 +502,48 @@ const currentQuestion = 1;
 
                   conversation = prompt;
                   currentQuestion = 0;
+
                   if (overlay) {
                     overlay.classList.add("revealed");
                   }
 
-                  // hide instruction text
-                  document
-                    .getElementById("game-description")
-                    ?.classList.add("hidden");
+                  // Delay the content changes by 600ms to match the transition duration
+                  setTimeout(() => {
+                    // Hide instruction text
+                    document
+                      .getElementById("game-description")
+                      ?.classList.add("hidden");
 
-                  // hide other characters
-                  buttons.forEach((button) => {
-                    console.log(button.id, " AND ", selectedCharacter);
-                    if (button.id !== selectedCharacter) {
-                      button.classList.add("hidden");
-                    } else {
-                      button.classList.remove(
-                        "hover:scale-110",
-                        "cursor-pointer"
-                      );
-                      button.classList.add("scale-150");
+                    // Hide other characters
+                    buttons.forEach((button) => {
+                      console.log(button.id, " AND ", selectedCharacter);
+                      if (button.id !== selectedCharacter) {
+                        button.classList.add("hidden");
+                      } else {
+                        button.classList.remove(
+                          "hover:scale-110",
+                          "cursor-pointer"
+                        );
+                        button.classList.add("scale-150");
+                      }
+                    });
+
+                    // Show info div
+                    document
+                      .getElementById("info-div")
+                      ?.classList.remove("hidden");
+
+                    // Show speech bubble
+                    document
+                      .getElementById("speech-bubble")
+                      ?.classList.remove("hidden");
+
+                    if (startButton.innerText == "Play again") {
+                      playAgainFlag = true;
                     }
-                  });
 
-                  // show info div
-                  document
-                    .getElementById("info-div")
-                    ?.classList.remove("hidden");
-
-                  // show speech bubble
-                  document
-                    .getElementById("speech-bubble")
-                    ?.classList.remove("hidden");
-
-                  if (startButton.innerText == "Play again") {
-                    playAgainFlag = true;
-                  }
-
-                  // getAIResponse();
+                    getAIResponse();
+                  }, 600); // 600ms delay
                 }
               });
             }
@@ -541,16 +569,16 @@ const currentQuestion = 1;
             });
 
             function showGuessButtons() {
-              const answerDiv = document.querySelector(".answer-btns");
-              answerDiv?.classList.remove("hidden");
-              answerDiv?.classList.remove("disabled");
-              answerDiv?.classList.add("grid");
+              answerBtns.forEach((button) => {
+                button.classList.remove("opacity-0");
+                button.classList.add("opacity-100");
+              });
             }
             function hideGuessButtons() {
-              const answerDiv = document.querySelector(".answer-btns");
-              answerDiv?.classList.add("hidden");
-              answerDiv?.classList.add("disabled");
-              answerDiv?.classList.remove("grid");
+              answerBtns.forEach((button) => {
+                button.classList.remove("opacity-100");
+                button.classList.add("opacity-0");
+              });
             }
 
             function showOutcomeButtons() {
@@ -568,8 +596,7 @@ const currentQuestion = 1;
 
             async function getAIResponse() {
               try {
-                const answerDiv = document.querySelector(".answer-btns");
-                answerDiv?.classList.add("disabled");
+                hideGuessButtons();
 
                 aiQuestionElement.classList.add("hidden");
                 thinkingLoader.classList.remove("hidden");
@@ -580,67 +607,105 @@ const currentQuestion = 1;
                     role: "system",
                     content: "User wants to play again. Please start over.",
                   });
-                  playAgainFlag = false;
+
+                  // reset other things
+                  selectedCharacter = "";
+
+                  const buttons =
+                    document.querySelectorAll(".selectable-button");
+
+                  buttons.forEach((button) => {
+                    button.classList.remove("hidden", "scale-150");
+                    button.classList.add("hover:scale-110", "cursor-pointer");
+                  });
+
+                  // hide speech bubble
+                  document
+                    .getElementById("speech-bubble")
+                    ?.classList.add("hidden");
+
+                  // hide question indictor
+                  questionCountElement.classList.add("hidden");
+
+                  // reset question count
+                  currentQuestion = 0;
+
+                  // hide response buttons
+                  hideGuessButtons();
+
+                  // show instruction text again
+                  document
+                    .getElementById("game-description")
+                    ?.classList.remove("hidden");
+
+                  // show start button again
+                  if (startButton) {
+                    startButton.classList.remove("hidden");
+                    startButton.innerText = "Start game";
+                  }
+                  hasStarted = false;
                 }
 
-                const response = await fetch("/api/chat", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    conversation: conversation,
-                  }),
-                });
+                if (playAgainFlag == false) {
+                  const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      conversation: conversation,
+                    }),
+                  });
 
-                const data: GuessResponse = await response.json();
+                  const data: GuessResponse = await response.json();
 
-                showGuessButtons();
+                  showGuessButtons();
 
-                if (data.success) {
-                  const aiMessage = data.message || "";
-                  if (
-                    aiMessage
-                      .toLowerCase()
-                      .startsWith("i guess your character is")
-                  ) {
-                    handleAIResponse(aiMessage);
-                    conversation.push({
-                      role: "assistant",
-                      content: aiMessage,
-                    });
+                  if (data.success) {
+                    const aiMessage = data.message || "";
+                    if (
+                      aiMessage
+                        .toLowerCase()
+                        .startsWith("i guess your character is")
+                    ) {
+                      handleAIResponse(aiMessage);
+                      conversation.push({
+                        role: "assistant",
+                        content: aiMessage,
+                      });
 
-                    showOutcomeButtons();
+                      showOutcomeButtons();
 
-                    answerDiv?.classList.remove("grid");
-                    answerDiv?.classList.add("hidden");
-                  } else {
-                    handleAIResponse(aiMessage);
-                    conversation.push({
-                      role: "assistant",
-                      content: aiMessage,
-                    });
+                      hideGuessButtons();
+                    } else {
+                      handleAIResponse(aiMessage);
+                      conversation.push({
+                        role: "assistant",
+                        content: aiMessage,
+                      });
 
-                    currentQuestion += 1;
-                    questionCountElement.innerText = `Question ${currentQuestion} of ${maxQuestions}`;
+                      currentQuestion += 1;
+                      questionCountElement.innerText = `Question ${currentQuestion} of ${maxQuestions}`;
 
-                    if (currentQuestion >= maxQuestions) {
-                      handleAIResponse(
-                        "You stumped me! Do you want to try again?"
-                      );
-                      answerDiv?.classList.remove("grid");
-                      answerDiv?.classList.add("hidden");
-                      hasStarted = false;
-                      if (startButton) {
-                        startButton.innerText = "Play again";
-                        startButton.classList.remove("hidden");
+                      if (currentQuestion >= maxQuestions) {
+                        handleAIResponse(
+                          "You stumped me! Do you want to try again?"
+                        );
+                        hideGuessButtons();
+                        hasStarted = false;
+                        if (startButton) {
+                          startButton.innerText = "Play again";
+                          startButton.classList.remove("hidden");
+                        }
                       }
                     }
+                  } else {
+                    aiQuestionElement.innerText =
+                      "Uh oh! Santa's sleigh is malfunctioning and I can't play anymore.";
+                    console.error(data.error);
                   }
                 } else {
-                  aiQuestionElement.innerText =
-                    "Uh oh! Santa's sleigh is malfunctioning and I can't play anymore.";
-                  console.error(data.error);
+                  playAgainFlag = true;
                 }
               } catch (error) {
                 console.error("Error fetching AI response:", error);
@@ -658,21 +723,21 @@ const currentQuestion = 1;
             }
 
             async function playText(text: string) {
-              // try {
-              //   const response = await fetch(
-              //     `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`
-              //   );
-              //   if (!response.ok) {
-              //     throw new Error("Failed to fetch audio");
-              //   }
-              //   const arrayBuffer = await response.arrayBuffer();
-              //   const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-              //   const audioUrl = URL.createObjectURL(blob);
-              //   const audio = new Audio(audioUrl);
-              //   audio.play();
-              // } catch (error) {
-              //   console.error("Error playing audio:", error);
-              // }
+              try {
+                const response = await fetch(
+                  `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`
+                );
+                if (!response.ok) {
+                  throw new Error("Failed to fetch audio");
+                }
+                const arrayBuffer = await response.arrayBuffer();
+                const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+                const audioUrl = URL.createObjectURL(blob);
+                const audio = new Audio(audioUrl);
+                audio.play();
+              } catch (error) {
+                console.error("Error playing audio:", error);
+              }
             }
 
             async function handleAIResponse(aiMessage: string) {
