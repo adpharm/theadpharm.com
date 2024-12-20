@@ -12,7 +12,9 @@ import LinkedInInsightsHead from "@/components/tagging/linkedInInsightsHead.astr
 import LinkedInInsightsBody from "@/components/tagging/linkedInInsightsBody.astro";
 import MetaHead from "@/components/tagging/metaHead.astro";
 import MetaBody from "@/components/tagging/metaBody.astro";
-import HeaderTab from "../HeaderTab";
+import { MainNavigation } from "../NavigationMenu";
+import { MenuSheet } from "../Sheet";
+import { type NavItem } from "@/lib/types.nav";
 
 const isProd = import.meta.env.PROD;
 
@@ -30,6 +32,35 @@ const desc = `
   Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch, 
   nurture and optimize the potential of their brands.
 `;
+
+const navItems: NavItem[] = [
+  {
+    label: "Our Brands",
+    children: [
+      { label: "The Adpharm", href: "/" },
+      { label: "Adpharm Digital", href: "/digital" },
+      { label: "Synapse Medcom", href: "https://www.synapsemedcom.ca" },
+    ],
+  },
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Clients",
+    href: "/clients",
+  },
+  {
+    label: "Services",
+    href: "/services",
+  },
+  {
+    label: "Contact",
+    href: "/contact",
+  },
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -71,7 +102,7 @@ const desc = `
 
     <Section>
       <header
-        class="px-5 sm:px-0 pt-4 sm:pt-6 z-40 fixed top-0 left-0 w-full flex items-center justify-between"
+        class="lg:px-5 sm:px-0 pt-4 sm:pt-4 pb-4 z-40 fixed top-0 left-0 w-full flex items-center justify-between bg-black border-b border-zinc-800"
       >
         <div>
           <!-- <a href="/">
@@ -83,23 +114,17 @@ const desc = `
           </a> -->
         </div>
         <div
-          class="flex items-center justify-center bg-zinc-800 sm:bg-zinc-900 rounded-full w-full max-w-[32rem] p-1 space-x-0.5"
+          class="flex items-center justify-between w-full p-1 space-x-0.5 mx-4 lg:mx-10"
         >
-          <HeaderTab
-            title="The Adpharm"
-            href="/"
-            active={Astro.url.pathname === "/"}
+          <img src="/adpharm-logo@4x.png" alt="the adpharm" class="w-36" />
+
+          <MainNavigation
+            items={navItems}
+            currentPath={currentPath}
+            client:load
           />
-          <HeaderTab
-            title="Synapse Medcom"
-            href="https://www.synapsemedcom.ca/"
-          />
-          <HeaderTab
-            title="Adpharm Digital"
-            href="/digital"
-            active={Astro.url.pathname === "/digital"}
-            className="hidden sm:inline-block"
-          />
+
+          <MenuSheet client:idle />
         </div>
         <div></div>
       </header>

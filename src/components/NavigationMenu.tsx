@@ -9,25 +9,25 @@ import {
   NavigationMenuIndicator,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
-import type { string } from "astro:schema";
+import type { NavItem } from "@/lib/types.nav";
+import { $router } from "@/lib/stores/router";
+import { useStore } from "@nanostores/react";
 
-interface NavigationItem {
-  label: string;
-  href?: string;
-  children?: NavigationItem[];
-}
-
-interface NavigationProps {
-  items: NavigationItem[];
+export function MainNavigation({
+  items,
+  currentPath,
+}: {
+  items: NavItem[];
   currentPath: string;
-}
+}) {
+  const router = useStore($router);
+  const pathname = router?.path ?? currentPath;
 
-export function MainNavigation({ items, currentPath }: NavigationProps) {
   return (
     <NavigationMenu className="hidden lg:block">
       <NavigationMenuList>
         {items.map((item, i) => {
-          const isActive = currentPath === item.href;
+          const isActive = pathname === item.href;
 
           return (
             <NavigationMenuItem className="tracking-wider" key={i}>
@@ -39,7 +39,7 @@ export function MainNavigation({ items, currentPath }: NavigationProps) {
                   <NavigationMenuContent>
                     <ul className="p-4 grid gap-2">
                       {item.children.map((child, j) => {
-                        const childActive = currentPath === child.href;
+                        const childActive = pathname === child.href;
                         return (
                           <li key={j}>
                             <NavigationMenuLink
