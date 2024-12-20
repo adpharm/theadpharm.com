@@ -94,7 +94,7 @@ export default {
         },
         spin: {
           "0%": { transform: "rotate(0deg)" },
-          "100%": { transorm: "rotate(360deg)" },
+          "100%": { transform: "rotate(360deg)" },
         },
         bounce: {
           "0%": { transform: "translateY(0px)" },
