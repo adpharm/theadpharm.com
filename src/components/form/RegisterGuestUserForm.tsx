@@ -106,7 +106,9 @@ export function RegisterGuestUserForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>
+                  Enter a username, or generate a random one
+                </FormLabel>
 
                 <FormControl>
                   <Input {...field} className="py-7" />
@@ -146,7 +148,7 @@ export function RegisterGuestUserForm() {
            * OR Sign in/sign up buttons
            *
            ****************************************************/}
-           {/* TODO: re-enable this after some testing */}
+          {/* TODO: re-enable this after some testing */}
           {/* <div className="">
             <div className="text-center">
               <Separator className="bg-sky-900/30" />
