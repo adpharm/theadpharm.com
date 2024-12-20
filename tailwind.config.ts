@@ -23,9 +23,9 @@ export default {
       },
       backgroundImage: {
         "snowfall-background": "url('/src/images/Snowfall_Background.png')",
-        "BottomGraphics": "url('/src/images/BottomGraphics.png')",
-        "goldenBall": "url('/src/images/temp-gold-ornament.png')",
-        "giftBow": "url('/src/images/gift-bow.png')",
+        BottomGraphics: "url('/src/images/BottomGraphics.png')",
+        goldenBall: "url('/src/images/temp-gold-ornament.png')",
+        giftBow: "url('/src/images/gift-bow.png')",
       },
       animation: {
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
@@ -41,6 +41,10 @@ export default {
         fall: "fall linear infinite",
         sway: "sway ease-in-out infinite",
         rotate: "spin infinite",
+        "slide-in-from-right": "slide-in-from-right 0.3s forwards",
+        "slide-out-to-left": "slide-out-to-left 0.3s forwards",
+        "slide-in-from-left": "slide-in-from-left 0.3s forwards",
+        "slide-out-to-right": "slide-out-to-right 0.3s forwards",
       },
       keyframes: {
         "slide-200": {
@@ -94,11 +98,39 @@ export default {
           "50%": { transform: "translateY(20px)" },
           "100%": { transform: "translateY(0px)" },
         },
+        "slide-in-from-right": {
+          "0%": {
+            transform: "translateX(100%)",
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
+        "slide-out-to-left": {
+          "0%": {
+            transform: "translateX(0)",
+          },
+          "100%": {
+            transform: "translateX(-100%)",
+          },
+        },
+        "slide-in-from-left": {
+          "0%": {
+            transform: "translateX(-100%)",
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
+        "slide-out-to-right": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
+        },
       },
       fontFamily: {
         christmas: ["Christmas", "sans-serif"],
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

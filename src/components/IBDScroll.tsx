@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useInView, InView } from "react-intersection-observer";
 import TextSwitcher from "./TextSwitcher";
-import AdpharmLogo from "@/images/adpharm-logo@4x.png";
 import { twMerge } from "tailwind-merge";
 import Icon from "./Icon";
 
@@ -68,7 +67,11 @@ export function IBDScroller() {
       <div>
         {/* <h1 className="text-5xl text-center">We'd be great together</h1> */}
 
-        <img src={AdpharmLogo.src} alt="Adpharm logo" className="ml-4 relative z-20 h-5 object-contain" />
+        <img
+          src="/adpharm-logo@4x.png"
+          alt="Adpharm logo"
+          className="ml-4 relative z-20 h-5 object-contain"
+        />
         {/* <h3 className="fixed top-20 sm:top-28 left-4 sm:left-8 z-20 text-2xl sm:text-5xl text-orange-500">
           {scrollTitle}
         </h3> */}
@@ -87,8 +90,12 @@ export function IBDScroller() {
                 scrollTitle: "",
                 title: (
                   <>
-                    <span className="text-4xl sm:text-5xl">We'd be great together.</span>
-                    <p className="mt-4 sm:mt-0 text-gray-500 text-lg">Want to know why?</p>
+                    <span className="text-4xl sm:text-5xl">
+                      We'd be great together.
+                    </span>
+                    <p className="mt-4 sm:mt-0 text-gray-500 text-lg">
+                      Want to know why?
+                    </p>
                     <ScrollButton isFirst nextId="why" />
                   </>
                 ),
@@ -98,7 +105,8 @@ export function IBDScroller() {
                 scrollTitle: "Why",
                 title: (
                   <>
-                    You have transformed IBD, and in doing so, you’ve transformed lives.
+                    You have transformed IBD, and in doing so, you’ve
+                    transformed lives.
                     <br />
                     <br />
                     We want to be part of the solution.
@@ -121,7 +129,8 @@ export function IBDScroller() {
                 scrollTitle: "Who",
                 title: (
                   <>
-                    Through our sister company, Synapse, we have strong relationships with your KOLs.
+                    Through our sister company, Synapse, we have strong
+                    relationships with your KOLs.
                     <ScrollButton nextId="what" />
                   </>
                 ),
@@ -131,7 +140,8 @@ export function IBDScroller() {
                 scrollTitle: "What",
                 title: (
                   <>
-                    We deliver creative, compelling, compliant healthcare communications that drive results.
+                    We deliver creative, compelling, compliant healthcare
+                    communications that drive results.
                     <ScrollButton nextId="how" />
                   </>
                 ),
@@ -141,8 +151,8 @@ export function IBDScroller() {
                 scrollTitle: "How",
                 title: (
                   <>
-                    Our mission is to bring pharma into the future with digital solutions that optimize every
-                    communication.
+                    Our mission is to bring pharma into the future with digital
+                    solutions that optimize every communication.
                     <ScrollButton nextId="contact" />
                   </>
                 ),
@@ -171,7 +181,12 @@ export function IBDScroller() {
                 className: "min-h-[40vh] scroll-m-[15vh]",
               },
             ].map((item, i) => (
-              <InView onChange={setInView} threshold={item.threshold || 0.8} key={item.key} triggerOnce>
+              <InView
+                onChange={setInView}
+                threshold={item.threshold || 0.8}
+                key={item.key}
+                triggerOnce
+              >
                 {({ ref, inView }) => {
                   return (
                     <div
@@ -198,7 +213,11 @@ export function IBDScroller() {
               </InView>
             ))}
 
-            <img src={AdpharmLogo.src} alt="Adpharm logo" className="relative z-20 h-6 object-contain mb-48 sm:mb-32" />
+            <img
+              src="/adpharm-logo@4x.png"
+              alt="Adpharm logo"
+              className="relative z-20 h-6 object-contain mb-48 sm:mb-32"
+            />
           </div>
         </div>
       </div>
@@ -238,7 +257,11 @@ function ScrollButton(props: { isFirst?: boolean; nextId: string }) {
             stroke="currentColor"
             className="ml-2 w-6 h-6 animate-bounce"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+            />
           </svg>
         ) : (
           <svg
@@ -249,7 +272,11 @@ function ScrollButton(props: { isFirst?: boolean; nextId: string }) {
             stroke="currentColor"
             className="ml-2 w-6 h-6"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+            />
           </svg>
         )}
       </button>

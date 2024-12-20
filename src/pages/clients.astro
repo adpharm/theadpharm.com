@@ -1,27 +1,21 @@
 ---
-import Href from "@/components/Href";
-import Grid from "@/components/layout/Grid.astro";
-import Section from "@/components/layout/Section.astro";
+import { Transition } from "@headlessui/react";
+
+import Layout from "../layouts/Layout.astro";
+import Href from "../components/Href";
+import Grid from "../layouts/Grid.astro";
+import Section from "../layouts/Section.astro";
 import Icon from "../components/Icon";
 import { twMerge } from "tailwind-merge";
 import TextSwitcher from "../components/TextSwitcher";
-import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
-import { ArrowRight } from "lucide-react";
+import { LeadershipCard } from "../components/LeadershipCard";
 
-const sections = [
-  { id: "about", title: "#about" },
-  { id: "services", title: "#services" },
-  { id: "work", title: "#work" },
-  { id: "contact", title: "#contact" },
-];
-
-const _clients = [
-  { id: "jnj", name: "Johnson & Johnson", img: "/j_and_j_dark.webp" },
+const clients = [
+  { id: "jnj", name: "Johnson & Johnson", img: "/j_and_j.png" },
   {
     id: "sun",
     name: "Sun Pharma",
     img: "/sun_pharma_white.webp",
-    classOverride: "brightness-50",
   },
   { id: "abbvie", name: "AbbVie", img: "/abbvie_blue.webp" },
   { id: "mirum", name: "Mirum Pharma", img: "/mirum_dark.webp" },
@@ -29,15 +23,25 @@ const _clients = [
     id: "advanz",
     name: "Advanz Pharma",
     img: "/advanz_pharma_dark2.webp",
-    classOverride: "brightness-50",
   },
   {
     id: "sobi",
     name: "Sobi",
     img: "/sobi_dark.webp",
-    classOverride: "brightness-50",
   },
   { id: "mt", name: "MT Pharma", img: "/mt_pharma_dark.webp" },
+  { id: "gsk", name: "GSK", img: "/gsk.png" },
+
+  { id: "jazz", name: "Jazz Pharmaceuticals", img: "/jazz.png" },
+  { id: "novo", name: "Novo Nordisk", img: "/novo-1.webp" },
+  { id: "ferring", name: "Ferring Pharmaceuticals", img: "/ferring.webp" },
+  { id: "kenvue", name: "Kenvue", img: "/kenvue.webp" },
+  { id: "gilead", name: "Gilead", img: "/gilead.png" },
+  { id: "axsome", name: "Axsome", img: "/axsome.webp" },
+  { id: "leo", name: "Leo Pharma", img: "/leo.png" },
+  { id: "taiho", name: "Taiho Pharma", img: "/taiho.webp" },
+  { id: "daiichi", name: "Daichii Sankyo", img: "/daiichi.png" },
+  { id: "apotex", name: "Apotex", img: "/apotex.webp" },
 
   // {id: "", name: "Bristol Myers Squibb", href: "https://www.bms.com/ca/en-ca/home.html"},
   // {id: "", name: "Gilead", href: "https://www.gilead.com/"},
@@ -45,13 +49,9 @@ const _clients = [
   // {id: "", name: "Novartis", href: "https://www.novartis.ca/"},
   // {id: "", name: "Sanofi", href: "https://www.sanofi.ca/"},
 ];
-
-const clients = _clients.concat(_clients);
 ---
 
-<DefaultSiteLayout
-  title="The Adpharm: Big agency experience, small agency excellence"
->
+<Layout title="The Adpharm: Big agency experience, small agency excellence">
   <main class="relative">
     <div class="absolute h-screen w-full top-0 left-0 z-0">
       <video
@@ -90,11 +90,7 @@ const clients = _clients.concat(_clients);
         {
           sections.map((item) => (
             <li>
-              <Href
-                href={`#${item.id}`}
-                aria-label={`Skip to ${item.title} section`}
-                className="text-sm"
-              >
+              <Href href={`#${item.id}`} aria-label={`Skip to ${item.title} section`} className="text-sm">
                 {item.title}
               </Href>
             </li>
@@ -111,47 +107,59 @@ const clients = _clients.concat(_clients);
 
       About
       -->
-    <Section className="pt-44 sm:pt-24 md:pt-[20vh] lg:pt-[22vh] pb-48">
-      <Grid id="about">
-        <div slot="left"></div>
+    <Section
+      topBorder
+      fullBottomBorder
+      className="pt-56 pb-32 space-y-10 animate-fade-in"
+    >
+      <Grid id="about-paragraphs">
+        <div slot="left" class="mb-10 lg:pl-20">
+          <h2 class="text-xl">Case Studies</h2>
+        </div>
         <div slot="right">
-          <h1 class="pt-4 text-3xl font-light animate-fade-in-up">
-            Fiercely independent, our unique agency model is structured to
-            ensure our most senior people are involved in our client's daily
-            business.
-          </h1>
-
-          <div
-            class="pt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 text-zinc-400 animate-fade-in-2"
-          >
-            <div>
-              <p>
-                <!-- intro line -->
-                Since 2007, our diverse and dedicated team has helped pharmaceutical
-                clients of all sizes launch, nurture, and optimize their brands'
-                potential.
-              </p>
-            </div>
-
-            <div>
-              <p>
-                Continuing our commitment, we strive to deliver innovative
-                solutions and strategic insights that propel healthcare brands
-                to new heights.
-              </p>
-            </div>
-          </div>
-          <a
-            href="/contact"
-            class="flex flex-row justify-center items-stretch bg-orange-600 rounded-full px-6 py-2 mt-10 max-w-44 animate-fade-in-2"
-          >
-            Get in touch <ArrowRight className="ml-2 animate-pulse" />
-          </a>
+          <p class="text-lg font-light tracking-wide max-w-xl text-zinc-400">
+            Our case studies showcase a diverse range of success stories—from
+            breakthrough HCP engagement strategies to award-winning patient
+            awareness campaigns—tailored to the pharmaceutical industry's unique
+            challenges.
+          </p>
         </div>
       </Grid>
     </Section>
+    <Section
+      className="pt-12 sm:pt-24 md:pt-[20vh] lg:pt-32 pb-24 animate-fade-in-2"
+    >
+      <Grid id="about">
+        <div slot="left" class="mb-10 lg:pl-20">
+          <h1 class="text-xl w-full mb-10">Clients</h1>
+        </div>
+        <div slot="right">
+          <div
+            class="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:-translate-y-10 lg:-translate-x-14"
+          >
+            {
+              clients.map((c) => (
+                <div class="flex-1 group">
+                  <div class="h-full w-full flex items-center justify-center px-4 sm:px-12">
+                    <img
+                      src={c.img}
+                      alt={c.name}
+                      title={c.name}
+                      class={twMerge(
+                        "max-h-[60px] sm:max-h-[100px] max-w-[250px] w-full object-contain grayscale-0 brightness-100"
+                      )}
+                    />
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </Grid>
+    </Section>
+  </main>
 
-    <!-- 
+  <!-- 
 
 
 
@@ -162,9 +170,9 @@ const clients = _clients.concat(_clients);
       Clients
      -->
 
-    <!-- the height here just has to be greater or equal to the squares -->
+  <!-- the height here just has to be greater or equal to the squares -->
 
-    <!-- 
+  <!-- 
 
 
 
@@ -176,7 +184,7 @@ const clients = _clients.concat(_clients);
       Services
      -->
 
-    <!-- {
+  <!-- {
       [
         {
           id: "fsad",
@@ -259,7 +267,7 @@ const clients = _clients.concat(_clients);
       ))
     } -->
 
-    <!-- 
+  <!-- 
 
 
 
@@ -271,7 +279,7 @@ const clients = _clients.concat(_clients);
       Work
      -->
 
-    <!-- 
+  <!-- 
 
 
 
@@ -282,104 +290,104 @@ const clients = _clients.concat(_clients);
 
       Contact
      -->
-    <Section className="pt-32 lg:pt-56 pb-4">
-      <Grid id="contact">
-        <div slot="right">
-          <!-- <Href
+  <Section className="pb-4">
+    <Grid id="contact">
+      <div slot="right">
+        <!-- <Href
             href="#contact"
             className="text-orange-600 hover:text-orange-500 text-sm"
             >#contact</Href
           > -->
-        </div>
-      </Grid>
-    </Section>
+      </div>
+    </Grid>
+  </Section>
 
-    <Section className="pt-12 pb-24" fullTopBorder>
-      <Grid id="sfd23" className="space-y-12 lg:space-y-0">
-        <div slot="left" class="pl-0 lg:pl-10">
-          <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
-          <p class="text-lg">133 Thomas Street</p>
-          <p class="text-zinc-400">Oakville, Ontario</p>
-          <p class="text-zinc-400">L6J 3A9</p>
-          <p class="pt-0 lg:pt-4">
-            <Href
-              href="https://www.linkedin.com/company/the-adpharm/"
-              className="text-sm">LinkedIn</Href
-            >
-          </p>
-        </div>
+  <Section className="pt-12 pb-24" fullTopBorder>
+    <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+      <div slot="left" class="pl-0 lg:pl-10">
+        <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+        <p class="text-lg">133 Thomas Street</p>
+        <p class="text-zinc-400">Oakville, Ontario</p>
+        <p class="text-zinc-400">L6J 3A9</p>
+        <p class="pt-0 lg:pt-4">
+          <Href
+            href="https://www.linkedin.com/company/the-adpharm/"
+            className="text-sm">LinkedIn</Href
+          >
+        </p>
+      </div>
 
-        <div slot="right">
-          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
-            <div>
-              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
-                Contact
-              </p>
-              <p class="text-lg">Amy Moriarty</p>
-              <p class="text-zinc-400">SVP, Managing Director</p>
-              <div class="flex items-center justify-start">
-                <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
-                <TextSwitcher
-                  client:load
-                  textToCopy="amy@theadpharm.com"
-                  beforeText="(copy)"
-                  beforeClassName="hover:underline cursor-pointer"
-                  afterText="(copied ✔)"
-                  afterClassName="text-green-600"
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
-                Teams
-              </p>
-
-              <ul class="space-y-1.5">
-                <li class="flex items-center space-x-2">
-                  <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
-                  <Href
-                    href="/"
-                    className="text-sm text-white hover:text-orange-600"
-                    >The Adpharm (Agency)</Href
-                  >
-                </li>
-
-                <li class="flex items-center space-x-2">
-                  <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
-                  <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
-                  <Href
-                    href="https://www.synapsemedcom.ca/"
-                    className="text-sm text-white hover:text-[#1292a9]"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Synapse Medcom
-                  </Href>
-                </li>
-
-                <li class="flex items-center space-x-2">
-                  <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
-                  <Href
-                    href="/digital"
-                    className="text-sm text-white hover:text-orange-600"
-                    >AD (Adpharm Digital)</Href
-                  >
-                </li>
-              </ul>
+      <div slot="right">
+        <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+          <div>
+            <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+              Contact
+            </p>
+            <p class="text-lg">Amy Moriarty</p>
+            <p class="text-zinc-400">SVP, Managing Director</p>
+            <div class="flex items-center justify-start">
+              <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+              <TextSwitcher
+                client:load
+                textToCopy="amy@theadpharm.com"
+                beforeText="(copy)"
+                beforeClassName="hover:underline cursor-pointer"
+                afterText="(copied ✔)"
+                afterClassName="text-green-600"
+              />
             </div>
           </div>
-        </div>
-      </Grid>
-    </Section>
 
-    <!-- <Section className="py-12">
+          <div>
+            <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+              Teams
+            </p>
+
+            <ul class="space-y-1.5">
+              <li class="flex items-center space-x-2">
+                <!-- <Icon name="home" className="h-5 w-5 text-orange-600" /> -->
+                <Href
+                  href="/"
+                  className="text-sm text-white hover:text-orange-600"
+                  >The Adpharm (Agency)</Href
+                >
+              </li>
+
+              <li class="flex items-center space-x-2">
+                <!-- <img src="/synapse-tree-blue.png" alt="Synapse tree" class="h-8 w-8" /> -->
+                <!-- <Icon name="brain" className="h-5 w-5 text-[#1292a9]" /> -->
+                <Href
+                  href="https://www.synapsemedcom.ca/"
+                  className="text-sm text-white hover:text-[#1292a9]"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Synapse Medcom
+                </Href>
+              </li>
+
+              <li class="flex items-center space-x-2">
+                <!-- <Icon name="chevronRight" className="h-5 w-5 text-orange-600" /> -->
+                <Href
+                  href="/digital"
+                  className="text-sm text-white hover:text-orange-600"
+                  >AD (Adpharm Digital)</Href
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Grid>
+  </Section>
+
+  <!-- <Section className="py-12">
       <Grid id="2334tsd">
         
       </Grid>
     </Section> -->
 
-    <!-- 
+  <!-- 
 
 
 
@@ -389,23 +397,21 @@ const clients = _clients.concat(_clients);
       Blocks
      -->
 
-    <Section topBorder className="py-4">
-      <div class="grid grid-cols-1 sm:grid-cols-5">
-        <div
-          class="col-span-2 flex items-center justify-center sm:justify-start"
-        >
-          <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
-        </div>
-        <div class="col-span-3 flex items-center justify-center sm:justify-end">
-          <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
-          <p class="text-xs text-zinc-400">
-            &copy; {new Date().getFullYear()} The Adpharm Inc.
-          </p>
-        </div>
+  <Section topBorder className="py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-5">
+      <div class="col-span-2 flex items-center justify-center sm:justify-start">
+        <!-- <p class="text-xs text-zinc-400">&copy; {new Date().getFullYear()} The Adpharm Inc.</p> -->
       </div>
-    </Section>
+      <div class="col-span-3 flex items-center justify-center sm:justify-end">
+        <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+        <p class="text-xs text-zinc-400">
+          &copy; {new Date().getFullYear()} The Adpharm Inc.
+        </p>
+      </div>
+    </div>
+  </Section>
 
-    <!-- <Section topBorder bottomBorder hideRight className="border-r border-zinc-800">
+  <!-- <Section topBorder bottomBorder hideRight className="border-r border-zinc-800">
       <div class="grid grid-cols-2 lg:grid-cols-3 lg:divide-x divide-zinc-800">
         {
           [
@@ -431,7 +437,7 @@ const clients = _clients.concat(_clients);
       </div>
     </Section> -->
 
-    <!-- 
+  <!-- 
 
 <div class="aspect-square">
                 <div class="h-full w-full flex flex-col">
@@ -446,5 +452,4 @@ const clients = _clients.concat(_clients);
 
 
      -->
-  </main>
-</DefaultSiteLayout>
+</Layout>
