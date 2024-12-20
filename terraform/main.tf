@@ -36,26 +36,46 @@ data "aws_secretsmanager_secret_version" "vercel_secret_version" {
 }
 
 # get app secrets
-data "aws_secretsmanager_secret" "app_secrets" {
-  name = "adpharm/theadpharm.com"
+data "aws_secretsmanager_secret" "app_secrets_preview" {
+  name = "adpharm/theadpharm.com/preview"
 }
 
-data "aws_secretsmanager_secret_version" "app_secrets_version" {
-  secret_id = data.aws_secretsmanager_secret.app_secrets.id
+data "aws_secretsmanager_secret" "app_secrets_prod" {
+  name = "adpharm/theadpharm.com/prod"
+}
+
+data "aws_secretsmanager_secret_version" "app_secrets_version_preview" {
+  secret_id = data.aws_secretsmanager_secret.app_secrets_preview.id
+}
+
+data "aws_secretsmanager_secret_version" "app_secrets_version_prod" {
+  secret_id = data.aws_secretsmanager_secret.app_secrets_prod.id
 }
 
 locals {
-  vercel_api_token = jsondecode(data.aws_secretsmanager_secret_version.vercel_secret_version.secret_string)["vercel_token_tf_key_1"]
-  app_secrets_json = jsondecode(data.aws_secretsmanager_secret_version.app_secrets_version.secret_string)
+  vercel_api_token         = jsondecode(data.aws_secretsmanager_secret_version.vercel_secret_version.secret_string)["vercel_token_tf_key_1"]
+  app_secrets_preview_json = jsondecode(data.aws_secretsmanager_secret_version.app_secrets_version_preview.secret_string)
+  app_secrets_prod_json    = jsondecode(data.aws_secretsmanager_secret_version.app_secrets_version_prod.secret_string)
 
-  app_secrets = [
-    for key, value in local.app_secrets_json : {
+  app_secrets_preview = [
+    for key, value in local.app_secrets_preview_json : {
       key       = key
       value     = value
-      target    = ["production", "preview"]
+      target    = ["preview"]
       sensitive = true
     }
   ]
+
+  app_secrets_prod = [
+    for key, value in local.app_secrets_prod_json : {
+      key       = key
+      value     = value
+      target    = ["production"]
+      sensitive = true
+    }
+  ]
+
+  app_secrets = concat(local.app_secrets_preview, local.app_secrets_prod)
 }
 
 provider "vercel" {
