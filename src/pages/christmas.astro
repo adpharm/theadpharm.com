@@ -360,7 +360,7 @@ const currentQuestion = 1;
                   // Reset the expanded state so the transition logic works again.
                   expanded = false;
 
-                  // Force a reflow (optional) to ensure browser sees the reset:
+                  // force a reflow to ensure browser sees the reset:
                   overlay.getBoundingClientRect();
 
                   // Now trigger the animation again:
@@ -545,32 +545,20 @@ const currentQuestion = 1;
                       playAgainFlag = true;
 
                       if (overlay) {
-                        overlay.addEventListener("transitionend", () => {
-                          // Check the current state of the animation
-                          if (!expanded) {
-                            // After the first transition finishes (expansion to 150%)
-                            // Now trigger the shrinking animation
-                            expanded = true; // Mark that we reached the expanded state
-                            if (
-                              document
-                                .getElementById("overlay-description")
-                                ?.classList.contains("hidden")
-                            ) {
-                              overlay.classList.add("shrinking");
-                            }
-                          } else {
-                            // After the second transition finishes (shrink back to 0%)
-                            // Remove the overlay
-                            if (
-                              document
-                                .getElementById("overlay-description")
-                                ?.classList.contains("hidden")
-                            ) {
-                              console.log("hidden flag triggering");
-                              overlay.classList.add("hidden");
-                            }
-                          }
-                        });
+                        // Reset overlay to initial state:
+                        overlay.classList.remove(
+                          "hidden",
+                          "shrinking",
+                          "revealed"
+                        );
+                        // Reset the expanded state so the transition logic works again.
+                        expanded = false;
+
+                        // force a reflow to ensure browser sees the reset:
+                        overlay.getBoundingClientRect();
+
+                        // Now trigger the animation again:
+                        overlay.classList.add("revealed");
                       }
                     }
 
@@ -637,47 +625,49 @@ const currentQuestion = 1;
                 thinkingLoader.classList.add("flex");
 
                 if (playAgainFlag) {
-                  conversation.push({
-                    role: "system",
-                    content: "User wants to play again. Please start over.",
-                  });
+                  setTimeout(() => {
+                    conversation.push({
+                      role: "system",
+                      content: "User wants to play again. Please start over.",
+                    });
 
-                  // reset other things
-                  selectedCharacter = "";
+                    // reset other things
+                    selectedCharacter = "";
 
-                  const buttons =
-                    document.querySelectorAll(".selectable-button");
+                    const buttons =
+                      document.querySelectorAll(".selectable-button");
 
-                  buttons.forEach((button) => {
-                    button.classList.remove("hidden", "scale-150");
-                    button.classList.add("hover:scale-110", "cursor-pointer");
-                  });
+                    buttons.forEach((button) => {
+                      button.classList.remove("hidden", "scale-150");
+                      button.classList.add("hover:scale-110", "cursor-pointer");
+                    });
 
-                  // hide speech bubble
-                  document
-                    .getElementById("speech-bubble")
-                    ?.classList.add("hidden");
+                    // hide speech bubble
+                    document
+                      .getElementById("speech-bubble")
+                      ?.classList.add("hidden");
 
-                  // hide question indictor
-                  questionCountElement.classList.add("hidden");
+                    // hide question indictor
+                    questionCountElement.classList.add("hidden");
 
-                  // reset question count
-                  currentQuestion = 0;
+                    // reset question count
+                    currentQuestion = 0;
 
-                  // hide response buttons
-                  hideGuessButtons();
+                    // hide response buttons
+                    hideGuessButtons();
 
-                  // show instruction text again
-                  document
-                    .getElementById("game-description")
-                    ?.classList.remove("hidden");
+                    // show instruction text again
+                    document
+                      .getElementById("game-description")
+                      ?.classList.remove("hidden");
 
-                  // show start button again
-                  if (startButton) {
-                    startButton.classList.remove("hidden");
-                    startButton.innerText = "Start game";
-                  }
-                  hasStarted = false;
+                    // show start button again
+                    if (startButton) {
+                      startButton.classList.remove("hidden");
+                      startButton.innerText = "Start game";
+                    }
+                    hasStarted = false;
+                  }, 600);
                 }
 
                 if (playAgainFlag == false) {
@@ -757,21 +747,21 @@ const currentQuestion = 1;
             }
 
             async function playText(text: string) {
-              try {
-                const response = await fetch(
-                  `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`
-                );
-                if (!response.ok) {
-                  throw new Error("Failed to fetch audio");
-                }
-                const arrayBuffer = await response.arrayBuffer();
-                const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-                const audioUrl = URL.createObjectURL(blob);
-                const audio = new Audio(audioUrl);
-                audio.play();
-              } catch (error) {
-                console.error("Error playing audio:", error);
-              }
+              // try {
+              //   const response = await fetch(
+              //     `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`
+              //   );
+              //   if (!response.ok) {
+              //     throw new Error("Failed to fetch audio");
+              //   }
+              //   const arrayBuffer = await response.arrayBuffer();
+              //   const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+              //   const audioUrl = URL.createObjectURL(blob);
+              //   const audio = new Audio(audioUrl);
+              //   audio.play();
+              // } catch (error) {
+              //   console.error("Error playing audio:", error);
+              // }
             }
 
             async function handleAIResponse(aiMessage: string) {
