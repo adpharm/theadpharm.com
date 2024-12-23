@@ -747,21 +747,21 @@ const currentQuestion = 1;
             }
 
             async function playText(text: string) {
-              // try {
-              //   const response = await fetch(
-              //     `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`
-              //   );
-              //   if (!response.ok) {
-              //     throw new Error("Failed to fetch audio");
-              //   }
-              //   const arrayBuffer = await response.arrayBuffer();
-              //   const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-              //   const audioUrl = URL.createObjectURL(blob);
-              //   const audio = new Audio(audioUrl);
-              //   audio.play();
-              // } catch (error) {
-              //   console.error("Error playing audio:", error);
-              // }
+              try {
+                const response = await fetch(
+                  `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`
+                );
+                if (!response.ok) {
+                  throw new Error("Failed to fetch audio");
+                }
+                const arrayBuffer = await response.arrayBuffer();
+                const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+                const audioUrl = URL.createObjectURL(blob);
+                const audio = new Audio(audioUrl);
+                audio.play();
+              } catch (error) {
+                console.error("Error playing audio:", error);
+              }
             }
 
             async function handleAIResponse(aiMessage: string) {
