@@ -543,6 +543,35 @@ const currentQuestion = 1;
 
                     if (startButton.innerText == "Play again") {
                       playAgainFlag = true;
+
+                      if (overlay) {
+                        overlay.addEventListener("transitionend", () => {
+                          // Check the current state of the animation
+                          if (!expanded) {
+                            // After the first transition finishes (expansion to 150%)
+                            // Now trigger the shrinking animation
+                            expanded = true; // Mark that we reached the expanded state
+                            if (
+                              document
+                                .getElementById("overlay-description")
+                                ?.classList.contains("hidden")
+                            ) {
+                              overlay.classList.add("shrinking");
+                            }
+                          } else {
+                            // After the second transition finishes (shrink back to 0%)
+                            // Remove the overlay
+                            if (
+                              document
+                                .getElementById("overlay-description")
+                                ?.classList.contains("hidden")
+                            ) {
+                              console.log("hidden flag triggering");
+                              overlay.classList.add("hidden");
+                            }
+                          }
+                        });
+                      }
                     }
 
                     getAIResponse();
