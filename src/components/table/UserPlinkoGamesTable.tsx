@@ -29,7 +29,7 @@ export function UserPlinkoGamesTable() {
   >(null);
 
   return (
-    <div>
+    <div className="overflow-x-scroll">
       <h2 className="text-xl text-sky-900/80 text-center">
         Your Current and Past Games
       </h2>

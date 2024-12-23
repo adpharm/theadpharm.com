@@ -22,7 +22,7 @@ export function LeaderboardTable({
   const leaderboardData = useStore($leaderboard);
 
   return (
-    <div>
+    <div className="overflow-x-scroll">
       <h2 className="text-xl text-sky-900/80 text-center">
         Top 25 Leaderboard
       </h2>

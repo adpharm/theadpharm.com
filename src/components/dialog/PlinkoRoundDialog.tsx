@@ -148,20 +148,18 @@ export function PlinkoRoundWaitingToStartDialog() {
             <p>Welcome to Round 1! Here's how the game works:</p>
             <ol className="list-decimal list-outside pl-8 py-4">
               <li>
-                There are 10 rounds and the goal of the game is to maximize your
-                total score.
+                The game consists of 10 rounds, and your goal is to maximize
+                your total score.
               </li>
               <li>
-                Each point you earn contributes to your{" "}
+                Each point you earn adds to your{" "}
                 <span className="text-yellow-600">Upgrade Budget</span>, which
                 you can use to purchase upgrades at the end of each round.
               </li>
-              <li>
-                To drop your Plinko's, click or tap anywhere on the board.
-              </li>
+              <li>To drop your Plinkos, click or tap anywhere on the board.</li>
             </ol>
 
-            <p>Good luck and thanks for playing!</p>
+            <p>Good luck, and thanks for playing!</p>
           </div>
         ) : null}
 
