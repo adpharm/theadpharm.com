@@ -82,6 +82,7 @@ export const mobileCanvasSettings = {
   height: 600,
   pegSize: 7,
   pegRows: 17,
+  ballSize: 9,
 };
 
 export const desktopCanvasSettings = {
@@ -89,6 +90,7 @@ export const desktopCanvasSettings = {
   height: 600,
   pegSize: 10,
   pegRows: 17,
+  ballSize: 11,
 };
 
 export const $canvasSettings = shared(

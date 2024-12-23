@@ -29,8 +29,8 @@ export function MainNavigation({
 
   useEffect(() => {
     logDebug("use effect to set active path name");
-    if (router.path) setActivePathName(router.path);
-  }, [router.path]);
+    if (router?.path) setActivePathName(router.path);
+  }, [router?.path]);
 
   return (
     <NavigationMenu className="hidden lg:block">

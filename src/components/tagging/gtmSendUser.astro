@@ -5,7 +5,7 @@
 <script>
   if (Astro.locals.user) {
     // @ts-expect-error
-    window.customDataLayer = window.dataLayer || [];
+    window.customDataLayer = window.customDataLayer || [];
     // @ts-expect-error
     window.customDataLayer.push({ user: Astro.locals.user.username });
   }
