@@ -22,6 +22,7 @@ export function convertUTCToLocalTime(
     return localDateStr;
   } catch (error) {
     logError("Error converting UTC to local time", error);
+    logError("UTC Date String", utcDateStr);
     return utcDateStr;
   }
 }
@@ -34,7 +35,7 @@ export function convertUTCToLocalTime(
 export function convertUTCToDistanceToNow(utcDateStr: string): string {
   try {
     // Parse the UTC datetime string
-    const utcDate = new Date(utcDateStr + "Z"); // Adding 'Z' to ensure it's treated as UTC
+    const utcDate = new Date(utcDateStr); // Adding 'Z' to ensure it's treated as UTC
 
     // Format the date to the local time
     const distanceToNow = formatDistanceToNow(utcDate, { addSuffix: true });
@@ -42,6 +43,7 @@ export function convertUTCToDistanceToNow(utcDateStr: string): string {
     return distanceToNow;
   } catch (error) {
     logError("Error converting UTC to distance to now", error);
+    logError("UTC Date String", utcDateStr);
     return utcDateStr;
   }
 }
