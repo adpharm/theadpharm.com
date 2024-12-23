@@ -992,8 +992,8 @@ $gameRemoteData.set(game);
         // show the animation
         (animation.canvas as HTMLCanvasElement).style.opacity = "1";
 
-        internalScore += pocket_.value;
-        $roundScore.set($roundScore.get() + pocket_.value);
+        internalScore += pocketValue;
+        $roundScore.set($roundScore.get() + pocketValue);
 
         // remove the plinko from the world
         // World.remove(world, plinko);
