@@ -98,6 +98,11 @@ export const $canvasSettings = shared(
   atom(desktopCanvasSettings),
 );
 
+export const $user = shared(
+  "user",
+  atom<null | typeof tableUsers.$inferSelect>(null),
+);
+
 // <{
 //   width: number;
 //   height: number;

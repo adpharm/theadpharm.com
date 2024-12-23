@@ -12,8 +12,11 @@ import Layout from "./Layout.astro";
 import snowyBackground from "@/assets/images/Snowfall_Background.png";
 import { plinkoSettings } from "@/lib/settings.plinko";
 import GtmSendUser from "../tagging/gtmSendUser.astro";
+import { $user } from "@/lib/stores";
 
 const isProd = import.meta.env.PROD;
+
+$user.set(Astro.locals.user);
 
 interface Props {
   title: string;
