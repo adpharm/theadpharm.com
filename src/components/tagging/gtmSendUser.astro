@@ -3,10 +3,14 @@
 ---
 
 <script>
-  if (Astro.locals.user) {
-    // @ts-expect-error
-    window.customDataLayer = window.customDataLayer || [];
-    // @ts-expect-error
-    window.customDataLayer.push({ user: Astro.locals.user.username });
-  }
+  import { $user } from "@/lib/stores/index";
+
+  $user.subscribe((value) => {
+    if (value) {
+      // @ts-expect-error
+      window.customDataLayer = window.customDataLayer || [];
+      // @ts-expect-error
+      window.customDataLayer.push({ user: value.username });
+    }
+  });
 </script>
