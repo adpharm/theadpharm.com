@@ -19,6 +19,7 @@ interface Character {
   source: string;
   voiceId: string;
   audioSampleSrc: string;
+  audioFolder: string;
 }
 
 const characters: Character[] = [
@@ -28,6 +29,7 @@ const characters: Character[] = [
     voiceId:
       "s3://voice-cloning-zero-shot/e5b701f9-5b39-4d4a-a0dc-254956f607c0/original/manifest.json",
     audioSampleSrc: "/audio/santa-speech-sample.mp3",
+    audioFolder: "santa",
   },
   {
     name: "Kevin McCallister",
@@ -35,6 +37,7 @@ const characters: Character[] = [
     voiceId:
       "s3://voice-cloning-zero-shot/0dd43d3f-95d8-4801-bb29-7b34e17b3326/original/manifest.json",
     audioSampleSrc: "/audio/kevin-speech-sample.mp3",
+    audioFolder: "kevin",
   },
   {
     name: "The Grinch",
@@ -42,6 +45,7 @@ const characters: Character[] = [
     voiceId:
       "s3://voice-cloning-zero-shot/f77dcd72-d997-47de-8505-9828b8bf59c6/original/manifest.json",
     audioSampleSrc: "/audio/grinch-speech-sample.mp3",
+    audioFolder: "grinch",
   },
 ];
 
@@ -78,15 +82,76 @@ const prompt: Message[] = [
         
         10. DO NOT ask "Is your character fictional?". Because this is christmas-related characters, assume EVERY character is fictional.
 
+        11. You have a tendency to not listen to the rules when you think the character is Mrs Claus. YOU ARE NOT ALLOWED TO ASK "Is your character Mrs. Claus?" YOU MUST phrase it "I guess your character is Mrs Claus. Was I right?"
+
         **BEGIN THE GAME NOW:**  
         Ask the first question in the correct format, and then wait for the user's response each turn before producing the next question or guess.`,
   },
 ];
 
+// filler text type
+interface ResponseType {
+  text: string;
+  fileName: string;
+}
+
 // Options for AI to respond with whilst thinking about next question
-const fillers = ["Hmm...", "Let's see...", "Ok...", "Let me think..."];
-const responsesYes = ["Yes! I knew it.", "Aha!", "I was right!", "Of course!"];
-const responsesNo = ["I see.", "Got it.", "Alright.", "Okay."];
+const fillers: ResponseType[] = [
+  {
+    text: "Interesting...",
+    fileName: "interesting.wav",
+  },
+  {
+    text: "Let's see...",
+    fileName: "lets-see.wav",
+  },
+  {
+    text: "Ok...",
+    fileName: "OK.wav",
+  },
+  {
+    text: "Let me think...",
+    fileName: "let-me-think.wav",
+  },
+];
+
+const responsesYes: ResponseType[] = [
+  {
+    text: "Yes! I knew it.",
+    fileName: "yes-i-knew-it.wav",
+  },
+  {
+    text: "Aha!",
+    fileName: "aha.wav",
+  },
+  {
+    text: "I was right!",
+    fileName: "i-was-right.wav",
+  },
+  {
+    text: "Of course!",
+    fileName: "of-course.wav",
+  },
+];
+
+const responsesNo: ResponseType[] = [
+  {
+    text: "I see.",
+    fileName: "i-see.wav",
+  },
+  {
+    text: "Got it.",
+    fileName: "got-it.wav",
+  },
+  {
+    text: "Alright.",
+    fileName: "alright.wav",
+  },
+  {
+    text: "Okay.",
+    fileName: "OK.wav",
+  },
+];
 
 export function GameBoard() {
   const maxQuestions = 21;
@@ -106,9 +171,9 @@ export function GameBoard() {
   const [hasStarted, setHasStarted] = useState(false);
   const [hasGuessed, setHasGuessed] = useState(false);
   const [playAgainFlag, setPlayAgainFlag] = useState(false);
-  const [overlayVisible, setOverlayVisible] = useState(false);
   const [showPlayAgain, setShowPlayAgain] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
+  const [audioMuted, setAudioMuted] = useState(false);
 
   // AI response states
   const [aiResponse, setAiResponse] = useState("");
@@ -232,8 +297,16 @@ export function GameBoard() {
   const handleGuessOutcome = (correct: boolean) => {
     // If the guess was correct or not
     if (correct) {
-      setAiResponse("Ho-ho-ho! I knew it! Play again?");
+      playAudio("voices/" + selectedCharacter.audioFolder + "/play-again.wav");
+      if (selectedCharacter.audioFolder === "santa") {
+        setAiResponse("Ho-ho-ho! I knew it! Want to play again?");
+      } else if (selectedCharacter.audioFolder === "kevin") {
+        setAiResponse("Yes! I win! Want to play again?");
+      } else {
+        setAiResponse("I knew I would get it. Do you want to play again?");
+      }
     } else {
+      playAudio("voices/" + selectedCharacter.audioFolder + "/stumped-me.wav");
       setAiResponse("You stumped me! Play again?");
     }
     setShowPlayAgain(true);
@@ -255,11 +328,40 @@ export function GameBoard() {
 
   const getRandomPhrase = (responseText: string) => {
     if (responseText === "yes") {
-      return responsesYes[Math.floor(Math.random() * 3)];
+      const response = responsesYes[Math.floor(Math.random() * 3)];
+
+      // if we're not muted and the question is greater than 1
+      if (currentQuestion != 0) {
+        playAudio(
+          "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
+        );
+      }
+      return response.text;
     } else if (responseText === "no") {
-      return responsesNo[Math.floor(Math.random() * 3)];
+      const response = responsesNo[Math.floor(Math.random() * 3)];
+      // if we're not muted and the question is greater than 1
+      if (currentQuestion != 0) {
+        playAudio(
+          "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
+        );
+      }
+      return response.text;
     } else {
-      return fillers[Math.floor(Math.random() * 3)];
+      const response = fillers[Math.floor(Math.random() * 3)];
+      // if we're not muted and the question is greater than 1
+      if (currentQuestion != 0) {
+        playAudio(
+          "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
+        );
+      }
+      return response.text;
+    }
+  };
+
+  // function to play audio only when not muted
+  const playAudio = (source: string) => {
+    if (!audioMuted) {
+      new Audio("/audio/" + source).play();
     }
   };
 
