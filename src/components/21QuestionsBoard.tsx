@@ -1,6 +1,7 @@
 import { Volume2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Snowfall from "./Snowfall";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
   role: "system" | "user" | "assistant";
@@ -17,23 +18,30 @@ interface Character {
   name: string;
   source: string;
   voiceId: string;
+  audioSampleSrc: string;
 }
 
 const characters: Character[] = [
   {
     name: "Santa Claus",
     source: "/santa.webp",
-    voiceId: "voice_elara_001",
+    voiceId:
+      "s3://voice-cloning-zero-shot/e5b701f9-5b39-4d4a-a0dc-254956f607c0/original/manifest.json",
+    audioSampleSrc: "/audio/santa-speech-sample.mp3",
   },
   {
     name: "Kevin McCallister",
     source: "/kevin.webp",
-    voiceId: "voice_lyra_003",
+    voiceId:
+      "s3://voice-cloning-zero-shot/0dd43d3f-95d8-4801-bb29-7b34e17b3326/original/manifest.json",
+    audioSampleSrc: "/audio/kevin-speech-sample.mp3",
   },
   {
     name: "The Grinch",
     source: "/grinch.webp",
-    voiceId: "",
+    voiceId:
+      "s3://voice-cloning-zero-shot/f77dcd72-d997-47de-8505-9828b8bf59c6/original/manifest.json",
+    audioSampleSrc: "/audio/grinch-speech-sample.mp3",
   },
 ];
 
@@ -100,6 +108,7 @@ export function GameBoard() {
   const [playAgainFlag, setPlayAgainFlag] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [showPlayAgain, setShowPlayAgain] = useState(false);
+  const [showTransition, setShowTransition] = useState(false);
 
   // AI response states
   const [aiResponse, setAiResponse] = useState("");
@@ -107,6 +116,9 @@ export function GameBoard() {
 
   //  User response states
   const [lastUserResponse, setLastUserResponse] = useState("");
+
+  // State to manage icon animation for volume icon
+  const [isVolumeBouncing, setIsVolumeBouncing] = useState(false);
 
   // Function to Start the Game with Transition
   const startGame = () => {
@@ -116,13 +128,15 @@ export function GameBoard() {
       top: 0,
       behavior: "smooth",
     });
-
-    setHasStarted(true);
-    setPlayAgainFlag(false);
-    setCurrentQuestion(0);
-    setConversation(prompt);
-    setAiResponse("");
-    getAiResponse(prompt);
+    setShowTransition(true);
+    setTimeout(() => {
+      setHasStarted(true);
+      setPlayAgainFlag(false);
+      setCurrentQuestion(0);
+      setConversation(prompt);
+      setAiResponse("");
+      getAiResponse(prompt);
+    }, 500);
   };
 
   // ----- Handlers -----
@@ -188,6 +202,7 @@ export function GameBoard() {
     setShowThinking(true);
     const data = await fetchAiResponse(conv);
     setShowThinking(false);
+    setShowTransition(false);
 
     if (!data.success) {
       setAiResponse("Something went wrong…");
@@ -225,13 +240,17 @@ export function GameBoard() {
   };
 
   const handlePlayAgain = () => {
-    setShowPlayAgain(false);
-    setHasStarted(false);
-    setHasGuessed(false);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    setShowTransition(true);
+    setTimeout(() => {
+      setShowPlayAgain(false);
+      setHasStarted(false);
+      setHasGuessed(false);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      setShowTransition(false);
+    }, 500);
   };
 
   const getRandomPhrase = (responseText: string) => {
@@ -244,6 +263,33 @@ export function GameBoard() {
     }
   };
 
+  // Effect to handle the 5-second timeout
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (isVolumeBouncing) {
+      timer = setTimeout(() => {
+        setIsVolumeBouncing(false);
+      }, 5000); // 5 seconds - Santa sample is 5 seconds, others are 4
+    }
+
+    // Cleanup the timer if the component unmounts before the timeout
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isVolumeBouncing]);
+
+  // Click handler for the button
+  const handleSampleClick = () => {
+    // Play the audio
+    const audio = new Audio(selectedCharacter.audioSampleSrc);
+    audio.play().catch((error) => {
+      console.error("Error playing audio:", error);
+    });
+
+    setIsVolumeBouncing(true);
+  };
+
   // ----- Rendering -----
   return (
     <div className="relative rounded-3xl border-8 border-red-500 p-2 md:p-4 md:m-10 min-h-[80vh] w-full max-w-4xl flex flex-col justify-evenly items-center overflow-hidden">
@@ -251,6 +297,17 @@ export function GameBoard() {
       {!hasStarted && <Snowfall />}
       <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg border-8 border-red-500 bg-[url('../blurry-xmas-bg.png')] filter blur"></div>
       <div className="absolute inset-0 bg-black bg-opacity-60 rounded-[16px]"></div>
+      <AnimatePresence initial={false}>
+        {showTransition ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            className="absolute inset-0 w-full h-full rounded-lg bg-red-500 z-50"
+            key="box"
+          />
+        ) : null}
+      </AnimatePresence>
 
       <div className="relative w-full p-4 md:p-10">
         {/** ----- HOME PAGE (Game not started) ----- */}
@@ -304,7 +361,19 @@ export function GameBoard() {
                     <span className="text-white font-bold text-lg md:text-2xl font-christmas mr-4">
                       {selectedCharacter.name}
                     </span>
-                    <Volume2 className="cursor-pointer hover:scale-110" />
+                    <button
+                      onClick={handleSampleClick}
+                      disabled={isVolumeBouncing}
+                      className="cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      <Volume2
+                        className={`transition-transform ${
+                          isVolumeBouncing
+                            ? "animate-slowBounce cursor-not-allowed"
+                            : "hover:scale-110"
+                        }`}
+                      />
+                    </button>
                   </div>
                   <div className="absolute left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center transition ease-in-out">
                     <img
