@@ -1,4 +1,4 @@
-import { Volume2 } from "lucide-react";
+import { Volume2, House, VolumeX } from "lucide-react";
 import { useState, useEffect } from "react";
 import Snowfall from "./Snowfall";
 import { motion, AnimatePresence } from "framer-motion";
@@ -178,6 +178,7 @@ export function GameBoard() {
   // AI response states
   const [aiResponse, setAiResponse] = useState("");
   const [showThinking, setShowThinking] = useState(false);
+  const [thinkingText, setThinkingText] = useState("");
 
   //  User response states
   const [lastUserResponse, setLastUserResponse] = useState("");
@@ -266,8 +267,6 @@ export function GameBoard() {
   const getAiResponse = async (conv: Message[]) => {
     setShowThinking(true);
     const data = await fetchAiResponse(conv);
-    setShowThinking(false);
-    setShowTransition(false);
 
     if (!data.success) {
       setAiResponse("Something went wrong…");
@@ -291,6 +290,14 @@ export function GameBoard() {
         setAiResponse("You stumped me! Try again?");
       }
     }
+
+    // Play whatever the AI says
+    if (!audioMuted) {
+      await playText(aiMsg);
+    }
+
+    setShowThinking(false);
+    setShowTransition(false);
   };
 
   // 6. Handle Guess Outcome
@@ -381,6 +388,14 @@ export function GameBoard() {
     };
   }, [isVolumeBouncing]);
 
+  // useEffect to handle calling random phrase function
+  useEffect(() => {
+    if (showThinking) {
+      const phrase = getRandomPhrase(lastUserResponse.toLocaleLowerCase());
+      setThinkingText(phrase);
+    }
+  }, [showThinking, lastUserResponse]);
+
   // Click handler for the button
   const handleSampleClick = () => {
     // Play the audio
@@ -391,6 +406,25 @@ export function GameBoard() {
 
     setIsVolumeBouncing(true);
   };
+
+  // function to play the audio for each of the AI questions
+  async function playText(text: string) {
+    try {
+      const response = await fetch(
+        `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`,
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch audio");
+      }
+      const arrayBuffer = await response.arrayBuffer();
+      const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+      const audioUrl = URL.createObjectURL(blob);
+      const audio = new Audio(audioUrl);
+      audio.play();
+    } catch (error) {
+      console.error("Error playing audio:", error);
+    }
+  }
 
   // ----- Rendering -----
   return (
@@ -415,12 +449,30 @@ export function GameBoard() {
         {/** ----- HOME PAGE (Game not started) ----- */}
         {!hasStarted && !hasGuessed && (
           <div className="flex flex-col justify-center items-start">
-            <h1 className="text-xl md:text-4xl mb-4 md:mb-10">
-              Welcome to{" "}
-              <span className="font-bold text-red-500">
-                The Adpharm's 21 Questions: Holiday Edition
-              </span>
-            </h1>
+            <div className="flex flex-row justify-between items-start">
+              <h1 className="text-xl md:text-4xl mb-4 md:mb-10">
+                Welcome to{" "}
+                <span className="font-bold text-red-500">
+                  The Adpharm's 21 Questions: Holiday Edition
+                </span>
+              </h1>
+              {audioMuted && (
+                <button
+                  className="hover:scale-110 transition ease-in-out"
+                  onClick={() => setAudioMuted(!audioMuted)}
+                >
+                  <VolumeX className="size-6" />
+                </button>
+              )}
+              {!audioMuted && (
+                <button
+                  className="hover:scale-110 transition ease-in-out"
+                  onClick={() => setAudioMuted(!audioMuted)}
+                >
+                  <Volume2 className="size-6" />
+                </button>
+              )}
+            </div>
 
             <div className="grid grid-cols-1 gap-4 md:text-lg mb-4 md:mb-10">
               <p>
@@ -511,7 +563,29 @@ export function GameBoard() {
 
         {/** ----- QUESTION/ANSWER PHASE (Game started, hasn't guessed yet) ----- */}
         {hasStarted && (
-          <div className="w-full flex flex-col justify-center items-center pt-6">
+          <div className="w-full flex flex-col justify-center items-center">
+            {/** Top controls */}
+            <div className="flex flex-row justify-between items-center pb-6 w-full">
+              <button className="hover:scale-110 transition ease-in-out ">
+                <House className="size-8" onClick={() => handlePlayAgain()} />
+              </button>
+              {audioMuted && (
+                <button
+                  className="hover:scale-110 transition ease-in-out"
+                  onClick={() => setAudioMuted(!audioMuted)}
+                >
+                  <VolumeX className="size-8" />
+                </button>
+              )}
+              {!audioMuted && (
+                <button
+                  className="hover:scale-110 transition ease-in-out"
+                  onClick={() => setAudioMuted(!audioMuted)}
+                >
+                  <Volume2 className="size-8" />
+                </button>
+              )}
+            </div>
             {/** Speech Bubble */}
             <div
               className="relative bg-white text-black rounded-full px-4 md:px-6 py-2 md:py-4 md:max-w-lg mb-6 min-h-28 md:min-h-40 flex items-center justify-center
@@ -522,9 +596,7 @@ export function GameBoard() {
               <p
                 className={`text-center text-sm md:text-xl px-4 font-semibold transition ease-in-out font-speech break-words ${showThinking ? "animate-pulse" : ""}`}
               >
-                {showThinking
-                  ? getRandomPhrase(lastUserResponse.toLocaleLowerCase())
-                  : aiResponse}
+                {showThinking ? thinkingText : aiResponse}
               </p>
             </div>
 
@@ -554,26 +626,30 @@ export function GameBoard() {
             {!hasGuessed && (
               <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
                 <button
+                  disabled={showThinking}
                   onClick={() => handleUserResponse("Yes")}
-                  className="bg-green-700 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out"
+                  className={`bg-green-700 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
                 >
                   Yes
                 </button>
                 <button
+                  disabled={showThinking}
                   onClick={() => handleUserResponse("No")}
-                  className="bg-red-600 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out"
+                  className={`bg-red-600 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
                 >
                   No
                 </button>
                 <button
+                  disabled={showThinking}
                   onClick={() => handleUserResponse("Sort Of")}
-                  className="bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out"
+                  className={`bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
                 >
                   Sort Of
                 </button>
                 <button
+                  disabled={showThinking}
                   onClick={() => handleUserResponse("Not Sure")}
-                  className="bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out"
+                  className={`bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
                 >
                   Not sure
                 </button>
@@ -584,14 +660,16 @@ export function GameBoard() {
             {hasGuessed && !showPlayAgain && (
               <div className="mt-10 flex space-x-6 w-full justify-center items-center">
                 <button
+                  disabled={showThinking}
                   onClick={() => handleGuessOutcome(true)}
-                  className="bg-green-700 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out"
+                  className={`bg-green-700 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   Correct
                 </button>
                 <button
+                  disabled={showThinking}
                   onClick={() => handleGuessOutcome(false)}
-                  className="bg-red-600 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out"
+                  className={`bg-red-600 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   Incorrect
                 </button>
