@@ -428,7 +428,7 @@ export function GameBoard() {
 
   // ----- Rendering -----
   return (
-    <div className="relative rounded-3xl border-8 border-red-500 p-2 md:p-4 md:m-10 min-h-[80vh] w-full max-w-4xl flex flex-col justify-evenly items-center overflow-hidden">
+    <div className="relative rounded-3xl border-8 border-red-500 p-2 md:pb-4 md:px-4 md:m-10 min-h-[80vh] w-full max-w-4xl flex flex-col justify-evenly items-center overflow-hidden">
       {/** Background / Overlays */}
       {!hasStarted && <Snowfall />}
       <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg border-8 border-red-500 bg-[url('../blurry-xmas-bg.png')] filter blur"></div>
@@ -445,10 +445,28 @@ export function GameBoard() {
         ) : null}
       </AnimatePresence>
 
-      <div className="relative w-full p-4 md:p-10">
+      <div className="relative w-full p-4 md:px-10 md:pb-10">
         {/** ----- HOME PAGE (Game not started) ----- */}
         {!hasStarted && !hasGuessed && (
-          <div className="flex flex-col justify-center items-start">
+          <div className="flex flex-col justify-center items-start w-full">
+            <div className="flex flex-row items-end justify-end pb-4 w-full">
+              {audioMuted && (
+                <button
+                  className="hover:scale-110 transition ease-in-out hidden md:block"
+                  onClick={() => setAudioMuted(!audioMuted)}
+                >
+                  <VolumeX className="size-6" />
+                </button>
+              )}
+              {!audioMuted && (
+                <button
+                  className="hover:scale-110 transition ease-in-out hidden md:block"
+                  onClick={() => setAudioMuted(!audioMuted)}
+                >
+                  <Volume2 className="size-6" />
+                </button>
+              )}
+            </div>
             <div className="flex flex-row justify-between items-start">
               <h1 className="text-xl md:text-4xl mb-4 md:mb-10">
                 Welcome to{" "}
@@ -458,7 +476,7 @@ export function GameBoard() {
               </h1>
               {audioMuted && (
                 <button
-                  className="hover:scale-110 transition ease-in-out"
+                  className="hover:scale-110 transition ease-in-out md:hidden"
                   onClick={() => setAudioMuted(!audioMuted)}
                 >
                   <VolumeX className="size-6" />
@@ -466,7 +484,7 @@ export function GameBoard() {
               )}
               {!audioMuted && (
                 <button
-                  className="hover:scale-110 transition ease-in-out"
+                  className="hover:scale-110 transition ease-in-out md:hidden"
                   onClick={() => setAudioMuted(!audioMuted)}
                 >
                   <Volume2 className="size-6" />
