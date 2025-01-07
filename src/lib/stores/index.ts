@@ -43,6 +43,19 @@ export const $leaderboard = shared(
 );
 
 /**
+ * Store for games' scores
+ */
+export const $gamesScores = shared("gamesScores", atom<number[]>([]));
+
+/**
+ * Store for all users
+ */
+export const $allUsers = shared(
+  "allUsers",
+  atom<(typeof tableUsers.$inferSelect)[]>([]),
+);
+
+/**
  * Store for the usersGamesTable
  */
 export const $userGamesTable = shared(

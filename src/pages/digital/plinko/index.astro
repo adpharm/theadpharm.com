@@ -11,6 +11,7 @@ import GamesLayout from "@/components/layout/GamesLayout.astro";
 import { getUser } from "@/lib/server/auth.utils";
 import { PlinkoNewGameButton } from "@/components/button/PlinkoNewGameButton";
 import { plinkoSettings } from "@/lib/settings.plinko";
+import { Button } from "@/components/ui/button";
 
 const user = getUser(Astro);
 
@@ -44,6 +45,9 @@ $userGamesTable.set(plinkoGameWithRounds);
     {user && <UserPlinkoGamesTable client:load />}
 
     <LeaderboardTable client:load user={user} />
+    <div class="pt-10">
+      <a href="report">Go to report</a>
+    </div>
   </div>
 </GamesLayout>
 
