@@ -509,7 +509,7 @@ export function GameBoard() {
               </div>
 
               {/** Showcase of Selected Character */}
-              <div className="flex justify-center items-center translate-x-6 mb-10">
+              <div className="flex justify-center items-center translate-x-5 mb-10">
                 <div className="relative flex items-center">
                   <div className="flex flex-row justify-center items-center bg-red-500 py-6 px-4 pl-14 md:pl-24 rounded-md shadow-lg">
                     <span className="text-white font-bold text-lg md:text-2xl font-christmas mr-4">
