@@ -4,13 +4,23 @@ import {
   PlinkoRoundWaitingToStartDialog,
 } from "@/components/dialog/PlinkoRoundDialog";
 import { db } from "@/db";
-import { tablePlinkoGames, tableUsers } from "@/db/schema";
-import { $leaderboard, $gamesScores, $allUsers } from "@/lib/stores";
+import {
+  tablePlinkoGames,
+  tableUsers,
+  tablePlinkoGameRounds,
+} from "@/db/schema";
+import {
+  $leaderboard,
+  $gamesScores,
+  $allUsers,
+  $allGamesWithRounds,
+  $allGames,
+} from "@/lib/stores";
 import { desc, eq, gt } from "drizzle-orm";
 
-export async function listTop10Games() {
-  // Get the top 10 games by score
-  const top10Games = await db
+export async function listLeaderboardGames() {
+  //Something I could possibly do is only get the highest of each unique user (so no duplicates on the leaderboard)
+  const allLeaderboard = await db
     .select({
       game: tablePlinkoGames,
       user: tableUsers,
@@ -18,10 +28,9 @@ export async function listTop10Games() {
     .from(tablePlinkoGames)
     .where(gt(tablePlinkoGames.score, 0))
     .innerJoin(tableUsers, eq(tablePlinkoGames.user_id, tableUsers.id))
-    .orderBy(desc(tablePlinkoGames.score))
-    .limit(10);
+    .orderBy(desc(tablePlinkoGames.score));
 
-  $leaderboard.set(top10Games);
+  $leaderboard.set(allLeaderboard);
 }
 
 export async function getAllScores() {
@@ -43,4 +52,31 @@ export async function getUniqueUsers() {
     .from(tableUsers);
 
   $allUsers.set(allUsers.map((u) => u.user));
+}
+
+export async function getGamesWithRounds() {
+  const gamesWithRounds = await db
+    .select({
+      game: tablePlinkoGames,
+      gameRound: tablePlinkoGameRounds,
+    })
+    .from(tablePlinkoGameRounds)
+    .innerJoin(
+      tablePlinkoGames,
+      eq(tablePlinkoGames.id, tablePlinkoGameRounds.game_id),
+    )
+    .where(gt(tablePlinkoGames.score, 0));
+
+  $allGamesWithRounds.set(gamesWithRounds);
+}
+
+export async function getGamesOnly() {
+  const games = await db
+    .select({
+      game: tablePlinkoGames,
+    })
+    .from(tablePlinkoGames)
+    .where(gt(tablePlinkoGames.score, 0));
+
+  $allGames.set(games.map((g) => g.game));
 }

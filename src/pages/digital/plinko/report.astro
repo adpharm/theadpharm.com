@@ -1,16 +1,8 @@
 ---
 import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
-import Grid from "@/components/layout/Grid.astro";
 import Section from "@/components/layout/Section.astro";
 import PlinkoReportDashboard from "@/components/plinko-report/PlinkoReportDashboard";
-import PlinkoDashboard from "@/components/plinko-report/PlinkoReportDashboard";
-import { db } from "@/db";
-import { tablePlinkoGameRounds, tablePlinkoGames } from "@/db/schema";
-import { getUser } from "@/lib/server/auth.utils";
-import { getAllScores, getUniqueUsers, listTop10Games } from "@/lib/server/loaders/plinkoReportingLoaders";
-import { listTopGamesWithUsers } from "@/lib/server/loaders/listTopGamesWithUsers";
-import { requireNum } from "@/lib/server/parse_int";
-import { desc, eq, gt, inArray } from "drizzle-orm";
+import { getAllScores, getGamesOnly, getGamesWithRounds, getUniqueUsers, listLeaderboardGames } from "@/lib/server/loaders/plinkoReportingLoaders";
 
 // const user = getUser(Astro);
 
@@ -24,9 +16,11 @@ import { desc, eq, gt, inArray } from "drizzle-orm";
 
 // const gameId = requireNum(gameId_);
 
-await listTop10Games();
+await listLeaderboardGames();
 await getAllScores();
 await getUniqueUsers();
+await getGamesWithRounds();
+await getGamesOnly()
 
 // TODO: consider batching https://orm.drizzle.team/docs/batch-api
 

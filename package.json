@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "fetch-analytics": "bunx --bun run src/lib/Server/googleAnalyticsFetchData.ts",
     "dev": "bunx --bun astro dev",
     "start": "bun run dev",
     "build": "bunx --bun astro build",
@@ -17,6 +18,7 @@
     "@auth/core": "^0.37.4",
     "@fontsource-variable/playpen-sans": "^5.1.0",
     "@fontsource/dseg14-modern": "^5.1.0",
+    "@google-analytics/data": "^4.12.0",
     "@hookform/resolvers": "^3.9.1",
     "@inox-tools/request-nanostores": "^0.2.1",
     "@lottiefiles/dotlottie-react": "^0.12.0",

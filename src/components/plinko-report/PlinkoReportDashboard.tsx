@@ -1,41 +1,45 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { tableUsers } from '@/db/schema';
-import { $allUsers, $gamesScores, $leaderboard } from '@/lib/stores';
+import { $allGames, $allGamesWithRounds, $allUsers, $gamesScores, $leaderboard } from '@/lib/stores';
 import { useStore } from '@nanostores/react';
 import { Table, TableCell, TableRow } from '../ui/table';
 import { makePrettyNumber } from '@/lib/utils.numbers';
 import { convertUTCToDistanceToNow } from '@/lib/utils.plinko.date';
 import { ClientOnly } from '@/lib/utils.react-hydration';
-import { listTop10Games } from "@/lib/server/loaders/plinkoReportingLoaders";
+import { listLeaderboardGames } from "@/lib/server/loaders/plinkoReportingLoaders";
+import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
 
 // Items needed:
 //Row 1:
-// Dollar Raised
-// Plinko Balls Dropped
-// Total Points Scored
+  // Dollar Raised ----------------> DONE
+  // Plinko Balls Dropped ---------> DONE
+  // Total Points Scored ----------> DONE
 //Row 2:
-// Placeholder
-// Time Spent Playing
-// Placeholder
-// Leaderboard (spans 2 rows)
+  // Placeholder ------------------> DONE
+  // Time Spent Playing
+  // Placeholder ------------------> DONE
+  // Leaderboard (spans 2 rows) ---> DONE
 //Row 3:
-// Players
-// Replays
-// Active Users
+  // Players ----------------------> DONE
+  // Replays ----------------------> DONE
+  // Active Users
 
 function PlinkoReportDashboard() {
   const leaderboardData = useStore($leaderboard);
   const gamesTotals = useStore($gamesScores);
-  const totalScores = makePrettyNumber(gamesTotals.reduce((acc, score) => acc + score, 0));
   const allUsers = useStore($allUsers);
+  const allGamesWithRounds = useStore($allGamesWithRounds);
+  const allGames = useStore($allGames);
 
+  // Below are the constants for the cards
+  const totalScores = makePrettyNumber(gamesTotals.reduce((acc, score) => acc + score, 0));
+  const totalBallsDropped = makePrettyNumber(getPlinkoBallsDropped());
+  const totalUniqueUsers = allUsers.length;
+  const totalReplays = makePrettyNumber(getUserReplayCount());
 
-  console.log("Total Scores: ", totalScores);
-  console.log("LeaderboardData: ", leaderboardData);
-  console.log("All Users: ", allUsers.length); //TODO: WHY AM I GETTING 10 USERS ONLY??? WRONG CALL TO DB?
-
-  // const totalDollarsRaised = totalScores.reduce((acc, score) => acc + score, 0);
+  console.log("All games with rounds data: ", allGamesWithRounds);
+  console.log("All Games: ", allGames)
 
   return (
     <div>
@@ -55,7 +59,7 @@ function PlinkoReportDashboard() {
             <CardTitle className="text-sm font-normal text-zinc-500">Plinko balls dropped</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold">3,743</div>
+            <div className="text-4xl font-bold">{totalBallsDropped}</div>
           </CardContent>
         </Card>
 
@@ -79,7 +83,7 @@ function PlinkoReportDashboard() {
           </div>
           {/* </Card> */}
 
-          <Card className="bg-[#111111] text-white border-none md:col-span-1 lg:col-span-2">
+          <Card className="bg-[#111111] text-white border-none md:col-span-2 ">
             <CardHeader>
               <CardTitle className="text-sm font-normal text-zinc-500">Time spent playing</CardTitle>
             </CardHeader>
@@ -143,7 +147,7 @@ function PlinkoReportDashboard() {
             <CardTitle className="text-sm font-normal text-zinc-500">Players</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">42</div>
+            <div className="text-3xl font-bold">{totalUniqueUsers}</div>
           </CardContent>
         </Card>
 
@@ -152,7 +156,7 @@ function PlinkoReportDashboard() {
             <CardTitle className="text-sm font-normal text-zinc-500">Replays</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">16</div>
+            <div className="text-3xl font-bold">{totalReplays}</div>
           </CardContent>
         </Card>
 
