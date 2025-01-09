@@ -1,6 +1,8 @@
+// First steps to the recipe: https://dev.to/j471n/how-to-use-google-analytics-data-api-2133
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import fs from "fs";
 import path from "path";
+import {convertSecondsToTime} from "../utils.numbers.ts";
 
 const propertyId = process.env.GA_PROPERTY_ID!;
 const clientEmail = process.env.GA_CLIENT_EMAIL!;
@@ -14,7 +16,7 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
 });
 
 interface AnalyticsResult {
-  totalTimeSpent: number;
+  totalTimeSpent: string;
   percentageIncrease: number;
   rawData: {
     pagePath: string;
@@ -37,7 +39,7 @@ export async function fetchAnalyticsData(): Promise<AnalyticsResult | null> {
           startDate: "2024-12-16",
           endDate: "today",
         },
-        // Add previous period for comparison
+        // Previous period
         {
           startDate: "2024-01-01",
           endDate: "2024-12-15",
@@ -65,7 +67,7 @@ export async function fetchAnalyticsData(): Promise<AnalyticsResult | null> {
       userEngagementDuration: parseFloat(row.metricValues?.[1]?.value || "0"),
     }));
 
-    // Calculate totals
+    // Calculate Tiotal time spent playing --> in seconds
     const totalTimeSpent = rawData.reduce(
       (sum, item) => sum + item.userEngagementDuration,
       0,
@@ -87,8 +89,9 @@ export async function fetchAnalyticsData(): Promise<AnalyticsResult | null> {
           100
         : 0;
 
+    const cleanTimeFormat = convertSecondsToTime(totalTimeSpent);
     const result: AnalyticsResult = {
-      totalTimeSpent,
+      totalTimeSpent: cleanTimeFormat,
       percentageIncrease,
       rawData,
       summary: {
@@ -99,12 +102,11 @@ export async function fetchAnalyticsData(): Promise<AnalyticsResult | null> {
       },
     };
 
-    // Save complete data including raw response
+    // Save complete data including raw response to json
     const outputData = {
-      processedResults: result,
+      outputResult: result,
       rawResponse: response,
     };
-
     const outputPath = path.resolve("./src/data/googleAnalyticsOutput.json");
     fs.writeFileSync(outputPath, JSON.stringify(outputData, null, 2));
 

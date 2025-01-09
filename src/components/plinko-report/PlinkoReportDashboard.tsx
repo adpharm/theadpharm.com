@@ -9,21 +9,23 @@ import { convertUTCToDistanceToNow } from '@/lib/utils.plinko.date';
 import { ClientOnly } from '@/lib/utils.react-hydration';
 import { listLeaderboardGames } from "@/lib/server/loaders/plinkoReportingLoaders";
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
+import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
+
 
 // Items needed:
 //Row 1:
-  // Dollar Raised ----------------> DONE
-  // Plinko Balls Dropped ---------> DONE
-  // Total Points Scored ----------> DONE
+// Dollar Raised ----------------> DONE
+// Plinko Balls Dropped ---------> DONE
+// Total Points Scored ----------> DONE
 //Row 2:
-  // Placeholder ------------------> DONE
-  // Time Spent Playing
-  // Placeholder ------------------> DONE
-  // Leaderboard (spans 2 rows) ---> DONE
+// Placeholder ------------------> DONE
+// Time Spent Playing -----------> DONE
+// Placeholder ------------------> DONE
+// Leaderboard (spans 2 rows) ---> DONE
 //Row 3:
-  // Players ----------------------> DONE
-  // Replays ----------------------> DONE
-  // Active Users
+// Players ----------------------> DONE
+// Replays ----------------------> DONE
+// Active Users
 
 function PlinkoReportDashboard() {
   const leaderboardData = useStore($leaderboard);
@@ -32,19 +34,24 @@ function PlinkoReportDashboard() {
   const allGamesWithRounds = useStore($allGamesWithRounds);
   const allGames = useStore($allGames);
 
-  // Below are the constants for the cards
+  // I want to get the variable totalTimeSpent from the json file googleAnalyticsOutput.json
+  const timeSpentPlayingPlinko = googleAnalyticsData?.outputResult?.totalTimeSpent ?? "Something's wrong";
+
+  
+  // Below are the constants used for the cards
   const totalScores = makePrettyNumber(gamesTotals.reduce((acc, score) => acc + score, 0));
   const totalBallsDropped = makePrettyNumber(getPlinkoBallsDropped());
   const totalUniqueUsers = allUsers.length;
   const totalReplays = makePrettyNumber(getUserReplayCount());
-
+  
   console.log("All games with rounds data: ", allGamesWithRounds);
   console.log("All Games: ", allGames)
+  console.log("Here is the Total Time Spent: ", timeSpentPlayingPlinko)
 
   return (
     <div>
       {/* Row 1 */}
-      <div className="grid md:grid-cols-1 lg:grid-cols-5 gap-4 pt-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4 pt-6">
         <Card className="bg-[#111111] text-white border-none md:col-span-1 lg:col-span-2">
           <CardHeader>
             <CardTitle className="text-sm font-normal text-zinc-500">Dollars raised</CardTitle>
@@ -63,7 +70,7 @@ function PlinkoReportDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#111111] text-white border-none md:col-span-1 lg:col-span-2">
+        <Card className="bg-[#111111] text-white border-none md:col-span-2">
           <CardHeader>
             <CardTitle className="text-sm font-normal text-zinc-500">Total points scored</CardTitle>
           </CardHeader>
@@ -75,7 +82,7 @@ function PlinkoReportDashboard() {
 
       {/* Row 2 */}
       <div className="grid md:grid-cols-4 lg:grid-cols-6 gap-4 pt-4 pb-6">
-        <div className="md:col-span-2 lg:col-span-4 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="lg:col-span-4 grid md:col-span-1 lg:grid-cols-4 gap-4">
           {/* // Placeholder --> Logo */}
           {/* <Card className="bg-none text-white border-none md:col-span-1"> */}
           <div className="h-full flex items-center justify-center md:col-span-2 lg:col-span-1">
@@ -88,7 +95,7 @@ function PlinkoReportDashboard() {
               <CardTitle className="text-sm font-normal text-zinc-500">Time spent playing</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">3 hours 18 minutes</div>
+              <div className="text-2xl font-bold">{timeSpentPlayingPlinko}</div>
             </CardContent>
           </Card>
 
