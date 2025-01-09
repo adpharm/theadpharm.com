@@ -1,6 +1,5 @@
 import { useStore } from "@nanostores/react";
-import { $allGamesWithRounds, $allGames } from "../stores";
-
+import { $allGamesWithRounds, $allGames, $leaderboard } from "../stores";
 
 export function getPlinkoBallsDropped() {
   // const allGamesWithRounds = useStore($allGamesWithRounds);
@@ -43,7 +42,7 @@ export function getUserReplayCount() {
     const userId = game.user_id;
 
     if (userCounts.has(userId)) {
-      console.log("User already exists: ", userId);
+      // console.log("User already exists: ", userId);
       userCounts.set(userId, (userCounts.get(userId) ?? 0) + 1);
     } else {
       userCounts.set(userId, 1);
@@ -58,6 +57,21 @@ export function getUserReplayCount() {
     }
   });
 
-  console.log("USerCounts: ", userCounts);
+  // console.log("USerCounts: ", userCounts);
   return totalReplays;
 }
+
+// function exportGameAndUserTableToCSV() {
+//   const leaderBoardTable = useStore($leaderboard);
+
+//   const csvRows = [];
+//   const headers = Object.keys(leaderBoardTable[0]);
+
+//   csvRows.push(headers.join(","));
+//   leaderBoardTable.forEach((row) => {
+//     const values = headers.map((header) => row[header]);
+//     csvRows.push(values.join(","));
+//   });
+
+//   return csvRows.join("\n");
+// }

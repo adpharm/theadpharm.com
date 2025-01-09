@@ -19,7 +19,6 @@ import {
 import { desc, eq, gt } from "drizzle-orm";
 
 export async function listLeaderboardGames() {
-  //Something I could possibly do is only get the highest of each unique user (so no duplicates on the leaderboard)
   const allLeaderboard = await db
     .select({
       game: tablePlinkoGames,
@@ -28,7 +27,7 @@ export async function listLeaderboardGames() {
     .from(tablePlinkoGames)
     .where(gt(tablePlinkoGames.score, 0))
     .innerJoin(tableUsers, eq(tablePlinkoGames.user_id, tableUsers.id))
-    .orderBy(desc(tablePlinkoGames.score));
+    .orderBy(desc(tablePlinkoGames.score))
 
   $leaderboard.set(allLeaderboard);
 }
