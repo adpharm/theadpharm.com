@@ -212,7 +212,6 @@ export function GameBoard() {
   // ----- Handlers -----
   // 1. Select Character
   const handleCharacterSelect = (character: Character) => {
-    console.log("Selecting character:", character);
     setSelectedCharacter(character);
     setSelectedVoiceId(character.voiceId || selectedVoiceId);
   };
@@ -240,7 +239,6 @@ export function GameBoard() {
         body: JSON.stringify({ conversation: msgs }),
       });
       const data: GuessResponse = await res.json();
-      console.log("AI DATA: ", data);
       return data;
     } catch (error) {
       console.error("fetchAiResponse error", error);
@@ -304,12 +302,10 @@ export function GameBoard() {
         // if we have no characters remaining, we need to mute
         setAudioMuted(true);
         setBlockPlayAPI(true);
-        console.log("BLOCKING ACCESS CHAR COUNT: ", row.charactersRemaining);
       } else {
         if (!audioMuted) {
           // we still have characters remaining, call api to reduce character count
           const newRow = await reduceCount(aiMsg.length);
-          console.log(newRow);
           await playText(aiMsg);
         }
       }

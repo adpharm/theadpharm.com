@@ -129,8 +129,5 @@ export async function getCharRow() {
 
     row = insertedRows[0];
   }
-
-  console.log(row.charactersRemaining);
-
   return row;
 }
