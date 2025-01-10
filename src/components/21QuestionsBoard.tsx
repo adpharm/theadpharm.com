@@ -2,6 +2,7 @@ import { Volume2, House, VolumeX } from "lucide-react";
 import { useState, useEffect } from "react";
 import Snowfall from "./Snowfall";
 import { motion, AnimatePresence } from "framer-motion";
+import { CustomTooltip } from "./Tooltip";
 
 interface Message {
   role: "system" | "user" | "assistant";
@@ -186,6 +187,9 @@ export function GameBoard() {
   // State to manage icon animation for volume icon
   const [isVolumeBouncing, setIsVolumeBouncing] = useState(false);
 
+  // State to track if we should allow Play HT API usage
+  const [blockPlayAPI, setBlockPlayAPI] = useState(false);
+
   // Function to Start the Game with Transition
   const startGame = () => {
     if (!selectedCharacter) return;
@@ -292,8 +296,23 @@ export function GameBoard() {
     }
 
     // Play whatever the AI says
-    if (!audioMuted) {
-      await playText(aiMsg);
+    if (!blockPlayAPI) {
+      // before we playText, let's check over the database
+      const row = await getCharRowViaApi();
+
+      if (row.charactersRemaining < 100) {
+        // if we have no characters remaining, we need to mute
+        setAudioMuted(true);
+        setBlockPlayAPI(true);
+        console.log("BLOCKING ACCESS CHAR COUNT: ", row.charactersRemaining);
+      } else {
+        if (!audioMuted) {
+          // we still have characters remaining, call api to reduce character count
+          const newRow = await reduceCount(aiMsg.length);
+          console.log(newRow);
+          await playText(aiMsg);
+        }
+      }
     }
 
     setShowThinking(false);
@@ -426,6 +445,31 @@ export function GameBoard() {
     }
   }
 
+  async function getCharRowViaApi() {
+    const res = await fetch("/api/chars-remaining", { method: "POST" });
+    if (!res.ok) {
+      throw new Error("Failed to fetch getCharRow");
+    }
+    const data = await res.json();
+    return data.row;
+  }
+
+  async function reduceCount(promptAmount: number) {
+    const response = await fetch("/api/reduce-db-char-count", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ promptAmount }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to reduceDbCharacterCount.");
+    }
+
+    const data = await response.json();
+
+    return data.updatedRow;
+  }
+
   // ----- Rendering -----
   return (
     <div className="relative rounded-3xl border-8 border-red-500 p-2 md:pb-4 md:px-4 md:m-10 min-h-[80vh] w-full max-w-4xl flex flex-col justify-evenly items-center overflow-hidden">
@@ -450,18 +494,27 @@ export function GameBoard() {
         {!hasStarted && !hasGuessed && (
           <div className="flex flex-col justify-center items-start w-full">
             <div className="flex flex-row items-end justify-end pb-4 w-full">
-              {audioMuted && (
+              {blockPlayAPI && (
+                <button className="hidden md:block" disabled>
+                  <VolumeX className="size-6" />
+                </button>
+              )}
+
+              {!blockPlayAPI && audioMuted && (
                 <button
                   className="hover:scale-110 transition ease-in-out hidden md:block"
                   onClick={() => setAudioMuted(!audioMuted)}
+                  disabled={blockPlayAPI}
                 >
                   <VolumeX className="size-6" />
                 </button>
               )}
-              {!audioMuted && (
+
+              {!blockPlayAPI && !audioMuted && (
                 <button
                   className="hover:scale-110 transition ease-in-out hidden md:block"
                   onClick={() => setAudioMuted(!audioMuted)}
+                  disabled={blockPlayAPI}
                 >
                   <Volume2 className="size-6" />
                 </button>
@@ -474,7 +527,12 @@ export function GameBoard() {
                   The Adpharm's 21 Questions: Holiday Edition
                 </span>
               </h1>
-              {audioMuted && (
+              {blockPlayAPI && (
+                <button className="md:hidden" disabled>
+                  <VolumeX className="size-6" />
+                </button>
+              )}
+              {!blockPlayAPI && audioMuted && (
                 <button
                   className="hover:scale-110 transition ease-in-out md:hidden"
                   onClick={() => setAudioMuted(!audioMuted)}
@@ -482,7 +540,7 @@ export function GameBoard() {
                   <VolumeX className="size-6" />
                 </button>
               )}
-              {!audioMuted && (
+              {!blockPlayAPI && !audioMuted && (
                 <button
                   className="hover:scale-110 transition ease-in-out md:hidden"
                   onClick={() => setAudioMuted(!audioMuted)}
@@ -587,21 +645,40 @@ export function GameBoard() {
               <button className="hover:scale-110 transition ease-in-out ">
                 <House className="size-8" onClick={() => handlePlayAgain()} />
               </button>
-              {audioMuted && (
-                <button
-                  className="hover:scale-110 transition ease-in-out"
-                  onClick={() => setAudioMuted(!audioMuted)}
-                >
-                  <VolumeX className="size-8" />
-                </button>
+              {blockPlayAPI && (
+                <CustomTooltip
+                  // We pass our button as the 'preview' prop
+                  preview={
+                    <button className="opacity-50 cursor-not-allowed" disabled>
+                      <VolumeX className="size-8" />
+                    </button>
+                  }
+                  hoverText="We are experiencing high usage. Character audio is currently disabled."
+                />
               )}
-              {!audioMuted && (
-                <button
-                  className="hover:scale-110 transition ease-in-out"
-                  onClick={() => setAudioMuted(!audioMuted)}
-                >
-                  <Volume2 className="size-8" />
-                </button>
+
+              {!blockPlayAPI && (
+                <div>
+                  {audioMuted && (
+                    <button
+                      className="hover:scale-110 transition ease-in-out"
+                      onClick={() => setAudioMuted(!audioMuted)}
+                      disabled={blockPlayAPI}
+                    >
+                      <VolumeX className="size-8" />
+                    </button>
+                  )}
+
+                  {!audioMuted && (
+                    <button
+                      className="hover:scale-110 transition ease-in-out"
+                      onClick={() => setAudioMuted(!audioMuted)}
+                      disabled={blockPlayAPI}
+                    >
+                      <Volume2 className="size-8" />
+                    </button>
+                  )}
+                </div>
               )}
             </div>
             {/** Speech Bubble */}

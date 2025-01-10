@@ -9,6 +9,7 @@ import {
   index,
   boolean,
   integer,
+  date,
 } from "drizzle-orm/pg-core";
 
 /***************************************************************
@@ -207,5 +208,19 @@ export const tablePlinkoGameRounds = pgTable(
   (table) => [
     // Ensure that the game and key are unique together
     unique("game_id_key").on(table.game_id, table.key),
+  ],
+);
+
+export const playHtCharacterCount = pgTable(
+  "characters",
+  {
+    id: serial().primaryKey(),
+    startDate: date().notNull(),
+    endDate: date().notNull(),
+    charactersRemaining: integer().notNull(),
+  },
+  (table) => [
+    // Ensure that the user_uuid is unique
+    // unique("user_id").on(table.user_uuid),
   ],
 );
