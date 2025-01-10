@@ -16,5 +16,5 @@ export function convertSecondsToTime(seconds: number) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
 
-  return `${hours} hours ${minutes} minutes`;
+  return `${hours} hours ${minutes}\u00A0minutes`;
 }

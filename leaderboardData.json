@@ -1,0 +1,2686 @@
+[
+  {
+    "game": {
+      "created_at": "2025-01-06 21:26:16.338727+00",
+      "updated_at": "2025-01-06 21:36:52.097275+00",
+      "id": 149,
+      "user_id": 90,
+      "current_round_key": "rnd10",
+      "score": 847350,
+      "upgrade_budget": 227350,
+      "game_over": true
+    },
+    "user": {
+      "id": 90,
+      "email": "tony@theadpharm.com",
+      "username": "SnowmanTony13",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$fhrbkZ801TXQ1OVO85ubCw$k568EegaAOT2Fyzo6QI9P3RKmf6ovlF1m9TVviqFcBA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 21:06:56.249176+00",
+      "updated_at": "2025-01-06 21:06:56.249176+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 02:07:20.084697+00",
+      "updated_at": "2024-12-29 02:10:45.356333+00",
+      "id": 101,
+      "user_id": 11,
+      "current_round_key": "rnd10",
+      "score": 816890,
+      "upgrade_budget": 356890,
+      "game_over": true
+    },
+    "user": {
+      "id": 11,
+      "email": null,
+      "username": "Christmas24",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$dTDOOHY0GGb5bcQB3PRIsQ$edjX3R1e2N9AH4PJ+A7cyBau1S0x4OBc3Bpbj3wweic",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 07:03:30.920684+00",
+      "updated_at": "2024-12-23 07:03:30.920684+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 13:15:32.203591+00",
+      "updated_at": "2024-12-25 13:25:32.226905+00",
+      "id": 92,
+      "user_id": 52,
+      "current_round_key": "rnd10",
+      "score": 796740,
+      "upgrade_budget": 366740,
+      "game_over": true
+    },
+    "user": {
+      "id": 52,
+      "email": "lisa.holtshousen@icloud.com",
+      "username": "NutcrackerLisa70",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$d/4H1k4oG6ZFzoowInpPEg$cxsVNemK46PbF5TpfG/L0Tkh/lSYGl+z/4700mgPo9s",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 12:15:11.14132+00",
+      "updated_at": "2024-12-24 12:15:11.14132+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 20:05:44.640285+00",
+      "updated_at": "2024-12-23 20:10:16.942126+00",
+      "id": 64,
+      "user_id": 45,
+      "current_round_key": "rnd10",
+      "score": 729010,
+      "upgrade_budget": 339010,
+      "game_over": true
+    },
+    "user": {
+      "id": 45,
+      "email": "rob@synapsemedcom.ca",
+      "username": "RudolphRobert43",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$cocJppegjnMbiCE+ZxWoBQ$5BJLL4VWFgRAp0jfuDnwtAkERxiW9iPdW9EPg9LR6wk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 19:38:27.321295+00",
+      "updated_at": "2024-12-23 19:38:27.321295+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-26 21:41:09.593326+00",
+      "updated_at": "2024-12-26 21:52:01.259673+00",
+      "id": 98,
+      "user_id": 68,
+      "current_round_key": "rnd10",
+      "score": 610840,
+      "upgrade_budget": 190840,
+      "game_over": true
+    },
+    "user": {
+      "id": 68,
+      "email": "ross.glover@cogeco.ca",
+      "username": "MistletoeRoss2",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$0/TFY3PttWm1BJ904hGRQA$/c6y+GH/NoBJ1vB2meb0UMEGrFY3NhWidkYxHZDblX4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-26 21:30:53.010127+00",
+      "updated_at": "2024-12-26 21:30:53.010127+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-26 21:30:53.169821+00",
+      "updated_at": "2024-12-26 21:40:44.57677+00",
+      "id": 97,
+      "user_id": 68,
+      "current_round_key": "rnd10",
+      "score": 598890,
+      "upgrade_budget": 178890,
+      "game_over": true
+    },
+    "user": {
+      "id": 68,
+      "email": "ross.glover@cogeco.ca",
+      "username": "MistletoeRoss2",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$0/TFY3PttWm1BJ904hGRQA$/c6y+GH/NoBJ1vB2meb0UMEGrFY3NhWidkYxHZDblX4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-26 21:30:53.010127+00",
+      "updated_at": "2024-12-26 21:30:53.010127+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 07:03:31.084433+00",
+      "updated_at": "2024-12-23 07:08:10.104251+00",
+      "id": 12,
+      "user_id": 11,
+      "current_round_key": "rnd10",
+      "score": 541650,
+      "upgrade_budget": 141650,
+      "game_over": true
+    },
+    "user": {
+      "id": 11,
+      "email": null,
+      "username": "Christmas24",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$dTDOOHY0GGb5bcQB3PRIsQ$edjX3R1e2N9AH4PJ+A7cyBau1S0x4OBc3Bpbj3wweic",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 07:03:30.920684+00",
+      "updated_at": "2024-12-23 07:03:30.920684+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:41:40.418447+00",
+      "updated_at": "2024-12-23 18:47:20.459589+00",
+      "id": 56,
+      "user_id": 42,
+      "current_round_key": "rnd10",
+      "score": 518360,
+      "upgrade_budget": 168360,
+      "game_over": true
+    },
+    "user": {
+      "id": 42,
+      "email": "andy_zylak@mt-pharma-ca.com",
+      "username": "ChristmasAndy54",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$4FrpJxg4Km8zzetV7EaTQw$yglsnplPi+DXyVAHjqUy+Pb6zrXW3W494lYXYqOaiZY",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 18:41:40.244534+00",
+      "updated_at": "2024-12-23 18:41:40.244534+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 16:59:50.138478+00",
+      "updated_at": "2024-12-23 17:10:06.99333+00",
+      "id": 45,
+      "user_id": 35,
+      "current_round_key": "rnd10",
+      "score": 515130,
+      "upgrade_budget": 105130,
+      "game_over": true
+    },
+    "user": {
+      "id": 35,
+      "email": "ross.glover@cogeco.ca",
+      "username": "MistletoeRoss33",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$laJ9+CKU5AXKL98zXPGewQ$T0BYJhsXRvXO+lqe2T9ntZ1d+c/H0rqMfYAScFPT3Ss",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 16:59:49.957659+00",
+      "updated_at": "2024-12-23 16:59:49.957659+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:29:28.510402+00",
+      "updated_at": "2024-12-23 15:39:39.41936+00",
+      "id": 30,
+      "user_id": 25,
+      "current_round_key": "rnd10",
+      "score": 505710,
+      "upgrade_budget": 295710,
+      "game_over": true
+    },
+    "user": {
+      "id": 25,
+      "email": "ross.glover@cogeco.ca",
+      "username": "MistletoeRoss32",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$tf8JQxt1dYvi8lAIEQz8Cw$DuHK/1bwx91S0bNszuMunR9SByv6QVPliq8mOrAL+nY",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:29:28.37883+00",
+      "updated_at": "2024-12-23 15:29:28.37883+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:47:14.607399+00",
+      "updated_at": "2024-12-25 02:59:39.535625+00",
+      "id": 86,
+      "user_id": 63,
+      "current_round_key": "rnd10",
+      "score": 477670,
+      "upgrade_budget": 87670,
+      "game_over": true
+    },
+    "user": {
+      "id": 63,
+      "email": "albert@theadpharm.com",
+      "username": "SantaAlbert53",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$LXN4KBNld/RVu63fx5l+8Q$/a2UeEofjVWt8CdBu/MHvz5YIUCJUEDitjgAGCcP8Z0",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:47:14.425439+00",
+      "updated_at": "2024-12-25 02:47:14.425439+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:44:25.541951+00",
+      "updated_at": "2024-12-25 02:53:47.382972+00",
+      "id": 84,
+      "user_id": 59,
+      "current_round_key": "rnd10",
+      "score": 472270,
+      "upgrade_budget": 122270,
+      "game_over": true
+    },
+    "user": {
+      "id": 59,
+      "email": "albert@theadpharm.com",
+      "username": "SleighAlbert74",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$vZJzkgAJGCR4hZT4/yx6uw$DVtyUbJ4p868xdQEFXX5mk1z7MBxhL3E3mEX/pcw57Y",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:36:11.154917+00",
+      "updated_at": "2024-12-25 02:36:11.154917+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 00:46:11.164006+00",
+      "updated_at": "2025-01-02 01:04:46.284204+00",
+      "id": 110,
+      "user_id": 71,
+      "current_round_key": "rnd10",
+      "score": 471200,
+      "upgrade_budget": 191200,
+      "game_over": true
+    },
+    "user": {
+      "id": 71,
+      "email": "tracy@theadpharm.com",
+      "username": "TinselTracy73",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$dXgRoUGgbpaIr1hDkIShdQ$Tgj2BozZRYl5faZntE5wa94lVoh9hPZ7+5tLoXrhdk4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 00:46:10.9159+00",
+      "updated_at": "2025-01-02 00:46:10.9159+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 03:34:29.650038+00",
+      "updated_at": "2025-01-03 03:39:34.728253+00",
+      "id": 129,
+      "user_id": 82,
+      "current_round_key": "rnd10",
+      "score": 444270,
+      "upgrade_budget": 64270,
+      "game_over": true
+    },
+    "user": {
+      "id": 82,
+      "email": "lesley@theadpharm.com",
+      "username": "ElfLesley45",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$NEPzNDS5638zSJWe1D86Fg$a114MAMl4fVxqhDW5a/w5Vw3CL8ua870lQ/H/XjGlWs",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-03 03:34:29.434061+00",
+      "updated_at": "2025-01-03 03:34:29.434061+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 20:12:00.069518+00",
+      "updated_at": "2024-12-23 20:30:15.659083+00",
+      "id": 65,
+      "user_id": 47,
+      "current_round_key": "rnd10",
+      "score": 439700,
+      "upgrade_budget": 169700,
+      "game_over": true
+    },
+    "user": {
+      "id": 47,
+      "email": "marc_masse@mt-pharma-ca.com",
+      "username": "CandyCaneMarc81",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$rucWqbvq9zWotPzWXoG7+g$44Y+mSVk+8F2ekD56Bht2PgMrSjqWYbcwZdwevFstHQ",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 20:11:59.919345+00",
+      "updated_at": "2024-12-23 20:11:59.919345+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 12:43:40.308145+00",
+      "updated_at": "2024-12-24 12:56:12.828694+00",
+      "id": 72,
+      "user_id": 52,
+      "current_round_key": "rnd10",
+      "score": 439080,
+      "upgrade_budget": 119080,
+      "game_over": true
+    },
+    "user": {
+      "id": 52,
+      "email": "lisa.holtshousen@icloud.com",
+      "username": "NutcrackerLisa70",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$d/4H1k4oG6ZFzoowInpPEg$cxsVNemK46PbF5TpfG/L0Tkh/lSYGl+z/4700mgPo9s",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 12:15:11.14132+00",
+      "updated_at": "2024-12-24 12:15:11.14132+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 02:27:21.519217+00",
+      "updated_at": "2025-01-03 02:32:44.981171+00",
+      "id": 126,
+      "user_id": 80,
+      "current_round_key": "rnd10",
+      "score": 438410,
+      "upgrade_budget": 158410,
+      "game_over": true
+    },
+    "user": {
+      "id": 80,
+      "email": "brian@theadpharm.com",
+      "username": "FrostyBrian83",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$6degi8ztqilz1AwUGZPGBQ$dHTzZVNhgzQAGrvGJv06JqsMl+SEowE/WRvncThMFh4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-03 02:27:21.262314+00",
+      "updated_at": "2025-01-03 02:27:21.262314+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 15:55:14.833945+00",
+      "updated_at": "2025-01-06 16:00:11.768982+00",
+      "id": 142,
+      "user_id": 87,
+      "current_round_key": "rnd10",
+      "score": 433780,
+      "upgrade_budget": 83780,
+      "game_over": true
+    },
+    "user": {
+      "id": 87,
+      "email": "aldona.armstrong@ucb.com",
+      "username": "TinselAldona95",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZuiCBzQxhuoKBEEKHWQ8wQ$SJffkjJrgLaGk+3etRWrTgsdWuUXRx2kU9rAyk8U4aM",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 15:55:14.712483+00",
+      "updated_at": "2025-01-06 15:55:14.712483+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:54:09.187138+00",
+      "updated_at": "2024-12-23 18:16:37.533817+00",
+      "id": 39,
+      "user_id": 30,
+      "current_round_key": "rnd10",
+      "score": 431640,
+      "upgrade_budget": 101640,
+      "game_over": true
+    },
+    "user": {
+      "id": 30,
+      "email": "albert@theadpharm.com",
+      "username": "ChristmasAlbert89",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$HK6AKYgO7bgR8/BfLdCEvA$UsBdYhJG9V9QPCUWxYtaQdpRpaVatecZpQM3uejbPEA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:54:08.974919+00",
+      "updated_at": "2024-12-23 15:54:08.974919+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 16:12:37.953441+00",
+      "updated_at": "2024-12-29 16:16:11.833031+00",
+      "id": 108,
+      "user_id": 70,
+      "current_round_key": "rnd10",
+      "score": 430120,
+      "upgrade_budget": 80120,
+      "game_over": true
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-21 01:29:16.380409+00",
+      "updated_at": "2024-12-24 01:59:37.155631+00",
+      "id": 4,
+      "user_id": 4,
+      "current_round_key": "rnd10",
+      "score": 425620,
+      "upgrade_budget": 115620,
+      "game_over": true
+    },
+    "user": {
+      "id": 4,
+      "email": null,
+      "username": "December83",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$Kc2+NO3rI0PA/nxb/HYUmQ$xRZXgoeHC/oPmmMSkg7l9mDMYn5dEt/1N7OFmPFwJRE",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-21 01:24:56.773617+00",
+      "updated_at": "2024-12-21 01:24:56.773617+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:31:37.044152+00",
+      "updated_at": "2024-12-23 18:34:57.686019+00",
+      "id": 53,
+      "user_id": 40,
+      "current_round_key": "rnd10",
+      "score": 419050,
+      "upgrade_budget": 99050,
+      "game_over": true
+    },
+    "user": {
+      "id": 40,
+      "email": "jack@theadpharm.com",
+      "username": "NutcrackerJack58",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$h0KmWwaI7nM/3FjJnLuXZQ$w+3351HwqULZta064WQwxWX9ZfhkuAGbtM3GxEg2mUc",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 18:31:36.91236+00",
+      "updated_at": "2024-12-23 18:31:36.91236+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 21:17:40.95702+00",
+      "updated_at": "2025-01-06 21:22:37.511198+00",
+      "id": 147,
+      "user_id": 90,
+      "current_round_key": "rnd10",
+      "score": 416040,
+      "upgrade_budget": 86040,
+      "game_over": true
+    },
+    "user": {
+      "id": 90,
+      "email": "tony@theadpharm.com",
+      "username": "SnowmanTony13",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$fhrbkZ801TXQ1OVO85ubCw$k568EegaAOT2Fyzo6QI9P3RKmf6ovlF1m9TVviqFcBA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 21:06:56.249176+00",
+      "updated_at": "2025-01-06 21:06:56.249176+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:41:15.981988+00",
+      "updated_at": "2025-01-02 22:46:50.881987+00",
+      "id": 55,
+      "user_id": 41,
+      "current_round_key": "rnd10",
+      "score": 413760,
+      "upgrade_budget": 143760,
+      "game_over": true
+    },
+    "user": {
+      "id": 41,
+      "email": "brian@theadpharm.com",
+      "username": "GingerbreadBrian34",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$gUoTnmyVEpaHR57R0a+wvg$RGa8R2kdBfO4pnZbe2/cqYbK+vLY726B+6//d1G/Rmg",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 18:32:11.614536+00",
+      "updated_at": "2024-12-23 18:32:11.614536+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 02:00:04.898433+00",
+      "updated_at": "2024-12-24 02:03:13.53364+00",
+      "id": 69,
+      "user_id": 51,
+      "current_round_key": "rnd10",
+      "score": 410870,
+      "upgrade_budget": 120870,
+      "game_over": true
+    },
+    "user": {
+      "id": 51,
+      "email": null,
+      "username": "Stocking53",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$zDi19CDRhrpQPzhgMHqRag$vqKbCD+hr4QoyONelzAWhuECKte+Sd334CKbHE1Ay7g",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 02:00:04.731163+00",
+      "updated_at": "2024-12-24 02:00:04.731163+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 16:05:11.866373+00",
+      "updated_at": "2024-12-23 16:11:33.423412+00",
+      "id": 41,
+      "user_id": 27,
+      "current_round_key": "rnd10",
+      "score": 407940,
+      "upgrade_budget": 87940,
+      "game_over": true
+    },
+    "user": {
+      "id": 27,
+      "email": "sharmila.kannappan@gilead.com",
+      "username": "SnowmanSharmila38",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$k7d5tn3WCAYKTpJuhT/BAQ$PxfEyh1FVXD3G6JZh2ydI0QmmAQiIi0nEN4Ut1onN2E",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:36:57.966321+00",
+      "updated_at": "2024-12-23 15:36:57.966321+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 14:33:31.869378+00",
+      "updated_at": "2025-01-06 15:06:50.640358+00",
+      "id": 140,
+      "user_id": 85,
+      "current_round_key": "rnd10",
+      "score": 405290,
+      "upgrade_budget": 145290,
+      "game_over": true
+    },
+    "user": {
+      "id": 85,
+      "email": "evans@theadpharm.com",
+      "username": "CandyCaneEvan59",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$P/frmRL6qyviQoioOItuhw$PU4zEyv8zVJhTKr6ViHxnIu0lcXr7XcJVZKeP1Fce8Q",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 14:33:31.64831+00",
+      "updated_at": "2025-01-06 14:33:31.64831+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 17:14:57.469075+00",
+      "updated_at": "2024-12-23 17:23:11.418571+00",
+      "id": 47,
+      "user_id": 36,
+      "current_round_key": "rnd10",
+      "score": 401100,
+      "upgrade_budget": 171100,
+      "game_over": true
+    },
+    "user": {
+      "id": 36,
+      "email": "kmaclellan@taihopharma.ca",
+      "username": "CandyCaneKim30",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$VeZeX2ADTs+h0QzjwiR7ag$id6f0q12sI7L62O/Q8+WZfxFku8akemQzEMkNO3a8TM",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 17:14:57.293547+00",
+      "updated_at": "2024-12-23 17:14:57.293547+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:41:01.673019+00",
+      "updated_at": "2024-12-23 15:47:35.041475+00",
+      "id": 34,
+      "user_id": 25,
+      "current_round_key": "rnd10",
+      "score": 392220,
+      "upgrade_budget": 172220,
+      "game_over": true
+    },
+    "user": {
+      "id": 25,
+      "email": "ross.glover@cogeco.ca",
+      "username": "MistletoeRoss32",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$tf8JQxt1dYvi8lAIEQz8Cw$DuHK/1bwx91S0bNszuMunR9SByv6QVPliq8mOrAL+nY",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:29:28.37883+00",
+      "updated_at": "2024-12-23 15:29:28.37883+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:41:49.704493+00",
+      "updated_at": "2024-12-25 02:53:20.767361+00",
+      "id": 83,
+      "user_id": 61,
+      "current_round_key": "rnd10",
+      "score": 385550,
+      "upgrade_budget": 75550,
+      "game_over": true
+    },
+    "user": {
+      "id": 61,
+      "email": "albert@theadpharm.com",
+      "username": "SnowmanAlbert49",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$aM4i0uTlqQ2vYeLSHd3qSg$5smuCHoHPhRiCCZG0KSlUKENqWwjOgSUullqk5r6lSE",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:41:49.568043+00",
+      "updated_at": "2024-12-25 02:41:49.568043+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:54:03.581527+00",
+      "updated_at": "2024-12-25 03:00:37.163681+00",
+      "id": 88,
+      "user_id": 61,
+      "current_round_key": "rnd10",
+      "score": 385150,
+      "upgrade_budget": 95150,
+      "game_over": true
+    },
+    "user": {
+      "id": 61,
+      "email": "albert@theadpharm.com",
+      "username": "SnowmanAlbert49",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$aM4i0uTlqQ2vYeLSHd3qSg$5smuCHoHPhRiCCZG0KSlUKENqWwjOgSUullqk5r6lSE",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:41:49.568043+00",
+      "updated_at": "2024-12-25 02:41:49.568043+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-09 04:14:17.457092+00",
+      "updated_at": "2025-01-09 04:21:46.601914+00",
+      "id": 152,
+      "user_id": 92,
+      "current_round_key": "rnd10",
+      "score": 382820,
+      "upgrade_budget": 132820,
+      "game_over": true
+    },
+    "user": {
+      "id": 92,
+      "email": "fatih.yedikardes@daiichisankyo.com",
+      "username": "FrostyFatih99",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$KDNCLNvjkRIQHHgupRNZtw$wbzPNS1MeL8elTY+xl/NwtCby/jomt9vqUyc+K51gAw",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-09 04:14:17.278957+00",
+      "updated_at": "2025-01-09 04:14:17.278957+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 14:34:18.282063+00",
+      "updated_at": "2025-01-03 14:39:40.733476+00",
+      "id": 132,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 380830,
+      "upgrade_budget": 80830,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 12:47:13.812922+00",
+      "updated_at": "2024-12-24 13:01:35.224007+00",
+      "id": 73,
+      "user_id": 53,
+      "current_round_key": "rnd10",
+      "score": 348110,
+      "upgrade_budget": 18110,
+      "game_over": true
+    },
+    "user": {
+      "id": 53,
+      "email": "mark.campbell@advanzpharma.com",
+      "username": "AngelMark33",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$oWS649arXVSJGxdGl5BTUQ$z0LM0l5+yatjF4nTfv6vevKjJdgc1N2+za1fFLPnBXk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 12:47:13.595695+00",
+      "updated_at": "2024-12-24 12:47:13.595695+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 16:09:15.371793+00",
+      "updated_at": "2024-12-29 16:12:34.538872+00",
+      "id": 107,
+      "user_id": 70,
+      "current_round_key": "rnd10",
+      "score": 344750,
+      "upgrade_budget": 74750,
+      "game_over": true
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 14:45:03.670469+00",
+      "updated_at": "2025-01-03 14:49:38.355524+00",
+      "id": 134,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 331990,
+      "upgrade_budget": 61990,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:25:47.702872+00",
+      "updated_at": "2024-12-23 15:31:59.469704+00",
+      "id": 29,
+      "user_id": 24,
+      "current_round_key": "rnd10",
+      "score": 331700,
+      "upgrade_budget": 61700,
+      "game_over": true
+    },
+    "user": {
+      "id": 24,
+      "email": "sviq@novonordisk.com",
+      "username": "RudolphSimone1",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$M8eBXu5w+/3e3rd58SwsUg$v+fF0sNRaYeTroLY1CRbXaF6075GbnXnxzXnkuh06YQ",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:25:47.584555+00",
+      "updated_at": "2024-12-23 15:25:47.584555+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 16:21:06.778769+00",
+      "updated_at": "2025-01-03 16:25:53.03017+00",
+      "id": 137,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 329560,
+      "upgrade_budget": 59560,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:22:06.270232+00",
+      "updated_at": "2024-12-23 15:28:53.815726+00",
+      "id": 26,
+      "user_id": 21,
+      "current_round_key": "rnd10",
+      "score": 329060,
+      "upgrade_budget": 109060,
+      "game_over": true
+    },
+    "user": {
+      "id": 21,
+      "email": "louise_st-onge@mt-pharma-ca.com",
+      "username": "AngelLouise28",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$5wgYQ7xiQsVJyYTpHleM8A$i/+7D54dco1vXepyXn72MFSq2q7TWmxASPhH8GGIJYI",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:22:06.112481+00",
+      "updated_at": "2024-12-23 15:22:06.112481+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 18:17:50.68966+00",
+      "updated_at": "2025-01-02 18:22:27.320185+00",
+      "id": 120,
+      "user_id": 38,
+      "current_round_key": "rnd10",
+      "score": 329000,
+      "upgrade_budget": 79000,
+      "game_over": true
+    },
+    "user": {
+      "id": 38,
+      "email": "kelli.keesey@jazzpharma.com",
+      "username": "ElfKelli82",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$/ihPxh7YJG6mNIjjphs2Jw$nC4MhWhorLGGkAvUzryufRvCCA0OwTDNCeTPwqLTnhI",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 17:52:37.330632+00",
+      "updated_at": "2024-12-23 17:52:37.330632+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 14:39:46.231114+00",
+      "updated_at": "2025-01-03 14:44:19.608019+00",
+      "id": 133,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 326210,
+      "upgrade_budget": 96210,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 15:57:48.811089+00",
+      "updated_at": "2024-12-29 16:01:58.470263+00",
+      "id": 104,
+      "user_id": 70,
+      "current_round_key": "rnd10",
+      "score": 319520,
+      "upgrade_budget": 89520,
+      "game_over": true
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 21:13:18.283904+00",
+      "updated_at": "2025-01-06 21:17:36.007975+00",
+      "id": 146,
+      "user_id": 90,
+      "current_round_key": "rnd10",
+      "score": 313180,
+      "upgrade_budget": 73180,
+      "game_over": true
+    },
+    "user": {
+      "id": 90,
+      "email": "tony@theadpharm.com",
+      "username": "SnowmanTony13",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$fhrbkZ801TXQ1OVO85ubCw$k568EegaAOT2Fyzo6QI9P3RKmf6ovlF1m9TVviqFcBA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 21:06:56.249176+00",
+      "updated_at": "2025-01-06 21:06:56.249176+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 19:46:46.375594+00",
+      "updated_at": "2024-12-23 19:50:55.081267+00",
+      "id": 61,
+      "user_id": 45,
+      "current_round_key": "rnd10",
+      "score": 312730,
+      "upgrade_budget": 82730,
+      "game_over": true
+    },
+    "user": {
+      "id": 45,
+      "email": "rob@synapsemedcom.ca",
+      "username": "RudolphRobert43",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$cocJppegjnMbiCE+ZxWoBQ$5BJLL4VWFgRAp0jfuDnwtAkERxiW9iPdW9EPg9LR6wk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 19:38:27.321295+00",
+      "updated_at": "2024-12-23 19:38:27.321295+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 17:23:16.729292+00",
+      "updated_at": "2025-01-06 17:36:47.47802+00",
+      "id": 143,
+      "user_id": 88,
+      "current_round_key": "rnd10",
+      "score": 311860,
+      "upgrade_budget": 111860,
+      "game_over": true
+    },
+    "user": {
+      "id": 88,
+      "email": "genny.coe@sobi.com",
+      "username": "ReindeerGenny29",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$9lpgHLmD5A1iU9zWjvH+wA$GPe6drR9X/n5sI1Bcc/NwerC0ghl9e3LiMOXoCciGPI",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 17:23:16.422946+00",
+      "updated_at": "2025-01-06 17:23:16.422946+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 20:50:51.509233+00",
+      "updated_at": "2024-12-24 21:10:16.584705+00",
+      "id": 77,
+      "user_id": 56,
+      "current_round_key": "rnd10",
+      "score": 305480,
+      "upgrade_budget": 35480,
+      "game_over": true
+    },
+    "user": {
+      "id": 56,
+      "email": "aalia@theadpharm.com",
+      "username": "MistletoeAalia17",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$CfirGIpu3SIrWFOdfOj56Q$m40IhPxOW9SVgu5GMxvSlSIJMx6XgmekKuxLYyV43Rg",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 20:50:51.323561+00",
+      "updated_at": "2024-12-24 20:50:51.323561+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:36:58.347668+00",
+      "updated_at": "2024-12-23 15:49:58.631295+00",
+      "id": 33,
+      "user_id": 27,
+      "current_round_key": "rnd10",
+      "score": 302580,
+      "upgrade_budget": 82580,
+      "game_over": true
+    },
+    "user": {
+      "id": 27,
+      "email": "sharmila.kannappan@gilead.com",
+      "username": "SnowmanSharmila38",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$k7d5tn3WCAYKTpJuhT/BAQ$PxfEyh1FVXD3G6JZh2ydI0QmmAQiIi0nEN4Ut1onN2E",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:36:57.966321+00",
+      "updated_at": "2024-12-23 15:36:57.966321+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 12:30:45.081427+00",
+      "updated_at": "2024-12-24 12:42:31.441003+00",
+      "id": 71,
+      "user_id": 52,
+      "current_round_key": "rnd10",
+      "score": 302480,
+      "upgrade_budget": 102480,
+      "game_over": true
+    },
+    "user": {
+      "id": 52,
+      "email": "lisa.holtshousen@icloud.com",
+      "username": "NutcrackerLisa70",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$d/4H1k4oG6ZFzoowInpPEg$cxsVNemK46PbF5TpfG/L0Tkh/lSYGl+z/4700mgPo9s",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 12:15:11.14132+00",
+      "updated_at": "2024-12-24 12:15:11.14132+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 15:48:49.229761+00",
+      "updated_at": "2024-12-29 15:52:55.973834+00",
+      "id": 102,
+      "user_id": 70,
+      "current_round_key": "rnd10",
+      "score": 302040,
+      "upgrade_budget": 72040,
+      "game_over": true
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 01:04:49.337474+00",
+      "updated_at": "2025-01-02 01:17:51.353319+00",
+      "id": 111,
+      "user_id": 71,
+      "current_round_key": "rnd10",
+      "score": 302000,
+      "upgrade_budget": 202000,
+      "game_over": true
+    },
+    "user": {
+      "id": 71,
+      "email": "tracy@theadpharm.com",
+      "username": "TinselTracy73",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$dXgRoUGgbpaIr1hDkIShdQ$Tgj2BozZRYl5faZntE5wa94lVoh9hPZ7+5tLoXrhdk4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 00:46:10.9159+00",
+      "updated_at": "2025-01-02 00:46:10.9159+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 02:04:21.392125+00",
+      "updated_at": "2024-12-29 02:07:12.023657+00",
+      "id": 100,
+      "user_id": 11,
+      "current_round_key": "rnd10",
+      "score": 299490,
+      "upgrade_budget": 129490,
+      "game_over": true
+    },
+    "user": {
+      "id": 11,
+      "email": null,
+      "username": "Christmas24",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$dTDOOHY0GGb5bcQB3PRIsQ$edjX3R1e2N9AH4PJ+A7cyBau1S0x4OBc3Bpbj3wweic",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 07:03:30.920684+00",
+      "updated_at": "2024-12-23 07:03:30.920684+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:50:06.577743+00",
+      "updated_at": "2024-12-23 16:04:42.747483+00",
+      "id": 38,
+      "user_id": 27,
+      "current_round_key": "rnd10",
+      "score": 299180,
+      "upgrade_budget": 59180,
+      "game_over": true
+    },
+    "user": {
+      "id": 27,
+      "email": "sharmila.kannappan@gilead.com",
+      "username": "SnowmanSharmila38",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$k7d5tn3WCAYKTpJuhT/BAQ$PxfEyh1FVXD3G6JZh2ydI0QmmAQiIi0nEN4Ut1onN2E",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:36:57.966321+00",
+      "updated_at": "2024-12-23 15:36:57.966321+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 16:11:54.339104+00",
+      "updated_at": "2025-01-03 16:15:58.723094+00",
+      "id": 135,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 297770,
+      "upgrade_budget": 97770,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 19:51:12.603875+00",
+      "updated_at": "2024-12-23 19:55:16.565056+00",
+      "id": 62,
+      "user_id": 45,
+      "current_round_key": "rnd10",
+      "score": 293570,
+      "upgrade_budget": 93570,
+      "game_over": true
+    },
+    "user": {
+      "id": 45,
+      "email": "rob@synapsemedcom.ca",
+      "username": "RudolphRobert43",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$cocJppegjnMbiCE+ZxWoBQ$5BJLL4VWFgRAp0jfuDnwtAkERxiW9iPdW9EPg9LR6wk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 19:38:27.321295+00",
+      "updated_at": "2024-12-23 19:38:27.321295+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 16:02:14.947134+00",
+      "updated_at": "2024-12-29 16:06:01.972159+00",
+      "id": 105,
+      "user_id": 70,
+      "current_round_key": "rnd10",
+      "score": 288030,
+      "upgrade_budget": 68030,
+      "game_over": true
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 15:46:46.425298+00",
+      "updated_at": "2025-01-06 15:56:07.457129+00",
+      "id": 141,
+      "user_id": 86,
+      "current_round_key": "rnd10",
+      "score": 267400,
+      "upgrade_budget": 77400,
+      "game_over": true
+    },
+    "user": {
+      "id": 86,
+      "email": "veeral.gandhi@mirumpharma.com",
+      "username": "FrostyVeeral92",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$LJNZRmCE8q0mR+8g81RdAw$0hJ9saQ3vaUEmF5ayONM02vPMZo8/3+pdOrTZv9I8Lo",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 15:46:46.245403+00",
+      "updated_at": "2025-01-06 15:46:46.245403+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 16:06:05.116922+00",
+      "updated_at": "2024-12-29 16:09:13.026317+00",
+      "id": 106,
+      "user_id": 70,
+      "current_round_key": "rnd10",
+      "score": 266100,
+      "upgrade_budget": 66100,
+      "game_over": true
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 21:22:55.165385+00",
+      "updated_at": "2025-01-06 21:26:12.927129+00",
+      "id": 148,
+      "user_id": 90,
+      "current_round_key": "rnd10",
+      "score": 263870,
+      "upgrade_budget": 73870,
+      "game_over": true
+    },
+    "user": {
+      "id": 90,
+      "email": "tony@theadpharm.com",
+      "username": "SnowmanTony13",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$fhrbkZ801TXQ1OVO85ubCw$k568EegaAOT2Fyzo6QI9P3RKmf6ovlF1m9TVviqFcBA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 21:06:56.249176+00",
+      "updated_at": "2025-01-06 21:06:56.249176+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 14:07:55.135787+00",
+      "updated_at": "2025-01-06 14:11:06.544324+00",
+      "id": 138,
+      "user_id": 83,
+      "current_round_key": "rnd10",
+      "score": 263620,
+      "upgrade_budget": 33620,
+      "game_over": true
+    },
+    "user": {
+      "id": 83,
+      "email": "colin@theadpharm.com",
+      "username": "ElfColin64",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$qgl7DZX8ocaXVnC8sZRHMw$PuznxpkImVWo4yCCjJomKlVzWmMCihgKZ0f+O0NHqzM",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 14:07:54.737664+00",
+      "updated_at": "2025-01-06 14:07:54.737664+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 13:37:33.799734+00",
+      "updated_at": "2024-12-23 13:44:25.71501+00",
+      "id": 17,
+      "user_id": 15,
+      "current_round_key": "rnd10",
+      "score": 262880,
+      "upgrade_budget": 192880,
+      "game_over": true
+    },
+    "user": {
+      "id": 15,
+      "email": "jai@synapsemedcom.ca",
+      "username": "SnowmanJai0",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$LJnzGPrFXg/zv5Mf5c5G/Q$i0BpiOWfDnIcwBVd2H1/3Jmk2GhJXPZKGGEWzPFHyo0",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 13:37:33.669509+00",
+      "updated_at": "2024-12-23 13:37:33.669509+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 13:54:43.753217+00",
+      "updated_at": "2024-12-24 13:59:34.738077+00",
+      "id": 74,
+      "user_id": 54,
+      "current_round_key": "rnd10",
+      "score": 262810,
+      "upgrade_budget": 92810,
+      "game_over": true
+    },
+    "user": {
+      "id": 54,
+      "email": "fmia@novonordisk.com",
+      "username": "TinselMashriq42",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$32ed4v6zMI23ooK3V+hrDA$I0b+7UTG+fBjIShbt6FNomQhCi+GVAGXy1M/wwUGD+o",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 13:54:43.552326+00",
+      "updated_at": "2024-12-24 13:54:43.552326+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 22:05:36.254287+00",
+      "updated_at": "2025-01-02 23:00:51.681181+00",
+      "id": 122,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 259890,
+      "upgrade_budget": 69890,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 15:52:58.284378+00",
+      "updated_at": "2024-12-29 15:57:45.964234+00",
+      "id": 103,
+      "user_id": 70,
+      "current_round_key": "rnd10",
+      "score": 259170,
+      "upgrade_budget": 99170,
+      "game_over": true
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:32:11.789898+00",
+      "updated_at": "2024-12-23 18:41:11.503769+00",
+      "id": 54,
+      "user_id": 41,
+      "current_round_key": "rnd10",
+      "score": 259030,
+      "upgrade_budget": 49030,
+      "game_over": true
+    },
+    "user": {
+      "id": 41,
+      "email": "brian@theadpharm.com",
+      "username": "GingerbreadBrian34",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$gUoTnmyVEpaHR57R0a+wvg$RGa8R2kdBfO4pnZbe2/cqYbK+vLY726B+6//d1G/Rmg",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 18:32:11.614536+00",
+      "updated_at": "2024-12-23 18:32:11.614536+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 19:38:27.622532+00",
+      "updated_at": "2024-12-23 19:45:48.695008+00",
+      "id": 59,
+      "user_id": 45,
+      "current_round_key": "rnd10",
+      "score": 254980,
+      "upgrade_budget": 44980,
+      "game_over": true
+    },
+    "user": {
+      "id": 45,
+      "email": "rob@synapsemedcom.ca",
+      "username": "RudolphRobert43",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$cocJppegjnMbiCE+ZxWoBQ$5BJLL4VWFgRAp0jfuDnwtAkERxiW9iPdW9EPg9LR6wk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 19:38:27.321295+00",
+      "updated_at": "2024-12-23 19:38:27.321295+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 21:06:56.427331+00",
+      "updated_at": "2025-01-06 21:13:13.442037+00",
+      "id": 145,
+      "user_id": 90,
+      "current_round_key": "rnd10",
+      "score": 254530,
+      "upgrade_budget": 54530,
+      "game_over": true
+    },
+    "user": {
+      "id": 90,
+      "email": "tony@theadpharm.com",
+      "username": "SnowmanTony13",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$fhrbkZ801TXQ1OVO85ubCw$k568EegaAOT2Fyzo6QI9P3RKmf6ovlF1m9TVviqFcBA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 21:06:56.249176+00",
+      "updated_at": "2025-01-06 21:06:56.249176+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-21 01:24:56.994829+00",
+      "updated_at": "2024-12-21 01:28:20.457222+00",
+      "id": 3,
+      "user_id": 4,
+      "current_round_key": "rnd10",
+      "score": 253940,
+      "upgrade_budget": 43940,
+      "game_over": true
+    },
+    "user": {
+      "id": 4,
+      "email": null,
+      "username": "December83",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$Kc2+NO3rI0PA/nxb/HYUmQ$xRZXgoeHC/oPmmMSkg7l9mDMYn5dEt/1N7OFmPFwJRE",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-21 01:24:56.773617+00",
+      "updated_at": "2024-12-21 01:24:56.773617+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 12:15:11.457202+00",
+      "updated_at": "2024-12-24 12:30:03.086575+00",
+      "id": 70,
+      "user_id": 52,
+      "current_round_key": "rnd10",
+      "score": 250220,
+      "upgrade_budget": 90220,
+      "game_over": true
+    },
+    "user": {
+      "id": 52,
+      "email": "lisa.holtshousen@icloud.com",
+      "username": "NutcrackerLisa70",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$d/4H1k4oG6ZFzoowInpPEg$cxsVNemK46PbF5TpfG/L0Tkh/lSYGl+z/4700mgPo9s",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 12:15:11.14132+00",
+      "updated_at": "2024-12-24 12:15:11.14132+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:20:22.533255+00",
+      "updated_at": "2024-12-23 18:39:22.462526+00",
+      "id": 52,
+      "user_id": 39,
+      "current_round_key": "rnd10",
+      "score": 238110,
+      "upgrade_budget": 108110,
+      "game_over": true
+    },
+    "user": {
+      "id": 39,
+      "email": "mkelly@blueprintinsurance.ca",
+      "username": "FrostyMichael71",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$LhEBpUYXDl3X2C6jfISMZA$WO0Ef9evIMiFF+GzKF+YYRatgLVfpHU14pLmDtxuJKM",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 18:20:22.304548+00",
+      "updated_at": "2024-12-23 18:20:22.304548+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:43:40.138221+00",
+      "updated_at": "2024-12-23 15:46:31.579412+00",
+      "id": 36,
+      "user_id": 29,
+      "current_round_key": "rnd9",
+      "score": 237540,
+      "upgrade_budget": 57540,
+      "game_over": false
+    },
+    "user": {
+      "id": 29,
+      "email": "charlotte.alexander@daiichisankyo.com",
+      "username": "NutcrackerCharlotte86",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$oM38h7E2aKCrCBfYZ15jcA$4L7rqvyXqFCa0tpy/XE/FfDg82EIqkRF47rsBeknrZ4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:43:39.994821+00",
+      "updated_at": "2024-12-23 15:43:39.994821+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 16:16:01.704803+00",
+      "updated_at": "2025-01-03 16:20:57.402382+00",
+      "id": 136,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 236250,
+      "upgrade_budget": 56250,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:47:02.086125+00",
+      "updated_at": "2024-12-25 03:03:32.521602+00",
+      "id": 85,
+      "user_id": 62,
+      "current_round_key": "rnd10",
+      "score": 233840,
+      "upgrade_budget": 93840,
+      "game_over": true
+    },
+    "user": {
+      "id": 62,
+      "email": "albert@theadpharm.com",
+      "username": "TinselAlbert45",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ytrDXroB6ZrC9k6UFo2jxg$AltOI7znP5oFDH5wdFdgmKTU9lztq7bmWQacDzQBNxs",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:47:01.977923+00",
+      "updated_at": "2024-12-25 02:47:01.977923+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 14:30:29.438521+00",
+      "updated_at": "2025-01-03 14:34:13.082764+00",
+      "id": 131,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 228330,
+      "upgrade_budget": 38330,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:01:50.311745+00",
+      "updated_at": "2024-12-23 18:06:00.93457+00",
+      "id": 50,
+      "user_id": 38,
+      "current_round_key": "rnd10",
+      "score": 218830,
+      "upgrade_budget": 38830,
+      "game_over": true
+    },
+    "user": {
+      "id": 38,
+      "email": "kelli.keesey@jazzpharma.com",
+      "username": "ElfKelli82",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$/ihPxh7YJG6mNIjjphs2Jw$nC4MhWhorLGGkAvUzryufRvCCA0OwTDNCeTPwqLTnhI",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 17:52:37.330632+00",
+      "updated_at": "2024-12-23 17:52:37.330632+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:36:11.313707+00",
+      "updated_at": "2024-12-25 02:44:23.240781+00",
+      "id": 81,
+      "user_id": 59,
+      "current_round_key": "rnd10",
+      "score": 207770,
+      "upgrade_budget": 87770,
+      "game_over": true
+    },
+    "user": {
+      "id": 59,
+      "email": "albert@theadpharm.com",
+      "username": "SleighAlbert74",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$vZJzkgAJGCR4hZT4/yx6uw$DVtyUbJ4p868xdQEFXX5mk1z7MBxhL3E3mEX/pcw57Y",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:36:11.154917+00",
+      "updated_at": "2024-12-25 02:36:11.154917+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-03 14:25:43.547729+00",
+      "updated_at": "2025-01-03 14:30:26.661331+00",
+      "id": 130,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 195640,
+      "upgrade_budget": 75640,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 14:14:36.912177+00",
+      "updated_at": "2024-12-23 14:22:11.410545+00",
+      "id": 23,
+      "user_id": 19,
+      "current_round_key": "rnd10",
+      "score": 186070,
+      "upgrade_budget": 76070,
+      "game_over": true
+    },
+    "user": {
+      "id": 19,
+      "email": "victoria@theadpharm.com",
+      "username": "CandyCaneVictoria34",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$rA0r7n911smDwvn7sbEgyg$43nDsU3Y2gdOzlv/T0Ibh0qxF+8FiDXDZxBeQ1mk938",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 14:14:36.780243+00",
+      "updated_at": "2024-12-23 14:14:36.780243+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 14:21:47.766632+00",
+      "updated_at": "2025-01-02 14:57:59.83809+00",
+      "id": 113,
+      "user_id": 72,
+      "current_round_key": "rnd10",
+      "score": 184730,
+      "upgrade_budget": 94730,
+      "game_over": true
+    },
+    "user": {
+      "id": 72,
+      "email": "jyouwakim@synapsemedcom.ca",
+      "username": "TinselJessica72",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$THGQ7XjKNFfczoujtZPogw$fMDJYNJx5dQ/hujlnhhX4HSmvk3sNOkCdZ3x6lweczs",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 14:21:47.506531+00",
+      "updated_at": "2025-01-02 14:21:47.506531+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 22:06:51.873652+00",
+      "updated_at": "2025-01-02 22:12:09.560006+00",
+      "id": 123,
+      "user_id": 79,
+      "current_round_key": "rnd10",
+      "score": 183280,
+      "upgrade_budget": 93280,
+      "game_over": true
+    },
+    "user": {
+      "id": 79,
+      "email": "ellen@synapsemedcom.ca",
+      "username": "TinselEllen12",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$c46+rgZRAzeM5x28RclF6w$bKFv8CxiUM0J/+sTB8pG0KMY3BRADcN90kar1G9vO8I",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 22:06:51.644142+00",
+      "updated_at": "2025-01-02 22:06:51.644142+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 12:51:50.086841+00",
+      "updated_at": "2024-12-23 13:18:26.167839+00",
+      "id": 14,
+      "user_id": 12,
+      "current_round_key": "rnd10",
+      "score": 183170,
+      "upgrade_budget": 103170,
+      "game_over": true
+    },
+    "user": {
+      "id": 12,
+      "email": "amy@theadpharm.com",
+      "username": "FrostyAmy70",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$h1XI1HfSl7S17gixFKXp1Q$AeJaLu+wcUcOGsmLBLtqTIuCkkEnbTp8JhGNBjUBHFM",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 12:51:49.7663+00",
+      "updated_at": "2024-12-23 12:51:49.7663+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 17:18:34.309605+00",
+      "updated_at": "2024-12-23 18:40:20.408331+00",
+      "id": 48,
+      "user_id": 37,
+      "current_round_key": "rnd10",
+      "score": 166300,
+      "upgrade_budget": 36300,
+      "game_over": true
+    },
+    "user": {
+      "id": 37,
+      "email": "celsfamily318@gmail.com",
+      "username": "SantaCarmen94",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$i2EdZsy31JxBM5bnNSlIsg$LaQz1bPro1SQArJ8tLmGmlEpqaZYqx7RP4hPpa0n4e4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 17:18:34.181125+00",
+      "updated_at": "2024-12-23 17:18:34.181125+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:22:21.909088+00",
+      "updated_at": "2024-12-23 15:56:14.964444+00",
+      "id": 27,
+      "user_id": 22,
+      "current_round_key": "rnd10",
+      "score": 165640,
+      "upgrade_budget": 115640,
+      "game_over": true
+    },
+    "user": {
+      "id": 22,
+      "email": "mikeclout@gmail.com",
+      "username": "TinselMike42",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$Cp3hvqevW1Mb35HvIpTTkA$NYPIn6txUO/uhy8EXTgmgvJmmGVH1joesLhfOQDartw",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:22:21.732552+00",
+      "updated_at": "2024-12-23 15:22:21.732552+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 17:52:37.556378+00",
+      "updated_at": "2024-12-23 18:01:46.771105+00",
+      "id": 49,
+      "user_id": 38,
+      "current_round_key": "rnd10",
+      "score": 162750,
+      "upgrade_budget": 92750,
+      "game_over": true
+    },
+    "user": {
+      "id": 38,
+      "email": "kelli.keesey@jazzpharma.com",
+      "username": "ElfKelli82",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$/ihPxh7YJG6mNIjjphs2Jw$nC4MhWhorLGGkAvUzryufRvCCA0OwTDNCeTPwqLTnhI",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 17:52:37.330632+00",
+      "updated_at": "2024-12-23 17:52:37.330632+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 13:59:24.042069+00",
+      "updated_at": "2024-12-23 14:14:37.355736+00",
+      "id": 21,
+      "user_id": 17,
+      "current_round_key": "rnd10",
+      "score": 148350,
+      "upgrade_budget": 48350,
+      "game_over": true
+    },
+    "user": {
+      "id": 17,
+      "email": "diana@theadpharm.com",
+      "username": "GingerbreadDiana30",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$M8oMM32LCCxPps/+jiyXZQ$YIAFLv9/JHG7z4zATRKINI4RihqrwXWcwU/CVQTqSk4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 13:59:23.781444+00",
+      "updated_at": "2024-12-23 13:59:23.781444+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:54:45.278933+00",
+      "updated_at": "2024-12-25 03:04:43.432699+00",
+      "id": 89,
+      "user_id": 59,
+      "current_round_key": "rnd8",
+      "score": 138640,
+      "upgrade_budget": 8640,
+      "game_over": false
+    },
+    "user": {
+      "id": 59,
+      "email": "albert@theadpharm.com",
+      "username": "SleighAlbert74",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$vZJzkgAJGCR4hZT4/yx6uw$DVtyUbJ4p868xdQEFXX5mk1z7MBxhL3E3mEX/pcw57Y",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:36:11.154917+00",
+      "updated_at": "2024-12-25 02:36:11.154917+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-20 20:57:21.467473+00",
+      "updated_at": "2024-12-23 04:33:38.767049+00",
+      "id": 2,
+      "user_id": 3,
+      "current_round_key": "rnd5",
+      "score": 128950,
+      "upgrade_budget": 68950,
+      "game_over": false
+    },
+    "user": {
+      "id": 3,
+      "email": "bhonda89@gmail.com",
+      "username": "AngelBen30",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$cDOPojq7xDstjCGL38sY9A$xzb5TBQImyZLQOTwflQuu9evp+RcvOxkoyNDkEsk20k",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-20 20:57:21.218211+00",
+      "updated_at": "2024-12-20 20:57:21.218211+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-07 16:17:51.074519+00",
+      "updated_at": "2025-01-07 16:23:45.567327+00",
+      "id": 150,
+      "user_id": 91,
+      "current_round_key": "rnd10",
+      "score": 122730,
+      "upgrade_budget": 122730,
+      "game_over": true
+    },
+    "user": {
+      "id": 91,
+      "email": "diane@synapsemedcom.ca",
+      "username": "TinselDiane76",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$VVl6TLWb4krWnRFZAIpPhw$fptui6Eor4JMwLMzD65GUOIwewWo426aDFqBpDwthj4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-07 16:17:50.858074+00",
+      "updated_at": "2025-01-07 16:17:50.858074+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 21:57:48.129209+00",
+      "updated_at": "2025-01-02 22:05:01.634813+00",
+      "id": 121,
+      "user_id": 78,
+      "current_round_key": "rnd10",
+      "score": 118420,
+      "upgrade_budget": 28420,
+      "game_over": true
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:16:38.766972+00",
+      "updated_at": "2024-12-25 02:38:13.643651+00",
+      "id": 51,
+      "user_id": 30,
+      "current_round_key": "rnd7",
+      "score": 116030,
+      "upgrade_budget": 26030,
+      "game_over": false
+    },
+    "user": {
+      "id": 30,
+      "email": "albert@theadpharm.com",
+      "username": "ChristmasAlbert89",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$HK6AKYgO7bgR8/BfLdCEvA$UsBdYhJG9V9QPCUWxYtaQdpRpaVatecZpQM3uejbPEA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:54:08.974919+00",
+      "updated_at": "2024-12-23 15:54:08.974919+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 18:42:41.158114+00",
+      "updated_at": "2024-12-23 18:47:08.271223+00",
+      "id": 57,
+      "user_id": 43,
+      "current_round_key": "rnd5",
+      "score": 111270,
+      "upgrade_budget": 41270,
+      "game_over": false
+    },
+    "user": {
+      "id": 43,
+      "email": "jinh@novonordisk.com",
+      "username": "ReindeerJina72",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$+2BDbTbYNiyMAmRfhvgZTA$aq3ZaUpCEW13Dfpv/KyGh5TUHZVF2B2iFagndKQPHhM",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 18:42:40.91545+00",
+      "updated_at": "2024-12-23 18:42:40.91545+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 19:45:51.824745+00",
+      "updated_at": "2024-12-23 19:56:56.211136+00",
+      "id": 60,
+      "user_id": 46,
+      "current_round_key": "rnd10",
+      "score": 110090,
+      "upgrade_budget": 110090,
+      "game_over": true
+    },
+    "user": {
+      "id": 46,
+      "email": "mparadis@kenvue.com",
+      "username": "ReindeerMylene10",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$iVLPE9yyPMC8KQQATgr7Aw$CJ5wpVkIhsvpuCcYrPFsQVca4GKbRUIiosZC/1UR6pw",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 19:45:51.665602+00",
+      "updated_at": "2024-12-23 19:45:51.665602+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 14:44:55.649731+00",
+      "updated_at": "2025-01-02 21:56:34.357968+00",
+      "id": 114,
+      "user_id": 73,
+      "current_round_key": "rnd6",
+      "score": 108460,
+      "upgrade_budget": 28460,
+      "game_over": false
+    },
+    "user": {
+      "id": 73,
+      "email": "carolyn@theadpharm.com",
+      "username": "FrostyCarolyn29",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$m6+9Uv48MYMgEtRO/PhBDg$Qdrr9KmiuUGVK3anzOYZezo5084FIMywRmH8qzcRIUg",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 14:44:55.478013+00",
+      "updated_at": "2025-01-02 14:44:55.478013+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 03:44:01.398834+00",
+      "updated_at": "2024-12-23 04:03:17.040319+00",
+      "id": 6,
+      "user_id": 6,
+      "current_round_key": "rnd8",
+      "score": 106810,
+      "upgrade_budget": 36810,
+      "game_over": false
+    },
+    "user": {
+      "id": 6,
+      "email": null,
+      "username": "Grinch87",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$I3bx59EdYsq4aI/yFqIgGg$/LyZNZmWWG9EfUHzbn7J+P8xxuBjKzN5pdKJ0jwIAcs",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 03:44:01.078635+00",
+      "updated_at": "2024-12-23 03:44:01.078635+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 19:18:52.701804+00",
+      "updated_at": "2024-12-23 19:33:06.577248+00",
+      "id": 58,
+      "user_id": 44,
+      "current_round_key": "rnd10",
+      "score": 105190,
+      "upgrade_budget": 55190,
+      "game_over": false
+    },
+    "user": {
+      "id": 44,
+      "email": "maxherren@rogers.com",
+      "username": "AngelMax99",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$D68wcMYDgFlfju3Us2GQQQ$LzzuOiMMndQnBBpAGTWc3DnfSgZxwUBZFcr3CQDH1s0",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 19:18:52.491669+00",
+      "updated_at": "2024-12-23 19:18:52.491669+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-26 13:46:51.233638+00",
+      "updated_at": "2024-12-26 13:58:49.096861+00",
+      "id": 94,
+      "user_id": 65,
+      "current_round_key": "rnd6",
+      "score": 95580,
+      "upgrade_budget": 25580,
+      "game_over": false
+    },
+    "user": {
+      "id": 65,
+      "email": "guadalupe.iglesias0@gmail.com",
+      "username": "SnowmanGuad21",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$BC/3oyUmPYrrwxM6ddzbgA$9JWiSwrm5+FYjn0gMRykXM4Eqsjv/O0sPemKH9x2Uuk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-26 13:46:50.912581+00",
+      "updated_at": "2024-12-26 13:46:50.912581+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 17:10:48.253299+00",
+      "updated_at": "2024-12-23 17:13:21.446765+00",
+      "id": 46,
+      "user_id": 35,
+      "current_round_key": "rnd7",
+      "score": 88280,
+      "upgrade_budget": 18280,
+      "game_over": false
+    },
+    "user": {
+      "id": 35,
+      "email": "ross.glover@cogeco.ca",
+      "username": "MistletoeRoss33",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$laJ9+CKU5AXKL98zXPGewQ$T0BYJhsXRvXO+lqe2T9ntZ1d+c/H0rqMfYAScFPT3Ss",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 16:59:49.957659+00",
+      "updated_at": "2024-12-23 16:59:49.957659+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:22:52.324601+00",
+      "updated_at": "2024-12-23 15:26:49.887767+00",
+      "id": 28,
+      "user_id": 23,
+      "current_round_key": "rnd6",
+      "score": 79610,
+      "upgrade_budget": 69610,
+      "game_over": false
+    },
+    "user": {
+      "id": 23,
+      "email": "prajkum1@kenvue.com",
+      "username": "SleighPriya46",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$SGNw9H3VYIrAbzJ/GAio+Q$pWeqlaSGObFR/xBYF7AWPCYSlQ80CxwG9JgrA87eKOg",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:22:52.167594+00",
+      "updated_at": "2024-12-23 15:22:52.167594+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-26 21:26:33.210773+00",
+      "updated_at": "2024-12-26 21:29:25.889621+00",
+      "id": 96,
+      "user_id": 67,
+      "current_round_key": "rnd4",
+      "score": 73130,
+      "upgrade_budget": 13130,
+      "game_over": false
+    },
+    "user": {
+      "id": 67,
+      "email": "ross.glover@cogeco.ca",
+      "username": "ChristmasRoss34",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$I0nMlzG0bcCRjKUpu9DI8w$jsF7bRhWFsOL4zeQQkSb8+/EK32ZygDPvhJT9Lpqgc4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-26 21:26:32.961625+00",
+      "updated_at": "2024-12-26 21:26:32.961625+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:40:50.306995+00",
+      "updated_at": "2024-12-25 02:44:33.592037+00",
+      "id": 82,
+      "user_id": 60,
+      "current_round_key": "rnd4",
+      "score": 69880,
+      "upgrade_budget": 29880,
+      "game_over": false
+    },
+    "user": {
+      "id": 60,
+      "email": "albert@theadpharm.com",
+      "username": "RudolphAlbert18",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ORIiZogAqccye0ojaud8fg$iyyUxef8QA4VH34VTC/rnlFYl29+OEl1XA9o05oO7lo",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:40:50.169782+00",
+      "updated_at": "2024-12-25 02:40:50.169782+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 13:38:07.025783+00",
+      "updated_at": "2024-12-23 13:41:52.603901+00",
+      "id": 18,
+      "user_id": 14,
+      "current_round_key": "rnd4",
+      "score": 69450,
+      "upgrade_budget": 19450,
+      "game_over": false
+    },
+    "user": {
+      "id": 14,
+      "email": "sherry@theadpharm.com",
+      "username": "AngelSherry89",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$qN2JVS8rQtVeyJ3iPH4Xbw$CvW6OE1omG7bAstISX5JldJqAgcT6T5m6hisDuW9QDc",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 13:36:35.582763+00",
+      "updated_at": "2024-12-23 13:36:35.582763+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 15:26:11.056644+00",
+      "updated_at": "2024-12-24 15:29:30.125569+00",
+      "id": 76,
+      "user_id": 55,
+      "current_round_key": "rnd4",
+      "score": 48000,
+      "upgrade_budget": 48000,
+      "game_over": false
+    },
+    "user": {
+      "id": 55,
+      "email": "option8@rogers.com",
+      "username": "GrinchAl25",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$OzUCI8H9lfjQ+wLg9+ytLw$4TiErNL/Kv0A1p3vnkpfC8ETUy+MRohXmWyJIfWmaWk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 15:26:10.639728+00",
+      "updated_at": "2024-12-24 15:26:10.639728+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:17:13.914307+00",
+      "updated_at": "2024-12-23 15:18:51.605857+00",
+      "id": 25,
+      "user_id": 20,
+      "current_round_key": "rnd3",
+      "score": 32580,
+      "upgrade_budget": 22580,
+      "game_over": false
+    },
+    "user": {
+      "id": 20,
+      "email": "luis.fernandes@mirumpharma.com",
+      "username": "ChristmasLuis29",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$/aUWMR1uZWQJrqy97Cridg$5RzJlbbDB7tDztfs2wXqH7Iu/Jufh/i6U32POjqOEvI",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:17:13.735597+00",
+      "updated_at": "2024-12-23 15:17:13.735597+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 15:19:55.657409+00",
+      "updated_at": "2025-01-02 15:22:12.482195+00",
+      "id": 116,
+      "user_id": 74,
+      "current_round_key": "rnd3",
+      "score": 32020,
+      "upgrade_budget": 22020,
+      "game_over": false
+    },
+    "user": {
+      "id": 74,
+      "email": "michelleb@theadpharm.com",
+      "username": "TinselMichelle28",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$4B53VfeRVnLBa0iD0BlkFg$IdZVUCzzjkqjr/wlC9btXVD6J8xbHdq7N9zbaCrcOM0",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 15:19:55.449703+00",
+      "updated_at": "2025-01-02 15:19:55.449703+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 02:09:11.478706+00",
+      "updated_at": "2024-12-25 02:09:50.622033+00",
+      "id": 80,
+      "user_id": 58,
+      "current_round_key": "rnd3",
+      "score": 31480,
+      "upgrade_budget": 31480,
+      "game_over": false
+    },
+    "user": {
+      "id": 58,
+      "email": null,
+      "username": "Snowman91",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$B6XaqJ7csUORDi+TRzVtQw$CSsC1YNDIzIF5QdKwt7A+LtN6f+SH91V33yf5cE63MU",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:09:11.266375+00",
+      "updated_at": "2024-12-25 02:09:11.266375+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 16:13:50.681248+00",
+      "updated_at": "2024-12-23 16:14:53.169857+00",
+      "id": 42,
+      "user_id": 32,
+      "current_round_key": "rnd3",
+      "score": 31080,
+      "upgrade_budget": 11080,
+      "game_over": false
+    },
+    "user": {
+      "id": 32,
+      "email": null,
+      "username": "Reindeer53",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$fKxKc+y9bjBb07HcoJSwtQ$nCGPlEn/idHbKZhRoQr+QPXSFbo/XnI249Tp0rmBHu0",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 16:13:50.503625+00",
+      "updated_at": "2024-12-23 16:13:50.503625+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:47:51.346785+00",
+      "updated_at": "2024-12-23 15:49:09.250594+00",
+      "id": 37,
+      "user_id": 25,
+      "current_round_key": "rnd4",
+      "score": 29920,
+      "upgrade_budget": 9920,
+      "game_over": false
+    },
+    "user": {
+      "id": 25,
+      "email": "ross.glover@cogeco.ca",
+      "username": "MistletoeRoss32",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$tf8JQxt1dYvi8lAIEQz8Cw$DuHK/1bwx91S0bNszuMunR9SByv6QVPliq8mOrAL+nY",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:29:28.37883+00",
+      "updated_at": "2024-12-23 15:29:28.37883+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-24 00:34:23.377874+00",
+      "updated_at": "2024-12-24 00:36:49.610687+00",
+      "id": 68,
+      "user_id": 50,
+      "current_round_key": "rnd3",
+      "score": 27330,
+      "upgrade_budget": 7330,
+      "game_over": false
+    },
+    "user": {
+      "id": 50,
+      "email": "genevieve.wu@gilead.com",
+      "username": "CarolGenevieve46",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$2m68n/rNDfpRicPxJDT2Cw$gL0cmE1UnBp4/9U3Albg4gvwXy8LYNhYEeLCc9t7TQw",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-24 00:34:23.187005+00",
+      "updated_at": "2024-12-24 00:34:23.187005+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 06:06:45.307357+00",
+      "updated_at": "2024-12-23 06:07:06.666457+00",
+      "id": 11,
+      "user_id": 10,
+      "current_round_key": "rnd2",
+      "score": 24380,
+      "upgrade_budget": 24380,
+      "game_over": false
+    },
+    "user": {
+      "id": 10,
+      "email": "bhonda89@gmail.com",
+      "username": "FrostyBen50",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$Usf3BL8jhH1RB3vgJF5Jlw$60m85EvmM9sKLMUzYYBcDpChYkNNAN1fTj5BsHHkUHY",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 05:00:17.273997+00",
+      "updated_at": "2024-12-23 05:00:17.273997+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-20 20:55:53.58983+00",
+      "updated_at": "2024-12-20 20:56:08.548569+00",
+      "id": 1,
+      "user_id": 2,
+      "current_round_key": "rnd2",
+      "score": 23480,
+      "upgrade_budget": 23480,
+      "game_over": false
+    },
+    "user": {
+      "id": 2,
+      "email": "bhonda89@gmail.com",
+      "username": "SleighBen67",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$Y7Q2qs/hBfEotEbPLNjnIw$Px/lcW9DCAaUnolAdVTjlaEbsi+3GNZGpIfkZ5nyWCk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-20 20:55:53.442628+00",
+      "updated_at": "2024-12-20 20:55:53.442628+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 15:56:26.869217+00",
+      "updated_at": "2025-01-07 20:29:41.342008+00",
+      "id": 119,
+      "user_id": 77,
+      "current_round_key": "rnd3",
+      "score": 20880,
+      "upgrade_budget": 20880,
+      "game_over": false
+    },
+    "user": {
+      "id": 77,
+      "email": null,
+      "username": "Angel48",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$i5rfCYeeBY80b0pixtvN+w$e9h5AwGSpBrWfqwRRIfdOPYoe7jYOqp+BIh6xQXdh6I",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 15:56:26.709859+00",
+      "updated_at": "2025-01-02 15:56:26.709859+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-02 23:00:57.383755+00",
+      "updated_at": "2025-01-02 23:02:28.771232+00",
+      "id": 125,
+      "user_id": 78,
+      "current_round_key": "rnd3",
+      "score": 18500,
+      "upgrade_budget": 18500,
+      "game_over": false
+    },
+    "user": {
+      "id": 78,
+      "email": "abood@theadpharm.com",
+      "username": "GrinchAbood22",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ZylakwwfzMvc6imtdLAX3A$tblfDrmcTpfUOV1fzwENqfiAPdhXY0xEsFVu2humVKA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-02 21:57:47.971288+00",
+      "updated_at": "2025-01-02 21:57:47.971288+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 21:04:55.425035+00",
+      "updated_at": "2024-12-25 21:07:28.679523+00",
+      "id": 93,
+      "user_id": 64,
+      "current_round_key": "rnd3",
+      "score": 17180,
+      "upgrade_budget": 17180,
+      "game_over": false
+    },
+    "user": {
+      "id": 64,
+      "email": "sylvia.blair@sobi.com",
+      "username": "MistletoeSylvia93",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$L+5IZHrhXD9Bu+6LoF35Uw$/w2vz+6zvR3ABCoWYVnHq9WQB/mvFhIcpPMQCJqCPiU",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 21:04:55.229282+00",
+      "updated_at": "2024-12-25 21:04:55.229282+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:34:59.374047+00",
+      "updated_at": "2024-12-23 15:36:27.112465+00",
+      "id": 32,
+      "user_id": 26,
+      "current_round_key": "rnd2",
+      "score": 15950,
+      "upgrade_budget": 15950,
+      "game_over": false
+    },
+    "user": {
+      "id": 26,
+      "email": "sharmila.kannappan@gilead.com",
+      "username": "SantaSharmila93",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$Pxi/1i1zzas7DnY6clYlkQ$NLlz4phfS5muzdqNO79DfaOanqJCEnAOy9r+3fD7puk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:34:59.086726+00",
+      "updated_at": "2024-12-23 15:34:59.086726+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 14:11:45.351469+00",
+      "updated_at": "2024-12-23 14:14:07.815353+00",
+      "id": 22,
+      "user_id": 18,
+      "current_round_key": "rnd4",
+      "score": 15750,
+      "upgrade_budget": 15750,
+      "game_over": false
+    },
+    "user": {
+      "id": 18,
+      "email": "julia@synapsemedcom.ca",
+      "username": "CandyCaneJulia99",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$9N7kNcuG3fgPhHUifhZh3A$iyRh27i0ivbl2EyVk01F/xaVxz4+5gSxQO7bak2FvwY",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 14:11:45.203578+00",
+      "updated_at": "2024-12-23 14:11:45.203578+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-21 01:45:56.236862+00",
+      "updated_at": "2024-12-21 01:46:27.318118+00",
+      "id": 5,
+      "user_id": 5,
+      "current_round_key": "rnd2",
+      "score": 15420,
+      "upgrade_budget": 15420,
+      "game_over": false
+    },
+    "user": {
+      "id": 5,
+      "email": null,
+      "username": "Mistletoe52",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$DaZSjsw6DElJXElkMm63Dg$WEH/80yykE19rAWhaz+qyJLA7Jv7KJMzZ5CZTrBAGGA",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-21 01:45:56.074908+00",
+      "updated_at": "2024-12-21 01:45:56.074908+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-29 16:16:26.301929+00",
+      "updated_at": "2024-12-29 16:16:57.202863+00",
+      "id": 109,
+      "user_id": 70,
+      "current_round_key": "rnd3",
+      "score": 9350,
+      "upgrade_budget": 9350,
+      "game_over": false
+    },
+    "user": {
+      "id": 70,
+      "email": "dan@theadpharm.com",
+      "username": "SnowmanDan40",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ixn+KYXkcbylQ9PFFHWpcQ$WILJ0JqqOuc0PJbq2Xfthf7wOuYZIrhfriYa2B+B0Yk",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-29 15:48:49.026764+00",
+      "updated_at": "2024-12-29 15:48:49.026764+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 16:31:55.018561+00",
+      "updated_at": "2024-12-23 16:33:19.064989+00",
+      "id": 43,
+      "user_id": 33,
+      "current_round_key": "rnd2",
+      "score": 5410,
+      "upgrade_budget": 5410,
+      "game_over": false
+    },
+    "user": {
+      "id": 33,
+      "email": "ejgudaitis@gmail.com",
+      "username": "FrostyEd34",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$juL3U0GMtuRuZ9nHHC6Ftw$a7fYz/N0G/smzw/zpPB0rcpIsYEuqGW7jo3LYld0tK4",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 16:31:54.823386+00",
+      "updated_at": "2024-12-23 16:31:54.823386+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 15:55:38.225809+00",
+      "updated_at": "2024-12-23 15:56:40.881408+00",
+      "id": 40,
+      "user_id": 31,
+      "current_round_key": "rnd2",
+      "score": 5330,
+      "upgrade_budget": 5330,
+      "game_over": false
+    },
+    "user": {
+      "id": 31,
+      "email": "albert@theadpharm.com",
+      "username": "StockingAlbert67",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$gf8WANwpONQrwmeC2O9VgQ$guxbvoAphxhqzRYlLFasXVQEj9k+kHHF3oZi5F5ltp0",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 15:55:38.072217+00",
+      "updated_at": "2024-12-23 15:55:38.072217+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-06 17:48:11.464749+00",
+      "updated_at": "2025-01-06 17:49:37.178411+00",
+      "id": 144,
+      "user_id": 89,
+      "current_round_key": "rnd2",
+      "score": 5290,
+      "upgrade_budget": 5290,
+      "game_over": false
+    },
+    "user": {
+      "id": 89,
+      "email": "jess@synapsemedcom.ca",
+      "username": "FrostyJess83",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$uvvo+xJer91CkWRGYVp9XA$lXnDKTqz14fVnWKqNN8Q7soAFtOHqZ7bn/LWgmluG4k",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-06 17:48:11.254633+00",
+      "updated_at": "2025-01-06 17:48:11.254633+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-23 20:59:06.054047+00",
+      "updated_at": "2024-12-23 21:00:07.466497+00",
+      "id": 66,
+      "user_id": 48,
+      "current_round_key": "rnd2",
+      "score": 4640,
+      "upgrade_budget": 4640,
+      "game_over": false
+    },
+    "user": {
+      "id": 48,
+      "email": "sgteditor@gmail.com",
+      "username": "TinselShelley65",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$F3agKxDJGOcUFvZ6QeubJw$DIKMQXmUtpQgiSdXiDmqTbbym/9LIDAF6863/wheOYI",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-23 20:59:05.789505+00",
+      "updated_at": "2024-12-23 20:59:05.789505+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2025-01-09 04:22:14.803391+00",
+      "updated_at": "2025-01-09 04:23:06.166459+00",
+      "id": 153,
+      "user_id": 92,
+      "current_round_key": "rnd2",
+      "score": 4110,
+      "upgrade_budget": 4110,
+      "game_over": false
+    },
+    "user": {
+      "id": 92,
+      "email": "fatih.yedikardes@daiichisankyo.com",
+      "username": "FrostyFatih99",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$KDNCLNvjkRIQHHgupRNZtw$wbzPNS1MeL8elTY+xl/NwtCby/jomt9vqUyc+K51gAw",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2025-01-09 04:14:17.278957+00",
+      "updated_at": "2025-01-09 04:14:17.278957+00"
+    }
+  },
+  {
+    "game": {
+      "created_at": "2024-12-25 03:03:35.242874+00",
+      "updated_at": "2024-12-25 03:03:52.903744+00",
+      "id": 91,
+      "user_id": 62,
+      "current_round_key": "rnd2",
+      "score": 4030,
+      "upgrade_budget": 4030,
+      "game_over": false
+    },
+    "user": {
+      "id": 62,
+      "email": "albert@theadpharm.com",
+      "username": "TinselAlbert45",
+      "password_hash": "$argon2id$v=19$m=19456,t=2,p=1$ytrDXroB6ZrC9k6UFo2jxg$AltOI7znP5oFDH5wdFdgmKTU9lztq7bmWQacDzQBNxs",
+      "first_name": null,
+      "last_name": null,
+      "created_at": "2024-12-25 02:47:01.977923+00",
+      "updated_at": "2024-12-25 02:47:01.977923+00"
+    }
+  }
+]

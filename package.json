@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "parse-files": "bunx --bun run src/lib/ReportDataScripts/jsonToCSV.ts",
     "fetch-analytics": "bunx --bun run src/lib/Server/googleAnalyticsFetchData.ts",
     "dev": "bunx --bun run src/lib/Server/googleAnalyticsFetchData.ts sleep5s && bunx --bun astro dev",
     "start": "bun run dev",

@@ -19,6 +19,7 @@ interface AnalyticsResult {
   totalTimeSpent: string;
   rawData: {
     pagePath: string;
+    activeUsers: number;
     userEngagementDuration: number;
   }[];
 }
@@ -34,7 +35,7 @@ export async function fetchAnalyticsData(): Promise<AnalyticsResult | null> {
         },
       ],
       dimensions: [{ name: "pagePath" }],
-      metrics: [{ name: "userEngagementDuration" }],
+      metrics: [{name: "activeUsers"}, { name: "userEngagementDuration" }],
       dimensionFilter: {
         filter: {
           fieldName: "pagePath",
@@ -51,7 +52,8 @@ export async function fetchAnalyticsData(): Promise<AnalyticsResult | null> {
     // Process current period data
     const rawData = rows.map((row) => ({
       pagePath: row.dimensionValues?.[0]?.value || "Unknown",
-      userEngagementDuration: parseFloat(row.metricValues?.[0]?.value || "0"),
+      activeUsers: parseInt(row.metricValues?.[0]?.value || "0"),
+      userEngagementDuration: parseFloat(row.metricValues?.[1]?.value || "0"),
     }));
 
     // Calculate Tiotal time spent playing --> in seconds
