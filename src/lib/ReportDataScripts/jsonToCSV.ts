@@ -17,6 +17,8 @@
 
 // Used the above to get the data from the leaderboard into a JSON to use here.
 
+import { time } from "console";
+import { date } from "drizzle-orm/mysql-core";
 import * as fs from "fs";
 
 interface Game {
@@ -64,13 +66,11 @@ interface ProcessedData {
   username: string;
 }
 
-
 function CSVParser(csvContent: string): CSVContent[] {
   const lines = csvContent.trim().split("\n");
 
   const headers = lines[0].split(",");
   const withoutHeaders = lines.slice(1);
-
 
   return withoutHeaders.map((line) => {
     const values = line.split(",").map((value) => value.trim());
@@ -83,7 +83,6 @@ function CSVParser(csvContent: string): CSVContent[] {
   });
 }
 // Now I have the csv data in the form of an array of objects.
-
 
 // Get round number from the current round key (After we successfully have access to the data that we parse from the json)
 function getRoundNumber(roundKey: string): number {
@@ -102,7 +101,6 @@ function convertToCSV(data: ProcessedData[]): string {
     "List Of Scores",
     "Username",
   ];
-
 
   let csv = headers.join(",") + "\n";
 
@@ -156,7 +154,6 @@ function processData(
     const email = csvRow.email.toLowerCase();
     const userGames = userGamesMap.get(email) || [];
 
-
     if (userGames.length > 0) {
       const userData = userGames[0].user;
 
@@ -193,13 +190,17 @@ function main() {
     const processedData = processData(gameData, companyData);
     const csvOutput = convertToCSV(processedData);
 
-    fs.writeFileSync("output.csv", csvOutput);
+    // today's date in the filename
+    const now = new Date();
+    const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")}`;
+    const formattedTime = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")}`;
+
+    fs.writeFileSync(`output_${formattedDate}_${formattedTime}.csv`, csvOutput);
     console.log("Processing completed successfully!");
   } catch (error) {
     console.error("Error processing data:", error);
   }
 }
-
 
 // bun run parse-files --> in the pacakge.json file
 main();
