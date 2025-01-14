@@ -169,7 +169,7 @@ function PlinkoReportDashboard() {
           <div className="hidden lg:grid col-span-1 lg:col-span-1 flex items-center justify-center">
             <img src="/x_symbol.svg" className="w-36" alt="Logo" />
           </div>
-          
+
           {/* Games played */}
           <Card className="col-span-1 bg-[#111111] text-white border-none h-full">
             <CardHeader>
@@ -211,7 +211,6 @@ function PlinkoReportDashboard() {
             </Table>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );
