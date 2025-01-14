@@ -28,8 +28,10 @@ function PlinkoReportDashboard() {
   const totalBallsDropped = makePrettyNumber(getPlinkoBallsDropped());
   const totalUniqueUsers = allUsers.length;
   const totalReplays = makePrettyNumber(getUserReplayCount());
+  const totalRoundsPlayed = allGamesWithRounds.length;
 
-  // console.log("All games with rounds data: ", allGamesWithRounds);
+  console.log("All games with rounds data: ", allGamesWithRounds);
+  console.log("Total rounds played: ", (totalRoundsPlayed / 2));
   // console.log("All Games: ", allGames)
   // console.log("Here is the Total Time Spent: ", timeSpentPlayingPlinko)
   // console.log("LEADERBOARD: ", leaderboardData)
@@ -47,12 +49,11 @@ function PlinkoReportDashboard() {
     }
   });
 
-
   return (
-    <div>
-      {/* Row 1 */}
-      <div className="order-1 grid grid-cols-2 lg:grid-cols-5 gap-4 pt-6">
-        <Card className="bg-[#111111] text-white border-none col-span-1 lg:col-span-2">
+    <div className="space-y-4">
+      {/* Top row */}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 pt-6">
+        <Card className="col-span-1 lg:col-span-2 bg-[#111111] text-white border-none">
           <CardHeader>
             <CardTitle className="text-sm font-normal text-zinc-500">Dollars raised</CardTitle>
           </CardHeader>
@@ -61,7 +62,8 @@ function PlinkoReportDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="order-2 bg-[#111111] text-white border-none md:col-span-1">
+        {/* Plinko balls - single col */}
+        <Card className="col-span-1 lg:col-span-1 bg-[#111111] text-white border-none">
           <CardHeader>
             <CardTitle className="text-sm font-normal text-zinc-500">Plinko balls dropped</CardTitle>
           </CardHeader>
@@ -70,7 +72,8 @@ function PlinkoReportDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="order-3 bg-[#111111] text-white border-none md:col-span-2">
+        {/* Total points - spans 2 cols */}
+        <Card className="col-span-2 lg:col-span-2 bg-[#111111] text-white border-none">
           <CardHeader>
             <CardTitle className="text-sm font-normal text-zinc-500">Total points scored</CardTitle>
           </CardHeader>
@@ -78,23 +81,16 @@ function PlinkoReportDashboard() {
             <div className="text-3xl md:text-4xl font-bold">{totalScores}</div>
           </CardContent>
         </Card>
-
-        <div className="grid md:hidden order-4 h-full flex items-center justify-center col-span-1">
-          <img src="/hexagon.png" className="w-36" />
-        </div>
       </div>
 
-      {/* Row 2 */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 pt-4 pb-6">
-        {/* <div className="lg:col-span-4 grid lg:grid-cols-4 gap-4"> */}
-        {/* // Placeholder --> Logo */}
-        {/* <Card className="bg-none text-white border-none md:col-span-1"> */}
-        <div className="hidden md:grid order-4 h-full flex items-center justify-center col-span-1">
-          <img src="/hexagon.png" className="w-36" />
+      {/* Middle Row */}
+      <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
+        {/* Hexagon logo */}
+        <div className="hidden lg:grid col-span-1 lg:col-span-1 flex items-center justify-center">
+          <img src="/hexagon.png" className="w-36" alt="Logo" />
         </div>
 
-
-        <Card className="md:order-6 lg:order-5 bg-[#111111] text-white border-none col-span-2  ">
+        <Card className="col-span-2 lg:col-span-3 bg-[#111111] text-white border-none">
           <CardHeader>
             <CardTitle className="text-sm font-normal text-zinc-500">Time spent playing</CardTitle>
           </CardHeader>
@@ -103,45 +99,69 @@ function PlinkoReportDashboard() {
           </CardContent>
         </Card>
 
-        {/* // Placeholder --> Play */}
-        <Card className="md:order-5 lg:order-6 bg-[#111111] text-white border-none col-span-1">
+        {/* Play button */}
+        <Card className="col-span-1 bg-[#111111] text-white border-none">
           <CardHeader>
-            <CardTitle className="text-sm font-normal text-zinc-500">
-              Let's play!
-            </CardTitle>
+            <CardTitle className="text-sm font-normal text-zinc-500">Let's play!</CardTitle>
           </CardHeader>
-          <CardContent className="h-full flex justify-center">
+          <CardContent className="flex justify-center">
             <a href='/digital/plinko'>
-              <img src="/play-button.png" className="w-24" />
+              <img src="/play-button.png" className="w-24" alt="Play" />
             </a>
           </CardContent>
         </Card>
 
-        <Card className="order-7 md:order-8 bg-[#111111] text-white border-none col-span-1">
-        <CardHeader>
-          <CardTitle className="text-sm font-normal text-zinc-500">Players</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl md:text-4xl font-bold">{totalUniqueUsers}</div>
-        </CardContent>
-      </Card>
-
-
+        {/* Players count */}
+        <Card className="col-span-1 bg-[#111111] text-white border-none">
+          <CardHeader>
+            <CardTitle className="text-sm font-normal text-zinc-500">Players</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl md:text-4xl font-bold">{totalUniqueUsers}</div>
+          </CardContent>
+        </Card>
       </div>
-      {/* TODO: Check with Ben on the overflow, what's a better way to do it without having the bar? */}
-      {/* TODO: Check with Ben if I should be filtering out the duplicates in the leaderboard. So make them unique values only?*/}
-      <Card className="md:order-7 order-10 bg-[#111111] text-white border-none md:col-span-2 lg:col-span-2 md:row-span-4 lg:row-span-2">
-        <CardHeader>
-          <CardTitle>Leaderboard</CardTitle>
-        </CardHeader>
-        <CardContent className="max-h-96 overflow-scroll">
-          <Table >
-            {leaderboardData.map((rowData, idx) => {
-              return (
+
+      {/* Last section */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 items-start">
+        {/* Left side group - stats cards */}
+        <div className="col-span-2 md:col-span-4 lg:col-span-3 grid grid-cols-3 gap-4">
+          {/* Replays count */}
+          <Card className="col-span-1 bg-[#111111] text-white border-none h-full">
+            <CardHeader>
+              <CardTitle className="text-sm font-normal text-zinc-500">Replays</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl md:text-4xl font-bold">{totalReplays}</div>
+            </CardContent>
+          </Card>
+
+          {/* Active users box */}
+          <Card className="col-span-2 bg-[#111111] text-white border-none h-full">
+            <CardContent>
+              <div className="flex items-center gap-2 pt-4 text-lg">
+                <span className="text-green-500 font-bold">+1,448%</span>
+                <span>active users</span>
+              </div>
+              <div className="text-sm text-zinc-500">on theadpharm.com</div>
+              <div className="flex justify-center">
+                <img src="/active_users_sparkline.svg" alt="Active users trend" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Leaderboard */}
+        <Card className="col-span-2 md:col-span-4 lg:col-span-3 bg-[#111111] text-white border-none">
+          <CardHeader>
+            <CardTitle>Leaderboard</CardTitle>
+          </CardHeader>
+          <CardContent className="max-h-96 overflow-auto no-scrollbar">
+            <Table>
+              {leaderboardData.map((rowData) => (
                 <TableRow key={`game-${rowData.game.id}`}>
-                  {/* <TableCell>{idx + 1}</TableCell> */}
                   <TableCell className="font-medium">
-                    {rowData.user.username}{" "}
+                    {rowData.user.username}
                   </TableCell>
                   <TableCell>
                     <ClientOnly>
@@ -156,49 +176,13 @@ function PlinkoReportDashboard() {
                     {makePrettyNumber(rowData.game.score)}
                   </TableCell>
                 </TableRow>
-              );
-            })}
-          </Table>
-        </CardContent>
-      </Card>
-
-
-      {/* Row 3 */}
-      <Card className="md:grid hidden order-7 md:order-8 bg-[#111111] text-white border-none col-span-1">
-        <CardHeader>
-          <CardTitle className="text-sm font-normal text-zinc-500">Players</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl md:text-4xl font-bold">{totalUniqueUsers}</div>
-        </CardContent>
-      </Card>
-
-      <Card className="md:order-9 bg-[#111111] text-white border-none md:col-span-1">
-        <CardHeader>
-          <CardTitle className="text-sm font-normal text-zinc-500">Replays</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl md:text-4xl font-bold">{totalReplays}</div>
-        </CardContent>
-      </Card>
-
-      <Card className="md:order-10 bg-[#111111] text-white border-none md:col-span-2">
-        <CardContent>
-          <div className="flex items-center gap-2 pt-4 text-xl">
-            <span className="text-green-500 font-bold">+1,253%</span>
-            <span>active users</span>
-          </div>
-          <div className="text-sm text-zinc-500">on theadpharm.com</div>
-          <div className="h-16 mt-2">
-            {/* <div className="w-full h-full bg-zinc-800 rounded"></div> */}
-            <img src="/active_users_sparkline.svg" />
-          </div>
-        </CardContent>
-      </Card>
+              ))}
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
-    // </div >
-
   );
-};
+}
 
 export default PlinkoReportDashboard;
