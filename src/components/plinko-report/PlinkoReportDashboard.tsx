@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { tableUsers } from '@/db/schema';
 import { $allGames, $allGamesWithRounds, $allUsers, $gamesScores, $leaderboard } from '@/lib/stores';
@@ -11,7 +11,7 @@ import { listLeaderboardGames } from "@/lib/server/loaders/plinkoReportingLoader
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
 import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
 import fs from 'fs';
-import { Slice } from 'lucide-react';
+import CountUp from 'react-countup';
 
 function PlinkoReportDashboard() {
   const leaderboardData = useStore($leaderboard);
@@ -63,7 +63,7 @@ function PlinkoReportDashboard() {
             <CardTitle className="text-sm font-normal text-zinc-500">Dollars raised</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl md:text-4xl font-bold">$5,000</div>
+            <CountUp className="text-3xl md:text-4xl font-bold" start={0} end={5000} duration={5} decimals={0} prefix="$" delay={0} />
           </CardContent>
         </Card>
 
@@ -150,7 +150,8 @@ function PlinkoReportDashboard() {
               </div>
               <div className="text-sm text-zinc-500">on theadpharm.com</div>
               <div className="flex justify-center">
-                <img src="/active_users_sparkline.svg" alt="Active users trend" />
+                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75 left-[42.7%]"></span>
+                <img className='relative' src="/active_users_sparkline.svg" alt="Active users trend" />
               </div>
             </CardContent>
           </Card>
