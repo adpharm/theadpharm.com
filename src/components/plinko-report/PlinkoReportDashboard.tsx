@@ -11,6 +11,7 @@ import { listLeaderboardGames } from "@/lib/server/loaders/plinkoReportingLoader
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
 import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
 import fs from 'fs';
+import { Slice } from 'lucide-react';
 
 function PlinkoReportDashboard() {
   const leaderboardData = useStore($leaderboard);
@@ -30,11 +31,15 @@ function PlinkoReportDashboard() {
   const totalReplays = makePrettyNumber(getUserReplayCount());
   const totalRoundsPlayed = allGamesWithRounds.length;
 
+
   // console.log("All games with rounds data: ", allGamesWithRounds);
-  console.log("Total rounds played: ", (totalRoundsPlayed / 2));
-  console.log("All Games: ", allGames)
+  console.log("Total rounds played: ", (totalRoundsPlayed));
+
+
   // console.log("Here is the Total Time Spent: ", timeSpentPlayingPlinko)
   // console.log("LEADERBOARD: ", leaderboardData)
+
+  // count the rounds played based on how many games are in the 
 
   const jsonString = JSON.stringify(leaderboardData, null, 2);
 
@@ -150,20 +155,30 @@ function PlinkoReportDashboard() {
             </CardContent>
           </Card>
 
-          {/* Plinko balls - single col */}
-          <Card className="col-span-1 lg:col-span-2 bg-[#111111] text-white border-none">
+          {/* Rounds Played */}
+          <Card className="cols-span-1 bg-[#111111] text-white border-none h-full">
             <CardHeader>
-              <CardTitle className="text-sm font-normal text-zinc-500">Plinko balls dropped</CardTitle>
+              <CardTitle className="text-sm font-normal text-zinc-500">Rounds played</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl md:text-4xl font-bold">{totalBallsDropped}</div>
+              <div className="text-3xl md:text-4xl font-bold">{totalRoundsPlayed}</div>
             </CardContent>
           </Card>
 
           {/* Hexagon logo */}
           <div className="hidden lg:grid col-span-1 lg:col-span-1 flex items-center justify-center">
-            <img src="/hexagon.png" className="w-36" alt="Logo" />
+            <img src="/x_symbol.svg" className="w-36" alt="Logo" />
           </div>
+          
+          {/* Games played */}
+          <Card className="col-span-1 bg-[#111111] text-white border-none h-full">
+            <CardHeader>
+              <CardTitle className="text-sm font-normal text-zinc-500">Games played</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl md:text-4xl font-bold">{allGames.length}</div>
+            </CardContent>
+          </Card>
         </div>
 
 
