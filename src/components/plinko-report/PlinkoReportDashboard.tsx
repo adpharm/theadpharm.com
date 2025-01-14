@@ -30,9 +30,9 @@ function PlinkoReportDashboard() {
   const totalReplays = makePrettyNumber(getUserReplayCount());
   const totalRoundsPlayed = allGamesWithRounds.length;
 
-  console.log("All games with rounds data: ", allGamesWithRounds);
+  // console.log("All games with rounds data: ", allGamesWithRounds);
   console.log("Total rounds played: ", (totalRoundsPlayed / 2));
-  // console.log("All Games: ", allGames)
+  console.log("All Games: ", allGames)
   // console.log("Here is the Total Time Spent: ", timeSpentPlayingPlinko)
   // console.log("LEADERBOARD: ", leaderboardData)
 
@@ -124,8 +124,8 @@ function PlinkoReportDashboard() {
 
       {/* Last section */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 items-start">
-        {/* Left side group - stats cards */}
         <div className="col-span-2 md:col-span-4 lg:col-span-3 grid grid-cols-3 gap-4">
+
           {/* Replays count */}
           <Card className="col-span-1 bg-[#111111] text-white border-none h-full">
             <CardHeader>
@@ -149,7 +149,23 @@ function PlinkoReportDashboard() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Plinko balls - single col */}
+          <Card className="col-span-1 lg:col-span-2 bg-[#111111] text-white border-none">
+            <CardHeader>
+              <CardTitle className="text-sm font-normal text-zinc-500">Plinko balls dropped</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl md:text-4xl font-bold">{totalBallsDropped}</div>
+            </CardContent>
+          </Card>
+
+          {/* Hexagon logo */}
+          <div className="hidden lg:grid col-span-1 lg:col-span-1 flex items-center justify-center">
+            <img src="/hexagon.png" className="w-36" alt="Logo" />
+          </div>
         </div>
+
 
         {/* Leaderboard */}
         <Card className="col-span-2 md:col-span-4 lg:col-span-3 bg-[#111111] text-white border-none">
@@ -180,6 +196,7 @@ function PlinkoReportDashboard() {
             </Table>
           </CardContent>
         </Card>
+
       </div>
     </div>
   );
