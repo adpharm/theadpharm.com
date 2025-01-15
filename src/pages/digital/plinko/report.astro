@@ -2,16 +2,21 @@
 import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 import Section from "@/components/layout/Section.astro";
 import PlinkoReportDashboard from "@/components/plinko-report/PlinkoReportDashboard";
-import { getAllScores, getGamesOnly, getGamesWithRounds, getUniqueUsers, listLeaderboardGames } from "@/lib/server/loaders/plinkoReportingLoaders";
+import {
+  getAllScores,
+  getGamesOnly,
+  getGamesWithRounds,
+  getUniqueUsers,
+  listLeaderboardGames,
+} from "@/lib/server/loaders/plinkoReportingLoaders";
 
 await listLeaderboardGames();
 await getAllScores();
 await getUniqueUsers();
 await getGamesWithRounds();
-await getGamesOnly()
+await getGamesOnly();
 
 // TODO: consider batching https://orm.drizzle.team/docs/batch-api
-
 ---
 
 <DefaultSiteLayout title="Plinko Report">
@@ -20,9 +25,14 @@ await getGamesOnly()
       <!-- <Grid id="report">
         <div slot="left" class="flex-col justify-start items-center md:ml-10">
           <div class="flex flex-row justify-start items-center pt-32 lg:pt-6"> -->
-      <h1 class="font-bold text-xl">The Adpharm’s Holiday Plinko Report</h1>
+
       <!-- </div> -->
-      <PlinkoReportDashboard  client:load/>
+      <div class="max-w-5xl mx-auto">
+        <h1 class="font-bold text-xl">The Adpharm’s Holiday Plinko Report</h1>
+        <PlinkoReportDashboard client:load/>
+
+        <h1 class="font-bold text-xl pt-12 lg:pt-0">Looking for more fun?</h1>
+      </div>
       <!-- </div> -->
       <!-- <div slot="right"> -->
       <!-- <div -->

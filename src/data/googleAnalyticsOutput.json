@@ -1,11 +1,11 @@
 {
   "outputResult": {
-    "totalTimeSpent": "7 hours 39 minutes",
+    "totalTimeSpent": "7 hours 41 minutes",
     "rawData": [
       {
         "pagePath": "/digital/plinko",
-        "activeUsers": 247,
-        "userEngagementDuration": 5603
+        "activeUsers": 250,
+        "userEngagementDuration": 5705
       },
       {
         "pagePath": "/digital/plinko/25",
@@ -36,6 +36,11 @@
         "pagePath": "/digital/plinko/27",
         "activeUsers": 3,
         "userEngagementDuration": 683
+      },
+      {
+        "pagePath": "/digital/plinko/5",
+        "activeUsers": 3,
+        "userEngagementDuration": 277
       },
       {
         "pagePath": "/digital/plinko/10",
@@ -113,11 +118,6 @@
         "userEngagementDuration": 507
       },
       {
-        "pagePath": "/digital/plinko/5",
-        "activeUsers": 2,
-        "userEngagementDuration": 275
-      },
-      {
         "pagePath": "/digital/plinko/6",
         "activeUsers": 2,
         "userEngagementDuration": 326
@@ -136,6 +136,11 @@
         "pagePath": "/digital/plinko/9",
         "activeUsers": 2,
         "userEngagementDuration": 23
+      },
+      {
+        "pagePath": "/digital/plinko/report",
+        "activeUsers": 2,
+        "userEngagementDuration": 72
       },
       {
         "pagePath": "/digital/plinko/100",
@@ -240,7 +245,7 @@
       {
         "pagePath": "/digital/plinko/119",
         "activeUsers": 1,
-        "userEngagementDuration": 167
+        "userEngagementDuration": 169
       },
       {
         "pagePath": "/digital/plinko/120",
@@ -421,6 +426,26 @@
         "pagePath": "/digital/plinko/155",
         "activeUsers": 1,
         "userEngagementDuration": 697
+      },
+      {
+        "pagePath": "/digital/plinko/158",
+        "activeUsers": 1,
+        "userEngagementDuration": 31
+      },
+      {
+        "pagePath": "/digital/plinko/159",
+        "activeUsers": 1,
+        "userEngagementDuration": 15
+      },
+      {
+        "pagePath": "/digital/plinko/160",
+        "activeUsers": 1,
+        "userEngagementDuration": 7
+      },
+      {
+        "pagePath": "/digital/plinko/161",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
       },
       {
         "pagePath": "/digital/plinko/19",
@@ -795,11 +820,11 @@
         ],
         "metricValues": [
           {
-            "value": "247",
+            "value": "250",
             "oneValue": "value"
           },
           {
-            "value": "5603",
+            "value": "5705",
             "oneValue": "value"
           }
         ]
@@ -908,6 +933,24 @@
           },
           {
             "value": "683",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/5",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "3",
+            "oneValue": "value"
+          },
+          {
+            "value": "277",
             "oneValue": "value"
           }
         ]
@@ -1185,24 +1228,6 @@
       {
         "dimensionValues": [
           {
-            "value": "/digital/plinko/5",
-            "oneValue": "value"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "2",
-            "oneValue": "value"
-          },
-          {
-            "value": "275",
-            "oneValue": "value"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
             "value": "/digital/plinko/6",
             "oneValue": "value"
           }
@@ -1268,6 +1293,24 @@
           },
           {
             "value": "23",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/report",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "72",
             "oneValue": "value"
           }
         ]
@@ -1645,7 +1688,7 @@
             "oneValue": "value"
           },
           {
-            "value": "167",
+            "value": "169",
             "oneValue": "value"
           }
         ]
@@ -2294,6 +2337,78 @@
           },
           {
             "value": "697",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/158",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "31",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/159",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "15",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/160",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "7",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/161",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
             "oneValue": "value"
           }
         ]
@@ -3544,7 +3659,7 @@
     "totals": [],
     "maximums": [],
     "minimums": [],
-    "rowCount": 153,
+    "rowCount": 158,
     "metadata": {
       "samplingMetadatas": [],
       "dataLossFromOtherRow": false,

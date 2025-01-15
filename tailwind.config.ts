@@ -11,6 +11,7 @@ export default {
       sans: ["Switzer-Variable", "Inter", "sans-serif"],
       xmas: ["Playpen Sans Variable", "sans-serif"],
       mono: ["DSEG14 Modern", "monospace"],
+      report: ["PlinkoReportGeneral", "sans-serif"],
     },
     extend: {
       // add an xs breakpoint
@@ -133,6 +134,8 @@ export default {
       fontFamily: {
         christmas: ["Christmas", "sans-serif"],
         speech: ["Speech", "sans-serif"],
+        plinkoReport: ["PlinkoReportGeneral", "sans-serif"],
+
       },
     },
   },
