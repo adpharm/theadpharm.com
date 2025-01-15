@@ -2,6 +2,7 @@
 import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 import Section from "@/components/layout/Section.astro";
 import PlinkoReportDashboard from "@/components/plinko-report/PlinkoReportDashboard";
+// import { CustomTooltip } from "@/components/Tooltip";
 import {
   getAllScores,
   getGamesOnly,
@@ -29,7 +30,12 @@ await getGamesOnly();
       <!-- </div> -->
       <div class="max-w-5xl mx-auto">
         <h1 class="font-bold text-xl">The Adpharm’s Holiday Plinko Report</h1>
-        <PlinkoReportDashboard client:load/>
+        <PlinkoReportDashboard client:load />
+        <!-- <CustomTooltip
+          preview={(<div>test</div>)}
+          hoverText="What is Replay"
+          client:load
+        /> -->
 
         <h1 class="font-bold text-xl pt-12 lg:pt-0">Looking for more fun?</h1>
       </div>
