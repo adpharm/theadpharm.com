@@ -1,7 +1,7 @@
 ---
 import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
 import Section from "@/components/layout/Section.astro";
-// import PlinkoReportDashboard from "@/components/plinko-report/PlinkoReportDashboard";
+import PlinkoReportDashboard from "@/components/plinko-report/PlinkoReportDashboard";
 import LookingForMoreFunGames from "@/components/plinko-report/LookingForMoreFunGames";
 // import { CustomTooltip } from "@/components/Tooltip";
 import {
@@ -31,7 +31,7 @@ await getGamesOnly();
       <!-- </div> -->
       <div class="max-w-5xl mx-auto">
         <h1 class="font-bold text-2xl">The Adpharm’s Holiday Plinko Report</h1>
-        <!-- <PlinkoReportDashboard client:load /> -->
+        <PlinkoReportDashboard client:load />
 
         <h1 class="font-bold text-2xl pt-8">Looking for more fun?</h1>
         <LookingForMoreFunGames client:load />
