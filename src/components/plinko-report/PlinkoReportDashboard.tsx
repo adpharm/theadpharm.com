@@ -1,19 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { tableUsers } from '@/db/schema';
 import { $allGames, $allGamesWithRounds, $allUsers, $gamesScores, $leaderboard } from '@/lib/stores';
 import { useStore } from '@nanostores/react';
 import { Table, TableCell, TableRow } from '../ui/table';
 import { makePrettyNumber } from '@/lib/utils.numbers';
 import { convertUTCToDistanceToNow } from '@/lib/utils.plinko.date';
 import { ClientOnly } from '@/lib/utils.react-hydration';
-import { listLeaderboardGames } from "@/lib/server/loaders/plinkoReportingLoaders";
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
 import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
-import fs from 'fs';
 import StatsCardSvg from './StatsCardSvg';
 import { FaInfoCircle } from "react-icons/fa";
-// import { CustomTooltip } from '../Tooltip';
+import { CustomTooltip } from '../Tooltip';
 import {
   Tooltip,
   TooltipContent,
@@ -50,18 +47,18 @@ function PlinkoReportDashboard() {
 
   // count the rounds played based on how many games are in the 
 
-  const jsonString = JSON.stringify(leaderboardData, null, 2);
+  // const jsonString = JSON.stringify(leaderboardData, null, 2);
 
 
-  fs.writeFile("./leaderboardData.json", jsonString, (err) => {
-    if (err) {
-      console.error("Error writing file:", err);
-    } else {
-      console.log(
-        "Leaderboard data has been written to leaderboardData.json",
-      );
-    }
-  });
+  // fs.writeFile("./leaderboardData.json", jsonString, (err) => {
+  //   if (err) {
+  //     console.error("Error writing file:", err);
+  //   } else {
+  //     console.log(
+  //       "Leaderboard data has been written to leaderboardData.json",
+  //     );
+  //   }
+  // });
 
   return (
     <>
@@ -198,18 +195,16 @@ function PlinkoReportDashboard() {
               <CardHeader className="p-4">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-sm font-normal text-zinc-500">Replays</CardTitle>
-
-                  <FaInfoCircle />
-
-                  {/* <CustomTooltip
-                  preview={
-                    < FaInfoCircle />
-                  }
-                  hoverText="What is Replay"
-                /> */}
-
-
-
+                  {/* <FaInfoCircle /> */}
+                  <CustomTooltip
+                    preview={
+                      <button className="">
+                        < FaInfoCircle />
+                      </button>
+                    }
+                    hoverText="The number of games that are played by a user after their first game"
+                    hoverTextCustomClass="bg-white opacity-80 rounded text-xs text-black w-40"
+                  />
                 </div>
 
               </CardHeader>
@@ -217,9 +212,6 @@ function PlinkoReportDashboard() {
                 <div className="text-3xl md:text-4xl font-bold">{totalReplays}</div>
               </CardContent>
             </Card>
-
-
-
           </div>
 
 
