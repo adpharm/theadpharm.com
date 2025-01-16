@@ -1,4 +1,4 @@
-export function ActiveUsersCardSvg() {
+export default function ActiveUsersCardSvg() {
   return (
     <div className="w-full flex justify-center">
       <div className="relative w-full pb-6 px-4 pt-0">

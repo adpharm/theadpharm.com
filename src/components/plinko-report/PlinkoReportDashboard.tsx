@@ -7,12 +7,12 @@ import { convertUTCToDistanceToNow } from '@/lib/utils.plinko.date';
 import { ClientOnly } from '@/lib/utils.react-hydration';
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
 import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
-import { ActiveUsersCardSvg } from './ActiveUsersCardSvg.tsx';
+import ActiveUsersCardSvg from './ActiveUsersCardSvg.tsx';
 import { FaInfoCircle } from "react-icons/fa";
 import { CustomTooltip } from '../Tooltip';
 import CountUp from 'react-countup';
 
-export function PlinkoReportDashboard() {
+export default function PlinkoReportDashboard() {
   const leaderboardData = useStore($leaderboard);
   const gamesTotals = useStore($gamesScores);
   const allUsers = useStore($allUsers);
