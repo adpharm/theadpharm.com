@@ -12,19 +12,21 @@ interface CustomTooltipProps {
   preview: ReactNode;
   hoverText: string;
   hoverTextCustomClass?: string;
+  doYouWantDelay?: Boolean;
 }
 
 export const CustomTooltip: React.FC<CustomTooltipProps> = ({
 
   preview,
   hoverText,
-  hoverTextCustomClass
+  hoverTextCustomClass,
+  doYouWantDelay,
 }) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <TooltipProvider delay={200}>
+    <TooltipProvider delay={doYouWantDelay ? 200 : 0}>
       <Tooltip open={isOpen} onOpenChange={setIsOpen}>
         {/* asChild lets you pass a child element as the trigger */}
         <TooltipTrigger asChild onClick={() => setIsOpen(!isOpen)}>{preview}</TooltipTrigger>
