@@ -23,7 +23,7 @@ export default function PlinkoReportDashboard() {
 
   const countUpRef = React.useRef(null);
 
-  const SimpleHook = () => {
+  const SimpleCounterHook = () => {
     useCountUp({ ref: 'counter', end: totalScores });
     return <span className="text-3xl md:text-4xl font-bold" id="counter" />;
   };
@@ -77,7 +77,7 @@ export default function PlinkoReportDashboard() {
             {/* <div className="text-3xl md:text-4xl font-bold">{totalScores}</div>
             */}
             {/* <CountUp className="text-3xl md:text-4xl font-bold" start={0} end={totalScores} duration={3} decimals={0} prefix="" delay={0} separator=',' /> */}
-            <SimpleHook />
+            <SimpleCounterHook />
           </CardContent>
         </Card>
 
@@ -113,6 +113,7 @@ export default function PlinkoReportDashboard() {
           </CardHeader>
           <CardContent className="p-4 flex md:justify-end lg:items-end lg:justify-end">
             {/* <CountUp className="text-3xl md:text-4xl font-bold" start={0} end={totalScores} duration={10} decimals={0} prefix="" delay={0} separator=',' /> */}
+            <SimpleCounterHook />
           </CardContent>
         </Card>
 
