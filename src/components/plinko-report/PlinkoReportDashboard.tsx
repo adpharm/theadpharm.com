@@ -6,13 +6,13 @@ import { makePrettyNumber } from '@/lib/utils.numbers';
 import { convertUTCToDistanceToNow } from '@/lib/utils.plinko.date';
 import { ClientOnly } from '@/lib/utils.react-hydration';
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
-// import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
-import ActiveUsersCardSvg from './ActiveUsersCardSvg.tsx';
+import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
+import { ActiveUsersCardSvg } from './ActiveUsersCardSvg.tsx';
 import { FaInfoCircle } from "react-icons/fa";
 import { CustomTooltip } from '../Tooltip';
 import CountUp from 'react-countup';
 
-function PlinkoReportDashboard() {
+export function PlinkoReportDashboard() {
   const leaderboardData = useStore($leaderboard);
   const gamesTotals = useStore($gamesScores);
   const allUsers = useStore($allUsers);
@@ -20,7 +20,7 @@ function PlinkoReportDashboard() {
   const allGames = useStore($allGames);
 
   // I want to get the variable totalTimeSpent from the json file googleAnalyticsOutput.json
-  const timeSpentPlayingPlinko = "7 hours 42 minutes";
+  const timeSpentPlayingPlinko = googleAnalyticsData?.outputResult?.totalTimeSpent ?? "Something's wrong, we're working on it!";
 
 
   // Below are the constants used for the cards
@@ -228,5 +228,3 @@ function PlinkoReportDashboard() {
     </div >
   );
 }
-
-export default PlinkoReportDashboard;
