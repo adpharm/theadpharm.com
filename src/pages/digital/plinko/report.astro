@@ -10,6 +10,7 @@ import {
   getUniqueUsers,
   listLeaderboardGames,
 } from "@/lib/server/loaders/plinkoReportingLoaders";
+import { isOnSynapseDomain } from "@/lib/server/isOnSynapseDomain";
 
 await listLeaderboardGames();
 await getAllScores();
@@ -17,19 +18,25 @@ await getUniqueUsers();
 await getGamesWithRounds();
 await getGamesOnly();
 
-// TODO: consider batching https://orm.drizzle.team/docs/batch-api
+const isSynapse = isOnSynapseDomain(Astro);
 ---
 
 <DefaultSiteLayout title="Plinko Report">
   <main class="relative">
-    <Section className="pt-24 md:pt-[10vh] lg:pt-[10vh] pb-48 lg:ml-20">
+    <Section className="pt-24 md:pt-[10vh] lg:pt-[10vh] pb-48">
       <!-- <Grid id="report">
         <div slot="left" class="flex-col justify-start items-center md:ml-10">
           <div class="flex flex-row justify-start items-center pt-32 lg:pt-6"> -->
 
       <!-- </div> -->
       <div class="max-w-5xl mx-auto">
-        <h1 class="font-bold text-2xl">The Adpharm’s Holiday Plinko Report</h1>
+        <h1 class="font-semibold text-2xl">
+          {
+            isSynapse
+              ? "The Synapse Holiday Plinko Report"
+              : "The Adpharm's Holiday Plinko Report"
+          }
+        </h1>
         <PlinkoReportDashboard client:load />
 
         <h1 class="font-bold text-2xl pt-8">Looking for more fun?</h1>

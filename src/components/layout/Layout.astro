@@ -17,6 +17,7 @@ import { MenuSheet } from "../Sheet";
 import { type NavItem } from "@/lib/types.nav";
 import { $router } from "@/lib/stores/router";
 import { getPagePath } from "@nanostores/router";
+import { isOnSynapseDomain } from "@/lib/server/isOnSynapseDomain";
 
 const isProd = import.meta.env.PROD;
 
@@ -29,40 +30,63 @@ declare const window: Window & { dataLayer: Record<string, unknown>[] };
 
 const { title, htmlClass } = Astro.props;
 
-const desc = `
+const currentOrigin = Astro.url.origin;
+const currentPath = Astro.url.pathname;
+
+const isSynapse = isOnSynapseDomain(Astro);
+
+const desc = isSynapse
+  ? `
+  Synapse Medcom is a full-service medical communications agency that specializes in the development
+  and execution of strategic medical education programs. Our team of medical writers, editors,
+  and project managers are dedicated to providing high-quality, evidence-based content that
+  meets the unique needs of our clients.
+`
+  : `
   The Adpharm is a full-service healthcare marketing communications agency located in downtown Oakville. 
   Since 2007, our diverse and dedicated team has helped pharmaceutical clients of all sizes to launch, 
   nurture and optimize the potential of their brands.
 `;
 
-const navItems: NavItem[] = [
-  {
-    label: "Our Brands",
-    children: [
-      { label: "The Adpharm", href: getPagePath($router, "home") },
-      { label: "Adpharm Digital", href: getPagePath($router, "digital.home") },
-      { label: "Synapse Medcom", href: getPagePath($router, "synapse.home") },
-    ],
-  },
-  {
-    label: "About",
-    href: getPagePath($router, "about"),
-  },
-  {
-    label: "Clients",
-    href: getPagePath($router, "clients"),
-  },
-  {
-    label: "Services",
-    href: getPagePath($router, "services"),
-  },
-  {
-    label: "Contact",
-    href: getPagePath($router, "contact"),
-  },
-];
-
-const currentPath = Astro.url.pathname;
+const navItems: NavItem[] = isSynapse
+  ? [
+      {
+        label: "Contact",
+        href: getPagePath($router, "contact"),
+      },
+    ]
+  : [
+      {
+        label: "Our Brands",
+        children: [
+          { label: "The Adpharm", href: getPagePath($router, "home") },
+          {
+            label: "Adpharm Digital",
+            href: getPagePath($router, "digital.home"),
+          },
+          {
+            label: "Synapse Medcom",
+            href: getPagePath($router, "synapse.home"),
+          },
+        ],
+      },
+      {
+        label: "About",
+        href: getPagePath($router, "about"),
+      },
+      {
+        label: "Clients",
+        href: getPagePath($router, "clients"),
+      },
+      {
+        label: "Services",
+        href: getPagePath($router, "services"),
+      },
+      {
+        label: "Contact",
+        href: getPagePath($router, "contact"),
+      },
+    ];
 ---
 
 <!doctype html>
@@ -88,7 +112,9 @@ const currentPath = Astro.url.pathname;
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="720" />
 
-    <title>{title} | The Adpharm</title>
+    <title>
+      {title} | {isSynapse ? "Synapse Medcom" : "The Adpharm"}
+    </title>
     <meta name="description" content={desc} />
 
     <slot name="meta" />
@@ -119,7 +145,21 @@ const currentPath = Astro.url.pathname;
           class="flex items-center justify-between w-full p-1 space-x-0.5 mx-4 lg:mx-10"
         >
           <a href={getPagePath($router, "home")}>
-            <img src="/adpharm-logo@4x.png" alt="the adpharm" class="w-36" />
+            {
+              isSynapse ? (
+                <img
+                  src="/synapse-wordmark-knockout-only.png"
+                  alt="synapse medcom"
+                  class="w-32 object-contain"
+                />
+              ) : (
+                <img
+                  src="/adpharm-logo@4x.png"
+                  alt="the adpharm"
+                  class="w-36 object-contain"
+                />
+              )
+            }
           </a>
 
           <MainNavigation
