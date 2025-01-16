@@ -7,10 +7,12 @@ import { convertUTCToDistanceToNow } from '@/lib/utils.plinko.date';
 import { ClientOnly } from '@/lib/utils.react-hydration';
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
 import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
-import ActiveUsersCardSvg from './ActiveUsersCardSvg.tsx';
+import ActiveUsersCardSvg from './ActiveUsersCardSvg';
 import { FaInfoCircle } from "react-icons/fa";
 import { CustomTooltip } from '../Tooltip';
-import CountUp from 'react-countup';
+// import CountUp from 'react-countup';
+import { useCountUp } from 'react-countup';
+import React from "react";
 
 export default function PlinkoReportDashboard() {
   const leaderboardData = useStore($leaderboard);
@@ -18,6 +20,15 @@ export default function PlinkoReportDashboard() {
   const allUsers = useStore($allUsers);
   const allGamesWithRounds = useStore($allGamesWithRounds);
   const allGames = useStore($allGames);
+
+  const countUpRef = React.useRef(null);
+
+  const SimpleHook = () => {
+    useCountUp({ ref: 'counter', end: totalScores });
+    return <span className="text-3xl md:text-4xl font-bold" id="counter" />;
+  };
+
+
 
   // I want to get the variable totalTimeSpent from the json file googleAnalyticsOutput.json
   const timeSpentPlayingPlinko = googleAnalyticsData?.outputResult?.totalTimeSpent ?? "Something's wrong, we're working on it!";
@@ -32,7 +43,7 @@ export default function PlinkoReportDashboard() {
   const totalGamesPlayed = allGames.length;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" ref={countUpRef}>
       {/* Top row */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pt-6">
         {/* Games played */}
@@ -65,7 +76,8 @@ export default function PlinkoReportDashboard() {
           <CardContent className="p-4">
             {/* <div className="text-3xl md:text-4xl font-bold">{totalScores}</div>
             */}
-            <CountUp className="text-3xl md:text-4xl font-bold" start={0} end={totalScores} duration={3} decimals={0} prefix="" delay={0} separator=',' />
+            {/* <CountUp className="text-3xl md:text-4xl font-bold" start={0} end={totalScores} duration={3} decimals={0} prefix="" delay={0} separator=',' /> */}
+            <SimpleHook />
           </CardContent>
         </Card>
 
@@ -100,7 +112,7 @@ export default function PlinkoReportDashboard() {
             <CardTitle className="text-sm font-normal text-zinc-500">Total points scored</CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex md:justify-end lg:items-end lg:justify-end">
-            <CountUp className="text-3xl md:text-4xl font-bold" start={0} end={totalScores} duration={10} decimals={0} prefix="" delay={0} separator=',' />
+            {/* <CountUp className="text-3xl md:text-4xl font-bold" start={0} end={totalScores} duration={10} decimals={0} prefix="" delay={0} separator=',' /> */}
           </CardContent>
         </Card>
 
