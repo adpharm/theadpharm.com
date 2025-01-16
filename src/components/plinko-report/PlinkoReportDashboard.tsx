@@ -8,7 +8,6 @@ import { ClientOnly } from '@/lib/utils.react-hydration';
 import { getPlinkoBallsDropped, getUserReplayCount } from '@/lib/server/plinkoReportLogic';
 import googleAnalyticsData from '@/data/googleAnalyticsOutput.json';
 import ActiveUsersCardSvg from './ActiveUsersCardSvg.tsx';
-import { FaInfoCircle } from "react-icons/fa";
 import { CustomTooltip } from '../Tooltip';
 import CountUp from 'react-countup';
 
@@ -179,7 +178,7 @@ function PlinkoReportDashboard() {
                 <CustomTooltip
                   preview={
                     <span className='cursor-pointer ml-1'>
-                      <FaInfoCircle size={10} />
+                      {/* <FaInfoCircle size={10} /> */}
                     </span>
                   }
                   hoverText="The number of games that are played by a user after their first game."
