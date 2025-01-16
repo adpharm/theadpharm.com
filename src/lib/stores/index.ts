@@ -43,6 +43,40 @@ export const $leaderboard = shared(
 );
 
 /**
+ * Store for games' scores
+ */
+export const $gamesScores = shared("gamesScores", atom<number[]>([]));
+
+/**
+ * Store for all games and rounds
+ */
+export const $allGamesWithRounds = shared(
+  "allGamesWithRounds",
+  atom<
+    {
+      game: typeof tablePlinkoGames.$inferSelect;
+      gameRound: typeof tablePlinkoGameRounds.$inferSelect;
+    }[]
+  >([]),
+);
+
+/**
+ * Store for all games
+ */
+export const $allGames = shared(
+  "allGames",
+  atom<(typeof tablePlinkoGames.$inferSelect)[]>([]),
+);
+
+/**
+ * Store for all users
+ */
+export const $allUsers = shared(
+  "allUsers",
+  atom<(typeof tableUsers.$inferSelect)[]>([]),
+);
+
+/**
  * Store for the usersGamesTable
  */
 export const $userGamesTable = shared(

@@ -1,27 +1,36 @@
 // tooltip.tsx (or wherever you define CustomTooltip)
-import { type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { twMerge } from "tailwind-merge";
 
 interface CustomTooltipProps {
   preview: ReactNode;
   hoverText: string;
+  hoverTextCustomClass?: string;
+  doYouWantDelay?: Boolean;
 }
 
 export const CustomTooltip: React.FC<CustomTooltipProps> = ({
+
   preview,
   hoverText,
+  hoverTextCustomClass,
+  doYouWantDelay,
 }) => {
+
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <TooltipProvider delay={200}>
-      <Tooltip>
+    <TooltipProvider delay={doYouWantDelay ? 200 : 0}>
+      <Tooltip open={isOpen} onOpenChange={setIsOpen}>
         {/* asChild lets you pass a child element as the trigger */}
-        <TooltipTrigger asChild>{preview}</TooltipTrigger>
-        <TooltipContent className="bg-white opacity-80 rounded text-lg text-black">
+        <TooltipTrigger asChild onClick={() => setIsOpen(!isOpen)}>{preview}</TooltipTrigger>
+        <TooltipContent className={twMerge("bg-white opacity-80 rounded text-lg  text-black", hoverTextCustomClass)}>
           <p>{hoverText}</p>
         </TooltipContent>
       </Tooltip>
