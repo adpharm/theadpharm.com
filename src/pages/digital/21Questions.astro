@@ -1,0 +1,134 @@
+---
+import Href from "@/components/Href";
+import Grid from "@/components/layout/Grid.astro";
+import Section from "@/components/layout/Section.astro";
+import Icon from "@/components/Icon";
+import TextSwitcher from "@/components/TextSwitcher";
+import Snowfall from "@/components/Snowfall";
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
+import {
+  BadgeInfo,
+  XIcon,
+  CircleChevronRight,
+  ChevronRightCircle,
+} from "lucide-react";
+import { GameBoard } from "@/components/21QuestionsBoard";
+
+// const perplexity = createOpenAI({
+//   name: "perplexity",
+//   apiKey: process.env.PERPLEXITY_API_KEY ?? "",
+//   baseURL: "https://api.perplexity.ai/",
+// });
+---
+
+<DefaultSiteLayout
+  title="The Adpharm: Big agency experience, small agency excellence"
+>
+  <main class="relative z-0">
+    <Section
+      hideLeft
+      hideRight
+      className="min-h-screen flex flex-col items-center justify-start mt-20"
+    >
+      <div class="w-full flex flex-col justify-center items-center">
+        <!-- <div
+          class="flex flex-row w-full justify-start items-center text-xs text-orange-500 m-2"
+        >
+          <a href="/digital/games" class="mr-2 hover:underline">Games</a> &gt; <a
+            href="/"
+            class="ml-2 hover:underline">Adpharm's 21 Questions</a
+          >
+        </div> -->
+        <GameBoard client:load />
+      </div>
+    </Section>
+
+    <Section className="pt-12 pb-24" fullTopBorder>
+      <Grid id="sfd23" className="space-y-12 lg:space-y-0">
+        <div slot="left" class="pl-0 lg:pl-10">
+          <h3 class="text-xl pb-4">The Adpharm Inc.</h3>
+          <p class="text-lg">133 Thomas Street</p>
+          <p class="text-zinc-400">Oakville, Ontario</p>
+          <p class="text-zinc-400">L6J 3A9</p>
+          <p class="pt-0 lg:pt-4">
+            <Href
+              href="https://www.linkedin.com/company/the-adpharm/"
+              className="text-sm">LinkedIn</Href
+            >
+          </p>
+        </div>
+
+        <div slot="right">
+          <div class="grid space-y-8 sm:space-y-0 sm:grid-cols-2">
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Contact
+              </p>
+              <p class="text-lg">Amy Moriarty</p>
+              <p class="text-zinc-400">SVP, Managing Director</p>
+              <div class="flex items-center justify-start">
+                <p class="text-zinc-400 pr-1">amy@theadpharm.com</p>
+                <TextSwitcher
+                  client:load
+                  textToCopy="amy@theadpharm.com"
+                  beforeText="(copy)"
+                  beforeClassName="hover:underline cursor-pointer"
+                  afterText="(copied ✔)"
+                  afterClassName="text-green-600"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="pb-4 text-zinc-400 text-xs uppercase font-medium">
+                Teams
+              </p>
+
+              <ul class="space-y-1.5">
+                <li class="flex items-center space-x-2">
+                  <Href
+                    href="/"
+                    className="text-sm text-white hover:text-orange-600"
+                    >The Adpharm (Agency)</Href
+                  >
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <Href
+                    href="https://www.synapsemedcom.ca/"
+                    className="text-sm text-white hover:text-[#1292a9]"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Synapse Medcom
+                  </Href>
+                </li>
+
+                <li class="flex items-center space-x-2">
+                  <Href
+                    href="/digital"
+                    className="text-sm text-white hover:text-orange-600"
+                    >AD (Adpharm Digital)</Href
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Grid>
+    </Section>
+    <Section topBorder className="py-4">
+      <div class="grid grid-cols-1 sm:grid-cols-5">
+        <div
+          class="col-span-2 flex items-center justify-center sm:justify-start"
+        >
+        </div>
+        <div class="col-span-3 flex items-center justify-center sm:justify-end">
+          <p class="text-xs text-zinc-400">
+            &copy; {new Date().getFullYear()} The Adpharm Inc.
+          </p>
+        </div>
+      </div>
+    </Section>
+  </main>
+</DefaultSiteLayout>

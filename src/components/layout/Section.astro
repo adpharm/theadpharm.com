@@ -7,6 +7,7 @@ interface Props {
   topBorder?: boolean;
   bottomBorder?: boolean;
   hideRight?: boolean;
+  hideLeft?: boolean;
   outerClassName?: string;
   className?: string;
 }
@@ -17,6 +18,7 @@ const {
   topBorder,
   bottomBorder,
   hideRight,
+  hideLeft,
   outerClassName,
   className,
 } = Astro.props;
@@ -35,7 +37,14 @@ const {
     We use flexbox here so we can have specific control over borders.
 
    -->
-  <div class="flex-shrink-0 w-4 md:w-12 lg:w-16 xl:w-40"></div>
+  <!-- <div class="flex-shrink-0 w-4 md:w-12 lg:w-16 xl:w-40"></div> -->
+  {
+    hideLeft ? (
+      <div class="flex-shrink-0 w-0 md:w-12 lg:w-20 xl:w-40" />
+    ) : (
+      <div class="flex-shrink-0 w-4 md:w-12 lg:w-20 xl:w-40" />
+    )
+  }
   <div class="flex-1 lg:border-l border-zinc-800">
     <div
       class={twMerge(

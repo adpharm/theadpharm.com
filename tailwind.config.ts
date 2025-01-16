@@ -32,6 +32,7 @@ export default {
         // giftBow: "url('/src/images/gift-bow.png')",
       },
       animation: {
+        slowBounce: "slowBounce 0.6s ease-in-out infinite",
         rev: "spin 4s cubic-bezier(.79,.14,.15,.86) infinite",
         "slide-200": "slide-200 50s linear 4 alternate",
         "slide-300": "slide-300 50s linear 4 alternate",
@@ -100,6 +101,11 @@ export default {
         bounce: {
           "0%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(20px)" },
+          "100%": { transform: "translateY(0px)" },
+        },
+        slowBounce: {
+          "0%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-3px)" },
           "100%": { transform: "translateY(0px)" },
         },
         "slide-in-from-right": {
