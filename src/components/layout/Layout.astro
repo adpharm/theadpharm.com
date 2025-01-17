@@ -48,7 +48,7 @@ const desc = isSynapse
 `;
 
 const navItems: NavItem[] =
-  isSynapse && currentPath.includes("/report")
+  isSynapse && currentPath.includes("/plinko")
     ? [
         {
           label: "Synapse Medcom Home",
@@ -173,7 +173,7 @@ const navItems: NavItem[] =
           />
 
           {
-            isSynapse && currentPath.includes("/report") ? null : (
+            isSynapse && currentPath.includes("/plinko") ? null : (
               <MenuSheet client:idle />
             )
           }
