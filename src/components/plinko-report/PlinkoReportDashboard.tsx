@@ -240,7 +240,7 @@ export default function PlinkoReportDashboard() {
         {/* Leaderboard */}
         <Card className="col-span-2 md:col-span-4 lg:col-span-3 bg-gray-900 text-white border-none">
           <CardHeader className="p-6">
-            <CardTitle>Leaderboard</CardTitle>
+            <CardTitle>Leaderboard (Single game)</CardTitle>
           </CardHeader>
           <CardContent className="p-6 max-h-72 overflow-auto no-scrollbar">
             <Table>
