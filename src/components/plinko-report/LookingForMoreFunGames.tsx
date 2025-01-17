@@ -10,22 +10,39 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 
-function LookingForMoreFunGames() {
+function LookingForMoreFunGames({ isSynapse }: { isSynapse: boolean }) {
   return (
     <div className="grid pt-4 gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       <div className="space-y-4">
-        <WarningDialog href="https://theadpharm.com/digital/21Questions">
-          <img src="/21QuestionsCard.webp" className="" />
-          <p className="pt-2 font-medium">
-            Play 21 Questions against the AI (Holiday Edition)
-          </p>
-        </WarningDialog>
+        {isSynapse ? (
+          <WarningDialog href="https://theadpharm.com/digital/21Questions">
+            <img src="/21QuestionsCard.webp" className="" />
+            <p className="pt-2 font-medium">
+              Play 21 Questions against the AI (Holiday Edition)
+            </p>
+          </WarningDialog>
+        ) : (
+          <a href="/digital/21Questions">
+            <img src="/21QuestionsCard.webp" className="" />
+            <p className="pt-2 font-medium">
+              Play 21 Questions against the AI (Holiday Edition)
+            </p>
+          </a>
+        )}
       </div>
+
       <div className="space-y-4">
-        <WarningDialog href="https://theadpharm.com/digital/plinko">
-          <img src="/plinkoCard.webp" className="" />
-          <p className="pt-2 font-medium">Holiday Plinko</p>
-        </WarningDialog>
+        {isSynapse ? (
+          <WarningDialog href="https://theadpharm.com/digital/plinko">
+            <img src="/plinkoCard.webp" className="" />
+            <p className="pt-2 font-medium">Holiday Plinko</p>
+          </WarningDialog>
+        ) : (
+          <a href="/digital/plinko">
+            <img src="/plinkoCard.webp" className="" />
+            <p className="pt-2 font-medium">Holiday Plinko</p>
+          </a>
+        )}
       </div>
     </div>
   );
