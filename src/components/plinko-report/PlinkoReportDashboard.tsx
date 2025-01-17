@@ -56,55 +56,56 @@ export default function PlinkoReportDashboard() {
       {/* Top row */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pt-6">
         {/* Games played */}
-        <Card className="md:order-1 bg-[#111111] text-white border-none flex flex-col justify-between min-h-40">
+        <Card className="md:order-1 bg-gray-900 text-white border-none flex flex-col justify-between min-h-40">
           <CardHeader className="p-4">
             <CardTitle className="text-sm font-normal text-zinc-500">
               Games played
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex items-end justify-end h-fit">
-            <div className="text-4xl font-semibold">{totalGamesPlayed}</div>
-            {/* <CountUp className="text-3xl md:text-4xl font-semibold" start={0} end={totalGamesPlayed} duration={5} decimals={0} prefix="" delay={0} separator=','/> */}
+            <div className="text-2xl sm:text-4xl font-semibold">
+              {totalGamesPlayed}
+            </div>
           </CardContent>
         </Card>
 
         {/* Plinko balls - single col */}
-        <Card className="md:order-2 lg:col-span-1 bg-[#111111] text-white border-none flex flex-col justify-between">
+        <Card className="md:order-2 lg:col-span-1 bg-gray-900 text-white border-none flex flex-col justify-between">
           <CardHeader className="p-4">
             <CardTitle className="text-sm font-normal text-zinc-500">
               Plinkos dropped
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex items-end justify-end h-fit">
-            <div className="text-4xl font-semibold">{totalBallsDropped}</div>
-            {/* <CountUp className="text-3xl md:text-4xl font-semibold" start={0} end={totalBallsDropped} duration={5} decimals={0} prefix="" delay={0} separator=','/> */}
+            <div className="text-2xl sm:text-4xl font-semibold">
+              {totalBallsDropped}
+            </div>
           </CardContent>
         </Card>
 
         {/* Total points - spans 2 cols */}
-        <Card className="md:hidden lg:order-3 md:order-4 col-span-2 lg:col-span-2 bg-[#111111] text-white border-none lg:flex flex-col justify-between">
+        <Card className="md:hidden lg:order-3 md:order-4 col-span-2 lg:col-span-2 bg-gray-900 text-white border-none lg:flex flex-col justify-between">
           <CardHeader className="p-4">
             <CardTitle className="text-sm font-normal text-zinc-500">
               Points scored
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex items-end justify-end h-fit">
-            {/* <div className="text-3xl md:text-4xl font-semibold">{totalScores}</div>
-             */}
-            {/* <CountUp className="text-3xl md:text-4xl font-semibold" start={0} end={totalScores} duration={3} decimals={0} prefix="" delay={0} separator=',' /> */}
             <SimpleCounterHook totalScores={totalScores} />
           </CardContent>
         </Card>
 
         {/* Rounds Played */}
-        <Card className="lg:order-4 md:order-3 cols-span-3 bg-[#111111] text-white border-none h-full flex flex-col justify-between">
+        <Card className="lg:order-4 md:order-3 cols-span-3 bg-gray-900 text-white border-none h-full flex flex-col justify-between">
           <CardHeader className="p-4">
             <CardTitle className="text-sm font-normal text-zinc-500">
               Rounds played
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex items-end justify-end">
-            <div className="text-4xl font-semibold">{totalRoundsPlayed}</div>
+            <div className="text-2xl sm:text-4xl font-semibold">
+              {totalRoundsPlayed}
+            </div>
           </CardContent>
         </Card>
 
@@ -122,19 +123,20 @@ export default function PlinkoReportDashboard() {
         </div>
 
         {/* Total points - spans 2 cols */}
-        <Card className="hidden md:grid lg:hidden lg:order-3 md:order-4 col-span-2 md:col-span-2 bg-[#111111] text-white border-none flex flex-col justify-between">
+        <Card className="hidden md:grid lg:hidden lg:order-3 md:order-4 col-span-2 md:col-span-2 bg-gray-900 text-white border-none md:flex flex-col justify-between">
           <CardHeader className="p-4">
             <CardTitle className="text-sm font-normal text-zinc-500">
-              Total points scored
+              Points scored
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex md:justify-end lg:items-end lg:justify-end">
-            {/* <CountUp className="text-3xl md:text-4xl font-semibold" start={0} end={totalScores} duration={10} decimals={0} prefix="" delay={0} separator=',' /> */}
-            <SimpleCounterHook totalScores={totalScores} />
+            <span className="text-2xl sm:text-4xl font-semibold">
+              {makePrettyNumber(totalScores)}
+            </span>
           </CardContent>
         </Card>
 
-        <Card className="col-span-2 md:col-span-2 lg:col-span-3 bg-[#111111] text-white border-none flex flex-col justify-between min-h-40">
+        <Card className="col-span-2 md:col-span-2 lg:col-span-3 bg-gray-900 text-white border-none flex flex-col justify-between min-h-40">
           <CardHeader className="p-4">
             <CardTitle className="text-sm font-normal text-zinc-500">
               Time spent playing Plinko
@@ -148,10 +150,10 @@ export default function PlinkoReportDashboard() {
         </Card>
 
         {/* Play button */}
-        <Card className="col-span-1 bg-[#111111] text-white border-none flex flex-col justify-between">
+        <Card className="col-span-1 bg-gray-900 text-white border-none flex flex-col justify-between">
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm font-normal text-zinc-500">
-              Fancy a game?
+              Let's play!
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex justify-center pt-0">
@@ -162,14 +164,16 @@ export default function PlinkoReportDashboard() {
         </Card>
 
         {/* Players count */}
-        <Card className="col-span-1 bg-[#111111] text-white border-none flex flex-col justify-between">
+        <Card className="col-span-1 bg-gray-900 text-white border-none flex flex-col justify-between min-h-40">
           <CardHeader className="p-4">
             <CardTitle className="text-sm font-normal text-zinc-500">
               Number of players
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 flex md:items-end md:justify-end h-fit">
-            <div className="text-6xl font-medium">{totalUniqueUsers}</div>
+            <div className="text-4xl sm:text-6xl font-medium">
+              {totalUniqueUsers}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -178,7 +182,7 @@ export default function PlinkoReportDashboard() {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 items-start">
         <div className="col-span-2 md:col-span-4 lg:col-span-3 grid grid-cols-3 gap-4">
           {/* Active users box */}
-          <Card className="col-span-3 md:col-span-2 bg-[#111111] text-white border-none flex flex-col justify-between">
+          <Card className="col-span-3 md:col-span-2 bg-gray-900 text-white border-none flex flex-col justify-between">
             <CardHeader className="p-4 pb-0">
               {/* <CardTitle>Active users</CardTitle> */}
               <div>
@@ -188,7 +192,7 @@ export default function PlinkoReportDashboard() {
                 </div>
               </div>
               <CardTitle className="text-sm font-normal text-zinc-500 !mt-0">
-                on theadpharm.com
+                on our website
               </CardTitle>
             </CardHeader>
             <CardContent className="!p-0">
@@ -209,7 +213,7 @@ export default function PlinkoReportDashboard() {
           </div>
 
           {/* Replays count */}
-          <Card className="col-span-2 md:col-span-1 bg-[#111111] text-white border-none h-full flex flex-col justify-between">
+          <Card className="col-span-2 md:col-span-1 bg-gray-900 text-white border-none h-full flex flex-col justify-between">
             <CardHeader className="p-4">
               <CardTitle className="text-sm font-normal text-zinc-500 flex items-center">
                 <span>Replays</span>
@@ -226,31 +230,27 @@ export default function PlinkoReportDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 md:pt-12 flex items-end justify-end h-fit">
-              <div className="text-6xl font-medium">{totalReplays}</div>
+              <div className="text-4xl sm:text-6xl font-medium">
+                {totalReplays}
+              </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Leaderboard */}
-        <Card className="col-span-2 md:col-span-4 lg:col-span-3 bg-[#111111] text-white border-none">
+        <Card className="col-span-2 md:col-span-4 lg:col-span-3 bg-gray-900 text-white border-none">
           <CardHeader className="p-6">
             <CardTitle>Leaderboard</CardTitle>
           </CardHeader>
           <CardContent className="p-6 max-h-72 overflow-auto no-scrollbar">
             <Table>
               {leaderboardData.map((rowData) => (
-                <TableRow key={`game-${rowData.game.id}`}>
+                <TableRow
+                  key={`game-${rowData.game.id}`}
+                  className="border-gray-700"
+                >
                   <TableCell className="font-medium">
                     {rowData.user.username}
-                  </TableCell>
-                  <TableCell>
-                    <ClientOnly>
-                      {() => (
-                        <span className="capitalize">
-                          {convertUTCToDistanceToNow(rowData.game.created_at)}
-                        </span>
-                      )}
-                    </ClientOnly>
                   </TableCell>
                   <TableCell className="text-right">
                     {makePrettyNumber(rowData.game.score)}
@@ -267,5 +267,5 @@ export default function PlinkoReportDashboard() {
 
 const SimpleCounterHook = ({ totalScores }: { totalScores: number }) => {
   useCountUp({ ref: "counter", end: totalScores });
-  return <span className="text-3xl md:text-4xl font-semibold" id="counter" />;
+  return <span className="text-2xl sm:text-4xl font-semibold" id="counter" />;
 };

@@ -30,7 +30,6 @@ declare const window: Window & { dataLayer: Record<string, unknown>[] };
 
 const { title, htmlClass } = Astro.props;
 
-const currentOrigin = Astro.url.origin;
 const currentPath = Astro.url.pathname;
 
 const isSynapse = isOnSynapseDomain(Astro);
@@ -48,45 +47,46 @@ const desc = isSynapse
   nurture and optimize the potential of their brands.
 `;
 
-const navItems: NavItem[] = isSynapse
-  ? [
-      {
-        label: "Contact",
-        href: getPagePath($router, "contact"),
-      },
-    ]
-  : [
-      {
-        label: "Our Brands",
-        children: [
-          { label: "The Adpharm", href: getPagePath($router, "home") },
-          {
-            label: "Adpharm Digital",
-            href: getPagePath($router, "digital.home"),
-          },
-          {
-            label: "Synapse Medcom",
-            href: getPagePath($router, "synapse.home"),
-          },
-        ],
-      },
-      {
-        label: "About",
-        href: getPagePath($router, "about"),
-      },
-      {
-        label: "Clients",
-        href: getPagePath($router, "clients"),
-      },
-      {
-        label: "Services",
-        href: getPagePath($router, "services"),
-      },
-      {
-        label: "Contact",
-        href: getPagePath($router, "contact"),
-      },
-    ];
+const navItems: NavItem[] =
+  isSynapse && currentPath.includes("/report")
+    ? [
+        {
+          label: "Synapse Medcom Home",
+          href: "https://www.synapsemedcom.ca/about-us",
+        },
+      ]
+    : [
+        {
+          label: "Our Brands",
+          children: [
+            { label: "The Adpharm", href: getPagePath($router, "home") },
+            {
+              label: "Adpharm Digital",
+              href: getPagePath($router, "digital.home"),
+            },
+            {
+              label: "Synapse Medcom",
+              href: getPagePath($router, "synapse.home"),
+            },
+          ],
+        },
+        {
+          label: "About",
+          href: getPagePath($router, "about"),
+        },
+        {
+          label: "Clients",
+          href: getPagePath($router, "clients"),
+        },
+        {
+          label: "Services",
+          href: getPagePath($router, "services"),
+        },
+        {
+          label: "Contact",
+          href: getPagePath($router, "contact"),
+        },
+      ];
 ---
 
 <!doctype html>
@@ -144,7 +144,11 @@ const navItems: NavItem[] = isSynapse
         <div
           class="flex items-center justify-between w-full p-1 space-x-0.5 mx-4 lg:mx-10"
         >
-          <a href={getPagePath($router, "home")}>
+          <a
+            href={isSynapse
+              ? "https://www.synapsemedcom.ca"
+              : getPagePath($router, "home")}
+          >
             {
               isSynapse ? (
                 <img
@@ -168,7 +172,11 @@ const navItems: NavItem[] = isSynapse
             client:load
           />
 
-          <MenuSheet client:idle />
+          {
+            isSynapse && currentPath.includes("/report") ? null : (
+              <MenuSheet client:idle />
+            )
+          }
         </div>
         <div></div>
       </header>

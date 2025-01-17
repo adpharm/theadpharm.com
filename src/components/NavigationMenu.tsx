@@ -14,6 +14,7 @@ import { useStore } from "@nanostores/react";
 import { logDebug } from "@/lib/utils.logger";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { ExternalLink } from "lucide-react";
 
 export function MainNavigation({
   items,
@@ -86,7 +87,12 @@ export function MainNavigation({
                   }`}
                   asChild
                 >
-                  <a href={item.href}>{item.label}</a>
+                  <a href={item.href}>
+                    <span>{item.label}</span>
+                    {item.href?.startsWith("http") && (
+                      <ExternalLink className="inline-block size-3.5 ml-1 -mt-px" />
+                    )}
+                  </a>
                 </NavigationMenuLink>
               )}
             </NavigationMenuItem>
