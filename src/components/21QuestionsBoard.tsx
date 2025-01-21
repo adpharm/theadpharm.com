@@ -278,7 +278,7 @@ export function GameBoard() {
     const aiMsg = data.message || "";
     setAiResponse(aiMsg);
 
-    // Push AI’s new message into conversation
+    // Push AI's new message into conversation
     const newConv: Message[] = [...conv, { role: "assistant", content: aiMsg }];
     setConversation(newConv);
     setCurrentQuestion((q) => q + 1);

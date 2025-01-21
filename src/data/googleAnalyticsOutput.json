@@ -1,0 +1,3697 @@
+{
+  "outputResult": {
+    "totalTimeSpent": "7 hours 42 minutes",
+    "rawData": [
+      {
+        "pagePath": "/digital/plinko",
+        "activeUsers": 251,
+        "userEngagementDuration": 5714
+      },
+      {
+        "pagePath": "/digital/plinko/",
+        "activeUsers": 7,
+        "userEngagementDuration": 326
+      },
+      {
+        "pagePath": "/digital/plinko/25",
+        "activeUsers": 7,
+        "userEngagementDuration": 313
+      },
+      {
+        "pagePath": "/digital/plinko/3",
+        "activeUsers": 5,
+        "userEngagementDuration": 394
+      },
+      {
+        "pagePath": "/digital/plinko/1",
+        "activeUsers": 3,
+        "userEngagementDuration": 97
+      },
+      {
+        "pagePath": "/digital/plinko/2",
+        "activeUsers": 3,
+        "userEngagementDuration": 532
+      },
+      {
+        "pagePath": "/digital/plinko/27",
+        "activeUsers": 3,
+        "userEngagementDuration": 683
+      },
+      {
+        "pagePath": "/digital/plinko/5",
+        "activeUsers": 3,
+        "userEngagementDuration": 281
+      },
+      {
+        "pagePath": "/digital/plinko/10",
+        "activeUsers": 2,
+        "userEngagementDuration": 242
+      },
+      {
+        "pagePath": "/digital/plinko/12",
+        "activeUsers": 2,
+        "userEngagementDuration": 466
+      },
+      {
+        "pagePath": "/digital/plinko/13",
+        "activeUsers": 2,
+        "userEngagementDuration": 220
+      },
+      {
+        "pagePath": "/digital/plinko/14",
+        "activeUsers": 2,
+        "userEngagementDuration": 374
+      },
+      {
+        "pagePath": "/digital/plinko/15",
+        "activeUsers": 2,
+        "userEngagementDuration": 305
+      },
+      {
+        "pagePath": "/digital/plinko/16",
+        "activeUsers": 2,
+        "userEngagementDuration": 88
+      },
+      {
+        "pagePath": "/digital/plinko/17",
+        "activeUsers": 2,
+        "userEngagementDuration": 644
+      },
+      {
+        "pagePath": "/digital/plinko/18",
+        "activeUsers": 2,
+        "userEngagementDuration": 1071
+      },
+      {
+        "pagePath": "/digital/plinko/20",
+        "activeUsers": 2,
+        "userEngagementDuration": 10
+      },
+      {
+        "pagePath": "/digital/plinko/21",
+        "activeUsers": 2,
+        "userEngagementDuration": 895
+      },
+      {
+        "pagePath": "/digital/plinko/26",
+        "activeUsers": 2,
+        "userEngagementDuration": 501
+      },
+      {
+        "pagePath": "/digital/plinko/30",
+        "activeUsers": 2,
+        "userEngagementDuration": 620
+      },
+      {
+        "pagePath": "/digital/plinko/40",
+        "activeUsers": 2,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/41",
+        "activeUsers": 2,
+        "userEngagementDuration": 601
+      },
+      {
+        "pagePath": "/digital/plinko/47",
+        "activeUsers": 2,
+        "userEngagementDuration": 507
+      },
+      {
+        "pagePath": "/digital/plinko/6",
+        "activeUsers": 2,
+        "userEngagementDuration": 326
+      },
+      {
+        "pagePath": "/digital/plinko/7",
+        "activeUsers": 2,
+        "userEngagementDuration": 334
+      },
+      {
+        "pagePath": "/digital/plinko/8",
+        "activeUsers": 2,
+        "userEngagementDuration": 166
+      },
+      {
+        "pagePath": "/digital/plinko/9",
+        "activeUsers": 2,
+        "userEngagementDuration": 23
+      },
+      {
+        "pagePath": "/digital/plinko/report",
+        "activeUsers": 2,
+        "userEngagementDuration": 72
+      },
+      {
+        "pagePath": "/digital/plinko/100",
+        "activeUsers": 1,
+        "userEngagementDuration": 172
+      },
+      {
+        "pagePath": "/digital/plinko/101",
+        "activeUsers": 1,
+        "userEngagementDuration": 206
+      },
+      {
+        "pagePath": "/digital/plinko/102",
+        "activeUsers": 1,
+        "userEngagementDuration": 247
+      },
+      {
+        "pagePath": "/digital/plinko/103",
+        "activeUsers": 1,
+        "userEngagementDuration": 290
+      },
+      {
+        "pagePath": "/digital/plinko/104",
+        "activeUsers": 1,
+        "userEngagementDuration": 251
+      },
+      {
+        "pagePath": "/digital/plinko/105",
+        "activeUsers": 1,
+        "userEngagementDuration": 229
+      },
+      {
+        "pagePath": "/digital/plinko/106",
+        "activeUsers": 1,
+        "userEngagementDuration": 189
+      },
+      {
+        "pagePath": "/digital/plinko/107",
+        "activeUsers": 1,
+        "userEngagementDuration": 202
+      },
+      {
+        "pagePath": "/digital/plinko/108",
+        "activeUsers": 1,
+        "userEngagementDuration": 215
+      },
+      {
+        "pagePath": "/digital/plinko/109",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/11",
+        "activeUsers": 1,
+        "userEngagementDuration": 32
+      },
+      {
+        "pagePath": "/digital/plinko/110",
+        "activeUsers": 1,
+        "userEngagementDuration": 986
+      },
+      {
+        "pagePath": "/digital/plinko/111",
+        "activeUsers": 1,
+        "userEngagementDuration": 767
+      },
+      {
+        "pagePath": "/digital/plinko/112",
+        "activeUsers": 1,
+        "userEngagementDuration": 14
+      },
+      {
+        "pagePath": "/digital/plinko/113",
+        "activeUsers": 1,
+        "userEngagementDuration": 332
+      },
+      {
+        "pagePath": "/digital/plinko/114",
+        "activeUsers": 1,
+        "userEngagementDuration": 141
+      },
+      {
+        "pagePath": "/digital/plinko/115",
+        "activeUsers": 1,
+        "userEngagementDuration": 7
+      },
+      {
+        "pagePath": "/digital/plinko/116",
+        "activeUsers": 1,
+        "userEngagementDuration": 123
+      },
+      {
+        "pagePath": "/digital/plinko/117",
+        "activeUsers": 1,
+        "userEngagementDuration": 7
+      },
+      {
+        "pagePath": "/digital/plinko/118",
+        "activeUsers": 1,
+        "userEngagementDuration": 29
+      },
+      {
+        "pagePath": "/digital/plinko/119",
+        "activeUsers": 1,
+        "userEngagementDuration": 206
+      },
+      {
+        "pagePath": "/digital/plinko/120",
+        "activeUsers": 1,
+        "userEngagementDuration": 279
+      },
+      {
+        "pagePath": "/digital/plinko/121",
+        "activeUsers": 1,
+        "userEngagementDuration": 426
+      },
+      {
+        "pagePath": "/digital/plinko/122",
+        "activeUsers": 1,
+        "userEngagementDuration": 343
+      },
+      {
+        "pagePath": "/digital/plinko/123",
+        "activeUsers": 1,
+        "userEngagementDuration": 245
+      },
+      {
+        "pagePath": "/digital/plinko/124",
+        "activeUsers": 1,
+        "userEngagementDuration": 9
+      },
+      {
+        "pagePath": "/digital/plinko/125",
+        "activeUsers": 1,
+        "userEngagementDuration": 73
+      },
+      {
+        "pagePath": "/digital/plinko/126",
+        "activeUsers": 1,
+        "userEngagementDuration": 315
+      },
+      {
+        "pagePath": "/digital/plinko/127",
+        "activeUsers": 1,
+        "userEngagementDuration": 7
+      },
+      {
+        "pagePath": "/digital/plinko/128",
+        "activeUsers": 1,
+        "userEngagementDuration": 6
+      },
+      {
+        "pagePath": "/digital/plinko/129",
+        "activeUsers": 1,
+        "userEngagementDuration": 288
+      },
+      {
+        "pagePath": "/digital/plinko/130",
+        "activeUsers": 1,
+        "userEngagementDuration": 278
+      },
+      {
+        "pagePath": "/digital/plinko/131",
+        "activeUsers": 1,
+        "userEngagementDuration": 223
+      },
+      {
+        "pagePath": "/digital/plinko/132",
+        "activeUsers": 1,
+        "userEngagementDuration": 310
+      },
+      {
+        "pagePath": "/digital/plinko/133",
+        "activeUsers": 1,
+        "userEngagementDuration": 264
+      },
+      {
+        "pagePath": "/digital/plinko/134",
+        "activeUsers": 1,
+        "userEngagementDuration": 269
+      },
+      {
+        "pagePath": "/digital/plinko/135",
+        "activeUsers": 1,
+        "userEngagementDuration": 238
+      },
+      {
+        "pagePath": "/digital/plinko/136",
+        "activeUsers": 1,
+        "userEngagementDuration": 290
+      },
+      {
+        "pagePath": "/digital/plinko/137",
+        "activeUsers": 1,
+        "userEngagementDuration": 282
+      },
+      {
+        "pagePath": "/digital/plinko/138",
+        "activeUsers": 1,
+        "userEngagementDuration": 185
+      },
+      {
+        "pagePath": "/digital/plinko/139",
+        "activeUsers": 1,
+        "userEngagementDuration": 1
+      },
+      {
+        "pagePath": "/digital/plinko/140",
+        "activeUsers": 1,
+        "userEngagementDuration": 720
+      },
+      {
+        "pagePath": "/digital/plinko/141",
+        "activeUsers": 1,
+        "userEngagementDuration": 554
+      },
+      {
+        "pagePath": "/digital/plinko/142",
+        "activeUsers": 1,
+        "userEngagementDuration": 299
+      },
+      {
+        "pagePath": "/digital/plinko/143",
+        "activeUsers": 1,
+        "userEngagementDuration": 803
+      },
+      {
+        "pagePath": "/digital/plinko/144",
+        "activeUsers": 1,
+        "userEngagementDuration": 92
+      },
+      {
+        "pagePath": "/digital/plinko/145",
+        "activeUsers": 1,
+        "userEngagementDuration": 364
+      },
+      {
+        "pagePath": "/digital/plinko/146",
+        "activeUsers": 1,
+        "userEngagementDuration": 254
+      },
+      {
+        "pagePath": "/digital/plinko/147",
+        "activeUsers": 1,
+        "userEngagementDuration": 265
+      },
+      {
+        "pagePath": "/digital/plinko/148",
+        "activeUsers": 1,
+        "userEngagementDuration": 193
+      },
+      {
+        "pagePath": "/digital/plinko/149",
+        "activeUsers": 1,
+        "userEngagementDuration": 622
+      },
+      {
+        "pagePath": "/digital/plinko/150",
+        "activeUsers": 1,
+        "userEngagementDuration": 345
+      },
+      {
+        "pagePath": "/digital/plinko/151",
+        "activeUsers": 1,
+        "userEngagementDuration": 11
+      },
+      {
+        "pagePath": "/digital/plinko/152",
+        "activeUsers": 1,
+        "userEngagementDuration": 453
+      },
+      {
+        "pagePath": "/digital/plinko/153",
+        "activeUsers": 1,
+        "userEngagementDuration": 60
+      },
+      {
+        "pagePath": "/digital/plinko/154",
+        "activeUsers": 1,
+        "userEngagementDuration": 6
+      },
+      {
+        "pagePath": "/digital/plinko/155",
+        "activeUsers": 1,
+        "userEngagementDuration": 697
+      },
+      {
+        "pagePath": "/digital/plinko/158",
+        "activeUsers": 1,
+        "userEngagementDuration": 31
+      },
+      {
+        "pagePath": "/digital/plinko/159",
+        "activeUsers": 1,
+        "userEngagementDuration": 15
+      },
+      {
+        "pagePath": "/digital/plinko/160",
+        "activeUsers": 1,
+        "userEngagementDuration": 7
+      },
+      {
+        "pagePath": "/digital/plinko/161",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/162",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/19",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/22",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/23",
+        "activeUsers": 1,
+        "userEngagementDuration": 455
+      },
+      {
+        "pagePath": "/digital/plinko/24",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/28",
+        "activeUsers": 1,
+        "userEngagementDuration": 25
+      },
+      {
+        "pagePath": "/digital/plinko/32",
+        "activeUsers": 1,
+        "userEngagementDuration": 106
+      },
+      {
+        "pagePath": "/digital/plinko/33",
+        "activeUsers": 1,
+        "userEngagementDuration": 787
+      },
+      {
+        "pagePath": "/digital/plinko/34",
+        "activeUsers": 1,
+        "userEngagementDuration": 388
+      },
+      {
+        "pagePath": "/digital/plinko/35",
+        "activeUsers": 1,
+        "userEngagementDuration": 4
+      },
+      {
+        "pagePath": "/digital/plinko/36",
+        "activeUsers": 1,
+        "userEngagementDuration": 156
+      },
+      {
+        "pagePath": "/digital/plinko/37",
+        "activeUsers": 1,
+        "userEngagementDuration": 85
+      },
+      {
+        "pagePath": "/digital/plinko/38",
+        "activeUsers": 1,
+        "userEngagementDuration": 805
+      },
+      {
+        "pagePath": "/digital/plinko/39",
+        "activeUsers": 1,
+        "userEngagementDuration": 195
+      },
+      {
+        "pagePath": "/digital/plinko/4",
+        "activeUsers": 1,
+        "userEngagementDuration": 193
+      },
+      {
+        "pagePath": "/digital/plinko/42",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/43",
+        "activeUsers": 1,
+        "userEngagementDuration": 90
+      },
+      {
+        "pagePath": "/digital/plinko/44",
+        "activeUsers": 1,
+        "userEngagementDuration": 18
+      },
+      {
+        "pagePath": "/digital/plinko/45",
+        "activeUsers": 1,
+        "userEngagementDuration": 607
+      },
+      {
+        "pagePath": "/digital/plinko/46",
+        "activeUsers": 1,
+        "userEngagementDuration": 152
+      },
+      {
+        "pagePath": "/digital/plinko/48",
+        "activeUsers": 1,
+        "userEngagementDuration": 1175
+      },
+      {
+        "pagePath": "/digital/plinko/49",
+        "activeUsers": 1,
+        "userEngagementDuration": 552
+      },
+      {
+        "pagePath": "/digital/plinko/50",
+        "activeUsers": 1,
+        "userEngagementDuration": 253
+      },
+      {
+        "pagePath": "/digital/plinko/51",
+        "activeUsers": 1,
+        "userEngagementDuration": 140
+      },
+      {
+        "pagePath": "/digital/plinko/52",
+        "activeUsers": 1,
+        "userEngagementDuration": 1132
+      },
+      {
+        "pagePath": "/digital/plinko/53",
+        "activeUsers": 1,
+        "userEngagementDuration": 208
+      },
+      {
+        "pagePath": "/digital/plinko/54",
+        "activeUsers": 1,
+        "userEngagementDuration": 543
+      },
+      {
+        "pagePath": "/digital/plinko/55",
+        "activeUsers": 1,
+        "userEngagementDuration": 341
+      },
+      {
+        "pagePath": "/digital/plinko/56",
+        "activeUsers": 1,
+        "userEngagementDuration": 308
+      },
+      {
+        "pagePath": "/digital/plinko/57",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/58",
+        "activeUsers": 1,
+        "userEngagementDuration": 952
+      },
+      {
+        "pagePath": "/digital/plinko/59",
+        "activeUsers": 1,
+        "userEngagementDuration": 451
+      },
+      {
+        "pagePath": "/digital/plinko/60",
+        "activeUsers": 1,
+        "userEngagementDuration": 694
+      },
+      {
+        "pagePath": "/digital/plinko/61",
+        "activeUsers": 1,
+        "userEngagementDuration": 250
+      },
+      {
+        "pagePath": "/digital/plinko/62",
+        "activeUsers": 1,
+        "userEngagementDuration": 249
+      },
+      {
+        "pagePath": "/digital/plinko/63",
+        "activeUsers": 1,
+        "userEngagementDuration": 2
+      },
+      {
+        "pagePath": "/digital/plinko/64",
+        "activeUsers": 1,
+        "userEngagementDuration": 286
+      },
+      {
+        "pagePath": "/digital/plinko/65",
+        "activeUsers": 1,
+        "userEngagementDuration": 1083
+      },
+      {
+        "pagePath": "/digital/plinko/66",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/67",
+        "activeUsers": 1,
+        "userEngagementDuration": 6
+      },
+      {
+        "pagePath": "/digital/plinko/68",
+        "activeUsers": 1,
+        "userEngagementDuration": 456
+      },
+      {
+        "pagePath": "/digital/plinko/69",
+        "activeUsers": 1,
+        "userEngagementDuration": 190
+      },
+      {
+        "pagePath": "/digital/plinko/70",
+        "activeUsers": 1,
+        "userEngagementDuration": 895
+      },
+      {
+        "pagePath": "/digital/plinko/71",
+        "activeUsers": 1,
+        "userEngagementDuration": 708
+      },
+      {
+        "pagePath": "/digital/plinko/72",
+        "activeUsers": 1,
+        "userEngagementDuration": 756
+      },
+      {
+        "pagePath": "/digital/plinko/73",
+        "activeUsers": 1,
+        "userEngagementDuration": 866
+      },
+      {
+        "pagePath": "/digital/plinko/76",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/77",
+        "activeUsers": 1,
+        "userEngagementDuration": 1156
+      },
+      {
+        "pagePath": "/digital/plinko/78",
+        "activeUsers": 1,
+        "userEngagementDuration": 52
+      },
+      {
+        "pagePath": "/digital/plinko/79",
+        "activeUsers": 1,
+        "userEngagementDuration": 5
+      },
+      {
+        "pagePath": "/digital/plinko/80",
+        "activeUsers": 1,
+        "userEngagementDuration": 46
+      },
+      {
+        "pagePath": "/digital/plinko/81",
+        "activeUsers": 1,
+        "userEngagementDuration": 483
+      },
+      {
+        "pagePath": "/digital/plinko/82",
+        "activeUsers": 1,
+        "userEngagementDuration": 345
+      },
+      {
+        "pagePath": "/digital/plinko/83",
+        "activeUsers": 1,
+        "userEngagementDuration": 692
+      },
+      {
+        "pagePath": "/digital/plinko/84",
+        "activeUsers": 1,
+        "userEngagementDuration": 562
+      },
+      {
+        "pagePath": "/digital/plinko/85",
+        "activeUsers": 1,
+        "userEngagementDuration": 490
+      },
+      {
+        "pagePath": "/digital/plinko/86",
+        "activeUsers": 1,
+        "userEngagementDuration": 746
+      },
+      {
+        "pagePath": "/digital/plinko/87",
+        "activeUsers": 1,
+        "userEngagementDuration": 12
+      },
+      {
+        "pagePath": "/digital/plinko/88",
+        "activeUsers": 1,
+        "userEngagementDuration": 161
+      },
+      {
+        "pagePath": "/digital/plinko/89",
+        "activeUsers": 1,
+        "userEngagementDuration": 699
+      },
+      {
+        "pagePath": "/digital/plinko/90",
+        "activeUsers": 1,
+        "userEngagementDuration": 14
+      },
+      {
+        "pagePath": "/digital/plinko/91",
+        "activeUsers": 1,
+        "userEngagementDuration": 18
+      },
+      {
+        "pagePath": "/digital/plinko/92",
+        "activeUsers": 1,
+        "userEngagementDuration": 602
+      },
+      {
+        "pagePath": "/digital/plinko/93",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/94",
+        "activeUsers": 1,
+        "userEngagementDuration": 719
+      },
+      {
+        "pagePath": "/digital/plinko/95",
+        "activeUsers": 1,
+        "userEngagementDuration": 0
+      },
+      {
+        "pagePath": "/digital/plinko/96",
+        "activeUsers": 1,
+        "userEngagementDuration": 250
+      },
+      {
+        "pagePath": "/digital/plinko/97",
+        "activeUsers": 1,
+        "userEngagementDuration": 596
+      },
+      {
+        "pagePath": "/digital/plinko/98",
+        "activeUsers": 1,
+        "userEngagementDuration": 656
+      },
+      {
+        "pagePath": "/digital/plinko/99",
+        "activeUsers": 1,
+        "userEngagementDuration": 4
+      }
+    ]
+  },
+  "rawResponse": {
+    "dimensionHeaders": [
+      {
+        "name": "pagePath"
+      }
+    ],
+    "metricHeaders": [
+      {
+        "name": "activeUsers",
+        "type": "TYPE_INTEGER"
+      },
+      {
+        "name": "userEngagementDuration",
+        "type": "TYPE_SECONDS"
+      }
+    ],
+    "rows": [
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "251",
+            "oneValue": "value"
+          },
+          {
+            "value": "5714",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "7",
+            "oneValue": "value"
+          },
+          {
+            "value": "326",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/25",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "7",
+            "oneValue": "value"
+          },
+          {
+            "value": "313",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/3",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "5",
+            "oneValue": "value"
+          },
+          {
+            "value": "394",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/1",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "3",
+            "oneValue": "value"
+          },
+          {
+            "value": "97",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/2",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "3",
+            "oneValue": "value"
+          },
+          {
+            "value": "532",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/27",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "3",
+            "oneValue": "value"
+          },
+          {
+            "value": "683",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/5",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "3",
+            "oneValue": "value"
+          },
+          {
+            "value": "281",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/10",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "242",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/12",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "466",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/13",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "220",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/14",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "374",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/15",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "305",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/16",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "88",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/17",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "644",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/18",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "1071",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/20",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "10",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/21",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "895",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/26",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "501",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/30",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "620",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/40",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/41",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "601",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/47",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "507",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/6",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "326",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/7",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "334",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/8",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "166",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/9",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "23",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/report",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "2",
+            "oneValue": "value"
+          },
+          {
+            "value": "72",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/100",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "172",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/101",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "206",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/102",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "247",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/103",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "290",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/104",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "251",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/105",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "229",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/106",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "189",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/107",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "202",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/108",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "215",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/109",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/11",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "32",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/110",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "986",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/111",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "767",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/112",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "14",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/113",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "332",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/114",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "141",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/115",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "7",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/116",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "123",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/117",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "7",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/118",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "29",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/119",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "206",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/120",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "279",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/121",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "426",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/122",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "343",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/123",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "245",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/124",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "9",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/125",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "73",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/126",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "315",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/127",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "7",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/128",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "6",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/129",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "288",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/130",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "278",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/131",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "223",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/132",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "310",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/133",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "264",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/134",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "269",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/135",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "238",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/136",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "290",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/137",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "282",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/138",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "185",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/139",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "1",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/140",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "720",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/141",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "554",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/142",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "299",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/143",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "803",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/144",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "92",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/145",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "364",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/146",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "254",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/147",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "265",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/148",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "193",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/149",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "622",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/150",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "345",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/151",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "11",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/152",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "453",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/153",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "60",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/154",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "6",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/155",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "697",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/158",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "31",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/159",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "15",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/160",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "7",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/161",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/162",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/19",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/22",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/23",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "455",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/24",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/28",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "25",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/32",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "106",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/33",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "787",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/34",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "388",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/35",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "4",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/36",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "156",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/37",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "85",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/38",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "805",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/39",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "195",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/4",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "193",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/42",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/43",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "90",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/44",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "18",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/45",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "607",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/46",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "152",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/48",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "1175",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/49",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "552",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/50",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "253",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/51",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "140",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/52",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "1132",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/53",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "208",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/54",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "543",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/55",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "341",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/56",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "308",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/57",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/58",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "952",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/59",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "451",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/60",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "694",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/61",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "250",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/62",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "249",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/63",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "2",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/64",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "286",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/65",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "1083",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/66",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/67",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "6",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/68",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "456",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/69",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "190",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/70",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "895",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/71",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "708",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/72",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "756",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/73",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "866",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/76",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/77",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "1156",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/78",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "52",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/79",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "5",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/80",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "46",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/81",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "483",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/82",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "345",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/83",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "692",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/84",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "562",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/85",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "490",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/86",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "746",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/87",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "12",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/88",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "161",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/89",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "699",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/90",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "14",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/91",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "18",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/92",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "602",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/93",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/94",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "719",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/95",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "0",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/96",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "250",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/97",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "596",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/98",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "656",
+            "oneValue": "value"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/digital/plinko/99",
+            "oneValue": "value"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1",
+            "oneValue": "value"
+          },
+          {
+            "value": "4",
+            "oneValue": "value"
+          }
+        ]
+      }
+    ],
+    "totals": [],
+    "maximums": [],
+    "minimums": [],
+    "rowCount": 159,
+    "metadata": {
+      "samplingMetadatas": [],
+      "dataLossFromOtherRow": false,
+      "currencyCode": "CAD",
+      "_currencyCode": "currencyCode",
+      "timeZone": "America/Toronto",
+      "_timeZone": "timeZone"
+    },
+    "propertyQuota": null,
+    "kind": "analyticsData#runReport"
+  }
+}

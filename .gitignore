@@ -393,3 +393,7 @@ credentials
 *.credentials
 credentials.*
 *.credentials.*
+
+# ignore the .csv files and leaderboardData.json
+*.csv
+leaderboardData.json

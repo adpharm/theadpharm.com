@@ -105,7 +105,7 @@ export function IBDScroller() {
                 scrollTitle: "Why",
                 title: (
                   <>
-                    You have transformed IBD, and in doing so, you’ve
+                    You have transformed IBD, and in doing so, you've
                     transformed lives.
                     <br />
                     <br />

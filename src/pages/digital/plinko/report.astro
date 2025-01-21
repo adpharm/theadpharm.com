@@ -1,0 +1,117 @@
+---
+import DefaultSiteLayout from "@/components/layout/DefaultSiteLayout.astro";
+import Section from "@/components/layout/Section.astro";
+import PlinkoReportDashboard from "@/components/plinko-report/PlinkoReportDashboard";
+import LookingForMoreFunGames from "@/components/plinko-report/LookingForMoreFunGames";
+import {
+  getAllScores,
+  getGamesOnly,
+  getGamesWithRounds,
+  getUniqueUsers,
+  listLeaderboardGames,
+} from "@/lib/server/loaders/plinkoReportingLoaders";
+import { isOnSynapseDomain } from "@/lib/server/isOnSynapseDomain";
+
+await listLeaderboardGames();
+await getAllScores();
+await getUniqueUsers();
+await getGamesWithRounds();
+await getGamesOnly();
+
+const isSynapse = isOnSynapseDomain(Astro);
+---
+
+<DefaultSiteLayout title="Plinko Report">
+  <main class="relative">
+    <Section className="pt-24 md:pt-[10vh] lg:pt-[10vh] pb-48">
+      <div class="max-w-5xl mx-auto">
+        <div class="grid grid-cols-5 pt-4 pb-8 gap-4">
+          <div class="col-span-5 sm:col-span-2">
+            <h1 class="font-semibold text-2xl sm:text-4xl">
+              {
+                isSynapse
+                  ? "The Synapse Holiday Plinko Report"
+                  : "The Adpharm's Holiday Plinko Report"
+              }
+            </h1>
+          </div>
+
+          <div class="hidden sm:block col-span-1"></div>
+
+          <div class="col-span-5 sm:col-span-2">
+            <p class="text-zinc-400">
+              Thanks again for playing our holiday Plinko game! We hope you had
+              fun and enjoyed the experience. Below you'll find a summary of the
+              game's performance and some insights into how it was played.
+            </p>
+          </div>
+        </div>
+
+        <!-- The game -->
+        <PlinkoReportDashboard client:load />
+
+        <h1 class="font-semibold text-xl sm:text-2xl pt-8 sm:pt-20">
+          Looking for more fun?
+        </h1>
+        <LookingForMoreFunGames client:load isSynapse={isSynapse} />
+      </div>
+    </Section>
+
+    <!-- <Section className="pt-12 pb-24 px-4 sm:px-8" fullTopBorder>
+      {
+        isSynapse ? (
+          <img
+            src="/synapse-wordmark-knockout.png"
+            alt="synapse medcom"
+            class="w-44 object-contain"
+          />
+        ) : (
+          <img
+            src="/adpharm-logo@4x.png"
+            alt="the adpharm"
+            class="w-36 object-contain"
+          />
+        )
+      }
+
+      <div class="grid grid-cols-5 pt-6">
+        <div class="col-span-2">
+          <ul class="text-gray-400 pt-4">
+            <li class="text-white">133 Thomas Street</li>
+            <li class="text-sm">Oakville, Ontario</li>
+            <li class="text-sm">L6J 3A9</li>
+          </ul>
+        </div>
+
+        <div class="col-span-1">
+          <p class="text-xs text-gray-400 uppercase tracking-loose font-medium">
+            Links
+          </p>
+          <ul class="text-gray-400">
+            <li>About</li>
+            <li>The Why</li>
+            <li>The How</li>
+            <li>The What</li>
+            <li>Contact</li>
+          </ul>
+        </div>
+      </div>
+    </Section> -->
+
+    <Section topBorder className="py-4">
+      <div class="grid grid-cols-1 sm:grid-cols-5">
+        <div
+          class="col-span-2 flex items-center justify-center sm:justify-start"
+        >
+        </div>
+        <div class="col-span-3 flex items-center justify-center sm:justify-end">
+          <!-- <p class="text-xs text-zinc-400">Made with ❤️ in Oakville, ON.</p> -->
+          <p class="text-xs text-zinc-400">
+            &copy; {new Date().getFullYear()}
+            {isSynapse ? "Synapse Medical Communications" : "The Adpharm Inc."}
+          </p>
+        </div>
+      </div>
+    </Section>
+  </main>
+</DefaultSiteLayout>
