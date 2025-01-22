@@ -1,4 +1,4 @@
-import type { tableUsers } from "@/db/schema";
+import type { christmas21QuestionsUsers, tableUsers } from "@/db/schema";
 import type { AstroGlobal } from "astro";
 import { ActionError, type ActionAPIContext } from "astro:actions";
 
@@ -24,6 +24,21 @@ export function getUser(
   }
 
   return context.locals.user;
+}
+
+export function getUserFor21Questions(
+  context: AstroGlobal,
+): typeof christmas21QuestionsUsers.$inferSelect | null {
+  if (context.locals.session === null || context.locals.user === null) {
+    return null;
+  }
+
+  return {
+    id: context.locals.user.id,
+    username: context.locals.user.username,
+    password_hash: context.locals.user.password_hash,
+    numberOfGamesPlayed: 0, 
+  };
 }
 
 /**

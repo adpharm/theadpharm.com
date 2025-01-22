@@ -52,6 +52,12 @@ export const createGuestUserSchema = z.object({
   lastName: lastNameSchema.optional(),
 });
 
+export const createGuestUser21QuestionsSchema = z.object({
+  username: usernameSchema,
+  password: passwordSchema.optional(),
+  numberOfGamesPlayed: z.number().int().positive(),
+});
+
 export const signInUserSchema = z.object({
   username: usernameSchema,
   password: passwordSchema,

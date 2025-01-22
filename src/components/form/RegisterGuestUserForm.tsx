@@ -28,8 +28,14 @@ import { RefreshCcw } from "lucide-react";
 import { createGuestUserSchema } from "@/lib/zod.schema";
 import { getPagePath } from "@nanostores/router";
 import { Separator } from "../ui/separator";
+import { new21QuestionsGame } from "@/lib/client/new21QuestionsGame";
 
-export function RegisterGuestUserForm() {
+
+interface RegisterGuestUserFormProps {
+  gameType: "plinko" | "21Questions";
+}
+
+export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) {
   const router = useStore($router);
   const guestCode = useStore($guestCode);
   const search = parseRouterSearch(router);
@@ -66,10 +72,19 @@ export function RegisterGuestUserForm() {
         return form.setError("root", { message: error.message });
       }
 
-      // create a new plinko game and navigate to the game
-      await newPlinkoGame();
+      // create a new plinko game and navigate to the game OR create the 21 questions game
+      try {
+        if (gameType === "plinko") {
+          await newPlinkoGame();
+        } else {
+          await new21QuestionsGame();
+        }
+      } catch (error) {
+        form.setError("root", { message: "Failed to start game" });
+      }
     },
     (err) => logError("RHF Error", err),
+
   );
 
   // useEffect to set the email from the search params
@@ -179,3 +194,12 @@ export function RegisterGuestUserForm() {
     </>
   );
 }
+
+// export async function new21QuestionsGame() {
+//   try {
+//     window.location.href = "/21Questions";
+//   } catch (error) {
+//     logError("Failed to start 21 Questions game:", error);
+//     throw error;
+//   }
+// }

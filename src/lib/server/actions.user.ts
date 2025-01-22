@@ -9,7 +9,7 @@ import {
   verifyPasswordStrength,
 } from "@/lib/server/actions.password";
 import { db } from "@/db";
-import { tableUsers } from "@/db/schema";
+import { christmas21QuestionsUsers, tableUsers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import {
   createSession,
@@ -18,6 +18,8 @@ import {
 } from "./session";
 import { BasicRateLimit } from "./actions.rateLimit";
 import { createGuestUserSchema, signInUserSchema } from "../zod.schema";
+
+export type gameType = "plinko" | "21Questions";
 
 /**
  *
@@ -33,17 +35,18 @@ import { createGuestUserSchema, signInUserSchema } from "../zod.schema";
  * @returns
  */
 export async function createUser(
-  inputData: z.infer<typeof createGuestUserSchema>, // important: using the guest schema
+  inputData: z.infer<typeof createGuestUserSchema>,
   context: ActionAPIContext,
+  gameType: gameType,
 ) {
-  // check if the IP is rate limited
+  // Check if the IP is rate limited
   checkIpHashRateLimit(context);
 
   const { email: _email, username, password: _password } = inputData;
   const email = _email?.toLowerCase()?.trim();
 
-  // const emailAvailable = await isEmailAvailable(email);
-  const usernameAvailable = await isUsernameAvailable(username);
+  // Check username availability in the appropriate table
+  const usernameAvailable = await isUsernameAvailable(username, gameType);
 
   if (!usernameAvailable) {
     throw new ActionError({
@@ -52,7 +55,7 @@ export async function createUser(
     });
   }
 
-  // either use the given password or create a strong random password
+  // Handle password creation and validation
   const password = _password || (await createStrongRandomPassword());
   const strongPassword = await verifyPasswordStrength(password);
 
@@ -65,34 +68,46 @@ export async function createUser(
 
   consumeIpHashRateLimit(context);
 
-  // hash the password
   const passwordHash = await hashPassword(password);
 
-  // build insert object
-  const userDataToInsert: typeof tableUsers.$inferInsert = {
+  // Prepare base user data
+  const baseUserData = {
     ...inputData,
     username,
     password_hash: passwordHash,
+    ...(email && { email }),
   };
 
-  if (email) userDataToInsert.email = email;
+  // Insert into appropriate table based on game type
+  if (gameType === "plinko") {
+    const users = await db
+      .insert(tableUsers)
+      .values(baseUserData as typeof tableUsers.$inferInsert)
+      .returning();
 
-  // create the user
-  const users = await db
-    .insert(tableUsers)
-    .values(userDataToInsert)
-    .returning();
+    if (users.length === 0) {
+      throw new ActionError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to create user",
+      });
+    }
 
-  if (users.length === 0) {
-    throw new ActionError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to create user",
-    });
+    return users[0];
+  } else {
+    const users = await db
+      .insert(christmas21QuestionsUsers)
+      .values(baseUserData as typeof christmas21QuestionsUsers.$inferInsert)
+      .returning();
+
+    if (users.length === 0) {
+      throw new ActionError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to create user",
+      });
+    }
+
+    return users[0];
   }
-
-  const user = users[0];
-
-  return user;
 }
 
 /**
@@ -107,11 +122,14 @@ export async function createUser(
  * @returns
  */
 export async function startUserSession(
-  user: typeof tableUsers.$inferSelect,
+  user:
+    | typeof tableUsers.$inferSelect
+    | typeof christmas21QuestionsUsers.$inferSelect,
   context: ActionAPIContext,
 ) {
   // log the user in
   const sessionToken = await generateSessionToken();
+
   const session = await createSession(sessionToken, user.id);
   await setSessionTokenCookie(context, sessionToken, session.expires_at);
 
@@ -203,7 +221,10 @@ export async function signInUser(
 //   return users.length === 0;
 // }
 
-async function isUsernameAvailable(username: string): Promise<boolean> {
+async function isUsernameAvailable(
+  username: string,
+  gameType: gameType,
+): Promise<boolean> {
   const users = await db
     .select()
     .from(tableUsers)
