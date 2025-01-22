@@ -7,10 +7,6 @@ import {
 } from "@/db/schema";
 import { ActionError, defineAction } from "astro:actions";
 import { eq, sql } from "drizzle-orm";
-import {
-  canUserPlay,
-  incrementGamesPlayed,
-} from "@/lib/server/21QuestionsLogic";
 import type { APIContext } from "astro";
 import { logDebug, logInfo } from "@/lib/utils.logger";
 
@@ -22,92 +18,22 @@ export const christmas21Questions = {
    *
    *
    ****************************************************************************************************************************/
-  //     async newGame(context: APIContext) {
-  //       const user = requireUserForAction(context);
-
-  //       if (!user || !user.id) {
-  //         throw new ActionError({
-  //           code: "UNAUTHORIZED",
-  //           message: "User authentication required.",
-  //         });
-  //       }
-
-  //       const { canPlay, gamesRemaining = 0 } = await canUserPlay(user.id);
-
-  //       if (!canPlay) {
-  //         return {
-  //           success: false,
-  //           error: "Maximum games reached",
-  //         };
-  //       }
-
-  //       try {
-  //         const [newGame] = await db.transaction(async (tx) => {
-  //           const [game] = await tx
-  //             .insert(christmas21QuestionsGames)
-  //             .values({
-  //               userId: user.id,
-  //               createdAt: new Date(),
-  //               gameOver: false,
-  //             })
-  //             .returning();
-
-  //           await incrementGamesPlayed(user.id);
-
-  //           return [game];
-  //         });
-
-  //         return {
-  //           success: true,
-  //           data: {
-  //             game: newGame,
-  //             gamesRemaining: gamesRemaining - 1,
-  //           },
-  //         };
-  //       } catch (error) {
-  //         console.error("Error during newGame transaction:", error);
-  //         throw new ActionError({
-  //           code: "INTERNAL_SERVER_ERROR",
-  //           message: "Could not create a new game.",
-  //         });
-  //       }
-  //     },
-
-  //     async checkGamesRemaining(
-  //       { userId }: { userId?: number },
-  //       context: APIContext,
-  //     ) {
-  //       const user = userId ? { id: userId } : requireUserForAction(context);
-  //       const result = await canUserPlay(user.id);
-  //       return {
-  //         success: true,
-  //         data: result,
-  //       };
-  //     },
-  //   },
-  // };
-
   newGame: defineAction({
     input: undefined,
     handler: async (inputData, context) => {
-      let new21QuestionsGames: (typeof christmas21QuestionsGames.$inferSelect)[] =
-        [];
-
       try {
         const user = requireUserForAction(context);
-
-        // Check if the user can play
         const { canPlay, gamesRemaining } = await canUserPlay(user.id);
 
         if (!canPlay) {
           throw new ActionError({
-            code: "BAD_REQUEST",
+            code: "TOO_MANY_REQUESTS",
             message: `Maximum number of games reached. Games remaining: ${gamesRemaining}`,
           });
         }
 
-        // Create a new game
-        new21QuestionsGames = await db
+        // Create new game first
+        const [game] = await db
           .insert(christmas21QuestionsGames)
           .values({
             userId: user.id,
@@ -116,46 +42,105 @@ export const christmas21Questions = {
           })
           .returning();
 
-        if (new21QuestionsGames.length === 0) {
-          throw new ActionError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to insert new game into database.",
-          });
-        }
+        // Then increment games played
 
-        // Return the game and remaining games
+        // I was getting this error: https://community.neon.tech/t/how-do-i-handle-transactions/1067
+        // NeonDB HTTP driver doesn't support transactions this way. We need to create the operations sequentially -- https://community.neon.tech/t/how-do-i-handle-transactions/1067
+        const [updated] = await db
+          .update(christmas21QuestionsUsers)
+          .set({
+            numberOfGamesPlayed: sql`${christmas21QuestionsUsers.numberOfGamesPlayed} + 1`,
+          })
+          .where(eq(christmas21QuestionsUsers.id, user.id))
+          .returning();
+
         return {
           success: true,
-          game: new21QuestionsGames[0],
+          game: game,
           meta: {
-            gamesRemaining,
+            gamesRemaining: gamesRemaining - 1,
+            gamesPlayed: updated.numberOfGamesPlayed,
           },
         };
-      } catch (e) {
-        // Rollback game if created
-        if (new21QuestionsGames.length > 0) {
-          logInfo("Rolling back game creation", {
-            gameId: new21QuestionsGames[0].id,
-          });
-          await db
-            .delete(christmas21QuestionsGames)
-            .where(eq(christmas21QuestionsGames.id, new21QuestionsGames[0].id));
-        }
-
-        logDebug("Error during new 21 Questions game creation", e);
-        throw e;
+      } catch (error) {
+        logDebug("Error during new 21 Questions game creation", error);
+        throw error;
       }
     },
   }),
-  async checkGamesRemaining(
-    { userId }: { userId?: number },
-    context: APIContext,
-  ) {
-    const user = userId ? { id: userId } : requireUserForAction(context);
-    const result = await canUserPlay(user.id);
-    return {
-      success: true,
-      data: result,
-    };
-  },
+  checkGamesRemaining: defineAction({
+    input: undefined,
+    handler: async (input, context) => {
+      const user = input.userId
+        ? { id: input.userId }
+        : requireUserForAction(context);
+      const result = await canUserPlay(user.id);
+      return {
+        success: true,
+        data: result,
+      };
+    },
+  }),
+  incrementGamesPlayed: defineAction({
+    input: undefined,
+    handler: async (input, context) => {
+      const user = input.userId
+        ? { id: input.userId }
+        : requireUserForAction(context);
+
+      const updated = await incrementGamesPlayed(user.id);
+
+      return {
+        success: true,
+        data: updated,
+      };
+    },
+  }),
+};
+
+export const canUserPlay = async (userId: number) => {
+  const MAX_GAMES = 10;
+
+  const [user] = await db
+    .select()
+    .from(christmas21QuestionsUsers)
+    .where(eq(christmas21QuestionsUsers.id, userId))
+    .limit(1);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return {
+    canPlay: user.numberOfGamesPlayed < MAX_GAMES,
+    gamesRemaining: MAX_GAMES - user.numberOfGamesPlayed,
+    gamesPlayed: user.numberOfGamesPlayed,
+  };
+};
+
+export const incrementGamesPlayed = async (userId: number) => {
+  const { canPlay } = await canUserPlay(userId);
+
+  if (!canPlay) {
+    throw new ActionError({
+      code: "TOO_MANY_REQUESTS", //insteaf of 404 BAD_REQUEST. I think this is the best for quota exceeded.
+      message: "Maximum number of games reached",
+    });
+  }
+
+  try {
+    const [updated] = await db
+      .update(christmas21QuestionsUsers)
+      .set({
+        numberOfGamesPlayed: sql`${christmas21QuestionsUsers.numberOfGamesPlayed} + 1`,
+      })
+      .where(eq(christmas21QuestionsUsers.id, userId))
+      .returning();
+
+    return updated;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    throw new Error("Error incrementing games played: " + errorMessage);
+  }
 };

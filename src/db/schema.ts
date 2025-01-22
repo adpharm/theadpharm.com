@@ -233,13 +233,15 @@ export const christmas21QuestionsUsers = pgTable(
     password_hash: text().notNull(),
     numberOfGamesPlayed: integer().notNull().default(0),
   },
-  (table) => [unique("username").on(table.username)],
+  (table) => [unique("unique_username").on(table.username)],
 );
 
-
-export const christmas21QuestionsGames = pgTable("christmas_21_questions_games", {
-  id: serial().primaryKey(),
-  userId: integer().notNull(),
-  createdAt: timestamp().defaultNow(),
-  gameOver: boolean().notNull().default(false),
-});
+export const christmas21QuestionsGames = pgTable(
+  "christmas_21_questions_games",
+  {
+    id: serial().primaryKey(),
+    userId: integer().notNull(),
+    createdAt: timestamp().defaultNow(),
+    gameOver: boolean().notNull().default(false),
+  },
+);

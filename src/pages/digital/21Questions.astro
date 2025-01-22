@@ -18,7 +18,7 @@ import { getUser, getUserFor21Questions } from "@/lib/server/auth.utils";
 
 const user = getUserFor21Questions(Astro);
 
-const userId = user?.id;
+const userId = user ? user.id : null;
 
 
 // const perplexity = createOpenAI({
@@ -46,7 +46,7 @@ const userId = user?.id;
             class="ml-2 hover:underline">Adpharm's 21 Questions</a
           >
         </div> -->
-        <GameBoard userId={userId} client:load />
+        <GameBoard userId={userId ?? 0} client:load />
       </div>
     </Section>
 
