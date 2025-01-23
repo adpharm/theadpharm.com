@@ -58,15 +58,6 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
     },
   });
 
-
-  // Not ideal to have two zod schemas, two forms, two submit functions, etc. BUT it was the easiest way to debug
-  // const twentyOneQuestionsform = useForm<z.infer<typeof createGuestUser21QuestionsSchema>>({
-  //   resolver: zodResolver(createGuestUser21QuestionsSchema),
-  //   defaultValues: {
-  //     username: generateRandomUsernameFromName(guestFromSearch?.first_name),
-  //   },
-  // });
-
   // submit
   const onSubmit = form.handleSubmit(
     async (inputData) => {
@@ -81,7 +72,7 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
 
       // create a new plinko game and navigate to the game OR create the 21 questions game
       { gameType === "plinko" ? await newPlinkoGame() : await new21QuestionsGame() }
-      await newPlinkoGame();
+      // await newPlinkoGame();
     },
     (err) => logError("RHF Error", err),
   );
