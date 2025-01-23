@@ -54,18 +54,18 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
     resolver: zodResolver(createGuestUserSchema),
     defaultValues: {
       username: generateRandomUsernameFromName(guestFromSearch?.first_name),
+      numberOfGamesPlayed: 0, // Default value for numberOfGamesPlayed
     },
   });
 
 
   // Not ideal to have two zod schemas, two forms, two submit functions, etc. BUT it was the easiest way to debug
-  const twentyOneQuestionsform = useForm<z.infer<typeof createGuestUser21QuestionsSchema>>({
-    resolver: zodResolver(createGuestUser21QuestionsSchema),
-    defaultValues: {
-      username: generateRandomUsernameFromName(guestFromSearch?.first_name),
-      numberOfGamesPlayed: 0, // Default value for numberOfGamesPlayed
-    },
-  });
+  // const twentyOneQuestionsform = useForm<z.infer<typeof createGuestUser21QuestionsSchema>>({
+  //   resolver: zodResolver(createGuestUser21QuestionsSchema),
+  //   defaultValues: {
+  //     username: generateRandomUsernameFromName(guestFromSearch?.first_name),
+  //   },
+  // });
 
   // submit
   const onSubmit = form.handleSubmit(

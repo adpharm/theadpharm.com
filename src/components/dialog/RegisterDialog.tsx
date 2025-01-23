@@ -46,7 +46,7 @@ export function RegisterGuestUserDialog({ open, gameType }: { open: boolean, gam
         </DialogHeader>
 
         {/* Form */}
-        {gameType === "plinko" ? <RegisterGuestUserForm gameType="plinko" /> : <RegisterGuestUserForm gameType="21Questions" />}
+        <RegisterGuestUserForm gameType={gameType === "plinko" ? "plinko" : "21Questions"} /> 
       </DialogContent>
     </Dialog>
   );

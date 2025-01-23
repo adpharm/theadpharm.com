@@ -1,6 +1,6 @@
 {
   "outputResult": {
-    "totalTimeSpent": "8 hours 39 minutes",
+    "totalTimeSpent": "8 hours 40 minutes",
     "rawData": [
       {
         "pagePath": "/digital/plinko",
@@ -500,7 +500,7 @@
       {
         "pagePath": "/digital/plinko/174",
         "activeUsers": 1,
-        "userEngagementDuration": 1202
+        "userEngagementDuration": 1307
       },
       {
         "pagePath": "/digital/plinko/19",
@@ -2661,7 +2661,7 @@
             "oneValue": "value"
           },
           {
-            "value": "1202",
+            "value": "1307",
             "oneValue": "value"
           }
         ]
