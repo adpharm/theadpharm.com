@@ -1,0 +1,1 @@
+export type gameType = "plinko" | "21Questions";

@@ -12,7 +12,6 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import {
-  generateRandomUsername,
   generateRandomUsernameFromName,
 } from "@/lib/generateRandomUsername";
 import { Button } from "../ui/button";
@@ -25,11 +24,15 @@ import { log, logDebug, logError } from "@/lib/utils.logger";
 import { $guestCode } from "@/lib/stores";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
 import { RefreshCcw } from "lucide-react";
-import { createGuestUserSchema } from "@/lib/zod.schema";
-import { getPagePath } from "@nanostores/router";
-import { Separator } from "../ui/separator";
+import { createGuestUser21QuestionsSchema, createGuestUserSchema } from "@/lib/zod.schema";
+import { new21QuestionsGame } from "@/lib/client/new21QuestionsGame";
+import type { gameType } from "@/lib/types.christmasGames";
 
-export function RegisterGuestUserForm() {
+interface RegisterGuestUserFormProps {
+  gameType: gameType;
+}
+
+export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) {
   const router = useStore($router);
   const guestCode = useStore($guestCode);
   const search = parseRouterSearch(router);
@@ -51,6 +54,7 @@ export function RegisterGuestUserForm() {
     resolver: zodResolver(createGuestUserSchema),
     defaultValues: {
       username: generateRandomUsernameFromName(guestFromSearch?.first_name),
+      numberOfGamesPlayed: 0, // Default value for numberOfGamesPlayed
     },
   });
 
@@ -66,8 +70,9 @@ export function RegisterGuestUserForm() {
         return form.setError("root", { message: error.message });
       }
 
-      // create a new plinko game and navigate to the game
-      await newPlinkoGame();
+      // create a new plinko game and navigate to the game OR create the 21 questions game
+      { gameType === "plinko" ? await newPlinkoGame() : await new21QuestionsGame() }
+      // await newPlinkoGame();
     },
     (err) => logError("RHF Error", err),
   );

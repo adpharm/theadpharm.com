@@ -11,6 +11,7 @@ import { toast } from "sonner";
  */
 export async function newPlinkoGame() {
   const { data, error } = await actions.plinko.newGame();
+  
   if (error) {
     logError("Error creating new game", error);
     // show toast

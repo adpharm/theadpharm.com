@@ -14,6 +14,8 @@ export const $router = createRouter(
     "synapse.home": "/synapse",
     "games.plinko.home": "/digital/plinko",
     "games.plinko.gameId": "/digital/plinko/:gameId",
+    // "games.21Questions.gameId": "/digital/21Questions/:gameId",
+    "games.21Questions": "/digital/21Questions",
   },
   {
     links: false,

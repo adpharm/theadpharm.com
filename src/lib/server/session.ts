@@ -7,6 +7,7 @@ import type { ActionAPIContext } from "astro:actions";
 import { db } from "@/db";
 import { tableSessions, tableUsers } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import type { gameType } from "./actions.user";
 
 /**
  * Validate a session token

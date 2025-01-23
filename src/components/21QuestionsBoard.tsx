@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Snowfall from "./Snowfall";
 import { motion, AnimatePresence } from "framer-motion";
 import { CustomTooltip } from "./Tooltip";
+import { actions } from "astro:actions";
+import { toast } from "sonner";
 
 interface Message {
   role: "system" | "user" | "assistant";
@@ -154,7 +156,30 @@ const responsesNo: ResponseType[] = [
   },
 ];
 
-export function GameBoard() {
+interface GameStatus {
+  canPlay: boolean;
+  gamesRemaining: number;
+  gamesPlayed: number;
+}
+
+export function GameBoard({ userId }: { userId: number }) {
+  console.log("This is the actual userID: ", userId);
+
+  const [gameStatus, setGameStatus] = useState<GameStatus | null>(null);
+
+  useEffect(() => {
+    actions.christmas21Questions.checkGamesRemaining({ userId })
+      .then(result => {
+        if (!result.error && result.data) {
+          console.log('Games Played:', result.data.data.gamesPlayed);
+          console.log('Game Status:', result.data.data);
+          setGameStatus(result.data.data as GameStatus);
+        }
+      })
+      .catch(console.error);
+  }, [userId]);
+
+
   const maxQuestions = 21;
 
   const [selectedVoiceId, setSelectedVoiceId] = useState(
@@ -191,23 +216,36 @@ export function GameBoard() {
   const [blockPlayAPI, setBlockPlayAPI] = useState(false);
 
   // Function to Start the Game with Transition
-  const startGame = () => {
+  const startGame = async () => {
     if (!selectedCharacter) return;
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-    setShowTransition(true);
-    setTimeout(() => {
-      setHasStarted(true);
-      setPlayAgainFlag(false);
-      setCurrentQuestion(0);
-      setConversation(prompt);
-      setAiResponse("");
-      getAiResponse(prompt);
-    }, 500);
+    try {
+      // Create new game and check if user can play
+      const result = await actions.christmas21Questions.incrementGamesPlayed(userId);
+
+      if (result.error) {
+        console.error("Failed to start new game:", result.error);
+        toast.error(`You've reached the maximum number of games allowed (10).`);
+        return;
+      }
+
+      // Start game UI
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setShowTransition(true);
+      setTimeout(() => {
+        setHasStarted(true);
+        setPlayAgainFlag(false);
+        setCurrentQuestion(0);
+        setConversation(prompt);
+        setAiResponse("");
+        getAiResponse(prompt);
+      }, 500);
+    } catch (error) {
+      console.error("Error starting game:", error);
+      toast.error("Unable to start game. Please try again later.");
+    }
   };
+
 
   // ----- Handlers -----
   // 1. Select Character
@@ -215,20 +253,6 @@ export function GameBoard() {
     setSelectedCharacter(character);
     setSelectedVoiceId(character.voiceId || selectedVoiceId);
   };
-
-  //   // 2. Start Game
-  //   const startGame = async () => {
-  //     if (!selectedCharacter) return;
-  //     setHasStarted(true);
-  //     setHasGuessed(false);
-  //     setCurrentQuestion(1);
-  //     setConversation(prompt);
-  //     setAiResponse("");
-  //     setShowPlayAgain(false);
-
-  //     // Immediately request the first AI question
-  //     await getAiResponse(prompt);
-  //   };
 
   // 3. Fetch AI Response
   const fetchAiResponse = async (msgs: Message[]) => {
@@ -593,11 +617,10 @@ export function GameBoard() {
                       className="cursor-pointer disabled:cursor-not-allowed"
                     >
                       <Volume2
-                        className={`transition-transform ${
-                          isVolumeBouncing
+                        className={`transition-transform ${isVolumeBouncing
                             ? "animate-slowBounce cursor-not-allowed"
                             : "hover:scale-110"
-                        }`}
+                          }`}
                       />
                     </button>
                   </div>
