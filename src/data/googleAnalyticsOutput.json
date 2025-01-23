@@ -1,11 +1,11 @@
 {
   "outputResult": {
-    "totalTimeSpent": "8 hours 33 minutes",
+    "totalTimeSpent": "8 hours 39 minutes",
     "rawData": [
       {
         "pagePath": "/digital/plinko",
         "activeUsers": 268,
-        "userEngagementDuration": 5860
+        "userEngagementDuration": 5881
       },
       {
         "pagePath": "/digital/plinko/report",
@@ -495,12 +495,12 @@
       {
         "pagePath": "/digital/plinko/173",
         "activeUsers": 1,
-        "userEngagementDuration": 1708
+        "userEngagementDuration": 1733
       },
       {
         "pagePath": "/digital/plinko/174",
         "activeUsers": 1,
-        "userEngagementDuration": 543
+        "userEngagementDuration": 1202
       },
       {
         "pagePath": "/digital/plinko/19",
@@ -879,7 +879,7 @@
             "oneValue": "value"
           },
           {
-            "value": "5860",
+            "value": "5881",
             "oneValue": "value"
           }
         ]
@@ -2643,7 +2643,7 @@
             "oneValue": "value"
           },
           {
-            "value": "1708",
+            "value": "1733",
             "oneValue": "value"
           }
         ]
@@ -2661,7 +2661,7 @@
             "oneValue": "value"
           },
           {
-            "value": "543",
+            "value": "1202",
             "oneValue": "value"
           }
         ]
