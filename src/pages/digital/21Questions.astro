@@ -13,7 +13,7 @@ import {
   ChevronRightCircle,
 } from "lucide-react";
 import { GameBoard } from "@/components/21QuestionsBoard";
-import { RegisterGuestUserDialog21Questions } from "@/components/dialog/RegisterDialog";
+import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
 import { getUser, getUserFor21Questions } from "@/lib/server/auth.utils";
 
 const user = getUserFor21Questions(Astro);
@@ -140,7 +140,8 @@ const userId = user ? user.id : null;
   </main>
 </DefaultSiteLayout>
 
-<RegisterGuestUserDialog21Questions
+<RegisterGuestUserDialog
   client:load
   open={user === null || Astro.locals.session === null}
+  gameType="21Questions"
 />

@@ -3,7 +3,7 @@ import { requireUserForAction } from "@/lib/server/auth.utils";
 import { db } from "@/db";
 import {
   christmas21QuestionsGames,
-  christmas21QuestionsUsers,
+  tableUsers,
 } from "@/db/schema";
 import { ActionError, defineAction } from "astro:actions";
 import { eq, sql } from "drizzle-orm";
@@ -36,9 +36,8 @@ export const christmas21Questions = {
         const [game] = await db
           .insert(christmas21QuestionsGames)
           .values({
-            userId: user.id,
+            user_id: user.id,
             createdAt: new Date(),
-            gameOver: false,
           })
           .returning();
 
@@ -47,19 +46,19 @@ export const christmas21Questions = {
         // I was getting this error: https://community.neon.tech/t/how-do-i-handle-transactions/1067
         // NeonDB HTTP driver doesn't support transactions this way. We need to create the operations sequentially -- https://community.neon.tech/t/how-do-i-handle-transactions/1067
         const [updated] = await db
-          .update(christmas21QuestionsUsers)
+          .update(tableUsers)
           .set({
-            numberOfGamesPlayed: sql`${christmas21QuestionsUsers.numberOfGamesPlayed} + 1`,
+            number_of_twenty_one_games_played: tableUsers.number_of_twenty_one_games_played,
           })
-          .where(eq(christmas21QuestionsUsers.id, user.id))
+          .where(eq(tableUsers.id, user.id))
           .returning();
 
         return {
           success: true,
           game: game,
           meta: {
-            gamesRemaining: gamesRemaining - 1,
-            gamesPlayed: updated.numberOfGamesPlayed,
+            gamesRemaining: gamesRemaining - 2,
+            gamesPlayed: updated.number_of_twenty_one_games_played,
           },
         };
       } catch (error) {
@@ -103,8 +102,8 @@ export const canUserPlay = async (userId: number) => {
 
   const [user] = await db
     .select()
-    .from(christmas21QuestionsUsers)
-    .where(eq(christmas21QuestionsUsers.id, userId))
+    .from(tableUsers)
+    .where(eq(tableUsers.id, userId))
     .limit(1);
 
   if (!user) {
@@ -112,9 +111,9 @@ export const canUserPlay = async (userId: number) => {
   }
 
   return {
-    canPlay: user.numberOfGamesPlayed < MAX_GAMES,
-    gamesRemaining: MAX_GAMES - user.numberOfGamesPlayed,
-    gamesPlayed: user.numberOfGamesPlayed,
+    canPlay: (user.number_of_twenty_one_games_played ?? 0) < MAX_GAMES,
+    gamesRemaining: MAX_GAMES - (user.number_of_twenty_one_games_played ?? 0),
+    gamesPlayed: user.number_of_twenty_one_games_played ?? 0,
   };
 };
 
@@ -130,11 +129,11 @@ export const incrementGamesPlayed = async (userId: number) => {
 
   try {
     const [updated] = await db
-      .update(christmas21QuestionsUsers)
+      .update(tableUsers)
       .set({
-        numberOfGamesPlayed: sql`${christmas21QuestionsUsers.numberOfGamesPlayed} + 1`,
+        number_of_twenty_one_games_played: sql`${tableUsers.number_of_twenty_one_games_played} + 1`,
       })
-      .where(eq(christmas21QuestionsUsers.id, userId))
+      .where(eq(tableUsers.id, userId))
       .returning();
 
     return updated;

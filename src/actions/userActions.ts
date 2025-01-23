@@ -21,7 +21,7 @@ export const user = {
     input: createFullUserSchema, // important: using the full user schema
     handler: async (inputData, context) => {
       // create the user
-      const user = await createUser(inputData, context, "plinko");
+      const user = await createUser(inputData, context);
 
       // log the user in
       await startUserSession(user, context);
@@ -35,7 +35,7 @@ export const user = {
     input: createGuestUserSchema, // important: using the guest schema
     handler: async (inputData, context) => {
       // create the user
-      const user = await createUser(inputData, context, "plinko");
+      const user = await createUser(inputData, context);
 
       // log the user in
       await startUserSession(user, context);
@@ -52,7 +52,6 @@ export const user = {
       const christmas21QuestionsUsers = await createUser(
         inputData,
         context,
-        "21Questions",
       );
 
       // log the user in

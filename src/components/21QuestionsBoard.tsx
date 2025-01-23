@@ -6,7 +6,6 @@ import { CustomTooltip } from "./Tooltip";
 import { actions } from "astro:actions";
 import { toast } from "sonner";
 
-
 interface Message {
   role: "system" | "user" | "assistant";
   content: string;

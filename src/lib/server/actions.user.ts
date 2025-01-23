@@ -9,7 +9,7 @@ import {
   verifyPasswordStrength,
 } from "@/lib/server/actions.password";
 import { db } from "@/db";
-import { christmas21QuestionsUsers, tableUsers } from "@/db/schema";
+import { tableUsers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import {
   createSession,
@@ -18,8 +18,6 @@ import {
 } from "./session";
 import { BasicRateLimit } from "./actions.rateLimit";
 import { createGuestUserSchema, signInUserSchema } from "../zod.schema";
-
-export type gameType = "plinko" | "21Questions";
 
 /**
  *
@@ -35,18 +33,17 @@ export type gameType = "plinko" | "21Questions";
  * @returns
  */
 export async function createUser(
-  inputData: z.infer<typeof createGuestUserSchema>,
+  inputData: z.infer<typeof createGuestUserSchema>, // important: using the guest schema
   context: ActionAPIContext,
-  gameType: gameType,
 ) {
-  // Check if the IP is rate limited
+  // check if the IP is rate limited
   checkIpHashRateLimit(context);
 
   const { email: _email, username, password: _password } = inputData;
   const email = _email?.toLowerCase()?.trim();
 
-  // Check username availability in the appropriate table
-  const usernameAvailable = await isUsernameAvailable(username, gameType);
+  // const emailAvailable = await isEmailAvailable(email);
+  const usernameAvailable = await isUsernameAvailable(username);
 
   if (!usernameAvailable) {
     throw new ActionError({
@@ -55,7 +52,7 @@ export async function createUser(
     });
   }
 
-  // Handle password creation and validation
+  // either use the given password or create a strong random password
   const password = _password || (await createStrongRandomPassword());
   const strongPassword = await verifyPasswordStrength(password);
 
@@ -68,46 +65,34 @@ export async function createUser(
 
   consumeIpHashRateLimit(context);
 
+  // hash the password
   const passwordHash = await hashPassword(password);
 
-  // Prepare base user data
-  const baseUserData = {
+  // build insert object
+  const userDataToInsert: typeof tableUsers.$inferInsert = {
     ...inputData,
     username,
     password_hash: passwordHash,
-    ...(email && { email }),
   };
 
-  // Insert into appropriate table based on game type
-  if (gameType === "plinko") {
-    const users = await db
-      .insert(tableUsers)
-      .values(baseUserData as typeof tableUsers.$inferInsert)
-      .returning();
+  if (email) userDataToInsert.email = email;
 
-    if (users.length === 0) {
-      throw new ActionError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to create user",
-      });
-    }
+  // create the user
+  const users = await db
+    .insert(tableUsers)
+    .values(userDataToInsert)
+    .returning();
 
-    return users[0];
-  } else {
-    const users = await db
-      .insert(christmas21QuestionsUsers)
-      .values(baseUserData as typeof christmas21QuestionsUsers.$inferInsert)
-      .returning();
-
-    if (users.length === 0) {
-      throw new ActionError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to create user",
-      });
-    }
-
-    return users[0];
+  if (users.length === 0) {
+    throw new ActionError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Failed to create user",
+    });
   }
+
+  const user = users[0];
+
+  return user;
 }
 
 /**
@@ -122,14 +107,11 @@ export async function createUser(
  * @returns
  */
 export async function startUserSession(
-  user:
-    | typeof tableUsers.$inferSelect
-    | typeof christmas21QuestionsUsers.$inferSelect,
+  user: typeof tableUsers.$inferSelect,
   context: ActionAPIContext,
 ) {
   // log the user in
   const sessionToken = await generateSessionToken();
-
   const session = await createSession(sessionToken, user.id);
   await setSessionTokenCookie(context, sessionToken, session.expires_at);
 
@@ -221,10 +203,7 @@ export async function signInUser(
 //   return users.length === 0;
 // }
 
-async function isUsernameAvailable(
-  username: string,
-  gameType: gameType,
-): Promise<boolean> {
+async function isUsernameAvailable(username: string): Promise<boolean> {
   const users = await db
     .select()
     .from(tableUsers)
@@ -242,66 +221,3 @@ export type User = typeof tableUsers.$inferSelect;
  * Rate limit for user login
  */
 export const userLoginRateLimit = new BasicRateLimit<number>(10, 60 * 10);
-
-// export function verifyUsernameInput(username: string): boolean {
-// 	return username.length > 3 && username.length < 32 && username.trim() === username;
-// }
-
-// export async function updateUserPassword(userId: number, password: string): Promise<void> {
-// 	const passwordHash = await hashPassword(password);
-// 	try {
-// 		db.execute("BEGIN", []);
-// 		db.execute("DELETE FROM session WHERE user_id = ?", [userId]);
-// 		db.execute("UPDATE user SET password_hash = ? WHERE id = ?", [passwordHash, userId]);
-// 		db.execute("COMMIT", []);
-// 	} catch (e) {
-// 		if (db.inTransaction()) {
-// 			db.execute("ROLLBACK", []);
-// 		}
-// 		throw e;
-// 	}
-// }
-
-// export function updateUserEmail(userId: number, email: string): void {
-// 	db.execute("UPDATE user SET email = ? WHERE id = ?", [email, userId]);
-// }
-
-// export function getUserPasswordHash(userId: number): string {
-// 	const row = db.queryOne("SELECT password_hash FROM user WHERE id = ?", [userId]);
-// 	if (row === null) {
-// 		throw new Error("Invalid user ID");
-// 	}
-// 	return row.string(0);
-// }
-
-// export function getUserRecoverCode(userId: number): string {
-// 	const row = db.queryOne("SELECT recovery_code FROM user WHERE id = ?", [userId]);
-// 	if (row === null) {
-// 		throw new Error("Invalid user ID");
-// 	}
-// 	return decryptToString(row.bytes(0));
-// }
-
-// export function getUserTOTPKey(userId: number): Uint8Array | null {
-// 	const row = db.queryOne("SELECT totp_key FROM user WHERE id = ?", [userId]);
-// 	if (row === null) {
-// 		throw new Error("Invalid user ID");
-// 	}
-// 	const encrypted = row.bytesNullable(0);
-// 	if (encrypted === null) {
-// 		return null;
-// 	}
-// 	return decrypt(encrypted);
-// }
-
-// export function updateUserTOTPKey(userId: number, key: Uint8Array): void {
-// 	const encrypted = encrypt(key);
-// 	db.execute("UPDATE user SET totp_key = ? WHERE id = ?", [encrypted, userId]);
-// }
-
-// export function resetUserRecoveryCode(userId: number): string {
-// 	const recoveryCode = generateRandomRecoveryCode();
-// 	const encrypted = encryptString(recoveryCode);
-// 	db.execute("UPDATE user SET recovery_code = ? WHERE id = ?", [encrypted, userId]);
-// 	return recoveryCode;
-// }

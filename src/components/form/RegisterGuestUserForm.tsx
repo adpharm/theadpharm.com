@@ -12,7 +12,6 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import {
-  generateRandomUsername,
   generateRandomUsernameFromName,
 } from "@/lib/generateRandomUsername";
 import { Button } from "../ui/button";
@@ -26,13 +25,11 @@ import { $guestCode } from "@/lib/stores";
 import { newPlinkoGame } from "@/lib/client/newPlinkoGame";
 import { RefreshCcw } from "lucide-react";
 import { createGuestUser21QuestionsSchema, createGuestUserSchema } from "@/lib/zod.schema";
-import { getPagePath } from "@nanostores/router";
-import { Separator } from "../ui/separator";
 import { new21QuestionsGame } from "@/lib/client/new21QuestionsGame";
-
+import type { gameType } from "@/lib/types.christmasGames";
 
 interface RegisterGuestUserFormProps {
-  gameType: "plinko" | "21Questions";
+  gameType: gameType;
 }
 
 export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) {
@@ -71,7 +68,7 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
   });
 
   // submit
-  const onSubmit1 = form.handleSubmit(
+  const onSubmit = form.handleSubmit(
     async (inputData) => {
       // create the anonymous user
       const { data, error } =
@@ -83,29 +80,8 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
       }
 
       // create a new plinko game and navigate to the game OR create the 21 questions game
+      { gameType === "plinko" ? await newPlinkoGame() : await new21QuestionsGame() }
       await newPlinkoGame();
-    },
-    (err) => logError("RHF Error", err),
-  );
-
-  // submit for 21Questions
-  const onSubmit2 = twentyOneQuestionsform.handleSubmit(
-    async (inputData) => {
-      console.log("Submitted Data:", inputData); 
-      // create the anonymous user
-      const { data, error } =
-        await actions.user.createGuestUserAndSignIn21Questions({
-          ...inputData,
-          numberOfGamesPlayed: 0,
-        });
-
-      // if there's an error, show it
-      if (error) {
-        return twentyOneQuestionsform.setError("root", { message: error.message });
-      }
-
-      // create a new plinko game and navigate to the game OR create the 21 questions game
-      await new21QuestionsGame();
     },
     (err) => logError("RHF Error", err),
   );
@@ -132,69 +108,68 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
 
   return (
     <>
-      {gameType === "plinko" ?
-        <Form {...form}>
-          <form onSubmit={onSubmit1} className="grid gap-8">
-            {/***************************************************
+      <Form {...form}>
+        <form onSubmit={onSubmit} className="grid gap-8">
+          {/***************************************************
            *
            * Username
            *
            ****************************************************/}
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormDescription className="text-xs">
-                    Pick a username using the "Randomize" button.
-                  </FormDescription>
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormDescription className="text-xs">
+                  Pick a username using the "Randomize" button.
+                </FormDescription>
 
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled
-                      className="py-7 pointer-events-none disabled:opacity-100"
-                    />
-                  </FormControl>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled
+                    className="py-7 pointer-events-none disabled:opacity-100"
+                  />
+                </FormControl>
 
-                  <Button
-                    type="button"
-                    onClick={randomUsername}
-                    // className="text-sm font-medium inline-flex items-center active:opacity-75"
-                    variant={"secondaryWinter"}
-                  >
-                    <span>Randomize</span>
-                    <RefreshCcw className="size-3.5 ml-1" />
-                  </Button>
+                <Button
+                  type="button"
+                  onClick={randomUsername}
+                  // className="text-sm font-medium inline-flex items-center active:opacity-75"
+                  variant={"secondaryWinter"}
+                >
+                  <span>Randomize</span>
+                  <RefreshCcw className="size-3.5 ml-1" />
+                </Button>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/***************************************************
+          {/***************************************************
            *
            * Submit
            *
            ****************************************************/}
-            <Button type="submit" variant={"primaryWinter"}>
-              {form.formState.isSubmitting ? "Submitting..." : "Let's play 🎉"}
-            </Button>
+          <Button type="submit" variant={"primaryWinter"}>
+            {form.formState.isSubmitting ? "Submitting..." : "Let's play 🎉"}
+          </Button>
 
-            {form.formState.errors.root && (
-              <div className="text-red-500 dark:text-red-300">
-                {form.formState.errors.root.message}
-              </div>
-            )}
+          {form.formState.errors.root && (
+            <div className="text-red-500 dark:text-red-300">
+              {form.formState.errors.root.message}
+            </div>
+          )}
 
-            {/***************************************************
+          {/***************************************************
            *
            * OR Sign in/sign up buttons
            *
            ****************************************************/}
-            {/* TODO: re-enable this after some testing */}
-            {/* <div className="">
+          {/* TODO: re-enable this after some testing */}
+          {/* <div className="">
             <div className="text-center">
               <Separator className="bg-sky-900/30" />
             </div>
@@ -213,75 +188,8 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
               </Button>
             </div>
           </div> */}
-          </form>
-        </Form>
-        :
-        <Form {...twentyOneQuestionsform}>
-          <form onSubmit={onSubmit2} className="grid gap-8">
-            {/***************************************************
-           *
-           * Username
-           *
-           ****************************************************/}
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormDescription className="text-xs">
-                    Pick a username using the "Randomize" button.
-                  </FormDescription>
-
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled
-                      className="py-7 pointer-events-none disabled:opacity-100"
-                    />
-                  </FormControl>
-
-                  <Button
-                    type="button"
-                    onClick={randomUsername}
-                    // className="text-sm font-medium inline-flex items-center active:opacity-75"
-                    variant={"secondaryWinter"}
-                  >
-                    <span>Randomize</span>
-                    <RefreshCcw className="size-3.5 ml-1" />
-                  </Button>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/***************************************************
-           *
-           * Submit
-           *
-           ****************************************************/}
-            <Button type="submit" variant={"primaryWinter"}>
-              {twentyOneQuestionsform.formState.isSubmitting ? "Submitting..." : "Let's play 🎉"}
-            </Button>
-
-            {twentyOneQuestionsform.formState.errors.root && (
-              <div className="text-red-500 dark:text-red-300">
-                {twentyOneQuestionsform.formState.errors.root.message}
-              </div>
-            )}
-          </form>
-        </Form>}
-
+        </form>
+      </Form>
     </>
   );
 }
-
-// export async function new21QuestionsGame() {
-//   try {
-//     window.location.href = "/21Questions";
-//   } catch (error) {
-//     logError("Failed to start 21 Questions game:", error);
-//     throw error;
-//   }
-// }
