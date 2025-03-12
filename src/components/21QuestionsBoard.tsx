@@ -162,658 +162,692 @@ interface GameStatus {
   gamesPlayed: number;
 }
 
+// export function GameBoard({ userId }: { userId: number }) {
+//   console.log("This is the actual userID: ", userId);
+
+//   const [gameStatus, setGameStatus] = useState<GameStatus | null>(null);
+
+//   useEffect(() => {
+//     actions.christmas21Questions
+//       .checkGamesRemaining({ userId })
+//       .then((result) => {
+//         if (!result.error && result.data) {
+//           console.log("Games Played:", result.data.data.gamesPlayed);
+//           console.log("Game Status:", result.data.data);
+//           setGameStatus(result.data.data as GameStatus);
+//         }
+//       })
+//       .catch(console.error);
+//   }, [userId]);
+
+//   const maxQuestions = 21;
+
+//   const [selectedVoiceId, setSelectedVoiceId] = useState(
+//     "s3://voice-cloning-zero-shot/e5b701f9-5b39-4d4a-a0dc-254956f607c0/original/manifest.json",
+//   );
+//   const [selectedCharacter, setSelectedCharacter] = useState<Character>(
+//     characters[0],
+//   );
+
+//   // Conversation logic
+//   const [conversation, setConversation] = useState<Message[]>(prompt);
+//   const [currentQuestion, setCurrentQuestion] = useState(0);
+
+//   // Game states
+//   const [hasStarted, setHasStarted] = useState(false);
+//   const [hasGuessed, setHasGuessed] = useState(false);
+//   const [playAgainFlag, setPlayAgainFlag] = useState(false);
+//   const [showPlayAgain, setShowPlayAgain] = useState(false);
+//   const [showTransition, setShowTransition] = useState(false);
+//   const [audioMuted, setAudioMuted] = useState(false);
+
+//   // AI response states
+//   const [aiResponse, setAiResponse] = useState("");
+//   const [showThinking, setShowThinking] = useState(false);
+//   const [thinkingText, setThinkingText] = useState("");
+
+//   //  User response states
+//   const [lastUserResponse, setLastUserResponse] = useState("");
+
+//   // State to manage icon animation for volume icon
+//   const [isVolumeBouncing, setIsVolumeBouncing] = useState(false);
+
+//   // State to track if we should allow Play HT API usage
+//   // UPDATE MAR 12 2025: Blocking Play HT (not paying for it anymore)
+//   const [blockPlayAPI, setBlockPlayAPI] = useState(true);
+
+//   // Function to Start the Game with Transition
+//   const startGame = async () => {
+//     if (!selectedCharacter) return;
+
+//     try {
+//       // Create new game and check if user can play
+//       const result =
+//         await actions.christmas21Questions.incrementGamesPlayed(userId);
+
+//       if (result.error) {
+//         console.error("Failed to start new game:", result.error);
+//         toast.error(`You've reached the maximum number of games allowed (10).`);
+//         return;
+//       }
+
+//       // Start game UI
+//       window.scrollTo({ top: 0, behavior: "smooth" });
+//       setShowTransition(true);
+//       setTimeout(() => {
+//         setHasStarted(true);
+//         setPlayAgainFlag(false);
+//         setCurrentQuestion(0);
+//         setConversation(prompt);
+//         setAiResponse("");
+//         getAiResponse(prompt);
+//       }, 500);
+//     } catch (error) {
+//       console.error("Error starting game:", error);
+//       toast.error("Unable to start game. Please try again later.");
+//     }
+//   };
+
+//   // ----- Handlers -----
+//   // 1. Select Character
+//   const handleCharacterSelect = (character: Character) => {
+//     setSelectedCharacter(character);
+//     setSelectedVoiceId(character.voiceId || selectedVoiceId);
+//   };
+
+//   // 3. Fetch AI Response
+//   const fetchAiResponse = async (msgs: Message[]) => {
+//     try {
+//       const res = await fetch("/api/chat", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ conversation: msgs }),
+//       });
+//       const data: GuessResponse = await res.json();
+//       return data;
+//     } catch (error) {
+//       console.error("fetchAiResponse error", error);
+//       return { success: false, message: "", error: String(error) };
+//     }
+//   };
+
+//   // 4. Handle User Response (Yes/No/Sort Of/Not Sure)
+//   const handleUserResponse = async (res: string) => {
+//     // Add user's answer to the conversation
+//     const updatedConv: Message[] = [
+//       ...conversation,
+//       { role: "user", content: res },
+//     ];
+
+//     setLastUserResponse(res);
+
+//     window.scrollTo({
+//       top: 0,
+//       behavior: "smooth",
+//     });
+
+//     // Now request AI's next question/guess
+//     await getAiResponse(updatedConv);
+//   };
+
+//   // 5. Request Next AI Question / Check Guess
+//   const getAiResponse = async (conv: Message[]) => {
+//     setShowThinking(true);
+//     const data = await fetchAiResponse(conv);
+
+//     if (!data.success) {
+//       setAiResponse("Something went wrong…");
+//       return;
+//     }
+
+//     const aiMsg = data.message || "";
+//     setAiResponse(aiMsg);
+
+//     // Push AI's new message into conversation
+//     const newConv: Message[] = [...conv, { role: "assistant", content: aiMsg }];
+//     setConversation(newConv);
+//     setCurrentQuestion((q) => q + 1);
+
+//     // Check if AI guessed the character
+//     if (aiMsg.toLowerCase().startsWith("i guess your character is")) {
+//       setHasGuessed(true);
+//     } else {
+//       // If we've hit 21 questions without a guess, end the game
+//       if (currentQuestion >= maxQuestions) {
+//         setAiResponse("You stumped me! Try again?");
+//       }
+//     }
+
+//     // Play whatever the AI says
+//     if (!blockPlayAPI) {
+//       // before we playText, let's check over the database
+//       const row = await getCharRowViaApi();
+
+//       if (row.charactersRemaining < 100) {
+//         // if we have no characters remaining, we need to mute
+//         setAudioMuted(true);
+//         setBlockPlayAPI(true);
+//       } else {
+//         if (!audioMuted) {
+//           // we still have characters remaining, call api to reduce character count
+//           const newRow = await reduceCount(aiMsg.length);
+//           await playText(aiMsg);
+//         }
+//       }
+//     }
+
+//     setShowThinking(false);
+//     setShowTransition(false);
+//   };
+
+//   // 6. Handle Guess Outcome
+//   const handleGuessOutcome = (correct: boolean) => {
+//     // If the guess was correct or not
+//     if (correct) {
+//       playAudio("voices/" + selectedCharacter.audioFolder + "/play-again.wav");
+//       if (selectedCharacter.audioFolder === "santa") {
+//         setAiResponse("Ho-ho-ho! I knew it! Want to play again?");
+//       } else if (selectedCharacter.audioFolder === "kevin") {
+//         setAiResponse("Yes! I win! Want to play again?");
+//       } else {
+//         setAiResponse("I knew I would get it. Do you want to play again?");
+//       }
+//     } else {
+//       playAudio("voices/" + selectedCharacter.audioFolder + "/stumped-me.wav");
+//       setAiResponse("You stumped me! Play again?");
+//     }
+//     setShowPlayAgain(true);
+//   };
+
+//   const handlePlayAgain = () => {
+//     setShowTransition(true);
+//     setTimeout(() => {
+//       setShowPlayAgain(false);
+//       setHasStarted(false);
+//       setHasGuessed(false);
+//       window.scrollTo({
+//         top: 0,
+//         behavior: "smooth",
+//       });
+//       setShowTransition(false);
+//     }, 500);
+//   };
+
+//   const getRandomPhrase = (responseText: string) => {
+//     if (responseText === "yes") {
+//       const response = responsesYes[Math.floor(Math.random() * 3)];
+
+//       // if we're not muted and the question is greater than 1
+//       if (currentQuestion != 0) {
+//         playAudio(
+//           "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
+//         );
+//       }
+//       return response.text;
+//     } else if (responseText === "no") {
+//       const response = responsesNo[Math.floor(Math.random() * 3)];
+//       // if we're not muted and the question is greater than 1
+//       if (currentQuestion != 0) {
+//         playAudio(
+//           "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
+//         );
+//       }
+//       return response.text;
+//     } else {
+//       const response = fillers[Math.floor(Math.random() * 3)];
+//       // if we're not muted and the question is greater than 1
+//       if (currentQuestion != 0) {
+//         playAudio(
+//           "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
+//         );
+//       }
+//       return response.text;
+//     }
+//   };
+
+//   // function to play audio only when not muted
+//   const playAudio = (source: string) => {
+//     if (!audioMuted) {
+//       new Audio("/audio/" + source).play();
+//     }
+//   };
+
+//   // Effect to handle the 5-second timeout
+//   useEffect(() => {
+//     let timer: NodeJS.Timeout;
+
+//     if (isVolumeBouncing) {
+//       timer = setTimeout(() => {
+//         setIsVolumeBouncing(false);
+//       }, 5000); // 5 seconds - Santa sample is 5 seconds, others are 4
+//     }
+
+//     // Cleanup the timer if the component unmounts before the timeout
+//     return () => {
+//       if (timer) clearTimeout(timer);
+//     };
+//   }, [isVolumeBouncing]);
+
+//   // useEffect to handle calling random phrase function
+//   useEffect(() => {
+//     if (showThinking) {
+//       const phrase = getRandomPhrase(lastUserResponse.toLocaleLowerCase());
+//       setThinkingText(phrase);
+//     }
+//   }, [showThinking, lastUserResponse]);
+
+//   // Click handler for the button
+//   const handleSampleClick = () => {
+//     // Play the audio
+//     const audio = new Audio(selectedCharacter.audioSampleSrc);
+//     audio.play().catch((error) => {
+//       console.error("Error playing audio:", error);
+//     });
+
+//     setIsVolumeBouncing(true);
+//   };
+
+//   // function to play the audio for each of the AI questions
+//   async function playText(text: string) {
+//     try {
+//       const response = await fetch(
+//         `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`,
+//       );
+//       if (!response.ok) {
+//         throw new Error("Failed to fetch audio");
+//       }
+//       const arrayBuffer = await response.arrayBuffer();
+//       const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
+//       const audioUrl = URL.createObjectURL(blob);
+//       const audio = new Audio(audioUrl);
+//       audio.play();
+//     } catch (error) {
+//       console.error("Error playing audio:", error);
+//     }
+//   }
+
+//   async function getCharRowViaApi() {
+//     const res = await fetch("/api/chars-remaining", { method: "POST" });
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch getCharRow");
+//     }
+//     const data = await res.json();
+//     return data.row;
+//   }
+
+//   async function reduceCount(promptAmount: number) {
+//     const response = await fetch("/api/reduce-db-char-count", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ promptAmount }),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error("Failed to reduceDbCharacterCount.");
+//     }
+
+//     const data = await response.json();
+
+//     return data.updatedRow;
+//   }
+
+//   // ----- Rendering -----
+//   return (
+//     <div className="relative rounded-3xl border-8 border-red-500 p-2 md:pb-4 md:px-4 md:m-10 min-h-[80vh] w-full max-w-4xl flex flex-col justify-evenly items-center overflow-hidden">
+//       {/** Background / Overlays */}
+//       {!hasStarted && <Snowfall />}
+//       <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg border-8 border-red-500 bg-[url('../blurry-xmas-bg.png')] filter blur"></div>
+//       <div className="absolute inset-0 bg-black bg-opacity-60 rounded-[16px]"></div>
+//       <AnimatePresence initial={false}>
+//         {showTransition ? (
+//           <motion.div
+//             initial={{ opacity: 0, scale: 0 }}
+//             animate={{ opacity: 1, scale: 1 }}
+//             exit={{ opacity: 0, scale: 0 }}
+//             className="absolute inset-0 w-full h-full rounded-lg bg-red-500 z-50"
+//             key="box"
+//           />
+//         ) : null}
+//       </AnimatePresence>
+
+//       <div className="relative w-full p-4 md:px-10 md:pb-10">
+//         {/** ----- HOME PAGE (Game not started) ----- */}
+//         {!hasStarted && !hasGuessed && (
+//           <div className="flex flex-col justify-center items-start w-full">
+//             <div className="flex flex-row items-end justify-end pb-4 w-full">
+//               {blockPlayAPI && (
+//                 <button className="hidden md:block" disabled>
+//                   <VolumeX className="size-6" />
+//                 </button>
+//               )}
+
+//               {!blockPlayAPI && audioMuted && (
+//                 <button
+//                   className="hover:scale-110 transition ease-in-out hidden md:block"
+//                   onClick={() => setAudioMuted(!audioMuted)}
+//                   disabled={blockPlayAPI}
+//                 >
+//                   <VolumeX className="size-6" />
+//                 </button>
+//               )}
+
+//               {!blockPlayAPI && !audioMuted && (
+//                 <button
+//                   className="hover:scale-110 transition ease-in-out hidden md:block"
+//                   onClick={() => setAudioMuted(!audioMuted)}
+//                   disabled={blockPlayAPI}
+//                 >
+//                   <Volume2 className="size-6" />
+//                 </button>
+//               )}
+//             </div>
+//             <div className="flex flex-row justify-between items-start">
+//               <h1 className="text-xl md:text-4xl mb-4 md:mb-10">
+//                 Welcome to{" "}
+//                 <span className="font-bold text-red-500">
+//                   The Adpharm's 21 Questions: Holiday Edition
+//                 </span>
+//               </h1>
+//               {blockPlayAPI && (
+//                 <button className="md:hidden" disabled>
+//                   <VolumeX className="size-6" />
+//                 </button>
+//               )}
+//               {!blockPlayAPI && audioMuted && (
+//                 <button
+//                   className="hover:scale-110 transition ease-in-out md:hidden"
+//                   onClick={() => setAudioMuted(!audioMuted)}
+//                 >
+//                   <VolumeX className="size-6" />
+//                 </button>
+//               )}
+//               {!blockPlayAPI && !audioMuted && (
+//                 <button
+//                   className="hover:scale-110 transition ease-in-out md:hidden"
+//                   onClick={() => setAudioMuted(!audioMuted)}
+//                 >
+//                   <Volume2 className="size-6" />
+//                 </button>
+//               )}
+//             </div>
+
+//             <div className="grid grid-cols-1 gap-4 md:text-lg mb-4 md:mb-10">
+//               <p>
+//                 Think of a character from any holiday movie, show, or book, and
+//                 let our AI try to guess who's on your mind in 21 questions or
+//                 fewer.
+//               </p>
+//               <p>
+//                 For an extra festive twist, choose between Santa, Kevin
+//                 McAllister, or The Grinch as your AI's voice.
+//               </p>
+//               <p>
+//                 Will the AI unwrap your character's identity, or will it remain
+//                 a holiday mystery? Let the merry guessing game begin!
+//               </p>
+//             </div>
+
+//             {/** Character Selection */}
+//             <div className="flex flex-col w-full justify-center items-center space-y-2">
+//               <div className="flex flex-row justify-center items-center space-x-2 mb-4 md:mb-12">
+//                 {characters.map((character) => (
+//                   <button
+//                     key={character.name}
+//                     onClick={() => handleCharacterSelect(character)}
+//                     className={`transform transition ease-in-out`}
+//                   >
+//                     <img
+//                       src={character.source}
+//                       alt={character.name}
+//                       className="w-24 hover:scale-110 transition ease-in-out"
+//                     />
+//                   </button>
+//                 ))}
+//               </div>
+
+//               {/** Showcase of Selected Character */}
+//               <div className="flex justify-center items-center translate-x-5 mb-10">
+//                 <div className="relative flex items-center">
+//                   <div className="flex flex-row justify-center items-center bg-red-500 py-6 px-4 pl-14 md:pl-24 rounded-md shadow-lg">
+//                     <span className="text-white font-bold text-lg md:text-2xl font-christmas mr-4">
+//                       {selectedCharacter.name}
+//                     </span>
+//                     <button
+//                       onClick={handleSampleClick}
+//                       disabled={isVolumeBouncing}
+//                       className="cursor-pointer disabled:cursor-not-allowed"
+//                     >
+//                       <Volume2
+//                         className={`transition-transform ${
+//                           isVolumeBouncing
+//                             ? "animate-slowBounce cursor-not-allowed"
+//                             : "hover:scale-110"
+//                         }`}
+//                       />
+//                     </button>
+//                   </div>
+//                   <div className="absolute left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center transition ease-in-out">
+//                     <img
+//                       src={selectedCharacter.source}
+//                       alt={selectedCharacter.name}
+//                       className="h-24 md:h-44"
+//                     />
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/** Start Game Button */}
+//             <div className="w-full text-center mt-10 md:mt-20">
+//               <button
+//                 className="relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-2xl md:text-4xl"
+//                 onClick={() => startGame()}
+//               >
+//                 <img
+//                   src="/santahat-btn.webp"
+//                   alt="Hat"
+//                   className="absolute
+//                     -top-[15px]
+//                     -left-[17px]
+//                     h-[44px]
+//                     drop-shadow-[0_2px_1px_rgba(0,0,0,0.25)]"
+//                 />
+//                 Start game
+//               </button>
+//             </div>
+//           </div>
+//         )}
+
+//         {/** ----- QUESTION/ANSWER PHASE (Game started, hasn't guessed yet) ----- */}
+//         {hasStarted && (
+//           <div className="w-full flex flex-col justify-center items-center">
+//             {/** Top controls */}
+//             <div className="flex flex-row justify-between items-center pb-6 w-full">
+//               <button className="hover:scale-110 transition ease-in-out ">
+//                 <House className="size-8" onClick={() => handlePlayAgain()} />
+//               </button>
+//               {blockPlayAPI && (
+//                 <CustomTooltip
+//                   // We pass our button as the 'preview' prop
+//                   preview={
+//                     <button className="opacity-50 cursor-not-allowed" disabled>
+//                       <VolumeX className="size-8" />
+//                     </button>
+//                   }
+//                   // hoverText="We are experiencing high usage. Character audio is currently disabled."
+//                   hoverText="Xmas 2024 is over, and character audio is currently disabled. Come back next year!"
+//                 />
+//               )}
+
+//               {!blockPlayAPI && (
+//                 <div>
+//                   {audioMuted && (
+//                     <button
+//                       className="hover:scale-110 transition ease-in-out"
+//                       onClick={() => setAudioMuted(!audioMuted)}
+//                       disabled={blockPlayAPI}
+//                     >
+//                       <VolumeX className="size-8" />
+//                     </button>
+//                   )}
+
+//                   {!audioMuted && (
+//                     <button
+//                       className="hover:scale-110 transition ease-in-out"
+//                       onClick={() => setAudioMuted(!audioMuted)}
+//                       disabled={blockPlayAPI}
+//                     >
+//                       <Volume2 className="size-8" />
+//                     </button>
+//                   )}
+//                 </div>
+//               )}
+//             </div>
+//             {/** Speech Bubble */}
+//             <div
+//               className="relative bg-white text-black rounded-full px-4 md:px-6 py-2 md:py-4 md:max-w-lg mb-6 min-h-28 md:min-h-40 flex items-center justify-center
+//                 after:content-[''] after:absolute after:bottom-[-10px] after:left-1/2 after:-translate-x-1/2 after:translate-y-2
+//                 after:border-[10px] after:border-transparent after:border-t-white"
+//             >
+//               {/* Show "Thinking..." while loading, otherwise show the AI's response */}
+//               <p
+//                 className={`text-center text-sm md:text-xl px-4 font-semibold transition ease-in-out font-speech break-words ${showThinking ? "animate-pulse" : ""}`}
+//               >
+//                 {showThinking ? thinkingText : aiResponse}
+//               </p>
+//             </div>
+
+//             {/** Character Graphic */}
+//             <div className="flex flex-col justify-center items-center">
+//               <div className="relative w-64 h-64 md:w-72 md:h-72 flex flex-col justify-center items-center transition ease-in-out">
+//                 <img
+//                   src={selectedCharacter.source}
+//                   alt={selectedCharacter.name}
+//                 />
+//                 <p className="font-christmas text-4xl text-red-500 mt-2">
+//                   {selectedCharacter.name}
+//                 </p>
+//               </div>
+//             </div>
+
+//             {/** Question Count */}
+//             <div className="mt-14 md:mt-24 flex items-start justify-start w-full md:px-52 mb-4">
+//               {!hasGuessed && (
+//                 <p className="text-white">
+//                   Question {currentQuestion} of {maxQuestions}
+//                 </p>
+//               )}
+//             </div>
+
+//             {/** Yes/No/Sort Of/Not Sure buttons */}
+//             {!hasGuessed && (
+//               <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
+//                 <button
+//                   disabled={showThinking}
+//                   onClick={() => handleUserResponse("Yes")}
+//                   className={`bg-green-700 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
+//                 >
+//                   Yes
+//                 </button>
+//                 <button
+//                   disabled={showThinking}
+//                   onClick={() => handleUserResponse("No")}
+//                   className={`bg-red-600 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
+//                 >
+//                   No
+//                 </button>
+//                 <button
+//                   disabled={showThinking}
+//                   onClick={() => handleUserResponse("Sort Of")}
+//                   className={`bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
+//                 >
+//                   Sort Of
+//                 </button>
+//                 <button
+//                   disabled={showThinking}
+//                   onClick={() => handleUserResponse("Not Sure")}
+//                   className={`bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
+//                 >
+//                   Not sure
+//                 </button>
+//               </div>
+//             )}
+
+//             {/** AI has made a guess. Display Correct/Incorrect buttons */}
+//             {hasGuessed && !showPlayAgain && (
+//               <div className="mt-10 flex space-x-6 w-full justify-center items-center">
+//                 <button
+//                   disabled={showThinking}
+//                   onClick={() => handleGuessOutcome(true)}
+//                   className={`bg-green-700 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "opacity-50 cursor-not-allowed" : ""}`}
+//                 >
+//                   Correct
+//                 </button>
+//                 <button
+//                   disabled={showThinking}
+//                   onClick={() => handleGuessOutcome(false)}
+//                   className={`bg-red-600 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "opacity-50 cursor-not-allowed" : ""}`}
+//                 >
+//                   Incorrect
+//                 </button>
+//               </div>
+//             )}
+//           </div>
+//         )}
+//         {/** Ask the user if they want to play again! */}
+//         {showPlayAgain && (
+//           <div className="mt-10 flex space-x-6 w-full justify-center items-center">
+//             <button
+//               className="relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-2xl md:text-4xl"
+//               onClick={() => handlePlayAgain()}
+//             >
+//               <img
+//                 src="/santahat-btn.webp"
+//                 alt="Hat"
+//                 className="absolute
+//                     -top-[15px]
+//                     -left-[17px]
+//                     h-[44px]
+//                     drop-shadow-[0_2px_1px_rgba(0,0,0,0.25)]"
+//               />
+//               Play Again
+//             </button>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default GameBoard;
+
 export function GameBoard({ userId }: { userId: number }) {
-  console.log("This is the actual userID: ", userId);
-
-  const [gameStatus, setGameStatus] = useState<GameStatus | null>(null);
-
-  useEffect(() => {
-    actions.christmas21Questions
-      .checkGamesRemaining({ userId })
-      .then((result) => {
-        if (!result.error && result.data) {
-          console.log("Games Played:", result.data.data.gamesPlayed);
-          console.log("Game Status:", result.data.data);
-          setGameStatus(result.data.data as GameStatus);
-        }
-      })
-      .catch(console.error);
-  }, [userId]);
-
-  const maxQuestions = 21;
-
-  const [selectedVoiceId, setSelectedVoiceId] = useState(
-    "s3://voice-cloning-zero-shot/e5b701f9-5b39-4d4a-a0dc-254956f607c0/original/manifest.json",
-  );
-  const [selectedCharacter, setSelectedCharacter] = useState<Character>(
-    characters[0],
-  );
-
-  // Conversation logic
-  const [conversation, setConversation] = useState<Message[]>(prompt);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-
-  // Game states
-  const [hasStarted, setHasStarted] = useState(false);
-  const [hasGuessed, setHasGuessed] = useState(false);
-  const [playAgainFlag, setPlayAgainFlag] = useState(false);
-  const [showPlayAgain, setShowPlayAgain] = useState(false);
-  const [showTransition, setShowTransition] = useState(false);
-  const [audioMuted, setAudioMuted] = useState(false);
-
-  // AI response states
-  const [aiResponse, setAiResponse] = useState("");
-  const [showThinking, setShowThinking] = useState(false);
-  const [thinkingText, setThinkingText] = useState("");
-
-  //  User response states
-  const [lastUserResponse, setLastUserResponse] = useState("");
-
-  // State to manage icon animation for volume icon
-  const [isVolumeBouncing, setIsVolumeBouncing] = useState(false);
-
-  // State to track if we should allow Play HT API usage
-  // UPDATE MAR 12 2025: Blocking Play HT (not paying for it anymore)
-  const [blockPlayAPI, setBlockPlayAPI] = useState(true);
-
-  // Function to Start the Game with Transition
-  const startGame = async () => {
-    if (!selectedCharacter) return;
-
-    try {
-      // Create new game and check if user can play
-      const result =
-        await actions.christmas21Questions.incrementGamesPlayed(userId);
-
-      if (result.error) {
-        console.error("Failed to start new game:", result.error);
-        toast.error(`You've reached the maximum number of games allowed (10).`);
-        return;
-      }
-
-      // Start game UI
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setShowTransition(true);
-      setTimeout(() => {
-        setHasStarted(true);
-        setPlayAgainFlag(false);
-        setCurrentQuestion(0);
-        setConversation(prompt);
-        setAiResponse("");
-        getAiResponse(prompt);
-      }, 500);
-    } catch (error) {
-      console.error("Error starting game:", error);
-      toast.error("Unable to start game. Please try again later.");
-    }
-  };
-
-  // ----- Handlers -----
-  // 1. Select Character
-  const handleCharacterSelect = (character: Character) => {
-    setSelectedCharacter(character);
-    setSelectedVoiceId(character.voiceId || selectedVoiceId);
-  };
-
-  // 3. Fetch AI Response
-  const fetchAiResponse = async (msgs: Message[]) => {
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ conversation: msgs }),
-      });
-      const data: GuessResponse = await res.json();
-      return data;
-    } catch (error) {
-      console.error("fetchAiResponse error", error);
-      return { success: false, message: "", error: String(error) };
-    }
-  };
-
-  // 4. Handle User Response (Yes/No/Sort Of/Not Sure)
-  const handleUserResponse = async (res: string) => {
-    // Add user's answer to the conversation
-    const updatedConv: Message[] = [
-      ...conversation,
-      { role: "user", content: res },
-    ];
-
-    setLastUserResponse(res);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
-    // Now request AI's next question/guess
-    await getAiResponse(updatedConv);
-  };
-
-  // 5. Request Next AI Question / Check Guess
-  const getAiResponse = async (conv: Message[]) => {
-    setShowThinking(true);
-    const data = await fetchAiResponse(conv);
-
-    if (!data.success) {
-      setAiResponse("Something went wrong…");
-      return;
-    }
-
-    const aiMsg = data.message || "";
-    setAiResponse(aiMsg);
-
-    // Push AI's new message into conversation
-    const newConv: Message[] = [...conv, { role: "assistant", content: aiMsg }];
-    setConversation(newConv);
-    setCurrentQuestion((q) => q + 1);
-
-    // Check if AI guessed the character
-    if (aiMsg.toLowerCase().startsWith("i guess your character is")) {
-      setHasGuessed(true);
-    } else {
-      // If we've hit 21 questions without a guess, end the game
-      if (currentQuestion >= maxQuestions) {
-        setAiResponse("You stumped me! Try again?");
-      }
-    }
-
-    // Play whatever the AI says
-    if (!blockPlayAPI) {
-      // before we playText, let's check over the database
-      const row = await getCharRowViaApi();
-
-      if (row.charactersRemaining < 100) {
-        // if we have no characters remaining, we need to mute
-        setAudioMuted(true);
-        setBlockPlayAPI(true);
-      } else {
-        if (!audioMuted) {
-          // we still have characters remaining, call api to reduce character count
-          const newRow = await reduceCount(aiMsg.length);
-          await playText(aiMsg);
-        }
-      }
-    }
-
-    setShowThinking(false);
-    setShowTransition(false);
-  };
-
-  // 6. Handle Guess Outcome
-  const handleGuessOutcome = (correct: boolean) => {
-    // If the guess was correct or not
-    if (correct) {
-      playAudio("voices/" + selectedCharacter.audioFolder + "/play-again.wav");
-      if (selectedCharacter.audioFolder === "santa") {
-        setAiResponse("Ho-ho-ho! I knew it! Want to play again?");
-      } else if (selectedCharacter.audioFolder === "kevin") {
-        setAiResponse("Yes! I win! Want to play again?");
-      } else {
-        setAiResponse("I knew I would get it. Do you want to play again?");
-      }
-    } else {
-      playAudio("voices/" + selectedCharacter.audioFolder + "/stumped-me.wav");
-      setAiResponse("You stumped me! Play again?");
-    }
-    setShowPlayAgain(true);
-  };
-
-  const handlePlayAgain = () => {
-    setShowTransition(true);
-    setTimeout(() => {
-      setShowPlayAgain(false);
-      setHasStarted(false);
-      setHasGuessed(false);
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-      setShowTransition(false);
-    }, 500);
-  };
-
-  const getRandomPhrase = (responseText: string) => {
-    if (responseText === "yes") {
-      const response = responsesYes[Math.floor(Math.random() * 3)];
-
-      // if we're not muted and the question is greater than 1
-      if (currentQuestion != 0) {
-        playAudio(
-          "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
-        );
-      }
-      return response.text;
-    } else if (responseText === "no") {
-      const response = responsesNo[Math.floor(Math.random() * 3)];
-      // if we're not muted and the question is greater than 1
-      if (currentQuestion != 0) {
-        playAudio(
-          "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
-        );
-      }
-      return response.text;
-    } else {
-      const response = fillers[Math.floor(Math.random() * 3)];
-      // if we're not muted and the question is greater than 1
-      if (currentQuestion != 0) {
-        playAudio(
-          "voices/" + selectedCharacter.audioFolder + "/" + response.fileName,
-        );
-      }
-      return response.text;
-    }
-  };
-
-  // function to play audio only when not muted
-  const playAudio = (source: string) => {
-    if (!audioMuted) {
-      new Audio("/audio/" + source).play();
-    }
-  };
-
-  // Effect to handle the 5-second timeout
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    if (isVolumeBouncing) {
-      timer = setTimeout(() => {
-        setIsVolumeBouncing(false);
-      }, 5000); // 5 seconds - Santa sample is 5 seconds, others are 4
-    }
-
-    // Cleanup the timer if the component unmounts before the timeout
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [isVolumeBouncing]);
-
-  // useEffect to handle calling random phrase function
-  useEffect(() => {
-    if (showThinking) {
-      const phrase = getRandomPhrase(lastUserResponse.toLocaleLowerCase());
-      setThinkingText(phrase);
-    }
-  }, [showThinking, lastUserResponse]);
-
-  // Click handler for the button
-  const handleSampleClick = () => {
-    // Play the audio
-    const audio = new Audio(selectedCharacter.audioSampleSrc);
-    audio.play().catch((error) => {
-      console.error("Error playing audio:", error);
-    });
-
-    setIsVolumeBouncing(true);
-  };
-
-  // function to play the audio for each of the AI questions
-  async function playText(text: string) {
-    try {
-      const response = await fetch(
-        `/api/text-to-speech?text=${encodeURIComponent(text)}&voiceId=${encodeURIComponent(selectedVoiceId)}`,
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch audio");
-      }
-      const arrayBuffer = await response.arrayBuffer();
-      const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-      const audioUrl = URL.createObjectURL(blob);
-      const audio = new Audio(audioUrl);
-      audio.play();
-    } catch (error) {
-      console.error("Error playing audio:", error);
-    }
-  }
-
-  async function getCharRowViaApi() {
-    const res = await fetch("/api/chars-remaining", { method: "POST" });
-    if (!res.ok) {
-      throw new Error("Failed to fetch getCharRow");
-    }
-    const data = await res.json();
-    return data.row;
-  }
-
-  async function reduceCount(promptAmount: number) {
-    const response = await fetch("/api/reduce-db-char-count", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ promptAmount }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to reduceDbCharacterCount.");
-    }
-
-    const data = await response.json();
-
-    return data.updatedRow;
-  }
-
   // ----- Rendering -----
   return (
     <div className="relative rounded-3xl border-8 border-red-500 p-2 md:pb-4 md:px-4 md:m-10 min-h-[80vh] w-full max-w-4xl flex flex-col justify-evenly items-center overflow-hidden">
       {/** Background / Overlays */}
-      {!hasStarted && <Snowfall />}
+      <Snowfall />
       <div className="absolute inset-0 bg-cover bg-center backdrop-blur-lg border-8 border-red-500 bg-[url('../blurry-xmas-bg.png')] filter blur"></div>
       <div className="absolute inset-0 bg-black bg-opacity-60 rounded-[16px]"></div>
-      <AnimatePresence initial={false}>
-        {showTransition ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            className="absolute inset-0 w-full h-full rounded-lg bg-red-500 z-50"
-            key="box"
-          />
-        ) : null}
-      </AnimatePresence>
 
       <div className="relative w-full p-4 md:px-10 md:pb-10">
         {/** ----- HOME PAGE (Game not started) ----- */}
-        {!hasStarted && !hasGuessed && (
-          <div className="flex flex-col justify-center items-start w-full">
-            <div className="flex flex-row items-end justify-end pb-4 w-full">
-              {blockPlayAPI && (
-                <button className="hidden md:block" disabled>
-                  <VolumeX className="size-6" />
-                </button>
-              )}
 
-              {!blockPlayAPI && audioMuted && (
-                <button
-                  className="hover:scale-110 transition ease-in-out hidden md:block"
-                  onClick={() => setAudioMuted(!audioMuted)}
-                  disabled={blockPlayAPI}
-                >
-                  <VolumeX className="size-6" />
-                </button>
-              )}
-
-              {!blockPlayAPI && !audioMuted && (
-                <button
-                  className="hover:scale-110 transition ease-in-out hidden md:block"
-                  onClick={() => setAudioMuted(!audioMuted)}
-                  disabled={blockPlayAPI}
-                >
-                  <Volume2 className="size-6" />
-                </button>
-              )}
-            </div>
-            <div className="flex flex-row justify-between items-start">
-              <h1 className="text-xl md:text-4xl mb-4 md:mb-10">
-                Welcome to{" "}
-                <span className="font-bold text-red-500">
-                  The Adpharm's 21 Questions: Holiday Edition
-                </span>
-              </h1>
-              {blockPlayAPI && (
-                <button className="md:hidden" disabled>
-                  <VolumeX className="size-6" />
-                </button>
-              )}
-              {!blockPlayAPI && audioMuted && (
-                <button
-                  className="hover:scale-110 transition ease-in-out md:hidden"
-                  onClick={() => setAudioMuted(!audioMuted)}
-                >
-                  <VolumeX className="size-6" />
-                </button>
-              )}
-              {!blockPlayAPI && !audioMuted && (
-                <button
-                  className="hover:scale-110 transition ease-in-out md:hidden"
-                  onClick={() => setAudioMuted(!audioMuted)}
-                >
-                  <Volume2 className="size-6" />
-                </button>
-              )}
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 md:text-lg mb-4 md:mb-10">
-              <p>
-                Think of a character from any holiday movie, show, or book, and
-                let our AI try to guess who's on your mind in 21 questions or
-                fewer.
-              </p>
-              <p>
-                For an extra festive twist, choose between Santa, Kevin
-                McAllister, or The Grinch as your AI's voice.
-              </p>
-              <p>
-                Will the AI unwrap your character's identity, or will it remain
-                a holiday mystery? Let the merry guessing game begin!
-              </p>
-            </div>
-
-            {/** Character Selection */}
-            <div className="flex flex-col w-full justify-center items-center space-y-2">
-              <div className="flex flex-row justify-center items-center space-x-2 mb-4 md:mb-12">
-                {characters.map((character) => (
-                  <button
-                    key={character.name}
-                    onClick={() => handleCharacterSelect(character)}
-                    className={`transform transition ease-in-out`}
-                  >
-                    <img
-                      src={character.source}
-                      alt={character.name}
-                      className="w-24 hover:scale-110 transition ease-in-out"
-                    />
-                  </button>
-                ))}
-              </div>
-
-              {/** Showcase of Selected Character */}
-              <div className="flex justify-center items-center translate-x-5 mb-10">
-                <div className="relative flex items-center">
-                  <div className="flex flex-row justify-center items-center bg-red-500 py-6 px-4 pl-14 md:pl-24 rounded-md shadow-lg">
-                    <span className="text-white font-bold text-lg md:text-2xl font-christmas mr-4">
-                      {selectedCharacter.name}
-                    </span>
-                    <button
-                      onClick={handleSampleClick}
-                      disabled={isVolumeBouncing}
-                      className="cursor-pointer disabled:cursor-not-allowed"
-                    >
-                      <Volume2
-                        className={`transition-transform ${
-                          isVolumeBouncing
-                            ? "animate-slowBounce cursor-not-allowed"
-                            : "hover:scale-110"
-                        }`}
-                      />
-                    </button>
-                  </div>
-                  <div className="absolute left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center transition ease-in-out">
-                    <img
-                      src={selectedCharacter.source}
-                      alt={selectedCharacter.name}
-                      className="h-24 md:h-44"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/** Start Game Button */}
-            <div className="w-full text-center mt-10 md:mt-20">
-              <button
-                className="relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-2xl md:text-4xl"
-                onClick={() => startGame()}
-              >
-                <img
-                  src="/santahat-btn.webp"
-                  alt="Hat"
-                  className="absolute
-                    -top-[15px]
-                    -left-[17px]
-                    h-[44px]
-                    drop-shadow-[0_2px_1px_rgba(0,0,0,0.25)]"
-                />
-                Start game
-              </button>
-            </div>
+        <div className="flex flex-col justify-center items-start w-full">
+          <div className="flex flex-row items-end justify-end pb-4 w-full"></div>
+          <div className="flex flex-row justify-between items-start">
+            <h1 className="text-xl md:text-4xl mb-4 md:mb-10">
+              Thanks for playing{" "}
+              <span className="font-bold text-red-500">
+                The Adpharm's 21 Questions: Holiday Edition
+              </span>
+            </h1>
           </div>
-        )}
 
-        {/** ----- QUESTION/ANSWER PHASE (Game started, hasn't guessed yet) ----- */}
-        {hasStarted && (
-          <div className="w-full flex flex-col justify-center items-center">
-            {/** Top controls */}
-            <div className="flex flex-row justify-between items-center pb-6 w-full">
-              <button className="hover:scale-110 transition ease-in-out ">
-                <House className="size-8" onClick={() => handlePlayAgain()} />
-              </button>
-              {blockPlayAPI && (
-                <CustomTooltip
-                  // We pass our button as the 'preview' prop
-                  preview={
-                    <button className="opacity-50 cursor-not-allowed" disabled>
-                      <VolumeX className="size-8" />
-                    </button>
-                  }
-                  // hoverText="We are experiencing high usage. Character audio is currently disabled."
-                  hoverText="Xmas 2024 is over, and character audio is currently disabled. Come back next year!"
-                />
-              )}
-
-              {!blockPlayAPI && (
-                <div>
-                  {audioMuted && (
-                    <button
-                      className="hover:scale-110 transition ease-in-out"
-                      onClick={() => setAudioMuted(!audioMuted)}
-                      disabled={blockPlayAPI}
-                    >
-                      <VolumeX className="size-8" />
-                    </button>
-                  )}
-
-                  {!audioMuted && (
-                    <button
-                      className="hover:scale-110 transition ease-in-out"
-                      onClick={() => setAudioMuted(!audioMuted)}
-                      disabled={blockPlayAPI}
-                    >
-                      <Volume2 className="size-8" />
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-            {/** Speech Bubble */}
-            <div
-              className="relative bg-white text-black rounded-full px-4 md:px-6 py-2 md:py-4 md:max-w-lg mb-6 min-h-28 md:min-h-40 flex items-center justify-center
-                after:content-[''] after:absolute after:bottom-[-10px] after:left-1/2 after:-translate-x-1/2 after:translate-y-2
-                after:border-[10px] after:border-transparent after:border-t-white"
-            >
-              {/* Show "Thinking..." while loading, otherwise show the AI's response */}
-              <p
-                className={`text-center text-sm md:text-xl px-4 font-semibold transition ease-in-out font-speech break-words ${showThinking ? "animate-pulse" : ""}`}
-              >
-                {showThinking ? thinkingText : aiResponse}
-              </p>
-            </div>
-
-            {/** Character Graphic */}
-            <div className="flex flex-col justify-center items-center">
-              <div className="relative w-64 h-64 md:w-72 md:h-72 flex flex-col justify-center items-center transition ease-in-out">
-                <img
-                  src={selectedCharacter.source}
-                  alt={selectedCharacter.name}
-                />
-                <p className="font-christmas text-4xl text-red-500 mt-2">
-                  {selectedCharacter.name}
-                </p>
-              </div>
-            </div>
-
-            {/** Question Count */}
-            <div className="mt-14 md:mt-24 flex items-start justify-start w-full md:px-52 mb-4">
-              {!hasGuessed && (
-                <p className="text-white">
-                  Question {currentQuestion} of {maxQuestions}
-                </p>
-              )}
-            </div>
-
-            {/** Yes/No/Sort Of/Not Sure buttons */}
-            {!hasGuessed && (
-              <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
-                <button
-                  disabled={showThinking}
-                  onClick={() => handleUserResponse("Yes")}
-                  className={`bg-green-700 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
-                >
-                  Yes
-                </button>
-                <button
-                  disabled={showThinking}
-                  onClick={() => handleUserResponse("No")}
-                  className={`bg-red-600 rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
-                >
-                  No
-                </button>
-                <button
-                  disabled={showThinking}
-                  onClick={() => handleUserResponse("Sort Of")}
-                  className={`bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
-                >
-                  Sort Of
-                </button>
-                <button
-                  disabled={showThinking}
-                  onClick={() => handleUserResponse("Not Sure")}
-                  className={`bg-amber-500 text-black rounded-xl w-full md:w-auto md:px-12 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "cursor-not-allowed opacity-50" : ""}`}
-                >
-                  Not sure
-                </button>
-              </div>
-            )}
-
-            {/** AI has made a guess. Display Correct/Incorrect buttons */}
-            {hasGuessed && !showPlayAgain && (
-              <div className="mt-10 flex space-x-6 w-full justify-center items-center">
-                <button
-                  disabled={showThinking}
-                  onClick={() => handleGuessOutcome(true)}
-                  className={`bg-green-700 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "opacity-50 cursor-not-allowed" : ""}`}
-                >
-                  Correct
-                </button>
-                <button
-                  disabled={showThinking}
-                  onClick={() => handleGuessOutcome(false)}
-                  className={`bg-red-600 rounded-xl w-full max-w-44 py-4 text-2xl font-christmas hover:scale-105 border-2 border-white transition ease-in-out ${showThinking ? "opacity-50 cursor-not-allowed" : ""}`}
-                >
-                  Incorrect
-                </button>
-              </div>
-            )}
+          <div className="grid grid-cols-1 gap-4 md:text-lg mb-4 md:mb-10">
+            <p>Come back next year for another festive surprise!</p>
           </div>
-        )}
-        {/** Ask the user if they want to play again! */}
-        {showPlayAgain && (
-          <div className="mt-10 flex space-x-6 w-full justify-center items-center">
-            <button
-              className="relative border border-transparent rounded-md px-6 py-4 bg-red-500 hover:bg-red-400 text-white font-christmas text-2xl md:text-4xl"
-              onClick={() => handlePlayAgain()}
-            >
-              <img
-                src="/santahat-btn.webp"
-                alt="Hat"
-                className="absolute
-                    -top-[15px]
-                    -left-[17px]
-                    h-[44px]
-                    drop-shadow-[0_2px_1px_rgba(0,0,0,0.25)]"
-              />
-              Play Again
-            </button>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
