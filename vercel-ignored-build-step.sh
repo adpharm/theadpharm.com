@@ -9,7 +9,7 @@ if [[ $VERCEL_ENV == "production" ]]; then
 fi
 
 # If the branch name starts with  "feature/" or "preview/", continue
-if [[ $VERCEL_GIT_COMMIT_REF == feature/* || $VERCEL_GIT_COMMIT_REF == preview/* ]]; then
+if [[ $VERCEL_GIT_COMMIT_REF == feature/* || $VERCEL_GIT_COMMIT_REF == preview/main ]]; then
   exit 1
 fi
 
