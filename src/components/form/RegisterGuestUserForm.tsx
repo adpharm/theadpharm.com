@@ -72,7 +72,6 @@ export function RegisterGuestUserForm({ gameType }: RegisterGuestUserFormProps) 
 
       // create a new plinko game and navigate to the game OR create the 21 questions game
       { gameType === "plinko" ? await newPlinkoGame() : await new21QuestionsGame() }
-      // await newPlinkoGame();
     },
     (err) => logError("RHF Error", err),
   );
