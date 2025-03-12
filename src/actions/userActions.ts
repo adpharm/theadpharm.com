@@ -9,6 +9,7 @@ import {
 import {
   createFullUserSchema,
   createGuestUserSchema,
+  createGuestUser21QuestionsSchema,
   signInUserSchema,
 } from "@/lib/zod.schema";
 
@@ -38,6 +39,23 @@ export const user = {
 
       // log the user in
       await startUserSession(user, context);
+    },
+  }),
+
+  /**
+   * For registering a new user (guest) for 21 questions game only
+   */
+  createGuestUserAndSignIn21Questions: defineAction({
+    input: createGuestUser21QuestionsSchema, // important: using the guest schema
+    handler: async (inputData, context) => {
+      // create the user
+      const christmas21QuestionsUsers = await createUser(
+        inputData,
+        context,
+      );
+
+      // log the user in
+      await startUserSession(christmas21QuestionsUsers, context);
     },
   }),
 

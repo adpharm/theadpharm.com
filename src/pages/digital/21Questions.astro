@@ -13,6 +13,12 @@ import {
   ChevronRightCircle,
 } from "lucide-react";
 import { GameBoard } from "@/components/21QuestionsBoard";
+import { RegisterGuestUserDialog } from "@/components/dialog/RegisterDialog";
+import { getUserFor21Questions } from "@/lib/server/auth.utils";
+
+const user = getUserFor21Questions(Astro);
+
+const userId = user ? user.id : null;
 
 // const perplexity = createOpenAI({
 //   name: "perplexity",
@@ -39,7 +45,7 @@ import { GameBoard } from "@/components/21QuestionsBoard";
             class="ml-2 hover:underline">Adpharm's 21 Questions</a
           >
         </div> -->
-        <GameBoard client:load />
+        <GameBoard userId={userId ?? 0} client:load />
       </div>
     </Section>
 
@@ -132,3 +138,9 @@ import { GameBoard } from "@/components/21QuestionsBoard";
     </Section>
   </main>
 </DefaultSiteLayout>
+
+<!-- <RegisterGuestUserDialog
+  client:load
+  open={user === null || Astro.locals.session === null}
+  gameType="21Questions"
+/> -->

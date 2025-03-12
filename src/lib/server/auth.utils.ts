@@ -26,6 +26,19 @@ export function getUser(
   return context.locals.user;
 }
 
+export function getUserFor21Questions(context: AstroGlobal) {
+  if (context.locals.session === null || context.locals.user === null) {
+    return null;
+  }
+
+  return {
+    id: context.locals.user.id,
+    username: context.locals.user.username,
+    password_hash: context.locals.user.password_hash,
+    numberOfGamesPlayed: 0,
+  };
+}
+
 /**
  *
  * TODO:

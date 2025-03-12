@@ -33,6 +33,7 @@ export const createFullUserSchema = z
     password2: z.string(),
     firstName: firstNameSchema,
     lastName: lastNameSchema,
+    numberOfGamesPlayed: z.number().int().default(0),
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.password2) {
@@ -50,6 +51,13 @@ export const createGuestUserSchema = z.object({
   password: passwordSchema.optional(),
   firstName: firstNameSchema.optional(),
   lastName: lastNameSchema.optional(),
+  numberOfGamesPlayed: z.number().int().default(0),
+});
+
+export const createGuestUser21QuestionsSchema = z.object({
+  username: usernameSchema,
+  password: passwordSchema.optional(),
+  numberOfGamesPlayed: z.number().int().default(0),
 });
 
 export const signInUserSchema = z.object({

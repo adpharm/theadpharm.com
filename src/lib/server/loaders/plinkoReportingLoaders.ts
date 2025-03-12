@@ -27,7 +27,7 @@ export async function listLeaderboardGames() {
     .from(tablePlinkoGames)
     .where(gt(tablePlinkoGames.score, 0))
     .innerJoin(tableUsers, eq(tablePlinkoGames.user_id, tableUsers.id))
-    .orderBy(desc(tablePlinkoGames.score))
+    .orderBy(desc(tablePlinkoGames.score));
 
   $leaderboard.set(allLeaderboard);
 }
@@ -45,10 +45,11 @@ export async function getAllScores() {
 
 export async function getUniqueUsers() {
   const allUsers = await db
-    .select({
+    .selectDistinct({ //get unique user IDs
       user: tableUsers,
     })
-    .from(tableUsers);
+    .from(tableUsers)
+    .innerJoin(tablePlinkoGames, eq(tableUsers.id, tablePlinkoGames.user_id));
 
   $allUsers.set(allUsers.map((u) => u.user));
 }
