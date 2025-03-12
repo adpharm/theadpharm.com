@@ -168,17 +168,17 @@ export function GameBoard({ userId }: { userId: number }) {
   const [gameStatus, setGameStatus] = useState<GameStatus | null>(null);
 
   useEffect(() => {
-    actions.christmas21Questions.checkGamesRemaining({ userId })
-      .then(result => {
+    actions.christmas21Questions
+      .checkGamesRemaining({ userId })
+      .then((result) => {
         if (!result.error && result.data) {
-          console.log('Games Played:', result.data.data.gamesPlayed);
-          console.log('Game Status:', result.data.data);
+          console.log("Games Played:", result.data.data.gamesPlayed);
+          console.log("Game Status:", result.data.data);
           setGameStatus(result.data.data as GameStatus);
         }
       })
       .catch(console.error);
   }, [userId]);
-
 
   const maxQuestions = 21;
 
@@ -213,7 +213,8 @@ export function GameBoard({ userId }: { userId: number }) {
   const [isVolumeBouncing, setIsVolumeBouncing] = useState(false);
 
   // State to track if we should allow Play HT API usage
-  const [blockPlayAPI, setBlockPlayAPI] = useState(false);
+  // UPDATE MAR 12 2025: Blocking Play HT (not paying for it anymore)
+  const [blockPlayAPI, setBlockPlayAPI] = useState(true);
 
   // Function to Start the Game with Transition
   const startGame = async () => {
@@ -221,7 +222,8 @@ export function GameBoard({ userId }: { userId: number }) {
 
     try {
       // Create new game and check if user can play
-      const result = await actions.christmas21Questions.incrementGamesPlayed(userId);
+      const result =
+        await actions.christmas21Questions.incrementGamesPlayed(userId);
 
       if (result.error) {
         console.error("Failed to start new game:", result.error);
@@ -245,7 +247,6 @@ export function GameBoard({ userId }: { userId: number }) {
       toast.error("Unable to start game. Please try again later.");
     }
   };
-
 
   // ----- Handlers -----
   // 1. Select Character
@@ -617,10 +618,11 @@ export function GameBoard({ userId }: { userId: number }) {
                       className="cursor-pointer disabled:cursor-not-allowed"
                     >
                       <Volume2
-                        className={`transition-transform ${isVolumeBouncing
+                        className={`transition-transform ${
+                          isVolumeBouncing
                             ? "animate-slowBounce cursor-not-allowed"
                             : "hover:scale-110"
-                          }`}
+                        }`}
                       />
                     </button>
                   </div>
@@ -672,7 +674,8 @@ export function GameBoard({ userId }: { userId: number }) {
                       <VolumeX className="size-8" />
                     </button>
                   }
-                  hoverText="We are experiencing high usage. Character audio is currently disabled."
+                  // hoverText="We are experiencing high usage. Character audio is currently disabled."
+                  hoverText="Xmas 2024 is over, and character audio is currently disabled. Come back next year!"
                 />
               )}
 
