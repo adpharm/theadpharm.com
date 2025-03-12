@@ -10,7 +10,7 @@ fi
 
 # If the branch name starts with  "feature/" or "preview/", continue
 if [[ $VERCEL_GIT_COMMIT_REF =~ ^(feature|preview)/ ]]; then
-  exit 1
+  exit 0
 fi
 
 # Otherwise, do not build
