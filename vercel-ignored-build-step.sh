@@ -14,4 +14,4 @@ if [[ $VERCEL_GIT_COMMIT_REF =~ ^(feature|preview)/ ]]; then
 fi
 
 # Otherwise, do not build
-exit 1
+exit 0
