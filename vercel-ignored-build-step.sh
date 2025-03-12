@@ -9,9 +9,9 @@ if [[ $VERCEL_ENV == "production" ]]; then
 fi
 
 # If the branch name starts with  "feature/" or "preview/", continue
-if [[ $VERCEL_GIT_COMMIT_REF == feature/* || $VERCEL_GIT_COMMIT_REF == preview/main ]]; then
+if [[ $VERCEL_GIT_COMMIT_REF =~ ^(feature|preview)/ ]]; then
   exit 1
 fi
 
 # Otherwise, do not build
-exit 0
+exit 1
