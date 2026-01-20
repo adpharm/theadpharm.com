@@ -16,7 +16,7 @@ export function AboutSection() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="text-[#FF6B35] tracking-[0.3em] uppercase text-xs">About Us</span>
+          <span className="text-orange-400 tracking-[0.3em] uppercase text-xs">About Us</span>
           <div className="h-px w-32 bg-white/20 mt-4" />
         </motion.div>
 
@@ -31,12 +31,12 @@ export function AboutSection() {
               excellence and unwavering medical accuracy. We are architects of communication, building trust between
               science and humanity.
             </p>
-            <div className="flex gap-4 text-sm text-white/40 mt-8">
-              <div className="border-l-2 border-[#FF6B35] pl-4">
+            <div className="flex gap-8 text-sm text-white/40 mt-8">
+              <div className="border-l-2 border-orange-400 pl-4">
                 <div className="text-white text-2xl">20+</div>
                 <div>Years Experience</div>
               </div>
-              <div className="border-l-2 border-white/20 pl-4">
+              <div className="border-l-2 border-orange-400 pl-4">
                 <div className="text-white text-2xl">100+</div>
                 <div>Successful Campaigns</div>
               </div>

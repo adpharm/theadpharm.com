@@ -161,6 +161,10 @@ body {
   h6 {
     font-family: "Space Grotesk Variable", sans-serif;
   }
+
+  .font-display {
+    font-family: "Space Grotesk Variable", sans-serif;
+  }
 }
 
 /* Glowing Box Animations - Rotating Conic Gradient Border */
