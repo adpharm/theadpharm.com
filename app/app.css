@@ -22,7 +22,31 @@
 }
 
 :root {
+  /* Base colors */
   --bg-base: #121212;
+  --bg-darker: #0A0A0A;
+  --bg-black: #000000;
+  --white: #ffffff;
+  
+  /* Brand colors */
+  --accent-primary: #FF6B35;
+  
+  /* Chart colors */
+  --chart-slate: #4A5568;
+  --chart-red: #DC2626;
+  --chart-amber: #D97706;
+  --chart-purple: #8B5CF6;
+  --chart-sky: #0EA5E9;
+  --chart-emerald: #10B981;
+  --chart-pink: #EC4899;
+  --chart-indigo: #6366F1;
+  --chart-blue: #8884d8;
+  
+  /* Google brand colors */
+  --google-blue: #4285F4;
+  --google-green: #34A853;
+  --google-yellow: #FBBC05;
+  --google-red: #EB4335;
 }
 
 html,
@@ -195,7 +219,7 @@ body {
   background-repeat: no-repeat;
   background-position: 0 0;
   /* Conic gradient with orange accent color */
-  background-image: conic-gradient(rgba(0, 0, 0, 0), #ff6b35, rgba(0, 0, 0, 0) 25%);
+  background-image: conic-gradient(rgba(0, 0, 0, 0), var(--accent-primary), rgba(0, 0, 0, 0) 25%);
   /* Rotation speed */
   animation: rotate-border 4s linear infinite;
 }
@@ -203,5 +227,28 @@ body {
 @keyframes rotate-border {
   100% {
     transform: translate(-50%, -50%) rotate(1turn);
+  }
+}
+
+/* Mobile glow effect - only active on touch devices or small screens */
+@media (hover: none) or (max-width: 1024px) {
+  /* On mobile, disable hover effects and use mobile-glow-active class instead */
+  .group:hover .animated-border-glow,
+  .group:hover .animated-border {
+    opacity: 0 !important;
+  }
+  
+  .group:hover .border-white\/10,
+  .group:hover [class*="border border-white/10"] {
+    opacity: 1 !important;
+  }
+  
+  /* Mobile glow active state */
+  .mobile-glow-active .animated-border-glow {
+    opacity: 0.6;
+  }
+  
+  .mobile-glow-active .animated-border {
+    opacity: 1;
   }
 }

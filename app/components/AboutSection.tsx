@@ -54,15 +54,15 @@ export function AboutSection() {
             </p>
             <div className="space-y-2 text-sm text-white/40 mt-8">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-[#FF6B35]" />
+                <div className="w-2 h-2 bg-[var(--accent-primary)]" />
                 <span>Canadian Heritage & Global Reach</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-[#FF6B35]" />
+                <div className="w-2 h-2 bg-[var(--accent-primary)]" />
                 <span>Medical & Creative Integration</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-[#FF6B35]" />
+                <div className="w-2 h-2 bg-[var(--accent-primary)]" />
                 <span>Evidence-Based Innovation</span>
               </div>
             </div>

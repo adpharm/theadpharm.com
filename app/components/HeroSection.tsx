@@ -1,7 +1,22 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { StyledButton } from "./StyledButton";
+import { useEffect, useState } from "react";
 
 export function HeroSection() {
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setHasScrolled(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-white/10">
       {/* Background geometric elements */}
@@ -37,19 +52,13 @@ export function HeroSection() {
               </h1>
             </div>
 
-            <div className="border-l-2 border-[#FF6B35] pl-6 py-2">
+            <div className="border-l-2 border-[var(--accent-primary)] pl-6 py-2">
               <p className="text-white/70 text-lg max-w-md leading-relaxed">
                 Proven Canadian partner, 20+ years in pharma, with integrated creative + medical expertise.
               </p>
             </div>
 
-            <motion.button
-              whileHover={{ x: 10 }}
-              className="group flex items-center gap-3 text-white border border-white/20 px-8 py-4 hover:border-[#FF6B35] hover:bg-[#FF6B35]/10 transition-all duration-300"
-            >
-              <span className="tracking-widest uppercase text-sm">Discover More</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+            <StyledButton icon={ArrowRight}>Discover More</StyledButton>
           </motion.div>
 
           {/* Right: Abstract 3D element placeholder */}
@@ -59,15 +68,15 @@ export function HeroSection() {
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
+        animate={{ opacity: hasScrolled ? 0 : 1 }}
+        transition={{ duration: hasScrolled ? 0.5 : 1, delay: hasScrolled ? 0 : 1.5 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-px h-16 bg-gradient-to-b from-[#FF6B35] to-transparent"
+          className="w-px h-16 bg-gradient-to-b from-[var(--accent-primary)] to-transparent"
         />
       </motion.div>
 
@@ -114,7 +123,7 @@ export function HeroSection() {
             }}
             className="w-80 h-80 border border-white/10 rounded-full relative"
           >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#FF6B35] rounded-full" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[var(--accent-primary)] rounded-full" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-white/20 rounded-full" />
           </motion.div>
 
@@ -127,13 +136,13 @@ export function HeroSection() {
               repeat: Infinity,
               ease: "linear",
             }}
-            className="absolute w-60 h-60 border border-[#FF6B35]/30 rounded-full"
+            className="absolute w-60 h-60 border border-[var(--accent-primary)]/30 rounded-full"
           >
-            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-1 h-1 bg-[#FF6B35] rounded-full" />
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-1 h-1 bg-[#FF6B35] rounded-full" />
+            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-1 h-1 bg-[var(--accent-primary)] rounded-full" />
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-1 h-1 bg-[var(--accent-primary)] rounded-full" />
           </motion.div>
 
-          <div className="absolute w-40 h-40 bg-gradient-to-br from-[#FF6B35]/10 to-transparent rounded-full blur-xl" />
+          <div className="absolute w-40 h-40 bg-gradient-to-br from-[var(--accent-primary)]/10 to-transparent rounded-full blur-xl" />
         </div>
       </motion.div>
     </section>

@@ -30,18 +30,14 @@ export function HeroCircles() {
     },
     {
       radius: 280,
-      dots: [
-        { color: "gray", angle: 45 },
-      ],
+      dots: [{ color: "gray", angle: 45 }],
       clockwise: false,
       top: "20%",
       left: "20%",
     },
     {
       radius: 350,
-      dots: [
-        { color: "Orange-400", angle: 90 },
-      ],
+      dots: [{ color: "Orange-400", angle: 90 }],
       clockwise: false,
       top: "35%",
       left: "50%",
@@ -71,11 +67,7 @@ export function HeroCircles() {
               cy={circle.radius}
               r={circle.radius - 1}
               fill="none"
-              stroke={
-                circle.strokeColor
-                  ? `oklch(var(--color-${circle.strokeColor}))`
-                  : "rgba(255, 255, 255, 0.1)"
-              }
+              stroke={circle.strokeColor ? `oklch(var(--color-${circle.strokeColor}))` : "rgba(255, 255, 255, 0.1)"}
               strokeWidth="1"
             />
           </svg>
@@ -83,7 +75,7 @@ export function HeroCircles() {
           {/* Orbiting dots */}
           {circle.dots.map((dot, dotIndex) => {
             const duration = 15 + circleIndex * 3; // Vary speed per circle
-            
+
             return (
               <motion.div
                 key={dotIndex}
@@ -108,15 +100,10 @@ export function HeroCircles() {
                     width: "12px",
                     height: "12px",
                     backgroundColor:
-                      dot.color === "gray"
-                        ? "rgba(255, 255, 255, 0.4)"
-                        : `oklch(var(--color-${dot.color}))`,
+                      dot.color === "gray" ? "rgba(255, 255, 255, 0.4)" : `oklch(var(--color-${dot.color}))`,
                     top: `${-circle.radius}px`,
                     left: "-6px",
-                    boxShadow:
-                      dot.color !== "gray"
-                        ? `0 0 20px oklch(var(--color-${dot.color}))`
-                        : "none",
+                    boxShadow: dot.color !== "gray" ? `0 0 20px oklch(var(--color-${dot.color}))` : "none",
                   }}
                 />
               </motion.div>
@@ -127,5 +114,3 @@ export function HeroCircles() {
     </div>
   );
 }
-
-
