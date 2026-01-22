@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { StyledButton } from "./StyledButton";
 import { useEffect, useState } from "react";
 
@@ -53,7 +53,7 @@ export function HeroSection() {
             </div>
 
             <div className="border-l-2 border-[var(--accent-primary)] pl-6 py-2">
-              <p className="text-white/70 text-lg max-w-md leading-relaxed">
+              <p className="text-white/70 text-lg max-w-md leading-snug lg:leading-relaxed">
                 Proven Canadian partner, 20+ years in pharma, with integrated creative + medical expertise.
               </p>
             </div>
@@ -74,12 +74,14 @@ export function HeroSection() {
         transition={{ duration: hasScrolled ? 0.5 : 1, delay: hasScrolled ? 0 : 1.5 }}
         className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
       >
-        <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
-        <motion.div
+        <span className="text-white/40 text-xs tracking-widest uppercase flex items-center gap-2">
+          Scroll <ArrowDown className="animate-bounce w-4 h-4 text-[var(--accent-primary)]" />{" "}
+        </span>
+        {/* <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
           className="w-px h-12 md:h-16 bg-gradient-to-b from-[var(--accent-primary)] to-transparent"
-        />
+        /> */}
       </motion.div>
 
       <div className="absolute inset-0">

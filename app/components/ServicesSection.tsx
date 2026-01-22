@@ -9,7 +9,7 @@ export function ServicesSection() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 border-b border-white/10">
+    <section ref={ref} className="relative py-12 lg:py-32 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

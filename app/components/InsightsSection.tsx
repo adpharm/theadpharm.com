@@ -79,12 +79,12 @@ export function InsightsSection() {
       const currentHeight = containerRef.current.offsetHeight;
       setContainerHeight(currentHeight);
       setIsTransitioning(true);
-      
+
       // If switching from grid to stack view, scroll to insights section like the nav does
       if (isGridView) {
-        const insightsElement = document.getElementById('insights');
+        const insightsElement = document.getElementById("insights");
         if (insightsElement) {
-          insightsElement.scrollIntoView({ behavior: 'smooth' });
+          insightsElement.scrollIntoView({ behavior: "smooth" });
         }
       }
     }
@@ -159,7 +159,7 @@ export function InsightsSection() {
   };
 
   return (
-    <section ref={ref} className="relative py-32 border-b border-white/10">
+    <section ref={ref} className="relative py-12 lg:py-32 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -297,7 +297,9 @@ export function InsightsSection() {
         />
 
         {/* Card Modal */}
-        {modalCard !== null && <InsightModal insight={insights[modalCard]} index={modalCard} onClose={closeModal} />}
+        <AnimatePresence>
+          {modalCard !== null && <InsightModal insight={insights[modalCard]} index={modalCard} onClose={closeModal} />}
+        </AnimatePresence>
 
         {/* Pull Quote / Editorial Element */}
         <motion.div

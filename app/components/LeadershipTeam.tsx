@@ -15,26 +15,31 @@ const teamMembers: TeamMember[] = [
   {
     name: "Brian Honda",
     title: "President and Owner",
+    image: "/images/headshots/brian-honda.png",
     linkedIn: "#", // Replace with actual LinkedIn URL
   },
   {
     name: "Amy Moriarty",
     title: "SVP, Managing Director",
+    image: "/images/headshots/amy-moriarty.jpg",
     linkedIn: "#", // Replace with actual LinkedIn URL
   },
   {
     name: "Fiona Roossien",
     title: "Vice President, Creative Director",
+    image: "/images/headshots/fiona-roossien.png",
     linkedIn: "#", // Replace with actual LinkedIn URL
   },
   {
     name: "Jai Sharma",
     title: "Vice President, Medical Communications",
+    image: "/images/headshots/jai-sharma.png",
     linkedIn: "#", // Replace with actual LinkedIn URL
   },
   {
     name: "Tony Wong",
     title: "Vice President, Digital & Innovation",
+    image: "/images/headshots/tony-wong.png",
     linkedIn: "#", // Replace with actual LinkedIn URL
   },
 ];
@@ -64,12 +69,11 @@ export function LeadershipTeam() {
       <div className="flex flex-col h-full">
         {/* Image Placeholder */}
         <div className="aspect-[3/4] bg-white/5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--bg-base)]" />
-          <div className="absolute inset-0 flex items-center justify-center text-white/20">
-            <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-            </svg>
-          </div>
+          <img
+            src={member.image}
+            alt={member.name}
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+          />
 
           {/* LinkedIn Button - always visible on mobile, hover on desktop */}
           <a

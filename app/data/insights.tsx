@@ -19,7 +19,7 @@ export const insights: Insight[] = [
       "Data tells a story, but insight reveals the narrative. We transform analytics into actionable intelligence, connecting dots others don't see.",
     fullContent: (
       <>
-        <h3 className="text-2xl font-bold mb-4 text-white">But can data be emotional?</h3>
+        <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">But can data be emotional?</h3>
         <p className="mb-4">Absolutely.</p>
         <p className="mb-4">
           Emotion comes from being able to hit on a truth—so what really matters to our patients is true to all humans,
@@ -44,8 +44,8 @@ export const insights: Insight[] = [
     description:
       "Beyond the white coat lies human complexity. We unlock the 44% of their day spent in 'blue jeans' moments for deeper brand connection.",
     fullContent: (
-      <div className="flex flex-row gap-8 justify-center items-start">
-        <div className="">
+      <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 justify-center items-start">
+        <div className="flex-1">
           <p className="mb-4">
             In Canada, historically there has been no way to target HCPs consistently across apps and domains. As a
             result, most marketing has been limited to reaching physicians only in their "white coat" moments, when they
@@ -61,7 +61,7 @@ export const insights: Insight[] = [
             connection.
           </p>
         </div>
-        <div className="shrink-0">
+        <div className="shrink-0 w-full lg:w-auto flex justify-center">
           <PhysicianTimeChart />
         </div>
       </div>
@@ -104,7 +104,7 @@ export const insights: Insight[] = [
       "New access to HCPs via Google, consented audiences, and CIHI data layering. We focus investment where biomarker-driven decisions are made.",
     fullContent: (
       <>
-        <h3 className="text-xl font-bold mb-3 text-white">New access to HCPs via Google</h3>
+        <h3 className="text-lg sm:text-xl font-bold mb-3 text-white">New access to HCPs via Google</h3>
         <p className="mb-4">
           Historically, Google's ad rules have blocked sensitive health interest categories from being used for
           targeting. That hasn't changed—but in May, Google clarified that these restrictions no longer apply to
@@ -115,7 +115,7 @@ export const insights: Insight[] = [
           Google with search, video and display content.
         </p>
 
-        <h3 className="text-xl font-bold mb-3 text-white">Consented HCP audiences</h3>
+        <h3 className="text-lg sm:text-xl font-bold mb-3 text-white">Consented HCP audiences</h3>
         <p className="mb-6">
           In addition to the changes with Google, Adpharm has partnered with a new digital data partner that specializes
           in HCP audience targeting. This partnership allows us to compliantly target Canadian HCPs who have consented
@@ -123,7 +123,9 @@ export const insights: Insight[] = [
           OneKey, or MDSelect, bringing new HCPs into GSK's ecosystem.
         </p>
 
-        <h3 className="text-xl font-bold mb-3 text-white">Layering in data to improve targeting effectiveness</h3>
+        <h3 className="text-lg sm:text-xl font-bold mb-3 text-white">
+          Layering in data to improve targeting effectiveness
+        </h3>
         <p>
           Using Canadian Institute for Health Information (CIHI) data on MMR/MSI biomarker testing, we know that both
           testing and downstream treatment decisions are concentrated in large urban tertiary cancer centres. By

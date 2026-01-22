@@ -6,7 +6,7 @@ export function ClientGrid() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const [showAll, setShowAll] = useState(false);
-  
+
   const mobileVisibleCount = 6;
   const hasMore = clients.length > mobileVisibleCount;
   const visibleClients = clients.slice(0, mobileVisibleCount);
@@ -50,11 +50,11 @@ export function ClientGrid() {
               />
             </motion.div>
           ))}
-          
+
           {/* Hidden clients on mobile, always visible on desktop */}
           {hiddenClients.map((client, index) => {
             const globalIndex = mobileVisibleCount + index;
-            
+
             return (
               <div key={globalIndex} className="contents">
                 {/* Mobile version - animated with AnimatePresence */}
@@ -66,7 +66,7 @@ export function ClientGrid() {
                       exit={{ opacity: 0, scale: 0.95, y: -10 }}
                       transition={{
                         duration: 0.35,
-                        delay: index * 0.08
+                        delay: index * 0.08,
                       }}
                       className="flex md:hidden items-center justify-center p-4 md:p-6 border border-white/5"
                     >
@@ -78,7 +78,7 @@ export function ClientGrid() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-                
+
                 {/* Desktop version - always visible */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}

@@ -15,13 +15,13 @@ export function SocialLinks() {
         >
           <Linkedin className="w-5 h-5" />
         </motion.a>
-        <motion.a
+        {/* <motion.a
           href="#"
           whileHover={{ y: -3 }}
           className="w-12 h-12 border border-white/20 flex items-center justify-center hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/10 transition-all"
         >
           <Twitter className="w-5 h-5" />
-        </motion.a>
+        </motion.a> */}
       </div>
     </div>
   );

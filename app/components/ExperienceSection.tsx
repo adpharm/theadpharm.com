@@ -9,7 +9,7 @@ export function ExperienceSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="relative py-32 border-b border-white/10 bg-[var(--bg-darker)]">
+    <section ref={ref} className="relative py-12 lg:py-32 border-b border-white/10 bg-[var(--bg-darker)]">
       <div className="max-w-7xl mx-auto px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
