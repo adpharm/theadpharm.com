@@ -23,13 +23,10 @@ export function ServiceCard({ service, index, isExpanded, onToggle, isInView }: 
         innerClipPath="polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%)"
         showPointer={false}
       >
-        <div>
+        <div className="hover:bg-white/5 transition-all duration-300 group">
           {/* Clickable Header */}
-          <button
-            onClick={onToggle}
-            className="w-full text-left py-8 px-6 hover:bg-white/5 transition-all duration-300 group cursor-pointer"
-          >
-            <div className="flex items-start gap-8">
+          <button onClick={onToggle} className="w-full text-left py-6 lg:py-8 px-4 lg:px-6 cursor-pointer">
+            <div className="flex items-start gap-4 lg:gap-8">
               <span className="text-[var(--accent-primary)] text-lg tracking-wider font-mono">{service.number}</span>
 
               <div className="flex-1">
@@ -60,7 +57,7 @@ export function ServiceCard({ service, index, isExpanded, onToggle, isInView }: 
             className="overflow-hidden"
           >
             <div className="px-6 pb-8 pl-[5.5rem]">
-              <div className="grid md:grid-cols-2 gap-4 pt-4 border-t border-[var(--accent-primary)]/20">
+              <div className="grid md:grid-cols-2 gap-4 pt-4">
                 {service.details.map((detail, detailIndex) => (
                   <div key={detailIndex} className="flex items-start gap-3 text-sm text-white/70">
                     <div className="w-1 h-1 bg-[var(--accent-primary)] mt-2 flex-shrink-0" />

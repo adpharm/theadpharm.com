@@ -24,29 +24,33 @@
 :root {
   /* Base colors */
   --bg-base: #121212;
-  --bg-darker: #0A0A0A;
+  --bg-darker: #0a0a0a;
   --bg-black: #000000;
   --white: #ffffff;
-  
+
   /* Brand colors */
-  --accent-primary: #FF6B35;
-  
+  --accent-primary: #ff6b35;
+
   /* Chart colors */
-  --chart-slate: #4A5568;
-  --chart-red: #DC2626;
-  --chart-amber: #D97706;
-  --chart-purple: #8B5CF6;
-  --chart-sky: #0EA5E9;
-  --chart-emerald: #10B981;
-  --chart-pink: #EC4899;
-  --chart-indigo: #6366F1;
+  --chart-slate: #4a5568;
+  --chart-red: #dc2626;
+  --chart-amber: #d97706;
+  --chart-purple: #8b5cf6;
+  --chart-sky: #0ea5e9;
+  --chart-emerald: #10b981;
+  --chart-pink: #ec4899;
+  --chart-indigo: #6366f1;
   --chart-blue: #8884d8;
-  
+
   /* Google brand colors */
-  --google-blue: #4285F4;
-  --google-green: #34A853;
-  --google-yellow: #FBBC05;
-  --google-red: #EB4335;
+  --google-blue: #4285f4;
+  --google-green: #34a853;
+  --google-yellow: #fbbc05;
+  --google-red: #eb4335;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
@@ -237,17 +241,17 @@ body {
   .group:hover .animated-border {
     opacity: 0 !important;
   }
-  
+
   .group:hover .border-white\/10,
   .group:hover [class*="border border-white/10"] {
     opacity: 1 !important;
   }
-  
+
   /* Mobile glow active state */
   .mobile-glow-active .animated-border-glow {
     opacity: 0.6;
   }
-  
+
   .mobile-glow-active .animated-border {
     opacity: 1;
   }

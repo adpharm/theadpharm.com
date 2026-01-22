@@ -44,7 +44,7 @@ export const insights: Insight[] = [
     description:
       "Beyond the white coat lies human complexity. We unlock the 44% of their day spent in 'blue jeans' moments for deeper brand connection.",
     fullContent: (
-      <div className="flex flex-col gap-8 justify-center items-start">
+      <div className="flex flex-row gap-8 justify-center items-start">
         <div className="">
           <p className="mb-4">
             In Canada, historically there has been no way to target HCPs consistently across apps and domains. As a
@@ -61,8 +61,9 @@ export const insights: Insight[] = [
             connection.
           </p>
         </div>
-
-        <PhysicianTimeChart />
+        <div className="shrink-0">
+          <PhysicianTimeChart />
+        </div>
       </div>
     ),
   },
@@ -110,8 +111,8 @@ export const insights: Insight[] = [
           campaigns targeting licensed healthcare professionals in their professional capacity.
         </p>
         <p className="mb-6">
-          This change took effect in July 2025, allowing us to use GSK's first-party data to target GYN-ONCs and
-          MED-ONCs on Google with search, video and display content.
+          This change took effect in July 2025, allowing us to use first-party data to target GYN-ONCs and MED-ONCs on
+          Google with search, video and display content.
         </p>
 
         <h3 className="text-xl font-bold mb-3 text-white">Consented HCP audiences</h3>

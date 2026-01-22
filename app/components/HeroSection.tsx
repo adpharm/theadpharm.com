@@ -58,7 +58,9 @@ export function HeroSection() {
               </p>
             </div>
 
-            <StyledButton icon={ArrowRight}>Discover More</StyledButton>
+            <a href="#about-us">
+              <StyledButton icon={ArrowRight}>Discover More</StyledButton>
+            </a>
           </motion.div>
 
           {/* Right: Abstract 3D element placeholder */}
@@ -70,13 +72,13 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: hasScrolled ? 0 : 1 }}
         transition={{ duration: hasScrolled ? 0.5 : 1, delay: hasScrolled ? 0 : 1.5 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
       >
         <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-px h-16 bg-gradient-to-b from-[var(--accent-primary)] to-transparent"
+          className="w-px h-12 md:h-16 bg-gradient-to-b from-[var(--accent-primary)] to-transparent"
         />
       </motion.div>
 

@@ -63,30 +63,30 @@ export function PhysicianTimeChart() {
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6 }}
-        className="border border-white/10 bg-[var(--bg-base)] p-8 lg:p-12 relative overflow-hidden w-full"
+        className="border border-white/10 bg-[var(--bg-base)] p-4 lg:p-8 relative overflow-hidden w-fit"
       >
         {/* Decorative Grid Overlay */}
         {/* <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-50 pointer-events-none" /> */}
 
-        <div className="relative z-10 flex flex-row items-start gap-8">
+        <div className="relative z-10 flex flex-col items-center">
           {/* Title */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mb-8 flex-grow-1 w-72"
+            className="mb-8 flex-grow-1 max-w-sm"
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-px w-12 bg-[var(--accent-primary)]" />
               <span className="text-[var(--accent-primary)] tracking-[0.3em] uppercase text-xs">Industry Insight</span>
             </div>
-            <h3 className="text-2xl lg:text-3xl tracking-tight uppercase leading-tight">
+            <h3 className="text-2xl lg:text-3xl tracking-tight uppercase leading-tight text-center w-full">
               A Day in the Life of a <span className="text-white/60">Canadian Physician</span>
             </h3>
           </motion.div>
 
           {/* Chart Container */}
-          <div className="flex flex-col items-center flex-grow max-w-md">
+          <div className="flex flex-col items-center max-w-md">
             {/* Chart */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -94,15 +94,15 @@ export function PhysicianTimeChart() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="relative w-full max-w-2xl"
             >
-              <ResponsiveContainer width="100%" height={600}>
+              <ResponsiveContainer width="100%" height={420}>
                 <PieChart>
                   <Pie
                     data={chartData}
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    outerRadius={220}
-                    innerRadius={140}
+                    outerRadius={200}
+                    innerRadius={120}
                     fill="var(--chart-blue)"
                     dataKey="value"
                     animationBegin={600}
@@ -134,7 +134,7 @@ export function PhysicianTimeChart() {
                   initial={{ scale: 0 }}
                   animate={isInView ? { scale: 1 } : {}}
                   transition={{ duration: 0.6, delay: 0.8 }}
-                  className="w-[280px] h-[280px] rounded-full border border-white/10 bg-[var(--bg-darker)] flex items-center justify-center p-8"
+                  className="w-[240px] h-[240px] rounded-full border border-white/10 bg-[var(--bg-darker)] flex items-center justify-center p-8"
                 >
                   {activeData ? (
                     <motion.div
@@ -177,15 +177,6 @@ export function PhysicianTimeChart() {
             </motion.div>
           </div>
         </div>
-
-        {/* Bottom Accent Line */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : {}}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="absolute bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent origin-left"
-          style={{ width: "100%" }}
-        />
       </motion.div>
     </div>
   );

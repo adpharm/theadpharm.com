@@ -85,20 +85,46 @@ class MobileGlowManagerClass {
   }
 
   private selectNextElement() {
-    // Find the element with the highest intersection ratio
-    let bestElement: HTMLElement | null = null;
-    let bestRatio = 0;
+    // Find visible elements (with sufficient intersection ratio)
+    const visibleElements: Array<{ element: HTMLElement; data: any; top: number }> = [];
 
     this.elements.forEach((data, element) => {
-      if (data.intersectionRatio > bestRatio) {
-        bestRatio = data.intersectionRatio;
-        bestElement = element;
+      if (data.intersectionRatio >= 0.1) {
+        const rect = element.getBoundingClientRect();
+        visibleElements.push({
+          element,
+          data,
+          top: rect.top + window.scrollY // Get absolute position
+        });
       }
     });
 
-    // If no element is sufficiently visible, clear the glow
-    if (bestRatio < 0.1) {
-      bestElement = null;
+    if (visibleElements.length === 0) {
+      // No elements are sufficiently visible
+      if (this.currentGlowingElement) {
+        const prevData = this.elements.get(this.currentGlowingElement);
+        if (prevData) {
+          prevData.setIsGlowing(false);
+        }
+        this.currentGlowingElement = null;
+      }
+      return;
+    }
+
+    // Sort by vertical position (top to bottom)
+    visibleElements.sort((a, b) => a.top - b.top);
+
+    // Find the element closest to the center of the viewport
+    const viewportCenter = window.scrollY + window.innerHeight / 2;
+    let bestElement = visibleElements[0].element;
+    let bestDistance = Math.abs(visibleElements[0].top - viewportCenter);
+
+    for (const { element, top } of visibleElements) {
+      const distance = Math.abs(top - viewportCenter);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestElement = element;
+      }
     }
 
     // Update if the glowing element has changed

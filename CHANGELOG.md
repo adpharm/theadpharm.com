@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-01-22
+
+- feat: Added legal pages for Privacy Policy, Terms of Service, and Accessibility with functional footer navigation links enabling users to access important legal information
+- feat: Enhanced hero section with functional "Discover More" button that smoothly scrolls to About section, improving user journey through the site
+- feat: Added smooth scroll behavior globally for seamless navigation experience across all anchor links
+- feat: Implemented mobile carousel for leadership team cards with swipe navigation, allowing single-card focus on smaller screens
+- refactor: Improved mobile glow selection algorithm to highlight element closest to viewport center rather than highest intersection ratio, creating more intuitive mobile interactions
+- refactor: Enhanced insights section with smooth height transitions when toggling between grid and stack views, preventing jarring layout shifts
+- refactor: Added automatic scroll-to-section behavior when collapsing views in insights and client grids, keeping users oriented during navigation
+- refactor: Improved responsive padding and sizing across multiple components (GlowingBox, ServiceCard, PhysicianTimeChart) for better mobile and tablet experiences
+- refactor: Enhanced modal scrollability and z-index management in insights section, ensuring proper layering and preventing scroll issues
+- fix: Corrected insights modal layout to properly display physician time chart in horizontal arrangement instead of stacked view
+
 ## 2026-01-21
 
 - refactor: Centralized color management by replacing hardcoded hex values with CSS variables throughout the application for consistent theming and easier maintenance

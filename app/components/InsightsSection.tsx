@@ -16,6 +16,9 @@ export function InsightsSection() {
   const [isHovering, setIsHovering] = useState(false);
   const [isGridView, setIsGridView] = useState(false);
   const prevActiveCard = useRef(activeCard);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerHeight, setContainerHeight] = useState<number | "auto">("auto");
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const ANIMATION_DURATION = 1000;
   const Z_INDEX_CHANGE_DELAY = 300; // 30% of animation
@@ -68,6 +71,25 @@ export function InsightsSection() {
 
     return () => clearInterval(timer);
   }, [activeCard, isHovering, isAnimating, modalCard, isGridView]);
+
+  // Handle view toggle with height preservation
+  const handleToggleView = () => {
+    // Capture current height before transition
+    if (containerRef.current) {
+      const currentHeight = containerRef.current.offsetHeight;
+      setContainerHeight(currentHeight);
+      setIsTransitioning(true);
+      
+      // If switching from grid to stack view, scroll to insights section like the nav does
+      if (isGridView) {
+        const insightsElement = document.getElementById('insights');
+        if (insightsElement) {
+          insightsElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+    setIsGridView((prev) => !prev);
+  };
 
   // Change z-index after card moves away
   const [zIndexChanged, setZIndexChanged] = useState(false);
@@ -155,13 +177,35 @@ export function InsightsSection() {
         </motion.div>
 
         <motion.div
-          className="relative overflow-visible mb-12"
-          animate={{ minHeight: isGridView ? "auto" : "500px" }}
+          ref={containerRef}
+          className="relative overflow-visible"
+          animate={{
+            minHeight: typeof containerHeight === "number" ? containerHeight : isGridView ? "auto" : 500,
+            marginBottom: isGridView ? 48 : 24, // Less gap in stack view
+          }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence
+            mode="wait"
+            onExitComplete={() => {
+              // After exit completes, wait for new content to render, then measure and transition to new height
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  if (containerRef.current) {
+                    const newHeight = containerRef.current.scrollHeight;
+                    setContainerHeight(newHeight);
+                    // After reaching new height, reset to auto
+                    setTimeout(() => {
+                      setContainerHeight("auto");
+                      setIsTransitioning(false);
+                    }, 500);
+                  }
+                });
+              });
+            }}
+          >
             {!isGridView ? (
               <motion.div
                 key="stacked"
@@ -170,7 +214,7 @@ export function InsightsSection() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className="relative w-full pr-8 sm:pr-12 md:pr-0"
-                style={{ perspective: "1500px", perspectiveOrigin: "center center" }}
+                style={{ perspective: "1500px", perspectiveOrigin: "center center", minHeight: "500px" }}
               >
                 {insights.map((insight, index) => {
                   const isActive = index === activeCard;
@@ -249,7 +293,7 @@ export function InsightsSection() {
           onPrevCard={prevCard}
           onNextCard={nextCard}
           onGoToCard={goToCard}
-          onToggleView={() => setIsGridView(!isGridView)}
+          onToggleView={handleToggleView}
         />
 
         {/* Card Modal */}

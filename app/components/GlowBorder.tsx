@@ -36,23 +36,23 @@ interface GlowBorderProps {
  * 1. Creating animated border layers (glow + sharp)
  * 2. Adding 1px padding to the content wrapper
  * 3. Filling the content with background color, leaving only the 1px gap visible
- * 
+ *
  * On mobile, uses viewport visibility instead of hover (only one element glows at a time)
  */
-export function GlowBorder({ 
-  children, 
-  className = "", 
-  clipPath, 
-  innerClipPath, 
+export function GlowBorder({
+  children,
+  className = "",
+  clipPath,
+  innerClipPath,
   showPointer = true,
-  enableMobileGlow = true 
+  enableMobileGlow = true,
 }: GlowBorderProps) {
   const { elementRef, isGlowing } = useMobileGlow(enableMobileGlow);
   const borderStyle: CSSProperties = clipPath ? { clipPath } : {};
   const contentStyle: CSSProperties = innerClipPath ? { clipPath: innerClipPath } : {};
 
   return (
-    <div 
+    <div
       ref={elementRef}
       className={`relative group ${showPointer ? "cursor-pointer" : ""} ${isGlowing ? "mobile-glow-active" : ""} ${className}`}
     >

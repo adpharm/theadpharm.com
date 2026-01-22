@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router";
 import { MobileMenu } from "./navigation/MobileMenu";
 import { ProgressIndicator } from "./navigation/ProgressIndicator";
 
@@ -63,14 +64,15 @@ export function Navigation() {
       >
         <div className="max-w-7xl mx-auto px-8 lg:px-16 h-16 flex items-center justify-between">
           {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-white tracking-wider uppercase cursor-pointer flex items-center"
-            style={{ fontFamily: "var(--font-headline)" }}
-            onClick={() => scrollToSection("hero")}
-          >
-            <img src="/images/logo.png" alt="The Adpharm" className="h-4 w-auto" />
-          </motion.div>
+          <Link to="/">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-white tracking-wider uppercase cursor-pointer flex items-center"
+              style={{ fontFamily: "var(--font-headline)" }}
+            >
+              <img src="/images/logo.png" alt="The Adpharm" className="h-4 w-auto" />
+            </motion.div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8">

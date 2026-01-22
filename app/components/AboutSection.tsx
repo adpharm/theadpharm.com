@@ -5,26 +5,25 @@ import { LeadershipTeam } from "./LeadershipTeam";
 
 export function AboutSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <section ref={ref} className="relative py-32 border-b border-white/10">
+    <section id="about-us" ref={ref} className="relative py-32 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="text-orange-400 tracking-[0.3em] uppercase text-xs">About Us</span>
+          <span className="text-orange-400 tracking-[0.3em] uppercase text-sm md:text-xs font-medium">About Us</span>
           <div className="h-px w-32 bg-white/20 mt-4" />
         </motion.div>
 
         {/* Grid Layout */}
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Mission Statement */}
-          <GlowingBox delay={0.2}>
-            <div className="absolute top-0 right-0 w-24 h-24 border-l border-b border-white/10" />
+          <GlowingBox delay={0.2} notched>
             <h3 className="text-3xl tracking-tight uppercase">Our Mission</h3>
             <p className="text-white/60 leading-relaxed mt-8">
               To bridge the gap between pharmaceutical innovation and patient care through exceptional creative
@@ -44,8 +43,7 @@ export function AboutSection() {
           </GlowingBox>
 
           {/* Background Summary */}
-          <GlowingBox delay={0.3}>
-            <div className="absolute bottom-0 right-0 w-24 h-24 border-l border-t border-white/10" />
+          <GlowingBox delay={0.3} notched>
             <h3 className="text-3xl tracking-tight uppercase">Our Foundation</h3>
             <p className="text-white/60 leading-relaxed mt-8">
               Established in Canada, The Adpharm has evolved from a boutique pharmaceutical consultancy into a
