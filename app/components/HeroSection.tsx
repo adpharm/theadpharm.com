@@ -39,7 +39,7 @@ export function HeroSection() {
               >
                 The Adpharm
               </motion.div>
-              <h1 className="text-6xl lg:text-7xl xl:text-8xl tracking-tight leading-[0.95] uppercase font-semibold">
+              <h1 className="text-6xl lg:text-7xl xl:text-[86px] tracking-tight leading-[0.95] uppercase font-semibold">
                 A Full Service
                 <br />
                 <span className="text-white/40">

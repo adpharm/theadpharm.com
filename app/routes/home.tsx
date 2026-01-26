@@ -12,7 +12,30 @@ import { InsightsSection } from "~/components/InsightsSection";
 import { ContactSection } from "~/components/ContactSection";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "The AdPharm" }, { name: "description", content: "A full service agency in the truest sense." }];
+  const title = "The AdPharm | Full Service Pharmaceutical Advertising Agency";
+  const description = "A full service pharmaceutical advertising agency in the truest sense. We deliver strategic marketing solutions for life sciences and healthcare brands.";
+  const url = "https://theadpharm.com";
+  const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
+
+  return [
+    { title },
+    { name: "description", content: description },
+    { tagName: "link", rel: "canonical", href: url },
+    
+    // Open Graph
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: image },
+    { property: "og:url", content: url },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "The AdPharm" },
+    
+    // Twitter Card
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
+  ];
 }
 
 export default function Home() {

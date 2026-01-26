@@ -45,23 +45,30 @@ const teamMembers: TeamMember[] = [
 ];
 
 export function LeadershipTeam() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const cardsPerPage = 2;
+  const totalPages = Math.ceil(teamMembers.length / cardsPerPage);
+  const [currentPage, setCurrentPage] = useState(0);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 
   const handlePrevious = () => {
     setDirection(-1);
-    setCurrentIndex((prev) => (prev === 0 ? teamMembers.length - 1 : prev - 1));
+    setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
   };
 
   const handleNext = () => {
     setDirection(1);
-    setCurrentIndex((prev) => (prev === teamMembers.length - 1 ? 0 : prev + 1));
+    setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
   };
 
-  const handleGoToCard = (index: number) => {
-    if (index === currentIndex) return;
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
+  const handleGoToPage = (page: number) => {
+    if (page === currentPage) return;
+    setDirection(page > currentPage ? 1 : -1);
+    setCurrentPage(page);
+  };
+
+  const getCurrentCards = () => {
+    const startIndex = currentPage * cardsPerPage;
+    return teamMembers.slice(startIndex, startIndex + cardsPerPage);
   };
 
   const renderTeamMemberCard = (member: TeamMember, index: number) => (
@@ -117,51 +124,51 @@ export function LeadershipTeam() {
     <div className="mt-24">
       <h3 className="text-2xl tracking-tight uppercase mb-12 mt-0 text-center">Leadership Team</h3>
 
-      {/* Mobile Carousel - Single Card with Navigation */}
+      {/* Mobile Carousel - Two Cards with Navigation */}
       <div className="md:hidden">
-        {/* Single Card with Animation */}
+        {/* Two Cards with Animation */}
         <div className="relative overflow-hidden mb-6">
-          <div className="flex justify-center">
-            <div className="w-full max-w-xs">
-              <AnimatePresence initial={false} custom={direction} mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.2 },
-                  }}
-                >
-                  {renderTeamMemberCard(teamMembers[currentIndex], currentIndex)}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.div
+              key={currentPage}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
+              }}
+              className="grid grid-cols-2 gap-4"
+            >
+              {getCurrentCards().map((member, idx) => {
+                const actualIndex = currentPage * cardsPerPage + idx;
+                return renderTeamMemberCard(member, actualIndex);
+              })}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* Navigation Controls - Below the card */}
+        {/* Navigation Controls - Below the cards */}
         <div className="flex items-center justify-center gap-4">
           <button
             onClick={handlePrevious}
             className="w-12 h-12 border border-white/20 flex items-center justify-center transition-colors group hover:border-[var(--accent-primary)]"
-            aria-label="Previous team member"
+            aria-label="Previous page"
           >
             <ChevronLeft className="w-6 h-6 transition-colors text-white/60 group-hover:text-[var(--accent-primary)]" />
           </button>
 
           <div className="flex gap-2">
-            {teamMembers.map((_, idx) => (
+            {Array.from({ length: totalPages }).map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => handleGoToCard(idx)}
+                onClick={() => handleGoToPage(idx)}
                 className={`h-2 transition-all duration-300 ${
-                  idx === currentIndex ? "w-8 bg-[var(--accent-primary)]" : "w-2 bg-white/20"
-                } ${idx !== currentIndex ? "hover:bg-white/40" : ""}`}
-                aria-label={`Go to team member ${idx + 1}`}
+                  idx === currentPage ? "w-8 bg-[var(--accent-primary)]" : "w-2 bg-white/20"
+                } ${idx !== currentPage ? "hover:bg-white/40" : ""}`}
+                aria-label={`Go to page ${idx + 1}`}
               />
             ))}
           </div>
@@ -169,7 +176,7 @@ export function LeadershipTeam() {
           <button
             onClick={handleNext}
             className="w-12 h-12 border border-white/20 flex items-center justify-center transition-colors group hover:border-[var(--accent-primary)]"
-            aria-label="Next team member"
+            aria-label="Next page"
           >
             <ChevronRight className="w-6 h-6 transition-colors text-white/60 group-hover:text-[var(--accent-primary)]" />
           </button>

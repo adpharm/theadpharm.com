@@ -4,9 +4,30 @@ import { Navigation } from "~/components/Navigation";
 import { Footer } from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
+  const title = "Terms of Service | The AdPharm";
+  const description = "Terms of Service for The Adpharm Inc. Read the terms and conditions governing your use of our website and services.";
+  const url = "https://theadpharm.com/terms-of-service";
+  const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
+
   return [
-    { title: "Terms of Service | The AdPharm" },
-    { name: "description", content: "Terms of Service for The Adpharm Inc." },
+    { title },
+    { name: "description", content: description },
+    { name: "robots", content: "index, follow" },
+    { tagName: "link", rel: "canonical", href: url },
+    
+    // Open Graph
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: image },
+    { property: "og:url", content: url },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "The AdPharm" },
+    
+    // Twitter Card
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

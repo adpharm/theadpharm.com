@@ -1,6 +1,13 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { callbackLoader } from "~/lib/auth-utils/google-callback-loader.server";
 
+export function meta() {
+  return [
+    { title: "Authenticating... | The AdPharm" },
+    { name: "robots", content: "noindex, nofollow" },
+  ];
+}
+
 /**
  * Google Callback Loader
  */

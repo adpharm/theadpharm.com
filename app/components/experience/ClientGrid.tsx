@@ -30,7 +30,9 @@ export function ClientGrid() {
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: 0.4 }}
     >
-      <h3 className="text-xl tracking-widest uppercase mb-8 text-white/60">Trusted Partners</h3>
+      <p className="text-lg leading-relaxed text-white/70 mb-8 max-w-4xl">
+        Our expertise spans the most complex sectors of modern medicine. From the intricacies of hematology and neurology to the high-stakes environments of oncology and dermatology, we have been privileged to embed ourselves within the industry's most visionary teams. We don't just work alongside these leaders; we help them navigate the challenges of their specific therapeutic landscapes.
+      </p>
 
       <div className="border border-white/10 p-6 md:p-12">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
@@ -109,14 +111,6 @@ export function ClientGrid() {
           </div>
         )}
 
-        {/* Partnership Tier Annotation */}
-        <div className="mt-6 md:mt-8 text-center">
-          <div className="inline-flex items-center gap-2 text-xs text-white/30 tracking-widest uppercase">
-            <div className="w-8 h-px bg-white/20" />
-            <span>Tier 1 Pharmaceutical Partners</span>
-            <div className="w-8 h-px bg-white/20" />
-          </div>
-        </div>
       </div>
     </motion.div>
   );

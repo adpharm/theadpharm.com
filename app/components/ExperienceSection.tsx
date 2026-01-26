@@ -1,8 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Spacer } from "./misc/spacer";
 import { ClientGrid } from "./experience/ClientGrid";
-import { TherapeuticAreasList } from "./experience/TherapeuticAreasList";
 
 export function ExperienceSection() {
   const ref = useRef(null);
@@ -27,10 +25,6 @@ export function ExperienceSection() {
         </motion.div>
 
         <ClientGrid />
-
-        <Spacer size="lg" />
-
-        <TherapeuticAreasList />
       </div>
     </section>
   );

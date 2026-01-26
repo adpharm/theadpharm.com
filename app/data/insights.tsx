@@ -30,7 +30,7 @@ export const insights: Insight[] = [
           to see QoL or ADL data and, even if we have it, suddenly we're not talking about OS anymore.
         </p>
         <p>
-          But I would argue that those things aren't what matters most to patients, to people—there's one thing for
+          But we would argue that those things aren't what matters most to patients, to people—there's one thing for
           which they would give up everything to have more time with.
         </p>
       </>
@@ -38,7 +38,7 @@ export const insights: Insight[] = [
   },
   {
     icon: Users,
-    title: "Physicians are people too",
+    title: "The Person Behind the Professional",
     color: "from-[var(--accent-primary)]/20 to-transparent",
     image: true,
     description:

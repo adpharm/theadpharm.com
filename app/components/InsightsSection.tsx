@@ -170,9 +170,9 @@ export function InsightsSection() {
           <span className="text-[var(--accent-primary)] tracking-[0.3em] uppercase text-xs">Insights & Solutions</span>
           <div className="h-px w-32 bg-white/20 mt-4" />
           <h2 className="text-5xl lg:text-6xl tracking-tight uppercase mt-8">
-            Our
+            Intelligence that drives
             <br />
-            <span className="text-white/40">Philosophy</span>
+            <span className="text-white/40">Engagement</span>
           </h2>
         </motion.div>
 
@@ -301,24 +301,6 @@ export function InsightsSection() {
           {modalCard !== null && <InsightModal insight={insights[modalCard]} index={modalCard} onClose={closeModal} />}
         </AnimatePresence>
 
-        {/* Pull Quote / Editorial Element */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-24 max-w-4xl mx-auto"
-        >
-          <div className="relative border-l-4 border-[var(--accent-primary)] pl-12 py-8">
-            <div className="absolute -left-4 top-0 w-8 h-8 border border-[var(--accent-primary)]" />
-            <blockquote className="text-2xl lg:text-3xl tracking-tight leading-relaxed text-white/80">
-              "We don't just communicate science—we architect experiences that transform understanding into action,
-              skepticism into confidence, and information into impact."
-            </blockquote>
-            <cite className="block mt-6 text-sm text-white/40 tracking-widest uppercase not-italic">
-              The Adpharm Manifesto
-            </cite>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

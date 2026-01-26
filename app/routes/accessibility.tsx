@@ -4,9 +4,30 @@ import { Navigation } from "~/components/Navigation";
 import { Footer } from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
+  const title = "Accessibility Statement | The AdPharm";
+  const description = "Accessibility commitment and statement for The Adpharm Inc. We are committed to ensuring digital accessibility for people with disabilities (WCAG 2.1 Level AAA).";
+  const url = "https://theadpharm.com/accessibility";
+  const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
+
   return [
-    { title: "Accessibility Statement | The AdPharm" },
-    { name: "description", content: "Accessibility commitment and statement for The Adpharm Inc." },
+    { title },
+    { name: "description", content: description },
+    { name: "robots", content: "index, follow" },
+    { tagName: "link", rel: "canonical", href: url },
+    
+    // Open Graph
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: image },
+    { property: "og:url", content: url },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "The AdPharm" },
+    
+    // Twitter Card
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 
@@ -39,8 +60,8 @@ export default function Accessibility() {
               </p>
               <p>
                 The Adpharm website (theadpharm.com) is designed to be conformant with{" "}
-                <strong className="text-white">WCAG 2.1 Level AAA</strong>. This means we strive to meet the highest
-                standard of accessibility to ensure our content is accessible to the widest possible audience.
+                <strong className="text-white">WCAG 2.1 Level AA</strong>. This means we strive to meet a high standard
+                of accessibility to ensure our content is accessible to a wide audience.
               </p>
             </section>
 

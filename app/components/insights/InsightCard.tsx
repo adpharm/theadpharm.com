@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 import type { Insight } from "~/data/insights";
 import { useMobileGlow } from "~/hooks/useMobileGlow";
 
@@ -129,6 +130,14 @@ export function InsightCard({
               >
                 {insight.description}
               </p>
+              
+              {/* Chevron indicator */}
+              {onClick && (
+                <div className="mt-auto pt-4 flex items-center gap-2 text-sm text-white/40 group-hover:text-[var(--accent-primary)] mobile-glow-active:text-[var(--accent-primary)] transition-colors duration-300">
+                  <span className="tracking-wider uppercase">Learn More</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 mobile-glow-active:translate-x-1 transition-transform duration-300" />
+                </div>
+              )}
             </div>
           </div>
         </div>

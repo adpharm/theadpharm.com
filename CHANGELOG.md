@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-01-26
+
+- feat: Enhanced SEO across all pages with comprehensive Open Graph and Twitter Card metadata for improved social media sharing and search visibility
+- feat: Added smart navigation that allows users to jump directly to homepage sections from any page, not just when already on homepage
+- refactor: Changed mobile leadership carousel to display 2 cards side-by-side instead of 1 for better space utilization on mobile devices
+- refactor: Improved client grid mobile navigation by making entire clickable area interactive rather than just the button text
+- refactor: Updated Insights section heading from "Our Philosophy" to "Intelligence that drives Engagement" and removed manifesto pull quote for cleaner messaging
+- refactor: Removed standalone therapeutic areas section from Experience, streamlining content focus on client showcase
+- refactor: Changed accessibility statement from claiming WCAG AAA to more accurate AA compliance level
+- refactor: Updated Privacy Policy to accurately reflect that IP addresses are collected through analytics systems
+- refactor: Enhanced insight cards with bottom gradient overlay for improved visual polish and readability
+- docs: Added comprehensive React Router 7 metadata reference guide documenting meta function patterns and SEO best practices
+
 ## 2026-01-22
 
 - feat: Added legal pages for Privacy Policy, Terms of Service, and Accessibility with functional footer navigation links enabling users to access important legal information

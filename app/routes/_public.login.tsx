@@ -6,6 +6,14 @@ import { action_handler } from "~/lib/actions/_core/action-runner.server";
 import { loginWithGoogleActionDefinition } from "~/lib/actions/auth-login-with-google/action-definition";
 import { cn } from "~/lib/utils";
 
+export function meta() {
+  return [
+    { title: "Sign In | The AdPharm" },
+    { name: "description", content: "Sign in to The AdPharm client portal." },
+    { name: "robots", content: "noindex, nofollow" },
+  ];
+}
+
 export async function loader({}: LoaderFunctionArgs) {
   return {};
 }

@@ -4,9 +4,30 @@ import { Navigation } from "~/components/Navigation";
 import { Footer } from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
+  const title = "Privacy Policy | The AdPharm";
+  const description = "Privacy Policy for The Adpharm Inc. Learn how we collect, use, and protect your personal information when you visit our website.";
+  const url = "https://theadpharm.com/privacy-policy";
+  const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
+
   return [
-    { title: "Privacy Policy | The AdPharm" },
-    { name: "description", content: "Privacy Policy for The Adpharm Inc." },
+    { title },
+    { name: "description", content: description },
+    { name: "robots", content: "index, follow" },
+    { tagName: "link", rel: "canonical", href: url },
+    
+    // Open Graph
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: image },
+    { property: "og:url", content: url },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "The AdPharm" },
+    
+    // Twitter Card
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 
@@ -70,10 +91,8 @@ export default function PrivacyPolicy() {
                 <li>Referring website addresses</li>
                 <li>User behavior and interaction patterns</li>
                 <li>Unique browser identifiers (UBIDs) for session grouping</li>
+                <li>IP addresses</li>
               </ul>
-              <p className="mt-4">
-                We do not collect IP addresses or other directly identifiable information through our analytics systems.
-              </p>
 
               <h3 className="text-xl font-light text-white mb-3 mt-6">3.3 Cookies and Tracking Technologies</h3>
               <p>
