@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 interface Section {
   name: string;
   id: string;
+  path: string;
 }
 
 interface MobileMenuProps {
   isOpen: boolean;
   sections: Section[];
   activeSection: number;
-  onSectionClick: (id: string) => void;
+  onSectionClick: (id: string, path?: string) => void;
 }
 
 export function MobileMenu({ isOpen, sections, activeSection, onSectionClick }: MobileMenuProps) {
@@ -33,7 +34,7 @@ export function MobileMenu({ isOpen, sections, activeSection, onSectionClick }: 
               x: isOpen ? 0 : 50,
             }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
-            onClick={() => onSectionClick(section.id)}
+            onClick={() => onSectionClick(section.id, section.path)}
             className={`text-3xl tracking-tight uppercase transition-colors ${
               activeSection === index ? "text-[var(--accent-primary)]" : "text-white/60 hover:text-white"
             }`}

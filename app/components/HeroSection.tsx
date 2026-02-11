@@ -18,53 +18,87 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-white/10">
-      {/* Background geometric elements */}
+    <section className="relative min-h-screen flex items-center overflow-hidden border-b border-white/10">
+      {/* Background image integrated with grid */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.3 }}
+        className="absolute inset-0 pointer-events-none"
+      >
+        {/* Photo positioned in background */}
+        <div className="absolute right-0 bottom-0 w-[80%] h-[90%] hidden lg:block">
+          <div className="relative w-full h-full">
+            {/* Grid overlay on top of photo */}
+            {/* <div
+              className="absolute inset-0 z-10"
+              style={{
+                backgroundImage: `
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)
+              `,
+                backgroundSize: "80px 80px",
+              }}
+            /> */}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-8 lg:px-16 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left: Typography */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-8"
-          >
-            <div className="space-y-2">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="text-orange-400 tracking-[0.3em] uppercase text-xs"
-              >
-                The Adpharm
-              </motion.div>
-              <h1 className="text-6xl lg:text-7xl xl:text-[86px] tracking-tight leading-[0.95] uppercase font-semibold">
-                A Full Service
-                <br />
-                <span className="text-white/40">
-                  Agency
-                  <br />
-                  In The
-                </span>
-                <br />
-                Truest Sense.
-              </h1>
-            </div>
+            {/* The actual photo with blend mode and opacity */}
+            <img
+              src="/images/full-group-photo-bw.png"
+              alt="The Adpharm Team"
+              className="w-full h-full object-cover object-bottom opacity-40"
+              style={{
+                mixBlendMode: "luminosity",
+                maskImage:
+                  "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,0.8) 100%), linear-gradient(to left, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,0.8) 100%), linear-gradient(to left, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
+                maskComposite: "intersect",
+                WebkitMaskComposite: "source-in",
+              }}
+            />
 
-            <div className="border-l-2 border-[var(--accent-primary)] pl-6 py-2">
-              <p className="text-white/70 text-lg max-w-md leading-snug lg:leading-relaxed">
-                Proven Canadian partner, 20+ years in pharma, with integrated creative + medical expertise.
-              </p>
-            </div>
-
-            <a href="#about-us">
-              <StyledButton icon={ArrowRight}>Discover More</StyledButton>
-            </a>
-          </motion.div>
-
-          {/* Right: Abstract 3D element placeholder */}
+            {/* Accent border frames integrated with grid */}
+            <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[var(--accent-primary)]/20" />
+          </div>
         </div>
+      </motion.div>
+
+      <div className="relative z-10 w-full px-8 lg:px-16 py-20 ml-6 sm:ml-[10vw]">
+        {/* Typography - positioned to the left */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="space-y-8 max-w-3xl"
+        >
+          <div className="space-y-2">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="text-orange-400 tracking-[0.3em] uppercase text-xs"
+            >
+              The Adpharm
+            </motion.div>
+            <h1 className="text-6xl lg:text-7xl xl:text-[100px] tracking-tight leading-[0.95] uppercase font-semibold">
+              A Full Service
+              <br />
+              <span className="text-white/40">Agency In The</span>
+              <br />
+              Truest Sense.
+            </h1>
+          </div>
+
+          <div className="border-l-2 border-[var(--accent-primary)] pl-6 py-2">
+            <p className="text-white/70 text-lg max-w-md leading-snug lg:leading-relaxed">
+              Proven Canadian partner, 20+ years in pharma, with integrated creative + medical expertise.
+            </p>
+          </div>
+
+          <a href="/about">
+            <StyledButton icon={ArrowRight}>Discover More</StyledButton>
+          </a>
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
@@ -77,77 +111,6 @@ export function HeroSection() {
         <span className="text-white/40 text-xs tracking-widest uppercase flex items-center gap-2">
           Scroll <ArrowDown className="animate-bounce w-4 h-4 text-[var(--accent-primary)]" />{" "}
         </span>
-        {/* <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-px h-12 md:h-16 bg-gradient-to-b from-[var(--accent-primary)] to-transparent"
-        /> */}
-      </motion.div>
-
-      <div className="absolute inset-0">
-        <motion.div
-          className="absolute bottom-0 right-0 w-[600px] h-[600px] border border-white/5 rounded-full"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-        />
-        <motion.div
-          className="absolute bottom-[15%] right-[5%] w-[400px] h-[400px] border border-white/10 rounded-full"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
-        />
-
-        {/* Grid lines */}
-        {/* <div className="absolute inset-0 opacity-[0.03]">
-          <div className="w-full h-full grid grid-cols-12 gap-0">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="border-r border-white" />
-            ))}
-          </div>
-        </div> */}
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.6 }}
-        className="absolute inset-0 h-[500px] hidden lg:block"
-      >
-        <div className="absolute right-[20%] -bottom-[40%] flex items-center justify-center">
-          {/* Multiple rotating circles */}
-          <motion.div
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="w-80 h-80 border border-white/10 rounded-full relative"
-          >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[var(--accent-primary)] rounded-full" />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-white/20 rounded-full" />
-          </motion.div>
-
-          <motion.div
-            animate={{
-              rotate: -360,
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="absolute w-60 h-60 border border-[var(--accent-primary)]/30 rounded-full"
-          >
-            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-1 h-1 bg-[var(--accent-primary)] rounded-full" />
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-1 h-1 bg-[var(--accent-primary)] rounded-full" />
-          </motion.div>
-
-          <div className="absolute w-40 h-40 bg-gradient-to-br from-[var(--accent-primary)]/10 to-transparent rounded-full blur-xl" />
-        </div>
       </motion.div>
     </section>
   );

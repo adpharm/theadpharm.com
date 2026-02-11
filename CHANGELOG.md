@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-02-11
+
+- feat: Converted website from single-page application to multi-page architecture with dedicated routes for About, Services, and Insights sections, enabling better SEO and shareable URLs for each section
+- feat: Added scroll-to-top behavior on route changes to ensure users start at the top of each new page
+- refactor: Redesigned hero section to display team photo integrated into background with gradient masking, creating more visual depth while maintaining focus on typography
+- refactor: Simplified background grid from generated DOM elements to CSS gradient-based implementation for better performance and cleaner rendering
+- refactor: Enhanced navigation system to support both direct page routing and hash-based section links, allowing users to navigate between pages or jump to specific sections on the homepage
+- refactor: Increased navigation bar height from 16 to 20 for improved visual prominence and touch targets
+- refactor: Removed hover-activated photo caption from leadership team section for cleaner mobile experience
+
 ## 2026-01-26
 
 - feat: Enhanced SEO across all pages with comprehensive Open Graph and Twitter Card metadata for improved social media sharing and search visibility

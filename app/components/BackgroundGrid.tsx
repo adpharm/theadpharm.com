@@ -1,32 +1,17 @@
 export function BackgroundGrid() {
   return (
-    <div
-      className="fixed inset-0 pointer-events-none"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(12, 1fr)",
-        gap: 0,
-      }}
-      aria-hidden="true"
-    >
-      {/* Generate grid cells with varying sizes */}
-      {Array.from({ length: 30 }).map((_, index) => {
-        // Create irregular sizes with larger spans for less busy look
-        const rowSpan = [2, 3, 4, 3, 5, 2, 4, 3, 2, 3][index % 10];
-        const colSpan = [2, 3, 2, 4, 3, 2, 3, 2, 4, 2][index % 10];
-
-        return (
-          <div
-            key={index}
-            style={{
-              gridColumn: `span ${colSpan}`,
-              gridRow: `span ${rowSpan}`,
-              border: "1px solid rgba(255, 255, 255, 0.02)",
-              minHeight: "150px",
-            }}
-          />
-        );
-      })}
+    <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
+      {/* Simple continuous grid lines - clean, no interference */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px)
+          `,
+          backgroundSize: "120px 120px",
+        }}
+      />
     </div>
   );
 }

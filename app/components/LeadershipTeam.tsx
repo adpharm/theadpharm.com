@@ -1,5 +1,4 @@
-import { Linkedin, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
-import { Spacer } from "./misc/spacer";
+import { Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
 import { GlowBorder } from "./GlowBorder";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,31 +15,31 @@ const teamMembers: TeamMember[] = [
     name: "Brian Honda",
     title: "President and Owner",
     image: "/images/headshots/brian-honda.png",
-    linkedIn: "#", // Replace with actual LinkedIn URL
+    linkedIn: "https://www.linkedin.com/in/brian-honda-84808210/",
   },
   {
     name: "Amy Moriarty",
     title: "SVP, Managing Director",
     image: "/images/headshots/amy-moriarty.jpg",
-    linkedIn: "#", // Replace with actual LinkedIn URL
+    linkedIn: "https://www.linkedin.com/in/amy-moriarty/",
   },
   {
     name: "Fiona Roossien",
     title: "Vice President, Creative Director",
     image: "/images/headshots/fiona-roossien.png",
-    linkedIn: "#", // Replace with actual LinkedIn URL
+    linkedIn: "https://www.linkedin.com/in/fiona-roossien-1b75748/",
   },
   {
     name: "Jai Sharma",
     title: "Vice President, Medical Communications",
     image: "/images/headshots/jai-sharma.png",
-    linkedIn: "#", // Replace with actual LinkedIn URL
+    linkedIn: "https://www.linkedin.com/in/jai-sharma-03526a6/",
   },
   {
     name: "Tony Wong",
     title: "Vice President, Digital & Innovation",
     image: "/images/headshots/tony-wong.png",
-    linkedIn: "#", // Replace with actual LinkedIn URL
+    linkedIn: "https://www.linkedin.com/in/wongtonyt/",
   },
 ];
 
@@ -186,35 +185,6 @@ export function LeadershipTeam() {
       {/* Desktop Grid Layout */}
       <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-5 gap-6">
         {teamMembers.map((member, index) => renderTeamMemberCard(member, index))}
-      </div>
-
-      <Spacer size="lg" />
-
-      <div>
-        <div className="group relative border border-white/10 hover:border-[var(--accent-primary)]/30 transition-all duration-500 overflow-hidden">
-          <img src="/images/full-group-photo-bw.png" alt="Gray BG Group Photo" className="w-full h-auto object-cover" />
-
-          {/* Tint Overlay on Hover - Desktop only */}
-          <div className="absolute inset-0 bg-[var(--bg-black)]/60 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
-
-          {/* Caption on Hover - Desktop only */}
-          <div className="hidden md:block absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[var(--bg-base)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="flex items-center gap-2 text-white">
-              <span className="text-xl">
-                <MapPin className="w-4 h-4" />
-              </span>
-              <span className="text-sm tracking-wide">2025, Office Christmas Party</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Caption - Always visible below image */}
-        <div className="md:hidden mt-4 px-4">
-          <div className="flex justify-center items-center gap-2 text-white/60">
-            <MapPin className="w-3 h-3" />
-            <span className="text-xs tracking-wide">2025, Office Christmas Party</span>
-          </div>
-        </div>
       </div>
     </div>
   );

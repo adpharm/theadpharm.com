@@ -1,14 +1,13 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/services";
 import { BackgroundGrid } from "~/components/BackgroundGrid";
 import { Navigation } from "~/components/Navigation";
-import { HeroSection } from "~/components/HeroSection";
-import { ExperienceSection } from "~/components/ExperienceSection";
+import { ServicesSection } from "~/components/ServicesSection";
 import { ContactSection } from "~/components/ContactSection";
 
 export function meta({}: Route.MetaArgs) {
-  const title = "The AdPharm | Full Service Pharmaceutical Advertising Agency";
-  const description = "A full service pharmaceutical advertising agency in the truest sense. We deliver strategic marketing solutions for life sciences and healthcare brands.";
-  const url = "https://theadpharm.com";
+  const title = "Our Services | The AdPharm";
+  const description = "Explore The AdPharm's core capabilities in pharmaceutical advertising, medical communications, digital innovation, and strategic marketing solutions.";
+  const url = "https://theadpharm.com/services";
   const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
 
   return [
@@ -32,17 +31,14 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
+export default function Services() {
   return (
     <div className="antialiased">
       <BackgroundGrid />
       <Navigation />
-      <main className="relative z-10 w-full">
-        <div id="hero">
-          <HeroSection />
-        </div>
-        <div id="experience">
-          <ExperienceSection />
+      <main className="relative z-10 w-full pt-16">
+        <div id="services">
+          <ServicesSection />
         </div>
         <div id="contact">
           <ContactSection />

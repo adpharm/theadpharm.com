@@ -6,12 +6,12 @@ import { MobileMenu } from "./navigation/MobileMenu";
 import { ProgressIndicator } from "./navigation/ProgressIndicator";
 
 const sections = [
-  { name: "Home", id: "hero" },
-  { name: "About", id: "about" },
-  { name: "Services", id: "services" },
-  { name: "Experience", id: "experience" },
-  { name: "Insights", id: "insights" },
-  { name: "Contact", id: "contact" },
+  { name: "Home", id: "hero", path: "/" },
+  { name: "About", id: "about", path: "/about" },
+  { name: "Services", id: "services", path: "/services" },
+  { name: "Experience", id: "experience", path: "/#experience" },
+  { name: "Insights", id: "insights", path: "/insights" },
+  { name: "Contact", id: "contact", path: "/#contact" },
 ];
 
 export function Navigation() {
@@ -61,16 +61,24 @@ export function Navigation() {
     }
   }, [isHomePage, location.hash]);
 
-  const scrollToSection = (id: string) => {
-    if (isHomePage) {
-      // On home page: scroll to section
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+  const scrollToSection = (id: string, path: string) => {
+    // Check if it's a direct page route (not a hash)
+    if (path.startsWith("/") && !path.includes("#")) {
+      // Navigate to the page
+      navigate(path);
+    } else if (path.includes("#")) {
+      // It's a hash link
+      const hash = path.split("#")[1];
+      if (isHomePage) {
+        // On home page: scroll to section
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // On other pages: navigate to home with hash
+        navigate(path);
       }
-    } else {
-      // On other pages: navigate to home with hash
-      navigate(`/#${id}`);
     }
     setIsMobileMenuOpen(false);
   };
@@ -85,7 +93,7 @@ export function Navigation() {
           isScrolled ? "bg-[var(--bg-base)]/90 backdrop-blur-lg border-white/10" : "border-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-8 lg:px-16 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-8 lg:px-16 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link to="/">
             <motion.div
@@ -102,9 +110,12 @@ export function Navigation() {
             {sections.map((section, index) => (
               <button
                 key={section.id}
-                onClick={() => scrollToSection(section.id)}
+                onClick={() => scrollToSection(section.id, section.path)}
                 className={`text-sm tracking-wider uppercase transition-colors ${
-                  activeSection === index ? "text-[var(--accent-primary)]" : "text-white/60 hover:text-white"
+                  location.pathname === section.path ||
+                  (section.path.includes("#") && isHomePage && activeSection === index)
+                    ? "text-[var(--accent-primary)]"
+                    : "text-white/60 hover:text-white"
                 }`}
               >
                 {section.name}
@@ -127,11 +138,15 @@ export function Navigation() {
         isOpen={isMobileMenuOpen}
         sections={sections}
         activeSection={activeSection}
-        onSectionClick={scrollToSection}
+        onSectionClick={(id, path) => scrollToSection(id, path || `/#${id}`)}
       />
 
       {/* Side Progress Indicator */}
-      <ProgressIndicator sections={sections} activeSection={activeSection} onSectionClick={scrollToSection} />
+      <ProgressIndicator
+        sections={sections}
+        activeSection={activeSection}
+        onSectionClick={(id, path) => scrollToSection(id, path || `/#${id}`)}
+      />
     </>
   );
 }
