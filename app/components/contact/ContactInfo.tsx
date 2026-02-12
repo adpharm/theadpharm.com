@@ -38,7 +38,7 @@ export function ContactInfo() {
         </div>
         <div>
           <div className="text-xs text-white/40 tracking-wider uppercase">Location</div>
-          <div className="text-lg">Oakville, Ontario, Canada</div>
+          <div className="text-lg">133 Thomas St, Oakville Ontario, L6J 3A9</div>
         </div>
       </motion.div>
     </div>
