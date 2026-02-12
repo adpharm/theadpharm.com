@@ -19,7 +19,7 @@ export function ContactInfo() {
       </motion.a>
 
       <motion.a
-        href="tel:+14165551234"
+        href="tel:+19059011062"
         whileHover={{ x: 5 }}
         className="flex items-center gap-4 text-white hover:text-[var(--accent-primary)] transition-colors group"
       >
