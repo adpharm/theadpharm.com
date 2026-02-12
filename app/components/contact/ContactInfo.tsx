@@ -5,7 +5,7 @@ export function ContactInfo() {
   return (
     <div className="space-y-6">
       <motion.a
-        href="mailto:hello@theadpharm.com"
+        href="mailto:digital@theadpharm.com"
         whileHover={{ x: 5 }}
         className="flex items-center gap-4 text-white hover:text-[var(--accent-primary)] transition-colors group"
       >
