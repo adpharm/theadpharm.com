@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from "react-router";
+import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, useLocation } from "react-router";
 import { useEffect } from "react";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource-variable/inter";
@@ -30,7 +30,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
-        <ScrollRestoration />
         <Scripts />
       </body>
     </html>

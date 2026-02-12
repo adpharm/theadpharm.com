@@ -14,6 +14,15 @@ const sections = [
   { name: "Contact", id: "contact", path: "/#contact" },
 ];
 
+// Map routes to their sections (for progress indicator)
+const pageSectionsMap: Record<string, string[]> = {
+  "/": ["hero", "experience", "contact"],
+  "/home": ["hero", "experience", "contact"],
+  "/about": ["about", "contact"],
+  "/services": ["services", "contact"],
+  "/insights": ["insights", "contact"],
+};
+
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
@@ -22,16 +31,34 @@ export function Navigation() {
   const navigate = useNavigate();
 
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
+  
+  // Filter sections based on current page and update contact path to current page
+  const currentPageSections = sections
+    .filter((section) =>
+      pageSectionsMap[location.pathname]?.includes(section.id)
+    )
+    .map((section) => {
+      // Update contact path to always point to current page's contact section
+      if (section.id === "contact") {
+        return { ...section, path: `${location.pathname}#contact` };
+      }
+      return section;
+    });
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Determine active section based on scroll position
-      const scrollPosition = window.scrollY + 200;
-      const windowHeight = window.innerHeight;
+      // If near the top, always show first section as active
+      if (window.scrollY < 100) {
+        setActiveSection(0);
+        return;
+      }
 
-      sections.forEach((section, index) => {
+      // Determine active section based on scroll position (only for sections on current page)
+      const scrollPosition = window.scrollY + 200;
+
+      currentPageSections.forEach((section, index) => {
         const element = document.getElementById(section.id);
         if (element) {
           const offsetTop = element.offsetTop;
@@ -44,9 +71,12 @@ export function Navigation() {
       });
     };
 
+    // Set initial active section
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     // Handle hash navigation on home page load
@@ -62,23 +92,23 @@ export function Navigation() {
   }, [isHomePage, location.hash]);
 
   const scrollToSection = (id: string, path: string) => {
-    // Check if it's a direct page route (not a hash)
-    if (path.startsWith("/") && !path.includes("#")) {
-      // Navigate to the page
-      navigate(path);
-    } else if (path.includes("#")) {
-      // It's a hash link
-      const hash = path.split("#")[1];
-      if (isHomePage) {
-        // On home page: scroll to section
-        const element = document.getElementById(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      } else {
-        // On other pages: navigate to home with hash
-        navigate(path);
+    // If we're already on the target page, just scroll to the section
+    const targetPath = path.split("#")[0];
+    if (targetPath === location.pathname || (targetPath === "/" && isHomePage)) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
       }
+    } else if (path.startsWith("/") && !path.includes("#")) {
+      // Navigate to a different page
+      navigate(path);
+      // Scroll to top after navigation
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 100);
+    } else if (path.includes("#")) {
+      // It's a hash link to a different page
+      navigate(path);
     }
     setIsMobileMenuOpen(false);
   };
@@ -143,7 +173,7 @@ export function Navigation() {
 
       {/* Side Progress Indicator */}
       <ProgressIndicator
-        sections={sections}
+        sections={currentPageSections}
         activeSection={activeSection}
         onSectionClick={(id, path) => scrollToSection(id, path || `/#${id}`)}
       />
