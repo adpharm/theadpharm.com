@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-02-13
+
+- refactor: Expanded homepage to include About, Services, and Insights sections with simplified card-based previews and CTAs, creating a more comprehensive single-page experience that guides users to dedicated detail pages
+- refactor: Redesigned hero section with full-width background image approach (max 1920px with gradient edges) for better visual impact across all screen sizes, replacing previous masked gradient implementation
+- refactor: Changed hero CTA from "Discover More" button to "Contact Us" for clearer user action pathway
+- refactor: Simplified navigation by removing Experience from main menu while keeping it on homepage, creating cleaner top-level navigation focused on key service areas
+- refactor: Enhanced navigation scroll behavior to scroll to page top when clicking current page route, improving user orientation
+- refactor: Replaced Insights page card carousel with newsletter signup form, transforming the page into a lead generation tool while keeping simplified card preview on homepage
+- refactor: Changed Services page to allow multiple expanded accordion items simultaneously instead of single selection, enabling easier comparison of service details
+- refactor: Removed numbered prefixes from service cards and insight cards, replacing with minimalist decorative bar elements for cleaner visual hierarchy
+- refactor: Renamed "Technical Capabilities" service to "Digital & AI" for clearer positioning of modern capabilities
+- refactor: Reordered leadership team to display Jai Sharma before Fiona Roossien
+- refactor: Relocated LinkedIn buttons from image overlays to below team member names for better accessibility and mobile usability
+- refactor: Updated leadership section heading from "Leadership Team" to "Our Leadership Team" for warmer tone
+
 ## 2026-02-11
 
 - feat: Converted website from single-page application to multi-page architecture with dedicated routes for About, Services, and Insights sections, enabling better SEO and shareable URLs for each section

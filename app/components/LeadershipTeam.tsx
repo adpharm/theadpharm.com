@@ -1,4 +1,4 @@
-import { Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
+import { Linkedin, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { GlowBorder } from "./GlowBorder";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,16 +24,16 @@ const teamMembers: TeamMember[] = [
     linkedIn: "https://www.linkedin.com/in/amy-moriarty/",
   },
   {
-    name: "Fiona Roossien",
-    title: "Vice President, Creative Director",
-    image: "/images/headshots/fiona-roossien.png",
-    linkedIn: "https://www.linkedin.com/in/fiona-roossien-1b75748/",
-  },
-  {
     name: "Jai Sharma",
     title: "Vice President, Medical Communications",
     image: "/images/headshots/jai-sharma.png",
     linkedIn: "https://www.linkedin.com/in/jai-sharma-03526a6/",
+  },
+  {
+    name: "Fiona Roossien",
+    title: "Vice President, Creative Director",
+    image: "/images/headshots/fiona-roossien.png",
+    linkedIn: "https://www.linkedin.com/in/fiona-roossien-1b75748/",
   },
   {
     name: "Tony Wong",
@@ -82,7 +82,7 @@ export function LeadershipTeam() {
           />
 
           {/* LinkedIn Button - always visible on mobile, hover on desktop */}
-          <a
+          {/* <a
             href={member.linkedIn}
             target="_blank"
             rel="noopener noreferrer"
@@ -90,15 +90,29 @@ export function LeadershipTeam() {
             onClick={(e) => e.stopPropagation()}
           >
             <Linkedin className="w-4 h-4" />
-          </a>
+          </a> */}
         </div>
 
         {/* Member Info */}
-        <div className="p-4 space-y-1 flex-1">
-          <div className="text-white group-hover:text-[var(--accent-primary)] transition-colors uppercase tracking-wide text-sm">
-            {member.name}
+        <div className="p-4 flex-1 flex flex-col justify-between">
+          <div className="space-y-1">
+            <div className="text-white group-hover:text-[var(--accent-primary)] transition-colors uppercase tracking-wide text-sm">
+              {member.name}
+            </div>
+            <div className="text-white/40 text-xs">{member.title}</div>
           </div>
-          <div className="text-white/40 text-xs">{member.title}</div>
+          {member.linkedIn && (
+            <a
+              href={member.linkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-white/60 hover:text-[var(--accent-primary)] transition-colors mt-3"
+            >
+              <Linkedin className="w-3 h-3" />
+              LinkedIn
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          )}
         </div>
       </div>
     </GlowBorder>
@@ -121,7 +135,7 @@ export function LeadershipTeam() {
 
   return (
     <div className="mt-24">
-      <h3 className="text-2xl tracking-tight uppercase mb-12 mt-0 text-center">Leadership Team</h3>
+      <h3 className="text-2xl tracking-tight uppercase mb-12 mt-0 text-center">Our Leadership Team</h3>
 
       {/* Mobile Carousel - Two Cards with Navigation */}
       <div className="md:hidden">

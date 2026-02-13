@@ -5,19 +5,31 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { MobileMenu } from "./navigation/MobileMenu";
 import { ProgressIndicator } from "./navigation/ProgressIndicator";
 
-const sections = [
+// Top-level navigation menu items
+const menuItems = [
   { name: "Home", id: "hero", path: "/" },
   { name: "About", id: "about", path: "/about" },
+  // { name: "Experience", id: "experience", path: "/#experience" },
   { name: "Services", id: "services", path: "/services" },
-  { name: "Experience", id: "experience", path: "/#experience" },
   { name: "Insights", id: "insights", path: "/insights" },
   { name: "Contact", id: "contact", path: "/#contact" },
 ];
 
+// All sections including homepage variants (for progress indicator)
+const sections = [
+  { name: "Home", id: "hero", path: "/" },
+  { name: "Experience", id: "experience", path: "/#experience" },
+  { name: "About", id: "about-us", path: "/#about-us" },
+  { name: "Services", id: "services", path: "/#services" },
+  { name: "Insights", id: "insights", path: "/#insights" },
+  { name: "Contact", id: "contact", path: "/#contact" },
+  { name: "About", id: "about", path: "/about" },
+];
+
 // Map routes to their sections (for progress indicator)
 const pageSectionsMap: Record<string, string[]> = {
-  "/": ["hero", "experience", "contact"],
-  "/home": ["hero", "experience", "contact"],
+  "/": ["hero", "experience", "about-us", "services", "insights", "contact"],
+  "/home": ["hero", "experience", "about-us", "services", "insights", "contact"],
   "/about": ["about", "contact"],
   "/services": ["services", "contact"],
   "/insights": ["insights", "contact"],
@@ -31,12 +43,10 @@ export function Navigation() {
   const navigate = useNavigate();
 
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
-  
+
   // Filter sections based on current page and update contact path to current page
   const currentPageSections = sections
-    .filter((section) =>
-      pageSectionsMap[location.pathname]?.includes(section.id)
-    )
+    .filter((section) => pageSectionsMap[location.pathname]?.includes(section.id))
     .map((section) => {
       // Update contact path to always point to current page's contact section
       if (section.id === "contact") {
@@ -92,22 +102,30 @@ export function Navigation() {
   }, [isHomePage, location.hash]);
 
   const scrollToSection = (id: string, path: string) => {
-    // If we're already on the target page, just scroll to the section
     const targetPath = path.split("#")[0];
-    if (targetPath === location.pathname || (targetPath === "/" && isHomePage)) {
+    const isCurrentPage = targetPath === location.pathname || (targetPath === "/" && isHomePage);
+    
+    // If clicking on current page route (not a hash link), scroll to top
+    if (isCurrentPage && !path.includes("#")) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    // If we're already on the target page and it's a hash link, scroll to the section
+    else if (isCurrentPage && path.includes("#")) {
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
-    } else if (path.startsWith("/") && !path.includes("#")) {
-      // Navigate to a different page
+    } 
+    // Navigate to a different page without hash
+    else if (path.startsWith("/") && !path.includes("#")) {
       navigate(path);
       // Scroll to top after navigation
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }, 100);
-    } else if (path.includes("#")) {
-      // It's a hash link to a different page
+    } 
+    // Navigate to a different page with hash
+    else if (path.includes("#")) {
       navigate(path);
     }
     setIsMobileMenuOpen(false);
@@ -137,20 +155,24 @@ export function Navigation() {
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8">
-            {sections.map((section, index) => (
-              <button
-                key={section.id}
-                onClick={() => scrollToSection(section.id, section.path)}
-                className={`text-sm tracking-wider uppercase transition-colors ${
-                  location.pathname === section.path ||
-                  (section.path.includes("#") && isHomePage && activeSection === index)
-                    ? "text-[var(--accent-primary)]"
-                    : "text-white/60 hover:text-white"
-                }`}
-              >
-                {section.name}
-              </button>
-            ))}
+            {menuItems.map((item) => {
+              // Check if this menu item corresponds to the currently active section
+              const isActive =
+                location.pathname === item.path ||
+                (isHomePage && currentPageSections[activeSection]?.id === item.id);
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id, item.path)}
+                  className={`text-sm tracking-wider uppercase transition-colors ${
+                    isActive ? "text-[var(--accent-primary)]" : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              );
+            })}
           </div>
 
           {/* Mobile Menu Button */}
@@ -166,7 +188,7 @@ export function Navigation() {
       {/* Mobile Menu Overlay */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
-        sections={sections}
+        sections={menuItems}
         activeSection={activeSection}
         onSectionClick={(id, path) => scrollToSection(id, path || `/#${id}`)}
       />

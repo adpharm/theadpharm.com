@@ -105,8 +105,14 @@ export function InsightCard({
                 </div>
               </div>
 
-              {/* Card Number */}
-              <div className="absolute bottom-4 right-6 text-white/20 text-6xl font-bold">0{index + 1}</div>
+              {/* Decorative element instead of number */}
+              <div className="absolute bottom-4 right-6">
+                <div className="flex gap-1 items-end">
+                  <div className="w-1 h-8 bg-[var(--accent-primary)]/20" />
+                  <div className="w-1 h-12 bg-[var(--accent-primary)]/30" />
+                  <div className="w-1 h-6 bg-[var(--accent-primary)]/20" />
+                </div>
+              </div>
             </div>
 
             {/* Card Content */}
@@ -130,7 +136,7 @@ export function InsightCard({
               >
                 {insight.description}
               </p>
-              
+
               {/* Chevron indicator */}
               {onClick && (
                 <div className="mt-auto pt-4 flex items-center gap-2 text-sm text-white/40 group-hover:text-[var(--accent-primary)] mobile-glow-active:text-[var(--accent-primary)] transition-colors duration-300">

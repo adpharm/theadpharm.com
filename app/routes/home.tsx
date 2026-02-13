@@ -3,11 +3,15 @@ import { BackgroundGrid } from "~/components/BackgroundGrid";
 import { Navigation } from "~/components/Navigation";
 import { HeroSection } from "~/components/HeroSection";
 import { ExperienceSection } from "~/components/ExperienceSection";
+import { AboutSection } from "~/components/AboutSection";
+import { ServicesSection } from "~/components/ServicesSection";
+import { InsightsSection } from "~/components/InsightsSection";
 import { ContactSection } from "~/components/ContactSection";
 
 export function meta({}: Route.MetaArgs) {
   const title = "The AdPharm | Full Service Pharmaceutical Advertising Agency";
-  const description = "A full service pharmaceutical advertising agency in the truest sense. We deliver strategic marketing solutions for life sciences and healthcare brands.";
+  const description =
+    "A full service pharmaceutical advertising agency in the truest sense. We deliver strategic marketing solutions for life sciences and healthcare brands.";
   const url = "https://theadpharm.com";
   const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
 
@@ -15,7 +19,7 @@ export function meta({}: Route.MetaArgs) {
     { title },
     { name: "description", content: description },
     { tagName: "link", rel: "canonical", href: url },
-    
+
     // Open Graph
     { property: "og:title", content: title },
     { property: "og:description", content: description },
@@ -23,7 +27,7 @@ export function meta({}: Route.MetaArgs) {
     { property: "og:url", content: url },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "The AdPharm" },
-    
+
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
@@ -43,6 +47,15 @@ export default function Home() {
         </div>
         <div id="experience">
           <ExperienceSection />
+        </div>
+        <div id="about-us">
+          <AboutSection isHomepage />
+        </div>
+        <div id="services">
+          <ServicesSection isHomepage />
+        </div>
+        <div id="insights">
+          <InsightsSection isHomepage />
         </div>
         <div id="contact">
           <ContactSection />

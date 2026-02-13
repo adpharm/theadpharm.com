@@ -109,9 +109,13 @@ export function InsightModal({ insight, index, onClose }: InsightModalProps) {
                 </div>
               </div>
 
-              {/* Card Number - Large and clipped */}
-              <div className="absolute -bottom-6 right-6 sm:-bottom-8 sm:right-8 md:-bottom-12 md:right-12 text-white/10 font-bold leading-none text-[8rem] sm:text-[12rem] md:text-[16rem] lg:text-[20rem]">
-                0{index + 1}
+              {/* Decorative element instead of number */}
+              <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 md:bottom-12 md:right-12">
+                <div className="flex gap-2 items-end">
+                  <div className="w-2 h-12 sm:h-16 md:h-20 bg-[var(--accent-primary)]/20" />
+                  <div className="w-2 h-16 sm:h-20 md:h-24 bg-[var(--accent-primary)]/30" />
+                  <div className="w-2 h-10 sm:h-12 md:h-16 bg-[var(--accent-primary)]/20" />
+                </div>
               </div>
             </div>
 
