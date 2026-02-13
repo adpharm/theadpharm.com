@@ -19,33 +19,55 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden border-b border-white/10">
-      {/* Background image - max 1920px wide with gradient edges */}
+      {/* Background with black base */}
+      <div className="absolute inset-0 bg-black" />
+
+      {/* Background image - desktop only - max 1920px wide with gradient edges */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 0.3 }}
-        className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        className="hidden md:block absolute inset-0 pointer-events-none"
       >
-        {/* Image container - max 1920px */}
-        <div className="relative w-full max-w-[1920px] h-full">
-          <img
-            src="/images/full-group-photo-bw.png"
-            alt="The Adpharm Team"
-            className="w-full h-full object-cover object-center"
-          />
+        <div className="absolute inset-0 flex items-center justify-center">
+          {/* Image container - max 1920px with gradients on edges */}
+          <div className="relative w-full max-w-[1920px] h-full">
+            <img
+              src="/images/full-group-photo-bw.png"
+              alt="The Adpharm Team"
+              className="w-full h-full object-cover object-center"
+            />
 
-          {/* Dark tint overlay for text contrast */}
-          <div className="absolute inset-0 bg-black/80" />
+            {/* Dark tint overlay for text contrast */}
+            <div className="absolute inset-0 bg-black/80" />
 
-          {/* Accent border frames - desktop only */}
-          <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[var(--accent-primary)]/20 hidden lg:block" />
+            {/* Left gradient fade to black */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent" />
+
+            {/* Right gradient fade to black */}
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent" />
+
+            {/* Accent border frames */}
+            <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[var(--accent-primary)]/20" />
+          </div>
         </div>
-        
-        {/* Left gradient fade for ultrawide screens */}
-        <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-black to-transparent pointer-events-none" />
-        
-        {/* Right gradient fade for ultrawide screens */}
-        <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-black to-transparent pointer-events-none" />
+      </motion.div>
+
+      {/* Mobile image - at the top */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.3 }}
+        className="md:hidden absolute top-20 left-0 right-0 h-[50vh] pointer-events-none"
+      >
+        <img
+          src="/images/full-group-photo-bw.png"
+          alt="The Adpharm Team"
+          className="w-full h-full object-cover object-top"
+        />
+
+        {/* Gradient from bottom to blend with background */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent" />
       </motion.div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16 py-20">
@@ -54,10 +76,10 @@ export function HeroSection() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="space-y-8 max-w-3xl"
+          className="space-y-8 max-w-3xl mt-[45vh] md:mt-0"
         >
           <div className="space-y-2">
-            <h1 className="text-6xl lg:text-7xl xl:text-[100px] tracking-tight leading-[0.95] uppercase font-semibold">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-[100px] tracking-tight leading-[0.95] uppercase font-semibold">
               A Full Service
               <br />
               <span className="text-orange-500">Agency </span>In The

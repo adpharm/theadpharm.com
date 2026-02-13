@@ -138,7 +138,7 @@ export function Navigation() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-          isScrolled ? "bg-[var(--bg-base)]/90 backdrop-blur-lg border-white/10" : "border-transparent"
+          isScrolled ? "bg-[var(--bg-base)]/90 backdrop-blur-lg border-white/10" : "lg:border-transparent border-white/10 bg-[var(--bg-base)]/90 backdrop-blur-lg lg:bg-transparent lg:backdrop-blur-none"
         }`}
       >
         <div className="max-w-7xl mx-auto px-8 lg:px-16 h-20 flex items-center justify-between">
