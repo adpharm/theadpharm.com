@@ -58,7 +58,7 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 0.3 }}
-        className="md:hidden absolute top-20 left-0 right-0 h-[50vh] pointer-events-none"
+        className="md:hidden absolute top-20 left-0 right-0 h-[30vh] pointer-events-none"
       >
         <img
           src="/images/full-group-photo-bw.png"
@@ -76,7 +76,7 @@ export function HeroSection() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="space-y-8 max-w-3xl mt-[45vh] md:mt-0"
+          className="space-y-8 max-w-3xl mt-[24vh] md:mt-0"
         >
           <div className="space-y-2">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-[100px] tracking-tight leading-[0.95] uppercase font-semibold">
