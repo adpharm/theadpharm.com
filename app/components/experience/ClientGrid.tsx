@@ -7,7 +7,7 @@ export function ClientGrid() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const [showAll, setShowAll] = useState(false);
 
-  const mobileVisibleCount = 6;
+  const mobileVisibleCount = 8;
   const hasMore = clients.length > mobileVisibleCount;
   const visibleClients = clients.slice(0, mobileVisibleCount);
   const hiddenClients = clients.slice(mobileVisibleCount);
@@ -31,7 +31,10 @@ export function ClientGrid() {
       transition={{ duration: 0.6, delay: 0.4 }}
     >
       <p className="text-lg leading-relaxed text-white/70 mb-8 max-w-4xl">
-        Our expertise spans the most complex sectors of modern medicine. From the intricacies of hematology and neurology to the high-stakes environments of oncology and dermatology, we have been privileged to embed ourselves within the industry's most visionary teams. We don't just work alongside these leaders; we help them navigate the challenges of their specific therapeutic landscapes.
+        Our expertise spans the most complex sectors of modern medicine. From the intricacies of hematology and
+        neurology to the high-stakes environments of oncology and dermatology, we have been privileged to work with some
+        of the industry's most visionary teams. We don't just work alongside these leaders; we help them navigate the
+        challenges of each therapeutic landscape.
       </p>
 
       <div className="border border-white/10 p-6 md:p-12">
@@ -110,7 +113,6 @@ export function ClientGrid() {
             </button>
           </div>
         )}
-
       </div>
     </motion.div>
   );

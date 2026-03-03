@@ -2,7 +2,6 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router";
 import { GlowingBox } from "./GlowingBox";
-import { LeadershipTeam } from "./LeadershipTeam";
 
 interface AboutSectionProps {
   isHomepage?: boolean;
@@ -73,22 +72,22 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
             <GlowingBox delay={0.2} notched>
               <h3 className="text-3xl tracking-tight uppercase">Our Foundation</h3>
               <p className="text-white/60 leading-relaxed mt-8">
-                Established in Canada, The Adpharm has evolved from a boutique pharmaceutical consultancy into a
-                full-spectrum agency. Our multidisciplinary team combines scientific rigor with creative brilliance,
-                delivering campaigns that don't just inform—they inspire action.
+                Founded in Canada, The Adpharm has evolved from a boutique pharmaceutical strategic consultancy to a
+                full-spectrum agency. Our multi-disciplinary team combines scientific rigor with strategic insight and
+                creative brilliance, delivering campaigns that don't just inform—they inspire action.
               </p>
               <div className="space-y-2 text-sm text-white/40 mt-8">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-[var(--accent-primary)]" />
-                  <span>Canadian Heritage & Global Reach</span>
+                  <span>Canadian heritage, global reach</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-[var(--accent-primary)]" />
-                  <span>Medical & Creative Integration</span>
+                  <span>Medical & creative integration</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-[var(--accent-primary)]" />
-                  <span>Evidence-Based Innovation</span>
+                  <span>Evidence-based innovation</span>
                 </div>
               </div>
             </GlowingBox>
@@ -97,9 +96,9 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
             <div>
               <h3 className="text-3xl tracking-tight uppercase mt-12">Our Mission</h3>
               <p className="text-white/60 leading-relaxed mt-8">
-                To bridge the gap between pharmaceutical innovation and patient care through exceptional creative
-                excellence and unwavering medical accuracy. We are architects of communication, building trust between
-                science and humanity.
+                To bridge the gap between pharmaceutical innovation and patient care through creative excellence and
+                unwavering medical accuracy. We are architects of communication, building trust between science and
+                humanity.
               </p>
               <div className="flex gap-8 text-sm text-white/40 mt-8">
                 <div className="border-l-2 border-orange-400 pl-4">
@@ -108,15 +107,12 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
                 </div>
                 <div className="border-l-2 border-orange-400 pl-4">
                   <div className="text-white text-2xl">100+</div>
-                  <div>Successful Campaigns</div>
+                  <div>Integrated Campaigns</div>
                 </div>
               </div>
             </div>
           </div>
         )}
-
-        {/* Leadership Team */}
-        {!isHomepage && <LeadershipTeam />}
 
         {/* CTA Button for Homepage */}
         {isHomepage && (

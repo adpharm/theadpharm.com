@@ -16,7 +16,7 @@ export const insights: Insight[] = [
     title: "More than just numbers",
     color: "from-[var(--accent-primary)]/20 to-transparent",
     description:
-      "Data tells a story, but insight reveals the narrative. We transform analytics into actionable intelligence, connecting dots others don't see.",
+      "From dense medical studies to complex campaign metrics, numbers require context. We translate the raw numbers into clear, data-driven insights—explaining exactly what they mean and the steps you need to take next.",
     fullContent: (
       <>
         <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">But can data be emotional?</h3>
@@ -42,7 +42,7 @@ export const insights: Insight[] = [
     color: "from-[var(--accent-primary)]/20 to-transparent",
     image: true,
     description:
-      "Beyond the white coat lies human complexity. We unlock the 44% of their day spent in 'blue jeans' moments for deeper brand connection.",
+      "Healthcare professionals exist beyond the white coat. By engaging them during the 44% of their day spent in 'blue jeans' moments, we unlock powerful new ways to build deeper, more authentic brand connections.",
     fullContent: (
       <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 justify-center items-start">
         <div className="flex-1">
@@ -69,10 +69,10 @@ export const insights: Insight[] = [
   },
   {
     icon: Lightbulb,
-    title: "Innovative copywriting: Beyond the straight line",
+    title: "Creative, compliant copywriting that connects",
     color: "from-[var(--accent-primary)]/20 to-transparent",
     description:
-      "In regulated environments, we defend strategic intention while maintaining compliance. Clear beats clever. Meaning never compromises.",
+      "In regulated environments, we fiercely defend the strategic soul of your message. We believe clarity always beats cleverness, and your core meaning should never be compromised.",
     fullContent: (
       <>
         <p className="mb-4">
@@ -101,7 +101,7 @@ export const insights: Insight[] = [
     title: "Strategic targeting",
     color: "from-[var(--accent-primary)]/20 to-transparent",
     description:
-      "New access to HCPs via Google, consented audiences, and CIHI data layering. We focus investment where biomarker-driven decisions are made.",
+      "We leverage consented audiences and CIHI data layering to unlock new access to the right HCPs, focusing your investment exactly where the highest-value decisions are made.",
     fullContent: (
       <>
         <h3 className="text-lg sm:text-xl font-bold mb-3 text-white">New access to HCPs via Google</h3>

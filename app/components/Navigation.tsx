@@ -12,7 +12,7 @@ const menuItems = [
   // { name: "Experience", id: "experience", path: "/#experience" },
   { name: "Services", id: "services", path: "/services" },
   { name: "Insights", id: "insights", path: "/insights" },
-  { name: "Contact", id: "contact", path: "/#contact" },
+  { name: "Contact", id: "contact", path: "#contact" },
 ];
 
 // All sections including homepage variants (for progress indicator)
@@ -30,7 +30,7 @@ const sections = [
 const pageSectionsMap: Record<string, string[]> = {
   "/": ["hero", "experience", "about-us", "services", "insights", "contact"],
   "/home": ["hero", "experience", "about-us", "services", "insights", "contact"],
-  "/about": ["about", "contact"],
+  "/about": ["about", "experience", "leadership", "contact"],
   "/services": ["services", "contact"],
   "/insights": ["insights", "contact"],
 };
@@ -103,29 +103,25 @@ export function Navigation() {
 
   const scrollToSection = (id: string, path: string) => {
     const targetPath = path.split("#")[0];
-    const isCurrentPage = targetPath === location.pathname || (targetPath === "/" && isHomePage);
-    
-    // If clicking on current page route (not a hash link), scroll to top
-    if (isCurrentPage && !path.includes("#")) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    // If we're already on the target page and it's a hash link, scroll to the section
-    else if (isCurrentPage && path.includes("#")) {
+    const isCurrentPage = targetPath === location.pathname || (targetPath === "/" && isHomePage) || targetPath === "";
+
+    // If we're on the current page and it's a hash link, scroll to the section
+    if (isCurrentPage && path.includes("#")) {
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
+      } else {
+        // Section doesn't exist on current page, navigate to home page with hash
+        navigate(`/${path}`);
       }
-    } 
-    // Navigate to a different page without hash
-    else if (path.startsWith("/") && !path.includes("#")) {
-      navigate(path);
-      // Scroll to top after navigation
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 100);
-    } 
-    // Navigate to a different page with hash
-    else if (path.includes("#")) {
+    }
+    // If clicking on current page route (not a hash link), scroll to top
+    else if (isCurrentPage && !path.includes("#")) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    // Navigate to a different page (with or without hash)
+    // ScrollToTop component in root.tsx handles scroll-to-top for non-hash navigation
+    else {
       navigate(path);
     }
     setIsMobileMenuOpen(false);
@@ -137,8 +133,11 @@ export function Navigation() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
+        transition={{ duration: 0.2, delay: isHomePage ? 0.6 : 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-          isScrolled ? "bg-[var(--bg-base)]/90 backdrop-blur-lg border-white/10" : "lg:border-transparent border-white/10 bg-[var(--bg-base)]/90 backdrop-blur-lg lg:bg-transparent lg:backdrop-blur-none"
+          isScrolled
+            ? "bg-[var(--bg-base)]/90 backdrop-blur-lg border-white/10"
+            : "lg:border-transparent border-white/10 bg-[var(--bg-base)]/90 backdrop-blur-lg lg:bg-transparent lg:backdrop-blur-none"
         }`}
       >
         <div className="max-w-7xl mx-auto px-8 lg:px-16 h-20 flex items-center justify-between">
@@ -158,8 +157,7 @@ export function Navigation() {
             {menuItems.map((item) => {
               // Check if this menu item corresponds to the currently active section
               const isActive =
-                location.pathname === item.path ||
-                (isHomePage && currentPageSections[activeSection]?.id === item.id);
+                location.pathname === item.path || (isHomePage && currentPageSections[activeSection]?.id === item.id);
 
               return (
                 <button

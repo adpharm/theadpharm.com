@@ -2,6 +2,8 @@ import type { Route } from "./+types/about";
 import { BackgroundGrid } from "~/components/BackgroundGrid";
 import { Navigation } from "~/components/Navigation";
 import { AboutSection } from "~/components/AboutSection";
+import { ExperienceSection } from "~/components/ExperienceSection";
+import { LeadershipSection } from "~/components/LeadershipSection";
 import { ContactSection } from "~/components/ContactSection";
 
 export function meta({}: Route.MetaArgs) {
@@ -39,6 +41,12 @@ export default function About() {
       <main className="relative z-10 w-full pt-16">
         <div id="about">
           <AboutSection />
+        </div>
+        <div id="experience">
+          <ExperienceSection />
+        </div>
+        <div id="leadership">
+          <LeadershipSection />
         </div>
         <div id="contact">
           <ContactSection />

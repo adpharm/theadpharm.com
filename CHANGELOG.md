@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-03-03
+
+- refactor: Expanded About page to include Experience and Leadership sections, creating comprehensive company overview with full team showcase and client portfolio
+- refactor: Enhanced navigation to support section links within About page (Experience, Leadership), enabling direct navigation to specific content areas
+- refactor: Refined copy across all sections for clarity and impact, removing marketing fluff in favor of direct value statements
+- refactor: Adjusted hero section animation timing and overlay transitions for smoother visual progression on page load
+- refactor: Updated insight card styling with uppercase titles, centered icon alignment, and simplified backgrounds for improved visual hierarchy
+- refactor: Reordered client logos to prioritize top-tier partnerships at the front of the grid
+- refactor: Optimized leadership team headshot images by converting from PNG to JPEG/WebP formats for faster page loads
+- refactor: Enhanced progress indicator tooltips with accent-colored borders for better visual consistency
+- fix: Corrected scroll-to-top behavior to respect hash-based navigation, preventing unwanted scroll when navigating to page sections
+
 ## 2026-02-13
 
 - refactor: Expanded homepage to include About, Services, and Insights sections with simplified card-based previews and CTAs, creating a more comprehensive single-page experience that guides users to dedicated detail pages

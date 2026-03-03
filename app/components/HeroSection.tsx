@@ -23,12 +23,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-black" />
 
       {/* Background image - desktop only - max 1920px wide with gradient edges */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.3 }}
-        className="hidden md:block absolute inset-0 pointer-events-none"
-      >
+      <div className="hidden md:block absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Image container - max 1920px with gradients on edges */}
           <div className="relative w-full max-w-[1920px] h-full">
@@ -38,8 +33,13 @@ export function HeroSection() {
               className="w-full h-full object-cover object-center"
             />
 
-            {/* Dark tint overlay for text contrast */}
-            <div className="absolute inset-0 bg-black/80" />
+            {/* Dark tint overlay for text contrast - fades in after 1s */}
+            <motion.div
+              initial={{ opacity: 0.25 }}
+              animate={{ opacity: 0.9 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="absolute inset-0 bg-black/80"
+            />
 
             {/* Left gradient fade to black */}
             <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent" />
@@ -51,7 +51,7 @@ export function HeroSection() {
             <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[var(--accent-primary)]/20" />
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Mobile image - at the top */}
       <motion.div
@@ -75,7 +75,7 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 1 }}
           className="space-y-8 max-w-3xl mt-[24vh] md:mt-0"
         >
           <div className="space-y-2">
@@ -89,8 +89,8 @@ export function HeroSection() {
           </div>
 
           <div className="border-l-2 border-[var(--accent-primary)] pl-6 py-2">
-            <p className="text-white/70 text-lg max-w-md leading-snug lg:leading-relaxed">
-              Proven Canadian partner, 20+ years in pharma, with integrated creative + medical expertise.
+            <p className="text-white/70 text-lg font-semibold max-w-md leading-snug lg:leading-relaxed">
+              Trusted Canadian pharma partner with 20+ years of integrated creative + medical expertise.
             </p>
           </div>
 
@@ -104,7 +104,7 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: hasScrolled ? 0 : 1 }}
-        transition={{ duration: hasScrolled ? 0.5 : 1, delay: hasScrolled ? 0 : 1.5 }}
+        transition={{ duration: hasScrolled ? 0.5 : 1, delay: hasScrolled ? 0 : 1.8 }}
         className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
       >
         <span className="text-white/40 text-xs tracking-widest uppercase flex items-center gap-2">

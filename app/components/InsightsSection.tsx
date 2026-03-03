@@ -192,13 +192,13 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
-                  className="bg-white/5 border border-white/10 p-8"
+                  className="border border-white/10 p-8"
                 >
-                  <div className="flex items-start gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-4">
                     <div className="shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400/20 to-transparent border border-orange-400/30">
                       <Icon className="w-6 h-6 text-orange-400" />
                     </div>
-                    <h3 className="text-xl tracking-tight text-white">{insight.title}</h3>
+                    <h3 className="text-xl tracking-tight text-white uppercase">{insight.title}</h3>
                   </div>
                   <p className="text-white/60 leading-relaxed">{insight.description}</p>
                 </motion.div>
@@ -215,10 +215,15 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
               className="max-w-4xl mb-20"
             >
               <p className="text-white/70 text-lg leading-relaxed mb-6">
-                At The Adpharm, we believe that meaningful engagement begins with deep insight. Our approach combines rigorous data analysis, behavioral science, and creative strategy to uncover what truly resonates with healthcare professionals and patients alike.
+                At The Adpharm, we believe that meaningful engagement begins with deep insight. Our approach combines
+                rigorous data analysis, behavioral science, and creative strategy to uncover what truly resonates with
+                healthcare professionals and patients alike.
               </p>
               <p className="text-white/60 leading-relaxed">
-                From precision-targeted messaging to multi-channel campaign orchestration, we leverage proven methodologies and cutting-edge tools to transform pharmaceutical communications into measurable outcomes. Each campaign is built on a foundation of evidence-based insights, ensuring every touchpoint drives authentic connection and lasting impact.
+                From precision-targeted messaging to multi-channel campaign orchestration, we leverage proven
+                methodologies and cutting-edge tools to transform pharmaceutical communications into measurable
+                outcomes. Each campaign is built on a foundation of evidence-based insights, ensuring every touchpoint
+                drives authentic connection and lasting impact.
               </p>
             </motion.div>
 
@@ -236,7 +241,8 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                       Stay <span className="text-orange-400">Informed</span>
                     </h3>
                     <p className="text-white/60 leading-relaxed">
-                      Subscribe to receive exclusive case studies, in-depth analysis, and proven strategies for driving engagement in pharmaceutical marketing. Get actionable insights delivered directly to your inbox.
+                      Subscribe to receive exclusive case studies, in-depth analysis, and proven strategies for driving
+                      engagement in pharmaceutical marketing. Get actionable insights delivered directly to your inbox.
                     </p>
                   </div>
 
@@ -245,7 +251,10 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                     <form className="space-y-4">
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
-                          <label htmlFor="firstName" className="block text-sm text-white/40 mb-2 uppercase tracking-wider">
+                          <label
+                            htmlFor="firstName"
+                            className="block text-sm text-white/40 mb-2 uppercase tracking-wider"
+                          >
                             First Name
                           </label>
                           <input
@@ -258,7 +267,10 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                           />
                         </div>
                         <div>
-                          <label htmlFor="lastName" className="block text-sm text-white/40 mb-2 uppercase tracking-wider">
+                          <label
+                            htmlFor="lastName"
+                            className="block text-sm text-white/40 mb-2 uppercase tracking-wider"
+                          >
                             Last Name
                           </label>
                           <input
@@ -427,10 +439,10 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
             <div className="relative mobile-glow-active">
               {/* Glow layer (blurred) - always visible */}
               <div className="animated-border-glow absolute inset-0 opacity-100" />
-              
+
               {/* Border animation layer - always visible */}
               <div className="animated-border absolute inset-0 opacity-100" />
-              
+
               {/* Content wrapper */}
               <div className="relative p-px">
                 <div className="relative bg-[var(--bg-base)] z-10">
@@ -438,7 +450,7 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                     to="/insights"
                     className="relative block px-8 py-4 bg-white/10 hover:bg-white/[0.15] transition-colors duration-300"
                   >
-                    <span className="text-white tracking-widest uppercase text-sm">View Our Insights</span>
+                    <span className="text-white tracking-widest uppercase text-sm">Access Our Insights</span>
                   </Link>
                 </div>
               </div>
@@ -453,7 +465,6 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
           </AnimatePresence>
         )}
         */}
-
       </div>
     </section>
   );

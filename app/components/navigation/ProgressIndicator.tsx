@@ -24,14 +24,14 @@ export function ProgressIndicator({ sections, activeSection, onSectionClick }: P
             className="relative group"
           >
             <div
-              className={`w-2 h-2 transition-all duration-300 ${
-                activeSection === index ? "bg-[var(--accent-primary)] scale-150" : "bg-white/20 hover:bg-white/40"
+              className={`w-2 h-2 transition-all duration-200 cursor-pointer ${
+                activeSection === index ? "bg-[var(--accent-primary)] scale-120" : "bg-white/20 hover:bg-white/40"
               }`}
             />
 
             {/* Tooltip */}
             <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              <div className="bg-white text-[var(--bg-base)] px-3 py-1 text-xs tracking-wider uppercase whitespace-nowrap">
+              <div className="bg-[var(--accent-primary)]/20 border border-[var(--accent-primary)] text-white px-3 py-1 text-xs tracking-wider whitespace-nowrap">
                 {section.name}
               </div>
             </div>

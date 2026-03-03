@@ -20,7 +20,7 @@ export const services: Service[] = [
   {
     title: "Creative",
     description:
-      "From concept to execution, we craft compelling narratives and visual experiences that resonate across all audiences and channels.",
+      "From concept to execution, we craft compelling stories and striking visuals that capture attention and drive results across the channels where your audience spends their time.",
     details: [
       "HCP, Patient, and Consumer Content Development",
       "Regulatory-Compliant Creative (PAAB & ASC Expertise)",
@@ -49,7 +49,7 @@ export const services: Service[] = [
   {
     title: "Medical Communications",
     description:
-      "Translating complex science into compelling narratives that resonate with healthcare professionals and drive meaningful engagement.",
+      "Translating complex science into clear, compelling narratives that move healthcare professionals to act.",
     details: [
       "Advisory Boards and Consultancy Meetings",
       "Speaker Training and Development Programs",
