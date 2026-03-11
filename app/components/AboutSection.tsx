@@ -33,13 +33,19 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="relative overflow-hidden">
+              <div className="relative mobile-glow-active">
+                {/* Glow layer (blurred) - always visible */}
+                <div className="animated-border-glow absolute inset-0 opacity-100 z-5" />
+
+                {/* Border animation layer - always visible */}
+                <div className="animated-border absolute inset-0 opacity-100 z-5" />
+
+                {/* Content wrapper */}
                 <img
                   src="/images/full-group-photo-bw.png"
                   alt="The Adpharm Team"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover scale-99 scale-x-[0.995] z-10"
                 />
-                <div className="absolute inset-0 border-2 border-white/10 pointer-events-none" />
               </div>
             </motion.div>
 
