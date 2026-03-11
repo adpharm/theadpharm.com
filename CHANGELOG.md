@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-03-11
+
+- refactor: Refined copy across About, Contact, Insights, and Leadership sections for improved clarity and stronger value proposition messaging
+- refactor: Enhanced Leadership Team section with comprehensive team description highlighting pharma expertise, consumer-grade innovation, and therapeutic area experience
+
 ## 2026-03-03
 
 - refactor: Expanded About page to include Experience and Leadership sections, creating comprehensive company overview with full team showcase and client portfolio

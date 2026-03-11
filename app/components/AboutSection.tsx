@@ -51,15 +51,16 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
               className="flex flex-col justify-center"
             >
               <h2 className="text-3xl lg:text-4xl tracking-tight uppercase leading-tight">
-                Architects of Healthcare Communication
+                Architects of
+                <br />
+                Healthcare Communication
               </h2>
               <p className="text-white/70 leading-relaxed mt-6">
-                With over two decades of experience and 100+ successful campaigns under our belt, The Adpharm has grown
-                from a boutique Canadian consultancy into a premier, full-spectrum pharmaceutical agency. We exist to
-                bridge the critical gap between medical innovation and everyday patient care. By seamlessly integrating
-                our deep scientific rigor with creative brilliance, we design evidence-based campaigns that do more than
-                just inform. We build profound trust between science and humanity, delivering messages that truly
-                inspire action.
+                For over two decades, The Adpharm has grown from a boutique Canadian consultancy into a premier,
+                full-spectrum pharmaceutical agency. We exist to bridge the critical gap between medical innovation and
+                everyday patient care, a mission we've brought to life across 100+ successful integrated campaigns. We
+                pair scientific rigour with bold creative execution to design evidence-based campaigns that don't just
+                inform—they build trust and inspire action.
               </p>
             </motion.div>
           </div>

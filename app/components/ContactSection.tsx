@@ -31,8 +31,8 @@ export function ContactSection() {
             </div>
 
             <p className="text-white/60 text-lg leading-relaxed max-w-md">
-              Ready to elevate your pharmaceutical communications? Let's discuss how we can bring precision, creativity,
-              and impact to your next campaign.
+              Ready to bridge the gap between science and engagement? Let's discuss how we can bring scientific rigour,
+              precision targeting, and uncompromised creativity to your next campaign.
             </p>
 
             <ContactInfo />

@@ -175,9 +175,9 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
           <span className="text-[var(--accent-primary)] tracking-[0.3em] uppercase text-xs">Insights & Solutions</span>
           <div className="h-px w-32 bg-white/20 mt-4" />
           <h2 className="text-5xl lg:text-6xl tracking-tight uppercase mt-8">
-            Intelligence that drives
+            Intelligence that
             <br />
-            <span className="text-white/40">Engagement</span>
+            <span className="text-white/40">drives Engagement</span>
           </h2>
         </motion.div>
 
@@ -215,15 +215,14 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
               className="max-w-4xl mb-20"
             >
               <p className="text-white/70 text-lg leading-relaxed mb-6">
-                At The Adpharm, we believe that meaningful engagement begins with deep insight. Our approach combines
-                rigorous data analysis, behavioral science, and creative strategy to uncover what truly resonates with
-                healthcare professionals and patients alike.
-              </p>
-              <p className="text-white/60 leading-relaxed">
-                From precision-targeted messaging to multi-channel campaign orchestration, we leverage proven
-                methodologies and cutting-edge tools to transform pharmaceutical communications into measurable
-                outcomes. Each campaign is built on a foundation of evidence-based insights, ensuring every touchpoint
-                drives authentic connection and lasting impact.
+                Meaningful engagement begins with deep insight. Our approach combines rigorous data analysis, behavioral
+                science, and creative strategy to uncover what truly resonates with healthcare professionals and
+                patients alike.
+                <br />
+                <br />
+                This is where we unpack the evidence-based thinking that powers our work. From precision-targeted
+                messaging to omnichannel orchestration, explore the exact methodologies we use to transform complex
+                pharmaceutical communications into measurable outcomes.
               </p>
             </motion.div>
 
@@ -241,8 +240,8 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                       Stay <span className="text-orange-400">Informed</span>
                     </h3>
                     <p className="text-white/60 leading-relaxed">
-                      Subscribe to receive exclusive case studies, in-depth analysis, and proven strategies for driving
-                      engagement in pharmaceutical marketing. Get actionable insights delivered directly to your inbox.
+                      Join our network of healthcare marketers. Get actionable insights rooted in behavioural science,
+                      deep-dive case studies, and proven campaign strategies delivered directly to your inbox.
                     </p>
                   </div>
 

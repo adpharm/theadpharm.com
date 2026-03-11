@@ -79,7 +79,31 @@ export function LeadershipTeam() {
 
   return (
     <div className="mt-10">
-      <h3 className="text-2xl tracking-tight uppercase mb-12 mt-0 text-center">Our Leadership Team</h3>
+      <h3 className="text-2xl tracking-tight uppercase mb-6 mt-0">Leadership Team</h3>
+
+      <div className="max-w-6xl mx-auto mb-12 space-y-6 text-white/70 leading-relaxed">
+        <p>
+          Our leadership team brings decades of deep-rooted experience across the Canadian healthcare, pharmaceutical,
+          and advertising landscapes.
+        </p>
+        <p>
+          Our differentiator is our DNA: we combine the specialized knowledge of multinational pharma veterans with the
+          cutting-edge engagement strategies of top-tier consumer brands. By injecting consumer-grade innovation and
+          advanced AI into highly regulated spaces, our expertise spans every facet of modern marketing:
+        </p>
+        <ul className="list-[square] list-outside space-y-2 pl-4 marker:text-[var(--accent-primary)]">
+          <li>Commercial strategy</li>
+          <li>Medical communications</li>
+          <li>Digital innovation & AI</li>
+          <li>Award-winning creative</li>
+        </ul>
+        <p>
+          Armed with deep scientific fluency, we have a proven track record of launching and nurturing products in
+          complex therapeutic areas, including oncology, hematology, hepatology, dermatology, and rare diseases. Fusing
+          this scientific rigor with data-driven execution, we create compliant, unforgettable experiences that connect
+          with HCPs and patients where it matters most.
+        </p>
+      </div>
 
       {/* Mobile Grid - 2 columns, all members */}
       <div className="grid grid-cols-2 gap-4 md:hidden">
