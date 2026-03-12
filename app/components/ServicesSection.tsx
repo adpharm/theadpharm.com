@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { services } from "~/data/services";
 import { ServiceCard } from "./services/ServiceCard";
+import { browserTrackEvent } from "~/lib/analytics/events.defaults.client";
 
 interface ServicesSectionProps {
   isHomepage?: boolean;
@@ -11,10 +12,10 @@ interface ServicesSectionProps {
 export function ServicesSection({ isHomepage = false }: ServicesSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set());
+  const [expandedIndices, setExpandedIndices] = useState<Set<number>>(() => new Set(services.map((_, index) => index)));
 
   return (
-    <section ref={ref} className="relative py-12 lg:py-32 border-b border-white/10">
+    <section ref={ref} className="relative py-12 lg:py-32 border-b border-white/10 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -34,12 +35,13 @@ export function ServicesSection({ isHomepage = false }: ServicesSectionProps) {
         {/* Interactive Cards / Manifest */}
         {!isHomepage ? (
           <div>
-            <p className="text-lg leading-relaxed text-white/70 mb-8 max-w-4xl">
+            <p className="text-lg leading-relaxed text-white/60 mb-8 max-w-4xl">
               Each capability is engineered for maximum impact and seamlessly integrated across every touchpoint.
             </p>
-            <div className="space-y-4">
+            <div className="space-y-8">
               {services.map((service, index) => (
                 <ServiceCard
+                  id={service.id}
                   key={index}
                   service={service}
                   index={index}
@@ -50,6 +52,10 @@ export function ServicesSection({ isHomepage = false }: ServicesSectionProps) {
                       newExpanded.delete(index);
                     } else {
                       newExpanded.add(index);
+                      browserTrackEvent("Service Accordion Expanded", {
+                        service_title: service.title,
+                        service_index: index,
+                      });
                     }
                     setExpandedIndices(newExpanded);
                   }}
@@ -108,6 +114,7 @@ export function ServicesSection({ isHomepage = false }: ServicesSectionProps) {
                 <div className="relative bg-[var(--bg-base)] z-10">
                   <Link
                     to="/services"
+                    onClick={() => browserTrackEvent("CTA Clicked", { cta_label: "Explore Our Services" })}
                     className="relative block px-8 py-4 bg-white/10 hover:bg-white/[0.15] transition-colors duration-300"
                   >
                     <span className="text-white tracking-widest uppercase text-sm">Explore Our Services</span>

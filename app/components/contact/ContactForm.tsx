@@ -1,35 +1,65 @@
-import { useState } from "react";
-import { Send } from "lucide-react";
+import { useRef } from "react";
+import { useFetcher } from "react-router";
+import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import { useLocation } from "react-router";
 import { StyledButton } from "../StyledButton";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { browserTrackEvent } from "~/lib/analytics/events.defaults.client";
+import type { TrackEvents } from "~/lib/analytics/events.defaults.client";
+
+function getPageSection(pathname: string): TrackEvents["Contact Form Started"]["page_section"] {
+  if (pathname.includes("/about")) return "about";
+  if (pathname.includes("/services")) return "services";
+  if (pathname.includes("/insights")) return "insights";
+  return "home";
+}
+
+type ContactActionData = { success: true } | { error: string };
 
 export function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    organization: "",
-    email: "",
-    message: "",
-  });
+  const location = useLocation();
+  const hasTrackedStart = useRef(false);
+  const fetcher = useFetcher<ContactActionData>();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    // You can add your form submission logic here
+  const isSubmitting = fetcher.state === "submitting";
+  const isSuccess = fetcher.data && "success" in fetcher.data && fetcher.data.success;
+  const errorMessage = fetcher.data && "error" in fetcher.data ? fetcher.data.error : null;
+
+  const handleFirstInteraction = () => {
+    if (hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    browserTrackEvent("Contact Form Started", { page_section: getPageSection(location.pathname) });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget);
+    browserTrackEvent("Contact Form Submitted", {
+      page_section: getPageSection(location.pathname),
+      has_organization: (formData.get("organization") as string)?.trim().length > 0,
     });
   };
 
+  if (isSuccess) {
+    return (
+      <div className="bg-[var(--bg-base)] p-6 md:p-8 border border-white/10 flex flex-col items-center justify-center gap-4 min-h-[300px] text-center">
+        <CheckCircle className="text-[var(--accent-primary)] w-10 h-10" />
+        <p className="text-white text-lg font-medium">Message sent!</p>
+        <p className="text-white/50 text-sm">We'll be in touch shortly.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[var(--bg-base)] p-6 md:p-8 border border-white/10">
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <fetcher.Form
+        method="post"
+        action="/api/contact"
+        onSubmit={handleSubmit}
+        onFocus={handleFirstInteraction}
+        className="space-y-6"
+      >
         <div>
           <Label htmlFor="name" className="block text-xs text-white/40 tracking-wider uppercase mb-2">
             Name
@@ -38,8 +68,6 @@ export function ContactForm() {
             type="text"
             id="name"
             name="name"
-            value={formData.name}
-            onChange={handleChange}
             required
             className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
             placeholder="Your name"
@@ -54,8 +82,6 @@ export function ContactForm() {
             type="text"
             id="organization"
             name="organization"
-            value={formData.organization}
-            onChange={handleChange}
             required
             className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
             placeholder="Your organization"
@@ -70,8 +96,6 @@ export function ContactForm() {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
             required
             className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
             placeholder="your.email@example.com"
@@ -85,8 +109,6 @@ export function ContactForm() {
           <Textarea
             id="message"
             name="message"
-            value={formData.message}
-            onChange={handleChange}
             required
             rows={6}
             className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] resize-none min-h-[150px]"
@@ -94,10 +116,17 @@ export function ContactForm() {
           />
         </div>
 
-        <StyledButton type="submit" icon={Send} className="w-full justify-center">
-          Send Message
+        {errorMessage && (
+          <div className="flex items-center gap-2 text-red-400 text-sm">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
+        <StyledButton type="submit" icon={Send} className="w-full justify-center" disabled={isSubmitting}>
+          {isSubmitting ? "Sending..." : "Send Message"}
         </StyledButton>
-      </form>
+      </fetcher.Form>
     </div>
   );
 }

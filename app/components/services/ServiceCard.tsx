@@ -4,6 +4,7 @@ import { GlowBorder } from "../GlowBorder";
 import type { Service } from "~/data/services";
 
 interface ServiceCardProps {
+  id: string;
   service: Service;
   index: number;
   isExpanded: boolean;
@@ -11,12 +12,14 @@ interface ServiceCardProps {
   isInView: boolean;
 }
 
-export function ServiceCard({ service, index, isExpanded, onToggle, isInView }: ServiceCardProps) {
+export function ServiceCard({ id, service, index, isExpanded, onToggle, isInView }: ServiceCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      id={id}
+      className="scroll-mt-24"
     >
       <GlowBorder
         clipPath="polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%)"
@@ -57,10 +60,10 @@ export function ServiceCard({ service, index, isExpanded, onToggle, isInView }: 
             className="overflow-hidden"
           >
             <div className="px-6 pb-8 pl-12">
-              <div className="grid md:grid-cols-2 gap-4 pt-4">
+              <div className="grid md:grid-cols-2 gap-3 pt-4">
                 {service.details.map((detail, detailIndex) => (
-                  <div key={detailIndex} className="flex items-start gap-3 text-sm text-white/70">
-                    <div className="w-1 h-1 bg-[var(--accent-primary)] mt-2 flex-shrink-0" />
+                  <div key={detailIndex} className="flex items-start gap-3 text-base text-white/70">
+                    <div className="w-1 h-1 bg-[var(--accent-primary)] mt-2 ml-4 flex-shrink-0" />
                     <span>{detail}</span>
                   </div>
                 ))}

@@ -1,10 +1,14 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useFetcher } from "react-router";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import { insights } from "~/data/insights";
 import { InsightCard } from "./insights/InsightCard";
 import { InsightModal } from "./insights/InsightModal";
 import { InsightsNavigation } from "./insights/InsightsNavigation";
+import { browserTrackEvent } from "~/lib/analytics/events.defaults.client";
+
+type NewsletterActionData = { success: true } | { error: string };
 
 interface InsightsSectionProps {
   isHomepage?: boolean;
@@ -13,6 +17,21 @@ interface InsightsSectionProps {
 export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const hasTrackedNewsletterStart = useRef(false);
+  const newsletterFetcher = useFetcher<NewsletterActionData>();
+  const isNewsletterSubmitting = newsletterFetcher.state === "submitting";
+  const isNewsletterSuccess = newsletterFetcher.data && "success" in newsletterFetcher.data && newsletterFetcher.data.success;
+  const newsletterError = newsletterFetcher.data && "error" in newsletterFetcher.data ? newsletterFetcher.data.error : null;
+
+  const handleNewsletterFormFocus = () => {
+    if (hasTrackedNewsletterStart.current) return;
+    hasTrackedNewsletterStart.current = true;
+    browserTrackEvent("Newsletter Form Started", {});
+  };
+
+  const handleNewsletterFormSubmit = () => {
+    browserTrackEvent("Newsletter Form Submitted", {});
+  };
 
   const [activeCard, setActiveCard] = useState(0);
   const [animatingCard, setAnimatingCard] = useState<number | null>(null);
@@ -247,68 +266,90 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
 
                   {/* Right: Form */}
                   <div>
-                    <form className="space-y-4">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <label
-                            htmlFor="firstName"
-                            className="block text-sm text-white/40 mb-2 uppercase tracking-wider"
-                          >
-                            First Name
-                          </label>
-                          <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 transition-colors"
-                            placeholder="John"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="lastName"
-                            className="block text-sm text-white/40 mb-2 uppercase tracking-wider"
-                          >
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 transition-colors"
-                            placeholder="Doe"
-                            required
-                          />
-                        </div>
+                    {isNewsletterSuccess ? (
+                      <div className="flex flex-col items-center justify-center gap-4 h-full min-h-[200px] text-center">
+                        <CheckCircle className="text-orange-400 w-10 h-10" />
+                        <p className="text-white text-lg font-medium">You're subscribed!</p>
+                        <p className="text-white/50 text-sm">Thanks for joining. We'll be in touch.</p>
                       </div>
-
-                      <div>
-                        <label htmlFor="email" className="block text-sm text-white/40 mb-2 uppercase tracking-wider">
-                          Email Address
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 transition-colors"
-                          placeholder="john@company.com"
-                          required
-                        />
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="w-full bg-orange-400 hover:bg-orange-500 text-black py-4 px-8 uppercase tracking-wider transition-colors duration-300 font-bold"
+                    ) : (
+                      <newsletterFetcher.Form
+                        method="post"
+                        action="/api/newsletter"
+                        className="space-y-4"
+                        onFocus={handleNewsletterFormFocus}
+                        onSubmit={handleNewsletterFormSubmit}
                       >
-                        Subscribe to Newsletter
-                      </button>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <label
+                              htmlFor="firstName"
+                              className="block text-sm text-white/40 mb-2 uppercase tracking-wider"
+                            >
+                              First Name
+                            </label>
+                            <input
+                              type="text"
+                              id="firstName"
+                              name="firstName"
+                              className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 transition-colors"
+                              placeholder="John"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="lastName"
+                              className="block text-sm text-white/40 mb-2 uppercase tracking-wider"
+                            >
+                              Last Name
+                            </label>
+                            <input
+                              type="text"
+                              id="lastName"
+                              name="lastName"
+                              className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 transition-colors"
+                              placeholder="Doe"
+                              required
+                            />
+                          </div>
+                        </div>
 
-                      <p className="text-xs text-white/30 text-center mt-4">
-                        By subscribing, you agree to receive marketing communications. <br />
-                        You can unsubscribe at any time.
-                      </p>
-                    </form>
+                        <div>
+                          <label htmlFor="email" className="block text-sm text-white/40 mb-2 uppercase tracking-wider">
+                            Email Address
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 transition-colors"
+                            placeholder="john@company.com"
+                            required
+                          />
+                        </div>
+
+                        {newsletterError && (
+                          <div className="flex items-center gap-2 text-red-400 text-sm">
+                            <AlertCircle className="w-4 h-4 shrink-0" />
+                            <span>{newsletterError}</span>
+                          </div>
+                        )}
+
+                        <button
+                          type="submit"
+                          disabled={isNewsletterSubmitting}
+                          className="w-full bg-orange-400 hover:bg-orange-500 text-black py-4 px-8 uppercase tracking-wider transition-colors duration-300 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {isNewsletterSubmitting ? "Subscribing..." : "Subscribe to Newsletter"}
+                        </button>
+
+                        <p className="text-xs text-white/30 text-center mt-4">
+                          By subscribing, you agree to receive marketing communications. <br />
+                          You can unsubscribe at any time.
+                        </p>
+                      </newsletterFetcher.Form>
+                    )}
                   </div>
                 </div>
               </div>
@@ -336,6 +377,7 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                 <div className="relative bg-[var(--bg-base)] z-10">
                   <Link
                     to="/insights"
+                    onClick={() => browserTrackEvent("CTA Clicked", { cta_label: "Access Our Insights" })}
                     className="relative block px-8 py-4 bg-white/10 hover:bg-white/[0.15] transition-colors duration-300"
                   >
                     <span className="text-white tracking-widest uppercase text-sm">Access Our Insights</span>

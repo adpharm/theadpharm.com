@@ -1,10 +1,24 @@
-import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, useLocation } from "react-router";
+import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, useLoaderData, useLocation } from "react-router";
 import { useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource-variable/inter";
+import { browserPageEvent } from "~/lib/analytics/events.defaults.client";
+import { useI18n } from "~/hooks/use-i18n";
+import { getPreferencesFromRequest } from "~/lib/preferences/preference-cookie.server";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  return {
+    env: {
+      PUBLIC_APP_ENV: process.env.PUBLIC_APP_ENV ?? "development",
+      PUBLIC_APP_FQDN: process.env.PUBLIC_APP_FQDN ?? "",
+    },
+    preferences: getPreferencesFromRequest(request),
+  };
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -20,6 +34,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useLoaderData<typeof loader>();
   return (
     <html lang="en">
       <head>
@@ -29,6 +44,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        {data && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.env = ${JSON.stringify(data.env)}`,
+            }}
+          />
+        )}
         {children}
         <Scripts />
       </body>
@@ -40,7 +62,6 @@ function ScrollToTop() {
   const location = useLocation();
   
   useEffect(() => {
-    // Only scroll to top if there's no hash in the URL
     if (!location.hash) {
       window.scrollTo(0, 0);
     }
@@ -49,10 +70,30 @@ function ScrollToTop() {
   return null;
 }
 
+function PageTracker() {
+  const { language } = useI18n();
+  const location = useLocation();
+
+  const triggerPageEvent = useDebouncedCallback(
+    () => {
+      browserPageEvent({ language });
+    },
+    1000,
+    { leading: true, trailing: false }
+  );
+
+  useEffect(() => {
+    triggerPageEvent();
+  }, [location.pathname, language]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <>
       <ScrollToTop />
+      <PageTracker />
       <Outlet />
     </>
   );

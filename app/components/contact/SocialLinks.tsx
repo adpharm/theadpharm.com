@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Linkedin, Twitter } from "lucide-react";
+import { browserTrackEvent } from "~/lib/analytics/events.defaults.client";
 
 export function SocialLinks() {
   return (
@@ -11,6 +12,7 @@ export function SocialLinks() {
           target="_blank"
           rel="noopener noreferrer"
           whileHover={{ y: -3 }}
+          onClick={() => browserTrackEvent("Contact Link Clicked", { link_type: "linkedin" })}
           className="w-12 h-12 border border-white/20 flex items-center justify-center hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/10 transition-all"
         >
           <Linkedin className="w-5 h-5" />

@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-03-12
+
+- feat: Added functional contact form and newsletter subscription with email delivery via @cdv2/email integration, enabling direct communication with site visitors
+- feat: Added comprehensive action framework with type-safe input/output validation, automatic caching, request deduplication, and cache invalidation for robust client-server data flow
+- feat: Added type-safe environment variable management system with auto-generated maps and validation for server and client environments
+- feat: Added color scheme switcher component with light/dark/system modes, persistent user preferences via cookies, and smooth theme transitions
+- feat: Added analytics event tracking for CTAs, contact form interactions, leadership LinkedIn clicks, and newsletter subscriptions to measure user engagement
+- feat: Added useAction hook with useSWR-style API (data/error/isLoading/isValidating) for seamless action submission with built-in caching and revalidation
+- feat: Added preference cookie system for persisting user settings (theme, etc.) across sessions with type-safe cookie management
+- feat: Added router utility helpers for enhanced navigation and search param management
+- feat: Added one-off glow animation variants (stop-2s, stop-3s) for animated borders that fade after initial display, improving visual polish without continuous animation
+- refactor: Enhanced About section CTA and group photo with tracked analytics events and timed glow animations for better engagement measurement
+- refactor: Updated Hero section with analytics tracking on Contact Us CTA to measure conversion funnel entry points
+- refactor: Enhanced contact form, social links, and contact info components with comprehensive analytics tracking for all user interactions
+- refactor: Updated service cards and insights section with analytics tracking for user engagement with expandable content
+- refactor: Enhanced leadership team section with analytics tracking for LinkedIn profile clicks
+- refactor: Updated navigation component with analytics tracking for page navigation and section scrolling
+- chore: Updated dependencies including react-router (7.13.1), lucide-react (0.577.0), and other packages for latest features and fixes
+- docs: Added Claude command files for code quality audits, theme switcher implementation, form system guide, copydeck implementation, RR7 metadata generation, and TweakCN style translation
+
 ## 2026-03-11
 
 - refactor: Refined copy across About, Contact, Insights, and Leadership sections for improved clarity and stronger value proposition messaging

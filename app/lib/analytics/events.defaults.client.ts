@@ -2,6 +2,76 @@ import { analyticsBrowser } from "./analytics.defaults.client";
 
 export type TrackEvents = {
   /**
+   * TRACK - Contact Form Started
+   *
+   * @description Track when a user first interacts with the contact form
+   */
+  "Contact Form Started": {
+    page_section: "home" | "about" | "services" | "insights";
+  };
+
+  /**
+   * TRACK - Contact Form Submitted
+   *
+   * @description Track when a user submits the contact form
+   */
+  "Contact Form Submitted": {
+    page_section: "home" | "about" | "services" | "insights";
+    has_organization: boolean;
+  };
+
+  /**
+   * TRACK - CTA Clicked
+   *
+   * @description Track when a user clicks a homepage CTA button
+   */
+  "CTA Clicked": {
+    cta_label: "Contact Us" | "Learn More About Us" | "Explore Our Services" | "Access Our Insights";
+  };
+
+  /**
+   * TRACK - Contact Link Clicked
+   *
+   * @description Track when a user clicks a contact section link
+   */
+  "Contact Link Clicked": {
+    link_type: "email" | "phone" | "location" | "linkedin";
+  };
+
+  /**
+   * TRACK - Leader LinkedIn Clicked
+   *
+   * @description Track when a user clicks a leadership team member's LinkedIn profile
+   */
+  "Leader LinkedIn Clicked": {
+    leader_name: string;
+  };
+
+  /**
+   * TRACK - Service Accordion Expanded
+   *
+   * @description Track when a user expands a service accordion on the services page
+   */
+  "Service Accordion Expanded": {
+    service_title: string;
+    service_index: number;
+  };
+
+  /**
+   * TRACK - Newsletter Form Started
+   *
+   * @description Track when a user first interacts with the newsletter signup form
+   */
+  "Newsletter Form Started": Record<string, never>;
+
+  /**
+   * TRACK - Newsletter Form Submitted
+   *
+   * @description Track when a user submits the newsletter signup form
+   */
+  "Newsletter Form Submitted": Record<string, never>;
+
+  /**
    * TRACK - Language Toggled
    *
    * @description Track when a user toggles the language of the site

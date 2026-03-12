@@ -1,6 +1,7 @@
 import { Linkedin, ExternalLink } from "lucide-react";
 import { GlowBorder } from "./GlowBorder";
 import { GlowingBox } from "./GlowingBox";
+import { browserTrackEvent } from "~/lib/analytics/events.defaults.client";
 
 interface TeamMember {
   name: string;
@@ -9,11 +10,28 @@ interface TeamMember {
   linkedIn?: string;
 }
 
-const differentiators = [
-  "Commercial strategy",
-  "Medical communications",
-  "Digital innovation & AI",
-  "Award-winning creative",
+interface Differentiator {
+  title: string;
+  href: string;
+}
+
+const differentiators: Differentiator[] = [
+  {
+    title: "Commercial strategy",
+    href: "strategy",
+  },
+  {
+    title: "Medical communications",
+    href: "medical-communications",
+  },
+  {
+    title: "Digital innovation & AI",
+    href: "digital-and-ai",
+  },
+  {
+    title: "Award-winning creative",
+    href: "creative",
+  },
 ];
 
 const teamMembers: TeamMember[] = [
@@ -31,7 +49,7 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Jai Sharma",
-    title: "Vice President, Medical Communications",
+    title: "SVP, Medical Communications",
     image: "/images/headshots/jai-sharma.webp",
     linkedIn: "https://www.linkedin.com/in/jai-sharma-03526a6/",
   },
@@ -43,16 +61,25 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Tony Wong",
-    title: "Vice President, Digital & Innovation",
+    title: "Vice President, Digital, AI & Innovation",
     image: "/images/headshots/tony-wong.png",
     linkedIn: "https://www.linkedin.com/in/wongtonyt/",
   },
 ];
 
 export function LeadershipTeam() {
+  const handleLeaderClick = (member: TeamMember) => {
+    if (!member.linkedIn) return;
+    browserTrackEvent("Leader LinkedIn Clicked", { leader_name: member.name });
+    window.open(member.linkedIn, "_blank", "noopener,noreferrer");
+  };
+
   const renderTeamMemberCard = (member: TeamMember, index: number) => (
     <GlowBorder key={index}>
-      <div className="flex flex-col h-full">
+      <div
+        className={`flex flex-col h-full${member.linkedIn ? " cursor-pointer" : ""}`}
+        onClick={() => handleLeaderClick(member)}
+      >
         <div className="aspect-[3/4] bg-white/5 relative overflow-hidden">
           <img
             src={member.image}
@@ -66,19 +93,29 @@ export function LeadershipTeam() {
             <div className="text-white group-hover:text-[var(--accent-primary)] transition-colors uppercase tracking-wide text-sm">
               {member.name}
             </div>
-            <div className="text-white/40 text-xs">{member.title}</div>
+            <div className="text-white/40 text-xs">
+              {(() => {
+                const idx = member.title.indexOf(",");
+                if (idx === -1) return member.title;
+                return (
+                  <>
+                    {member.title.slice(0, idx + 1)}
+                    <br />
+                    {member.title.slice(idx + 2)}
+                  </>
+                );
+              })()}
+            </div>
           </div>
           {member.linkedIn && (
-            <a
-              href={member.linkedIn}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-white/60 hover:text-[var(--accent-primary)] transition-colors mt-3"
+            <span
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-xs text-white/60 hover:text-[var(--accent-primary)] transition-colors mt-3 w-fit"
             >
               <Linkedin className="w-3 h-3" />
               LinkedIn
               <ExternalLink className="w-3 h-3" />
-            </a>
+            </span>
           )}
         </div>
       </div>
@@ -108,14 +145,14 @@ export function LeadershipTeam() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-start items-start w-fit">
           {differentiators.map((differentiator, index) => (
-            <GlowingBox notched contentPadding="p-4" className="w-xs max-w-[80vw]" key={index}>
-              <div className="relative">
+            <GlowingBox notched contentPadding="p-4" className="w-72 max-w-[80vw]" key={index}>
+              <a href={`/services#${differentiator.href}`} className="relative">
                 <div className="flex flex-row justify-start items-center gap-2">
                   <span className="h-2 w-2 rounded-none bg-[var(--accent-primary)] shadow-[0_0_10px_rgba(255,140,0,0.55)]" />
-                  <div className="text-base leading-snug">{differentiator}</div>
+                  <div className="text-base leading-snug">{differentiator.title}</div>
                 </div>
                 {/* <span className="mt-3 block h-px w-12 bg-gradient-to-r from-[var(--accent-primary)] to-transparent" /> */}
-              </div>
+              </a>
             </GlowingBox>
           ))}
         </div>

@@ -5,7 +5,8 @@ import { Footer } from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
   const title = "Privacy Policy | The AdPharm";
-  const description = "Privacy Policy for The Adpharm Inc. Learn how we collect, use, and protect your personal information when you visit our website.";
+  const description =
+    "Privacy Policy for The Adpharm Inc. Learn how we collect, use, and protect your personal information when you visit our website.";
   const url = "https://theadpharm.com/privacy-policy";
   const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
 
@@ -14,7 +15,7 @@ export function meta({}: Route.MetaArgs) {
     { name: "description", content: description },
     { name: "robots", content: "index, follow" },
     { tagName: "link", rel: "canonical", href: url },
-    
+
     // Open Graph
     { property: "og:title", content: title },
     { property: "og:description", content: description },
@@ -22,7 +23,7 @@ export function meta({}: Route.MetaArgs) {
     { property: "og:url", content: url },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "The AdPharm" },
-    
+
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
@@ -178,7 +179,7 @@ export default function PrivacyPolicy() {
                 <li>Withdraw consent for data processing where applicable</li>
                 <li>Opt-out of analytics tracking by disabling cookies in your browser settings</li>
               </ul>
-              <p className="mt-4">To exercise these rights, please contact us at digital@theadpharm.com.</p>
+              <p className="mt-4">To exercise these rights, please contact us at contact@theadpharm.com.</p>
             </section>
 
             <section>

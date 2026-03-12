@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router";
 import { GlowingBox } from "./GlowingBox";
+import { browserTrackEvent } from "~/lib/analytics/events.defaults.client";
 
 interface AboutSectionProps {
   isHomepage?: boolean;
@@ -35,10 +36,10 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
             >
               <div className="relative mobile-glow-active">
                 {/* Glow layer (blurred) - always visible */}
-                <div className="animated-border-glow absolute inset-0 opacity-100 z-5" />
+                <div className="animated-border-glow animated-border-glow-stop animated-border-glow-stop-3s absolute inset-0 opacity-100 z-5" />
 
                 {/* Border animation layer - always visible */}
-                <div className="animated-border absolute inset-0 opacity-100 z-5" />
+                <div className="animated-border animated-border-stop animated-border-stop-3s absolute inset-0 opacity-100 z-5" />
 
                 {/* Content wrapper */}
                 <img
@@ -131,16 +132,17 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
           >
             <div className="relative mobile-glow-active">
               {/* Glow layer (blurred) - always visible */}
-              <div className="animated-border-glow absolute inset-0 opacity-100" />
+              <div className="animated-border-glow animated-border-glow-stop animated-border-glow-stop-3s absolute inset-0 opacity-100" />
 
               {/* Border animation layer - always visible */}
-              <div className="animated-border absolute inset-0 opacity-100" />
+              <div className="animated-border animated-border-stop animated-border-stop-3s absolute inset-0 opacity-100" />
 
               {/* Content wrapper */}
               <div className="relative p-px">
                 <div className="relative bg-[var(--bg-base)] z-10">
                   <Link
                     to="/about"
+                    onClick={() => browserTrackEvent("CTA Clicked", { cta_label: "Learn More About Us" })}
                     className="relative block px-8 py-4 bg-white/10 hover:bg-white/[0.15] transition-colors duration-300"
                   >
                     <span className="text-white tracking-widest uppercase text-sm">Learn More About Us</span>

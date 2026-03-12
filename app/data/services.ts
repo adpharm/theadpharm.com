@@ -1,5 +1,6 @@
 export interface Service {
   title: string;
+  id: string;
   description: string;
   details: string[];
 }
@@ -7,6 +8,7 @@ export interface Service {
 export const services: Service[] = [
   {
     title: "Strategy",
+    id: "strategy",
     description:
       "Comprehensive market analysis, brand positioning, and campaign architecture engineered to reach high-value audiences with  precision.",
     details: [
@@ -19,6 +21,7 @@ export const services: Service[] = [
   },
   {
     title: "Creative",
+    id: "creative",
     description:
       "From concept to execution, we craft compelling stories and striking visuals that capture attention and drive results across the channels where your audience spends their time.",
     details: [
@@ -34,6 +37,7 @@ export const services: Service[] = [
   },
   {
     title: "Digital & AI",
+    id: "digital-and-ai",
     description:
       "Advanced digital experiences and AI integrations that merge technological innovation with  human-centred design principles.",
     details: [
@@ -48,6 +52,7 @@ export const services: Service[] = [
   },
   {
     title: "Medical Communications",
+    id: "medical-communications",
     description:
       "Translating complex science into clear, compelling narratives that move healthcare professionals to act.",
     details: [

@@ -5,7 +5,8 @@ import { Footer } from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
   const title = "Accessibility Statement | The AdPharm";
-  const description = "Accessibility commitment and statement for The Adpharm Inc. We are committed to ensuring digital accessibility for people with disabilities (WCAG 2.1 Level AAA).";
+  const description =
+    "Accessibility commitment and statement for The Adpharm Inc. We are committed to ensuring digital accessibility for people with disabilities (WCAG 2.1 Level AAA).";
   const url = "https://theadpharm.com/accessibility";
   const image = "https://theadpharm.com/images/gray-bg-group-photo.png";
 
@@ -14,7 +15,7 @@ export function meta({}: Route.MetaArgs) {
     { name: "description", content: description },
     { name: "robots", content: "index, follow" },
     { tagName: "link", rel: "canonical", href: url },
-    
+
     // Open Graph
     { property: "og:title", content: title },
     { property: "og:description", content: description },
@@ -22,7 +23,7 @@ export function meta({}: Route.MetaArgs) {
     { property: "og:url", content: url },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "The AdPharm" },
-    
+
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
@@ -190,8 +191,8 @@ export default function Accessibility() {
                 <ul className="space-y-3">
                   <li>
                     <strong className="text-white">Email:</strong>{" "}
-                    <a href="mailto:digital@theadpharm.com" className="text-[var(--accent-primary)] hover:underline">
-                      digital@theadpharm.com
+                    <a href="mailto:contact@theadpharm.com" className="text-[var(--accent-primary)] hover:underline">
+                      contact@theadpharm.com
                     </a>
                   </li>
                   <li>

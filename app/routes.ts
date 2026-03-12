@@ -8,4 +8,6 @@ export default [
   route("privacy-policy", "routes/privacy-policy.tsx"),
   route("terms-of-service", "routes/terms-of-service.tsx"),
   route("accessibility", "routes/accessibility.tsx"),
+  route("api/contact", "routes/api.contact.tsx"),
+  route("api/newsletter", "routes/api.newsletter.tsx"),
 ] satisfies RouteConfig;

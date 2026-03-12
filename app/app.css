@@ -256,3 +256,39 @@ body {
     opacity: 1;
   }
 }
+
+/* Targeted one-off glow animation */
+.animated-border-stop::before,
+.animated-border-glow-stop::before {
+  --glow-stop-duration: 3s;
+  --glow-fade-delay: var(--glow-stop-duration);
+  animation-name: rotate-border, stop-glow-fade !important;
+  animation-duration: var(--glow-stop-duration), 1s !important;
+  animation-timing-function: linear, ease-in !important;
+  animation-delay: 0s, var(--glow-fade-delay) !important;
+  animation-iteration-count: 1, 1 !important;
+  animation-fill-mode: forwards, forwards !important;
+}
+
+.animated-border-stop-3s::before,
+.animated-border-stop-3s::after,
+.animated-border-glow-stop-3s::before,
+.animated-border-glow-stop-3s::after {
+  --glow-stop-duration: 4s;
+}
+
+.animated-border-stop-2s::before,
+.animated-border-stop-2s::after,
+.animated-border-glow-stop-2s::before,
+.animated-border-glow-stop-2s::after {
+  --glow-stop-duration: 2s;
+}
+
+@keyframes stop-glow-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

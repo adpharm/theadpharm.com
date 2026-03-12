@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { StyledButton } from "./StyledButton";
 import { useEffect, useState } from "react";
+import { browserTrackEvent } from "~/lib/analytics/events.defaults.client";
 
 export function HeroSection() {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -94,7 +95,7 @@ export function HeroSection() {
             </p>
           </div>
 
-          <a href="#contact">
+          <a href="#contact" onClick={() => browserTrackEvent("CTA Clicked", { cta_label: "Contact Us" })}>
             <StyledButton icon={ArrowRight}>Contact Us</StyledButton>
           </a>
         </motion.div>

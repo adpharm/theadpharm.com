@@ -8,7 +8,7 @@ import { ProgressIndicator } from "./navigation/ProgressIndicator";
 // Top-level navigation menu items
 const menuItems = [
   { name: "Home", id: "hero", path: "/" },
-  { name: "About", id: "about", path: "/about" },
+  { name: "About", id: "about-us", path: "/about" },
   // { name: "Experience", id: "experience", path: "/#experience" },
   { name: "Services", id: "services", path: "/services" },
   { name: "Insights", id: "insights", path: "/insights" },
