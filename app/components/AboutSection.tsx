@@ -132,10 +132,10 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
           >
             <div className="relative mobile-glow-active">
               {/* Glow layer (blurred) - always visible */}
-              <div className="animated-border-glow animated-border-glow-stop animated-border-glow-stop-3s absolute inset-0 opacity-100" />
+              <div className="animated-border-glow absolute inset-0 opacity-100" />
 
               {/* Border animation layer - always visible */}
-              <div className="animated-border animated-border-stop animated-border-stop-3s absolute inset-0 opacity-100" />
+              <div className="animated-border absolute inset-0 opacity-100" />
 
               {/* Content wrapper */}
               <div className="relative p-px">
