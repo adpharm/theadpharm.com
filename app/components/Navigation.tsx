@@ -22,15 +22,18 @@ const sections = [
   { name: "About", id: "about-us", path: "/#about-us" },
   { name: "Services", id: "services", path: "/#services" },
   { name: "Insights", id: "insights", path: "/#insights" },
-  { name: "Contact", id: "contact", path: "/#contact" },
   { name: "About", id: "about", path: "/about" },
+  { name: "Experience", id: "about-experience", path: "/about#about-experience" },
+  { name: "Leadership", id: "about-leadership", path: "/about#about-leadership" },
+  { name: "Contact", id: "contact", path: "/#contact" },
+  { name: "Contact", id: "about-contact", path: "/about#about-contact" },
 ];
 
 // Map routes to their sections (for progress indicator)
 const pageSectionsMap: Record<string, string[]> = {
   "/": ["hero", "experience", "about-us", "services", "insights", "contact"],
   "/home": ["hero", "experience", "about-us", "services", "insights", "contact"],
-  "/about": ["about", "experience", "leadership", "contact"],
+  "/about": ["about", "about-experience", "about-leadership", "about-contact"],
   "/services": ["services", "contact"],
   "/insights": ["insights", "contact"],
 };
@@ -67,18 +70,20 @@ export function Navigation() {
 
       // Determine active section based on scroll position (only for sections on current page)
       const scrollPosition = window.scrollY + 200;
+      let nextActiveSection = 0;
 
       currentPageSections.forEach((section, index) => {
         const element = document.getElementById(section.id);
         if (element) {
           const offsetTop = element.offsetTop;
-          const offsetBottom = offsetTop + element.offsetHeight;
 
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(index);
+          if (scrollPosition >= offsetTop) {
+            nextActiveSection = index;
           }
         }
       });
+
+      setActiveSection(nextActiveSection);
     };
 
     // Set initial active section

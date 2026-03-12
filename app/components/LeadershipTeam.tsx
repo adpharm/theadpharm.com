@@ -1,5 +1,6 @@
 import { Linkedin, ExternalLink } from "lucide-react";
 import { GlowBorder } from "./GlowBorder";
+import { GlowingBox } from "./GlowingBox";
 
 interface TeamMember {
   name: string;
@@ -7,6 +8,13 @@ interface TeamMember {
   image?: string;
   linkedIn?: string;
 }
+
+const differentiators = [
+  "Commercial strategy",
+  "Medical communications",
+  "Digital innovation & AI",
+  "Award-winning creative",
+];
 
 const teamMembers: TeamMember[] = [
   {
@@ -79,9 +87,15 @@ export function LeadershipTeam() {
 
   return (
     <div className="mt-10">
-      <h3 className="text-2xl tracking-tight uppercase mb-6 mt-0">Leadership Team</h3>
+      <span className="text-[var(--accent-primary)] tracking-[0.3em] uppercase text-xs">Leadership Team</span>
+      <div className="h-px w-32 bg-white/20 mt-4" />
+      <h2 className="text-5xl lg:text-6xl tracking-tight uppercase mt-8 mb-12">
+        Scientific Rigour.
+        <br />
+        <span className="text-white/40">Innovation by Design.</span>
+      </h2>
 
-      <div className="max-w-6xl mx-auto mb-12 space-y-6 text-white/70 leading-relaxed">
+      <div className="mb-12 space-y-6 text-white/70 leading-relaxed max-w-4xl">
         <p>
           Our leadership team brings decades of deep-rooted experience across the Canadian healthcare, pharmaceutical,
           and advertising landscapes.
@@ -91,16 +105,24 @@ export function LeadershipTeam() {
           cutting-edge engagement strategies of top-tier consumer brands. By injecting consumer-grade innovation and
           advanced AI into highly regulated spaces, our expertise spans every facet of modern marketing:
         </p>
-        <ul className="list-[square] list-outside space-y-2 pl-4 marker:text-[var(--accent-primary)]">
-          <li>Commercial strategy</li>
-          <li>Medical communications</li>
-          <li>Digital innovation & AI</li>
-          <li>Award-winning creative</li>
-        </ul>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-start items-start w-fit">
+          {differentiators.map((differentiator, index) => (
+            <GlowingBox notched contentPadding="p-4" className="w-xs max-w-[80vw]" key={index}>
+              <div className="relative">
+                <div className="flex flex-row justify-start items-center gap-2">
+                  <span className="h-2 w-2 rounded-none bg-[var(--accent-primary)] shadow-[0_0_10px_rgba(255,140,0,0.55)]" />
+                  <div className="text-base leading-snug">{differentiator}</div>
+                </div>
+                {/* <span className="mt-3 block h-px w-12 bg-gradient-to-r from-[var(--accent-primary)] to-transparent" /> */}
+              </div>
+            </GlowingBox>
+          ))}
+        </div>
         <p>
           Armed with deep scientific fluency, we have a proven track record of launching and nurturing products in
           complex therapeutic areas, including oncology, hematology, hepatology, dermatology, and rare diseases. Fusing
-          this scientific rigor with data-driven execution, we create compliant, unforgettable experiences that connect
+          this scientific rigour with data-driven execution, we create compliant, unforgettable experiences that connect
           with HCPs and patients where it matters most.
         </p>
       </div>

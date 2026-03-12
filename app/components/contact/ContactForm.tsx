@@ -28,7 +28,7 @@ export function ContactForm() {
   };
 
   return (
-    <div className="bg-[var(--bg-base)] p-8 border border-white/10">
+    <div className="bg-[var(--bg-base)] p-6 md:p-8 border border-white/10">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <Label htmlFor="name" className="block text-xs text-white/40 tracking-wider uppercase mb-2">
@@ -41,7 +41,7 @@ export function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="bg-transparent border-white/20 px-6 py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
+            className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
             placeholder="Your name"
           />
         </div>
@@ -57,7 +57,7 @@ export function ContactForm() {
             value={formData.organization}
             onChange={handleChange}
             required
-            className="bg-transparent border-white/20 px-6 py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
+            className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
             placeholder="Your organization"
           />
         </div>
@@ -73,7 +73,7 @@ export function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="bg-transparent border-white/20 px-6 py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
+            className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] h-auto"
             placeholder="your.email@example.com"
           />
         </div>
@@ -89,7 +89,7 @@ export function ContactForm() {
             onChange={handleChange}
             required
             rows={6}
-            className="bg-transparent border-white/20 px-6 py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] resize-none min-h-[150px]"
+            className="bg-transparent border-white/20 px-4 md:px-6 py-3 md:py-4 text-white placeholder-white/30 focus-visible:border-[var(--accent-primary)] resize-none min-h-[150px]"
             placeholder="Tell us about your project..."
           />
         </div>

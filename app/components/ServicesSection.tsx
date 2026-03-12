@@ -33,25 +33,30 @@ export function ServicesSection({ isHomepage = false }: ServicesSectionProps) {
 
         {/* Interactive Cards / Manifest */}
         {!isHomepage ? (
-          <div className="space-y-4">
-            {services.map((service, index) => (
-              <ServiceCard
-                key={index}
-                service={service}
-                index={index}
-                isExpanded={expandedIndices.has(index)}
-                onToggle={() => {
-                  const newExpanded = new Set(expandedIndices);
-                  if (newExpanded.has(index)) {
-                    newExpanded.delete(index);
-                  } else {
-                    newExpanded.add(index);
-                  }
-                  setExpandedIndices(newExpanded);
-                }}
-                isInView={isInView}
-              />
-            ))}
+          <div>
+            <p className="text-lg leading-relaxed text-white/70 mb-8 max-w-4xl">
+              Each capability is engineered for maximum impact and seamlessly integrated across every touchpoint.
+            </p>
+            <div className="space-y-4">
+              {services.map((service, index) => (
+                <ServiceCard
+                  key={index}
+                  service={service}
+                  index={index}
+                  isExpanded={expandedIndices.has(index)}
+                  onToggle={() => {
+                    const newExpanded = new Set(expandedIndices);
+                    if (newExpanded.has(index)) {
+                      newExpanded.delete(index);
+                    } else {
+                      newExpanded.add(index);
+                    }
+                    setExpandedIndices(newExpanded);
+                  }}
+                  isInView={isInView}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">
@@ -72,17 +77,18 @@ export function ServicesSection({ isHomepage = false }: ServicesSectionProps) {
 
         {/* Technical Annotation or CTA */}
         {!isHomepage ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-16 flex justify-end"
-          >
-            <div className="text-right text-xs text-white/30 tracking-widest uppercase max-w-md">
-              <div className="h-px w-full bg-white/10 mb-4" />
-              Each capability is engineered for maximum impact, integrated seamlessly across all touchpoints.
-            </div>
-          </motion.div>
+          // <motion.div
+          //   initial={{ opacity: 0 }}
+          //   animate={isInView ? { opacity: 1 } : {}}
+          //   transition={{ duration: 0.8, delay: 0.8 }}
+          //   className="mt-16 flex justify-end"
+          // >
+          //   <div className="text-right text-xs text-white/30 tracking-widest uppercase max-w-md">
+          //     <div className="h-px w-full bg-white/10 mb-4" />
+          //     Each capability is engineered for maximum impact, integrated seamlessly across all touchpoints.
+          //   </div>
+          // </motion.div>
+          <></>
         ) : (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

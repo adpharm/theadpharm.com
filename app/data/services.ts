@@ -8,7 +8,7 @@ export const services: Service[] = [
   {
     title: "Strategy",
     description:
-      "Comprehensive market analysis, brand positioning, and campaign architecture designed to penetrate target audiences with surgical precision.",
+      "Comprehensive market analysis, brand positioning, and campaign architecture engineered to reach high-value audiences with  precision.",
     details: [
       "Franchise and portfolio planning",
       "Insight generation and creative strategy",
@@ -35,7 +35,7 @@ export const services: Service[] = [
   {
     title: "Digital & AI",
     description:
-      "Cutting-edge digital experiences that merge technological innovation with human-centered design principles.",
+      "Advanced digital experiences and AI integrations that merge technological innovation with  human-centred design principles.",
     details: [
       "Website and App Design and Development (Full Stack)",
       "Customer Experience (CX), UX, and UI Design and Optimization",

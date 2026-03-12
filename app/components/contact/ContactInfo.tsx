@@ -39,7 +39,7 @@ export function ContactInfo() {
         whileHover={{ x: 5 }}
         className="flex items-center gap-4 text-white hover:text-[var(--accent-primary)] transition-colors group"
       >
-        <div className="w-12 h-12 border border-white/20 flex items-center justify-center group-hover:border-[var(--accent-primary)] transition-colors">
+        <div className="w-12 h-12 border border-white/20 flex items-center justify-center group-hover:border-[var(--accent-primary)] transition-colors shrink-0">
           <MapPin className="w-5 h-5" />
         </div>
         <div>

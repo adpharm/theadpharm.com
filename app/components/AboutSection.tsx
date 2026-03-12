@@ -79,28 +79,28 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
             <GlowingBox delay={0.2} notched>
               <h3 className="text-3xl tracking-tight uppercase">Our Foundation</h3>
               <p className="text-white/60 leading-relaxed mt-8">
-                Founded in Canada, The Adpharm has evolved from a boutique pharmaceutical strategic consultancy to a
-                full-spectrum agency. Our multi-disciplinary team combines scientific rigor with strategic insight and
-                creative brilliance, delivering campaigns that don't just inform—they inspire action.
+                Over the last two decades, The Adpharm has grown from a boutique Canadian consultancy into a premier,
+                full-spectrum pharmaceutical agency. We exist to bridge the critical gap between medical innovation and
+                everyday patient care—a mission we've brought to life across 100+ successful integrated campaigns.
               </p>
-              <div className="space-y-2 text-sm text-white/40 mt-8">
+              <div className="space-y-2 text-md text-white/40 mt-8">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[var(--accent-primary)]" />
+                  <span className="h-2 w-2 rounded-none bg-[var(--accent-primary)] shadow-[0_0_10px_rgba(255,140,0,0.55)]" />
                   <span>Canadian heritage, global reach</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[var(--accent-primary)]" />
+                  <span className="h-2 w-2 rounded-none bg-[var(--accent-primary)] shadow-[0_0_10px_rgba(255,140,0,0.55)]" />
                   <span>Medical & creative integration</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-[var(--accent-primary)]" />
+                  <span className="h-2 w-2 rounded-none bg-[var(--accent-primary)] shadow-[0_0_10px_rgba(255,140,0,0.55)]" />
                   <span>Evidence-based innovation</span>
                 </div>
               </div>
             </GlowingBox>
 
             {/* Mission Statement - Now Second, No Box */}
-            <div>
+            <div className="max-w-md px-6 lg:px-0">
               <h3 className="text-3xl tracking-tight uppercase mt-12">Our Mission</h3>
               <p className="text-white/60 leading-relaxed mt-8">
                 To bridge the gap between pharmaceutical innovation and patient care through creative excellence and

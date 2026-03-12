@@ -8,6 +8,7 @@ interface GlowingBoxProps {
   className?: string;
   enableMobileGlow?: boolean;
   notched?: boolean;
+  contentPadding?: string;
 }
 
 /**
@@ -22,6 +23,7 @@ export function GlowingBox({
   className = "",
   enableMobileGlow = true,
   notched = false,
+  contentPadding = "p-6 md:p-8 lg:p-12",
 }: GlowingBoxProps) {
   const { elementRef, isGlowing } = useMobileGlow(enableMobileGlow);
 
@@ -63,7 +65,7 @@ export function GlowingBox({
             <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10" />
             {/* Diagonal notch border - SVG for precise positioning */}
             <svg
-              className="absolute"
+              className="absolute z-20"
               style={{
                 top: 0,
                 right: 0,
@@ -72,7 +74,7 @@ export function GlowingBox({
                 overflow: "visible",
               }}
             >
-              <line x1="0" y1="0" x2="24" y2="24" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1.5" />
+              <line x1="0" y1="0" x2="24" y2="24" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
             </svg>
           </div>
         ) : (
@@ -82,7 +84,7 @@ export function GlowingBox({
 
         {/* Content wrapper - creates the size, with inner content inset by 1px on all sides */}
         <div className="relative p-px">
-          <div className="relative bg-[var(--bg-base)] p-6 md:p-8 lg:p-12 z-10" style={contentStyle}>
+          <div className={`relative bg-[var(--bg-base)] ${contentPadding} z-10`} style={contentStyle}>
             {children}
           </div>
         </div>

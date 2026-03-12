@@ -198,7 +198,7 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
                     <div className="shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400/20 to-transparent border border-orange-400/30">
                       <Icon className="w-6 h-6 text-orange-400" />
                     </div>
-                    <h3 className="text-xl tracking-tight text-white uppercase">{insight.title}</h3>
+                    <h3 className="text-xl tracking-tight text-white uppercase text-balance">{insight.title}</h3>
                   </div>
                   <p className="text-white/60 leading-relaxed">{insight.description}</p>
                 </motion.div>
@@ -215,9 +215,9 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
               className="max-w-4xl mb-20"
             >
               <p className="text-white/70 text-lg leading-relaxed mb-6">
-                Meaningful engagement begins with deep insight. Our approach combines rigorous data analysis, behavioral
-                science, and creative strategy to uncover what truly resonates with healthcare professionals and
-                patients alike.
+                Meaningful engagement begins with deep insight. Our approach combines rigorous data analysis,
+                behavioural science, and creative strategy to uncover what truly resonates with healthcare professionals
+                and patients alike.
                 <br />
                 <br />
                 This is where we unpack the evidence-based thinking that powers our work. From precision-targeted
@@ -299,13 +299,14 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
 
                       <button
                         type="submit"
-                        className="w-full bg-orange-400 hover:bg-orange-500 text-black font-medium py-4 px-8 uppercase tracking-wider transition-colors duration-300"
+                        className="w-full bg-orange-400 hover:bg-orange-500 text-black py-4 px-8 uppercase tracking-wider transition-colors duration-300 font-bold"
                       >
                         Subscribe to Newsletter
                       </button>
 
                       <p className="text-xs text-white/30 text-center mt-4">
-                        By subscribing, you agree to receive marketing communications. You can unsubscribe at any time.
+                        By subscribing, you agree to receive marketing communications. <br />
+                        You can unsubscribe at any time.
                       </p>
                     </form>
                   </div>
@@ -314,118 +315,6 @@ export function InsightsSection({ isHomepage = false }: InsightsSectionProps) {
             </motion.div>
           </>
         )}
-
-        {/* Commented out cards section - will be replaced with newsletter form
-        {!isHomepage && (
-          <motion.div
-            ref={containerRef}
-            className="relative overflow-visible"
-            animate={{
-              minHeight: typeof containerHeight === "number" ? containerHeight : isGridView ? "auto" : 500,
-              marginBottom: isGridView ? 48 : 24,
-            }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-          >
-          <AnimatePresence
-            mode="wait"
-            onExitComplete={() => {
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  if (containerRef.current) {
-                    const newHeight = containerRef.current.scrollHeight;
-                    setContainerHeight(newHeight);
-                    setTimeout(() => {
-                      setContainerHeight("auto");
-                      setIsTransitioning(false);
-                    }, 500);
-                  }
-                });
-              });
-            }}
-          >
-            {!isGridView ? (
-              <motion.div
-                key="stacked"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-full pr-8 sm:pr-12 md:pr-0"
-                style={{ perspective: "1500px", perspectiveOrigin: "center center", minHeight: "500px" }}
-              >
-                {insights.map((insight, index) => {
-                  const isActive = index === activeCard;
-                  const stackPosition = (index - activeCard + insights.length) % insights.length;
-                  const visualPosition = insights.length - 1 - stackPosition;
-                  const offset = visualPosition * 8;
-                  const topOffset = visualPosition * 16;
-                  const isAnimating = index === animatingCard;
-                  const shouldBeOnTop = isAnimating && !zIndexChanged;
-                  const zIndex = shouldBeOnTop ? insights.length + 1 : insights.length - stackPosition;
-                  return (
-                    <InsightCard
-                      key={index}
-                      insight={insight}
-                      index={index}
-                      isActive={isActive}
-                      onClick={() => openModal(index)}
-                      style={
-                        {
-                          "--stack-position": stackPosition,
-                          "--z-index": zIndex,
-                          zIndex: zIndex,
-                          transformStyle: "preserve-3d",
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "calc(100% - 24px)",
-                          maxWidth: "100%",
-                        } as React.CSSProperties
-                      }
-                      variants={getAnimationVariants(index, offset, topOffset, stackPosition)}
-                    />
-                  );
-                })}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="grid"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col md:grid md:grid-cols-2 gap-6"
-              >
-                {insights.map((insight, index) => (
-                  <InsightCard
-                    key={index}
-                    insight={insight}
-                    index={index}
-                    isActive={true}
-                    onClick={() => openModal(index)}
-                  />
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-          </motion.div>
-        )}
-
-        {!isHomepage && (
-          <InsightsNavigation
-            activeCard={activeCard}
-            totalCards={insights.length}
-            isGridView={isGridView}
-            isAnimating={isAnimating}
-            onPrevCard={prevCard}
-            onNextCard={nextCard}
-            onGoToCard={goToCard}
-            onToggleView={handleToggleView}
-          />
-        )}
-        */}
 
         {/* CTA Button for Homepage */}
         {isHomepage && (

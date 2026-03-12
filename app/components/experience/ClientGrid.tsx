@@ -32,9 +32,9 @@ export function ClientGrid() {
     >
       <p className="text-lg leading-relaxed text-white/70 mb-8 max-w-4xl">
         Our expertise spans the most complex sectors of modern medicine. From the intricacies of hematology and
-        neurology to the high-stakes environments of oncology and dermatology, we have been privileged to work with some
-        of the industry's most visionary teams. We don't just work alongside these leaders; we help them navigate the
-        challenges of each therapeutic landscape.
+        neurology to the high-stakes environments of oncology and dermatology, we partner with the industry's most
+        visionary teams. We don't just work alongside these leaders—we engineer the strategies that help them navigate
+        the challenges of complex therapeutic landscapes.
       </p>
 
       <div className="border border-white/10 p-6 md:p-12">
