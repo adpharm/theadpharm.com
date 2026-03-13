@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-03-13
+
+- feat: Added shimmer animation to hero "Agency" text for enhanced visual appeal and brand emphasis
+- refactor: Improved mobile glow selection algorithm to use document order with trigger line approach, providing more predictable and intuitive element highlighting as users scroll
+- refactor: Enhanced hero section visual balance by expanding max-width to 2000px and removing bottom-right accent border frame
+- refactor: Added motion animation to services page intro text for smoother content reveal
+
 ## 2026-03-12
 
 - feat: Added functional contact form and newsletter subscription with email delivery via @cdv2/email integration, enabling direct communication with site visitors

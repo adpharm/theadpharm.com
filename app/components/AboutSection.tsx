@@ -102,7 +102,7 @@ export function AboutSection({ isHomepage = false }: AboutSectionProps) {
 
             {/* Mission Statement - Now Second, No Box */}
             <div className="max-w-md px-6 lg:px-0">
-              <h3 className="text-3xl tracking-tight uppercase mt-12">Our Mission</h3>
+              <h3 className="text-3xl tracking-tight uppercase mt-4 md:mt-12">Our Mission</h3>
               <p className="text-white/60 leading-relaxed mt-8">
                 To bridge the gap between pharmaceutical innovation and patient care through creative excellence and
                 unwavering medical accuracy. We are architects of communication, building trust between science and

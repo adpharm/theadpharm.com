@@ -168,7 +168,7 @@ export function Navigation() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id, item.path)}
-                  className={`text-sm tracking-wider uppercase transition-colors ${
+                  className={`text-sm tracking-wider uppercase transition-colors cursor-pointer ${
                     isActive ? "text-[var(--accent-primary)]" : "text-white/60 hover:text-white"
                   }`}
                 >

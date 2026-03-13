@@ -292,3 +292,17 @@ body {
     opacity: 0;
   }
 }
+
+/* Shimmer animation for text */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 6s ease-in-out infinite;
+}

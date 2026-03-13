@@ -35,9 +35,16 @@ export function ServicesSection({ isHomepage = false }: ServicesSectionProps) {
         {/* Interactive Cards / Manifest */}
         {!isHomepage ? (
           <div>
-            <p className="text-lg leading-relaxed text-white/60 mb-8 max-w-4xl">
-              Each capability is engineered for maximum impact and seamlessly integrated across every touchpoint.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="mb-8"
+            >
+              <p className="text-lg leading-relaxed text-white/60 max-w-4xl">
+                Each capability is engineered for maximum impact and seamlessly integrated across every touchpoint.
+              </p>
+            </motion.div>
             <div className="space-y-8">
               {services.map((service, index) => (
                 <ServiceCard

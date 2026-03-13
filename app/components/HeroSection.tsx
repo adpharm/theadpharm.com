@@ -27,7 +27,7 @@ export function HeroSection() {
       <div className="hidden md:block absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Image container - max 1920px with gradients on edges */}
-          <div className="relative w-full max-w-[1920px] h-full">
+          <div className="relative w-full max-w-[2000px] h-full">
             <img
               src="/images/full-group-photo-bw.png"
               alt="The Adpharm Team"
@@ -49,7 +49,7 @@ export function HeroSection() {
             <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent" />
 
             {/* Accent border frames */}
-            <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[var(--accent-primary)]/20" />
+            {/* <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[var(--accent-primary)]/20" /> */}
           </div>
         </div>
       </div>
@@ -80,10 +80,15 @@ export function HeroSection() {
           className="space-y-8 max-w-3xl mt-[24vh] md:mt-0"
         >
           <div className="space-y-2">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-[100px] tracking-tight leading-[0.95] uppercase font-semibold">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[100px] tracking-tight leading-[0.95] uppercase font-semibold text-balance">
               A Full Service
               <br />
-              <span className="text-orange-500">Agency </span>In The
+              <span className="relative inline-block text-orange-500">
+                <span className="relative bg-gradient-to-r from-orange-500 via-orange-300 to-orange-500 bg-clip-text text-transparent bg-[length:200%_100%] animate-shimmer">
+                  Agency{" "}
+                </span>
+              </span>{" "}
+              In The
               <br />
               Truest Sense.
             </h1>
